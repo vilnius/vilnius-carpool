@@ -1,0 +1,23 @@
+.panel {
+	margin-top: 10px;
+}
+.panel-heading {
+	//background-color: #ECECF0;
+	background-color: #F5F5F5;
+	color: black;
+}
+.panel-body {
+	background-color: #FBFBFC;
+}
+
+.panel-toggle {
+    display: block;
+    padding: 4px 15px;
+}
+
+/* Is overwriten by row-fluid
+.span-flexible {
+	display:inline-block; 
+	padding-left: 10px;
+}
+*/

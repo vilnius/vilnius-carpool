@@ -1,0 +1,62 @@
+<template name="Main">
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span8">
+			{{#if hasFavoriteTrips}}
+			<div class="row-fluid">
+				<div class="span12">
+				{{#panel params title="Favorite" id="favorite"}}
+					{{> FavoriteTripsPanel}}
+				{{/panel}}
+				</div>
+			</div>
+			{{/if}}
+
+			<div class="row-fluid">
+				<div class="span12">
+					{{> AddTripPanel}}
+				</div>
+			</div>
+
+			<div id="mapRow" class="row-fluid">
+				<div class="span12">
+					{{> MapCanvas}}
+				</div>
+			</div>
+														
+			<div class="row-fluid">
+				<div class="span12">
+					{{> ActiveTripsPanel}}
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span12">
+					{{> MyTripsPanel}}
+				</div>
+			</div>
+		</div>
+		<div class="span4">
+			{{> SearchTripsPanel}}
+		</div>
+	</div>
+</div>
+</template>
+
+<template name="loginAndAcceptTrip">
+	{{#if currentUser}}
+	{{else}}
+		You have to login
+		{{> loginForm}}
+	{{/if}}
+</template>
+
+<template name="registerAndAcceptTrip">
+	{{#if currentUser}}
+	{{else}}
+		You have to login
+	{{/if}}
+</template>
+
+<template name="MapCanvas">
+	<div id="streets_map_canvas" style="height: 200px;"></div>
+</template>

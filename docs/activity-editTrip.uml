@@ -1,0 +1,39 @@
+@startuml
+start
+
+:Show the map;
+:Show __Login__ panel;
+note left
+ task02: Explain and highlight 
+ Login and registration buttons 
+end note
+if (Has account?) then (yes)
+  fork
+    :Login with facebook;
+  fork again
+    :Login with username;
+  end fork  
+else (no)
+  :register;
+endif
+
+:Show user trips on right;
+:Show __To__ field on left;
+note left
+  task01: Highlight and explain
+  To field
+end note
+
+:Enter address into To;
+note left: bug01 - Geocode failed for:function (err, location) 
+
+:From field is shown
+ with time and role fields;
+
+:Fill the form and submit;
+:Show trip in user trips;
+:Highlight trip on the map;
+
+stop
+
+@enduml

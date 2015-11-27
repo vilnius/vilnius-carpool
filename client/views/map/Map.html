@@ -1,0 +1,110 @@
+<template name="Welcome">
+  <!--Welcome accordion -->
+  <div id="landing-singup-accordion" class="accordion-body collapse in" style="background-color: rgba(105,105,105,0.2)">
+    <div class="accordion-inner">
+      <h4>{{t "join_Ongoing_trips_1"}}</h4>
+
+      <div>
+      {{#each activeTrips}}
+        <div>
+        {{fromAddress}} - {{toAddress}}
+        </div>
+      {{/each}}
+      </div>
+
+      <a class="btn btn-primary" href="{{pathFor 'Login'}}" >{{t "join_Login"}}</a>
+      {{t "join_Or"}}
+      <a class="btn" data-parent="#join-accordion" data-toggle="collapse" href="#landing-singup-accordion" >{{t "join_Register"}}</a>
+      <h4>{{t "join_Ongoing_trips_2"}}</h4>
+    </div>
+  </div>
+</template>
+
+<template name="Login">
+  <!-- Login accordion -->
+  <div id="landing-login-accordion" class="accordion-body collapse in" style="background-color: rgba(105,105,105,0.2)">
+    <div class="accordion-inner">
+      <form class="form">
+         <h3>Login with</h3>
+         <a class="btn btn-primary facebookLogin" data-loading-text="Preparing...">facebook</a>
+         <h3 class="form-signin-heading">or your account</h3>
+         {{#if session 'loginError'}}
+             <div class="alert alert-error fade in">
+               <button type="button" class="close" data-dismiss="alert">×</button>
+               <strong>Holy guacamole!</strong><br/>
+               {{session 'loginError'}}
+             </div>
+         {{/if}}
+         <input id="inputUsername" type="text" class="input-block-level" placeholder="Email address">
+         <input id="inputPassword" type="password" class="input-block-level" placeholder="Password">
+         <label class="checkbox">
+           <input type="checkbox" value="remember-me"> Remember me
+         </label>
+         <button class="btn btn-primary login" type="button">Sign in</button>
+         {{t "join_Or"}}
+         <a href="{{pathFor 'Register'}}">{{t "login_Register"}}</a>
+       </form>
+     </div>
+   </div>
+</template>
+
+<template name="Register">
+  <!-- Signup accordion -->
+  <div id="landing-singup-accordion" class="accordion-body collapse in" style="background-color: rgba(105,105,105,0.2)">
+    <div class="accordion-inner">
+      <form class="form">
+         <h3>Register with your</h3>
+         <a class="btn btn-primary facebookLogin" data-loading-text="Preparing...">facebook</a>
+         <h3 class="form-signin-heading">or create account</h3>
+         {{#if session 'registrationError'}}
+             <div class="alert alert-error fade in">
+               <button type="button" class="close" data-dismiss="alert">×</button>
+               <strong>Holy guacamole!</strong><br/>
+               {{session 'registrationError'}}
+             </div>
+         {{/if}}
+
+         <input id="userName" type="text" required class="input-block-level" placeholder="Name">
+         <input id="userEmail" type="email" required class="input-block-level" placeholder="Email address">
+         <input id="userPassword" type="password" required class="input-block-level" placeholder="Password">
+         <button class="btn btn-primary register" type="button">Sign up</button>
+       </form>
+     </div>
+  </div>
+</template>
+
+<template name="TripAddForm">
+  {{> profilePanel}}
+  <div>
+    <input id="trip-toAddress" class="address-input" type="text"
+       value="{{currentTrip.getToAddress}}" placeholder="{{t "map_toAddress_placeholder"}}">
+  </div>
+  <div style="{{visible.hideFromAddress}}">
+    <input id="trip-fromAddress" type="text" class="address-input"
+       value="{{currentTrip.getFromAddress}}" placeholder="{{t "map_fromAddress_placeholder"}}">
+  </div>
+  <div style="{{visible.hideFromAddress}}" >
+      <div class="control-group">
+        {{#with combine currentTrip field="trip-time"}}
+          {{> fieldTimePick}}
+        {{/with}}
+        {{#with combine currentTrip field="trip-date"}}
+          {{> fieldDatePick}}
+        {{/with}}
+      </div>
+      <div class="control-group">
+        <button type="button" class="btn btn-primary button-responsive save" value="driver" >{{t "map_driver_button"}}</button>
+        <button type="button" class="btn btn-primary button-responsive save" value="rider" >{{t "map_rider_button"}}</button>
+      </div>
+      {{#if equal obj=alert value='login'}}
+          <div class="alert alert-warning fade in">
+            <button type="button" class="close" data-dismiss="alert">�</button>
+            <strong>Please login or register to proceed</strong><br/>
+          </div>
+      {{/if}}
+  </div>
+
+  {{> notificationsPanel}}
+
+  {{> allTripsPanel}}
+</template>

@@ -1,0 +1,32 @@
+wrong:
+I20140516-10:12:22.212(3)? Saved trip:mcszhko5ymaxqehNt 
+{
+  "fromAddress":"Filaretų g. 41,Vilnius","fromCity":"Vilnius","fromHouse":"41",
+  "fromLoc":[25.31207280000001,54.6849421],
+  "fromStreet":"Filaretų g.",
+  "owner":"dQ7kQYH3abR6A7EBC",
+  "path":"wswlIswnyCk@RJl@T~FHjDHpAdCuHZ{@vB{DbAsAn@m@vAoAxAs@lAGrEz@hB`Av@`AlAxANPd@l@xAlBbCvCbDbFnAjC^v@n@fBj@lB`@dBvB`L~ClVxCrNh@dB\\dBr@xDb@rCNbCLjEJpCPlCR`BlAzHb@lDn@nGVbCJ`Bv@tEdAvEIPEd@?^LbANz@f@hAXj@PRJ@HATbAfCfKdKha@@\\C`@FfB^xF\\hEONgDdDcCtBeBv@_KlCEu@Kc@OWOE_@?ICYiA",
+  "requests":[],
+  "role":"driver",
+  "time":"2014-03-02T03:00:42.945Z",
+  "toAddress":"Kauno g. 24A,Vilnius",
+  "toCity":"Vilnius",
+  "toHouse":"24A",
+  "toLoc":[25.27109530000007,54.671774],
+  "toStreet":"Kauno g.",
+  "tripTime":"2014-05-16T07:12:22.195Z",
+  "fromLatLng":{"d":54.6849421,"e":25.31207280000001},
+  "frequency":2}
+
+
+good:
+I20140516-10:13:42.373(3)? Saved trip:jNKAJuf82nfKPhqFe 
+{"toStreet":"Žemaitės g.","toHouse":"2","toCity":"Vilnius","toAddress":"Žemaitės g. 2,Vilnius",
+ "fromStreet":"Filaretų g.","fromHouse":"41","fromCity":"Vilnius","fromAddress":"Filaretų g. 41,Vilnius",
+ "time":"2014-05-16T07:12:18.012Z",
+ "path":"","tripTime":"2014-05-16T07:12:18.012Z",
+ "role":"driver",
+ "toLoc":[25.251903533935547,54.67541909189064],
+ "fromLoc":[25.31207280000001,54.6849421],
+ "owner":"dQ7kQYH3abR6A7EBC","requests":[]
+ }

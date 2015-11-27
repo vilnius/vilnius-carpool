@@ -1,0 +1,14 @@
+<template name="mapLayout">
+    <div id="profile-panel">
+    </div>
+    <div id="left-panel">
+        {{> yield}}
+    </div>
+    <div id="right-panel">
+    </div>
+    {{> yield 'map'}}
+</template>
+
+<template name="MapFullsreenCanvas">
+  <div id="streets_map_canvas"></div>
+</template>

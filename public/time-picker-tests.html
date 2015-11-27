@@ -1,0 +1,68 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="/assets/bootstrap-timepicker/compiled/timepicker.css" type="text/css" rel="stylesheet" />
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+            position: relative;
+            padding-top: 50px;
+        } 
+        hr {
+            margin: 3px 0 0 0;
+        }
+    </style>
+    <title>Timepicker for Twitter Bootstrap</title>
+</head>
+<body>
+    <div class="well">
+        <div class="input-append bootstrap-timepicker-component">
+            <input class="input-small timepicker-default" type="text"/><span class="add-on"><i class="icon-time"></i></span>
+        </div>
+    </div>
+
+    <div class="well">
+        <div class="input-append bootstrap-timepicker-component">
+            <input class="input-small timepicker-1" type="text"/><span class="add-on"><i class="icon-time"></i></span>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () { 
+            $('.timepicker-default').timepicker();
+
+            $('.timepicker-1').timepicker({
+                minuteStep: 1,
+                template: 'modal',
+                showSeconds: true,
+                showMeridian: false
+            });
+
+            $('.timepicker-2').timepicker({
+                minuteStep: 5,
+                showInputs: false,
+                disableFocus: true
+            });
+
+            $('.timepicker-3').timepicker({
+                minuteStep: 1,
+                secondStep: 5,
+                showInputs: false,
+                template: 'modal',
+                modalBackdrop: true,
+                showSeconds: true,
+                showMeridian: false
+            });
+
+            $('.timepicker-4').timepicker({
+                template: false,
+                showInputs: false,
+                minuteStep: 5
+            });
+        });
+    </script>
+</body>
+</html>

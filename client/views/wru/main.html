@@ -1,0 +1,11 @@
+<template name="wruLayout">
+    <div id="profile-panel">
+      {{> profilePanel}}
+    </div>
+    <div id="left-panel">
+        {{yield}}
+    </div>
+    <div id="right-panel">
+    </div>
+    {{yield 'map'}}
+</template>

@@ -1,0 +1,38 @@
+@startuml
+
+MongoResults -> Worker: getLatLng
+MongoResults -> Worker: getLatLng
+MongoResults -> Worker: getLatLng
+
+participant res1 as "Google"
+participant res2 as "Google"
+participant res3 as "Google"
+
+Worker -> res1: getLatLng
+activate Worker
+destroy Worker
+
+activate res1
+
+Worker -> res2: getLatLng
+activate Worker
+destroy Worker
+
+activate res2
+
+Worker -> res3: getLatLng
+activate Worker
+destroy Worker
+activate res3
+
+res2 -> MongoResults: callback
+destroy res2
+
+res1 -> MongoResults: callback
+destroy res1
+
+
+res3 -> MongoResults: callback
+destroy res3
+
+@enduml

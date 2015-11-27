@@ -1,0 +1,37 @@
+@startuml
+:User: as user
+:Driver: as drv
+:Rider: as rdr
+:Group owner: as gro
+user <|-- drv
+user <|-- rdr
+user <|-- gro
+
+usecase UC10 as "Views group trips"
+usecase UC11 as "Post trip to group"
+usecase UC12 as "Finds active trip in group"
+usecase UC13 as "Invite to group"
+usecase UC14 as "Send secret link"
+usecase UC15 as "Enrolls group through nicelink"
+usecase UC16 as "Enrolls group through secret link"
+usecase UC17 as "Edit group"
+usecase UC18 as "Creates group"
+
+gro -- UC18
+UC10 <|-- UC12
+user --> UC10 
+user --> UC13
+UC13 <-- UC14: includes
+user --> UC15
+user --> UC16
+UC16 <|-- UC14
+UC15 <-- (Request for a group)
+UC18 --|> UC17
+gro -- UC17
+
+
+drv --> UC11
+UC11 <|-- UC12
+rdr --> UC12
+
+@enduml

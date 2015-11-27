@@ -1,0 +1,19 @@
+<template name="feildListedit">
+    <div class="input-append">
+	    <input type="text" id="{{field}}-text">
+   		<div class="btn-group">
+			<button type="button" class="btn addToList" tabindex="-1">Add</button>
+			<button type="button" class="btn dropdown-toggle" tabindex="-1" data-toggle="dropdown">
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a class="deleteFromList">Delete</a></li>
+			</ul>    		
+   		</div>
+   	</div>
+	<select id="{{field}}" multiple="multiple" style="display: block;">
+		{{#each items}}
+			<option class="listEditItem">{{this}}</option>
+		{{/each}}
+	</select>    	
+</template>

@@ -1,0 +1,51 @@
+@startuml
+left to right direction
+
+:rider: as "Rider"
+:driver: as "Driver"
+:manager: as "Group owner"
+:user: as "User"
+
+usecase uc11 as "Edit trip"
+usecase uc17 as "Enter new trip"
+usecase uc12 as "Selects predefined trip"
+usecase uc13 as "Edits existing trip"
+usecase uc14 as "Drops to location on map"
+usecase uc15 as "Drags from location on map"
+usecase uc16 as "Drags to location on map"
+
+uc11 <|-down- uc17
+uc11 <|-- uc13
+driver -- uc11
+uc17 <.. uc12
+uc11 <.. uc14
+uc11 <.. uc15
+uc11 <.. uc16
+
+usecase uc21 as "Requests ride"
+usecase uc22 as "Filters active trips by to/from"
+uc11 <.. uc21
+
+uc11 <-- uc22
+
+uc21 -- rider
+uc22 -- rider
+
+
+
+usecase uc31 as "Creates group"
+usecase uc32 as "Invites member"
+usecase uc33 as "Joins group"
+usecase uc34 as "Requests membership"
+usecase uc35 as "Confirms membership"
+
+manager -- uc31
+uc31 <.. uc32
+uc32 <.. uc33
+uc33 -- user
+uc34 -- user
+uc34 <.. uc35
+uc35 <-- uc33
+manager -- uc35
+
+@enduml

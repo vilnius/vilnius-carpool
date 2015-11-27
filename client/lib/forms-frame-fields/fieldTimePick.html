@@ -1,0 +1,31 @@
+<template name="fieldTimePick">
+
+<div class="input-prepend input-append">
+	<div class="btn-group">
+		<a class="btn changeTime" delta="-5" tabindex="-1" >-</a>
+		<button class="btn dropdown-toggle" data-toggle="dropdown"
+			tabindex="-1">
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			<li><a class="changeTime" delta="-10" >-10 min</a></li>
+			<li><a class="changeTime" delta="-30" >-30 min</a></li>
+			<li><a class="changeTime" delta="-60" >-1 hour</a></li>
+		</ul>
+	</div>
+	<input id="{{field}}" class="timeInputText" type="text" style="width: 40px;" value="{{formatDate getTime '{hh}:{mm}'}}">
+	<div class="btn-group">
+		<button class="btn dropdown-toggle" data-toggle="dropdown"
+			tabindex="-1">
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			<li><a class="changeTime" delta="10" >+10 min</a></li>
+			<li><a class="changeTime" delta="30" >+30 min</a></li>
+			<li><a class="changeTime" delta="60" >+1 hour</a></li>
+		</ul>
+		<a class="btn changeTime" delta="5" tabindex="-1">+</a>
+	</div>
+</div>
+
+</template>
