@@ -1,6 +1,6 @@
 # vilnius-carpool
 
-Application for ride sharing for municipality
+Application for ride sharing
 
 ## Project organization 
 For the ideas - https://trello.com/b/vOdNmBly/mass
