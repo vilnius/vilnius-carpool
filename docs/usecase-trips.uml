@@ -32,7 +32,6 @@ uc21 -- rider
 uc22 -- rider
 
 
-
 usecase uc31 as "Creates group"
 usecase uc32 as "Invites member"
 usecase uc33 as "Joins group"

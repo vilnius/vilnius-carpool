@@ -1,0 +1,10 @@
+@startuml
+
+title Take a passenger
+
+state "<img:landing.png>" as landing
+state "<img:SelectDestinationOnMap.png>" as selectB
+
+landing -> selectB
+
+@enduml
