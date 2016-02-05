@@ -7,5 +7,4 @@ rem cd C:\Home\git\takemehomeserver\TakeMeHomeServerMeteor\
 
 %METEOR%
 
-
 pause
