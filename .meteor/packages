@@ -25,5 +25,5 @@ iron:router
 spastai:google-client
 spastai:flow-controll
 cucumber-fixtures
-carpool-service
+spastai:carpool-service
 
