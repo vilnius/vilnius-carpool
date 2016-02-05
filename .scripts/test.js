@@ -12,13 +12,13 @@ var baseDir = path.resolve(__dirname, '..'),
 runTests();
 
 function runTests() {
-  runKarma(function () {
-    runVelocity(function () {
+//  runKarma(function () {
+//    runVelocity(function () {
       runChimp(function () {
         console.log('Yay!');
       });
-    });
-  });
+//    });
+//  });
 }
 
 function runKarma(callback) {
@@ -45,7 +45,7 @@ function runChimp(callback) {
     options: {
       env: extend({CI: 1}, process.env)
     },
-    command: chimpScript
+    command: chimpScript + " --coffee"
   }, callback);
 }
 

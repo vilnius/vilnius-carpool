@@ -10,10 +10,7 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
-      {pattern: 'tests/components/_support/**', included: true},
-      {pattern: 'node_modules/react/dist/react-with-addons.js', included: true},
-      {pattern: 'src/client/components/**', included: true},
-      {pattern: 'tests/components/ui/**', included: true}
+      {pattern: 'src/tests/cucumber/features/**', included: true},
     ],
 
     // list of files to exclude
@@ -22,7 +19,19 @@ module.exports = function (config) {
     // pre-process matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      '**/*.jsx': ['react-jsx']
+      '**/*.coffee': ['coffee']
+    },
+
+    coffeePreprocessor: {
+      // options passed to the coffee compiler
+      options: {
+        bare: true,
+        sourceMap: false
+      },
+      // transforming the filenames
+      transformPath: function(path) {
+        return path.replace(/\.coffee$/, '.js')
+      }
     },
 
     // test results reporter to use

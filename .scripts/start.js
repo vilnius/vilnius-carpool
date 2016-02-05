@@ -34,10 +34,11 @@ var mirrorOptions = {
 };
 
 var chimpSwitches =
-   ' --path=' + path.resolve('tests/features') +
-   ' -r=' + path.resolve('tests/features/step_definitions/domain') +
-   ' --criticalSteps=' + path.resolve('tests/features/step_definitions/critical') +
-   ' --singleSnippetPerFile=1';
+   ' --path=' + path.resolve('src/tests/cucumber/features') +
+   ' -r=' + path.resolve('src/tests/cucumber/features/step_definitions/domain') +
+   ' --criticalSteps=' + path.resolve('src/tests/cucumber/features/step_definitions/critical') +
+   ' --singleSnippetPerFile=1'+
+   ' --coffee';
 
 if (process.env.CI || process.env.TRAVIS || process.env.CIRCLECI) {
   // when not in Watch mode, Chimp existing will exit Meteor too
