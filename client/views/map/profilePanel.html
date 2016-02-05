@@ -1,7 +1,7 @@
 <template name="profilePanel">
   {{#if currentUser}}
     <div class="btn-group">
-      <a href="{{pathFor 'Profile'}}" class="btn login">{{displayName currentUser}}</a>
+      <a href="{{pathFor 'Profile'}}" class="btn login profile_Name">{{displayName currentUser}}</a>
       <button class="btn dropdown-toggle" data-toggle="dropdown">
         <span class="caret"></span>
       </button>
@@ -34,7 +34,7 @@
         <!-- Toggle to show login or register panels -->
         <div class="accordion-heading" style="background-color: rgba(105,105,105,0.2)">
           <div class="accordion-toggle" data-parent="#accordion2" >
-              <h3></h3>
+              <h3>No user</h3>
           </div>
         </div>
        <!-- end -->

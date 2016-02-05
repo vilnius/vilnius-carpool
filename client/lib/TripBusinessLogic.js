@@ -204,6 +204,7 @@ TripBusinessLogic.prototype.getFavoriteTrips = function() {
 	}
 }
 
+// Deprecated: moved to packages/carpool-service/CarpoolServiceClient.coffee
 TripBusinessLogic.saveTrip = function(query, callback) {
 	// TODO deprecated for Trip Class use
 	if(!query.tripTime) {

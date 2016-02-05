@@ -1,6 +1,6 @@
 Meteor.startup(function () {
     if (Meteor.users.find().count() === 0) {
-    	d("Creating admin user"); 
+    	d("Creating admin user");
         Accounts.createUser({
             username: "admin@tiktai.lt",
             password: "123",
@@ -8,7 +8,7 @@ Meteor.startup(function () {
             	name: "Admin"
             }
         });
-        
+
         // This means meteor is run for a first time
         Trips._ensureIndex({fromLoc: "2d" });
         Trips._ensureIndex({toLoc: "2d" });
@@ -19,9 +19,9 @@ Meteor.startup(function () {
     if (Accounts.loginServiceConfiguration.find().count() === 0) {
     	Accounts.loginServiceConfiguration.insert({
 			"service" : "facebook",
-			"appId" : "",
-			"secret" : "",
-			"_id" : ""
+			"appId" : "590506224336801",
+			"secret" : "2ed27c3a4729ba4feaf666380a2a8c35",
+			//"_id" : ""
     	});
     }
 });

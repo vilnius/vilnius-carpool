@@ -130,9 +130,12 @@ class @Trip
     if arguments.length == 1
       return if @fromAddress == house
       @fromAddress = house
-      mapController.setFromAddress @fromAddress, (latlng) =>
-        # This trigers adress to be parsed in house street and city
-        @setFromLatLng(latlng);
+      googleServices.getGeocoder().geocode {'address':@fromAddress}, (err, result)=>
+        if not err && result.length > 0
+          # This trigers adress to be parsed in house street and city
+          @fromLatLng = result[0].geometry.location
+          @path = ""
+          @_deps['fromLatLng'].changed()
     else
       return if @fromHouse is house and @fromStreet is street and @fromCity is city
       @fromHouse = house

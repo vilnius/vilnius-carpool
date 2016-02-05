@@ -147,11 +147,11 @@ Template.TripAddForm.rendered = ->
   mapComponent.addAutocomplete document.getElementById("trip-toAddress"), (addressText) ->
     da ['add-trip'], "Place B changed:", addressText
     trip.setToAddress addressText
-  ###
-  googleServices.addAutocomplete document.getElementById("trip-fromAddress"), mapComponent.map, (addressText) ->
+
+  mapComponent.addAutocomplete document.getElementById("trip-fromAddress"), (addressText) ->
     #d("Place changed:", arguments);
     trip.setFromAddress addressText
-  ###
+
 
 
 Template.TripAddForm.events
@@ -171,6 +171,7 @@ Template.TripAddForm.events
     # for firefox add missing zeros
     query.role = $(event.currentTarget).val()
     query.group = template.data.group and template.data.group._id
+    # For automated test trip object is not created
     query.toLoc = [
       trip.getToLatLng().lng()
       trip.getToLatLng().lat()
@@ -180,7 +181,8 @@ Template.TripAddForm.events
       trip.getFromLatLng().lat()
     ]
     $("#save-button").button "loading"
-    TripBusinessLogic.saveTrip query, (error, value) ->
+    #TripBusinessLogic.saveTrip query, (error, value) ->
+    carpoolService.saveTrip query, (error, value) ->
       $("*[id^='trip-to']").val ""
       Session.set "toLngLat", `undefined`
       $("#save-button").button "reset"

@@ -1,0 +1,10 @@
+d = console.log.bind console.log
+
+fs = require('fs');
+
+fs.readFile 'trello-2016.01.23.json', 'utf8', (err,data)->
+
+  return console.log(err) if err
+  trello = JSON.parse data
+  #d "Cards:", trello.cards
+  d card.name for card in trello.cards

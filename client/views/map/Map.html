@@ -12,7 +12,7 @@
       {{/each}}
       </div>
 
-      <a class="btn btn-primary" href="{{pathFor 'Login'}}" >{{t "join_Login"}}</a>
+      <a class="btn btn-primary join_Login" href="{{pathFor 'Login'}}" >{{t "join_Login"}}</a>
       {{t "join_Or"}}
       <a class="btn" data-parent="#join-accordion" data-toggle="collapse" href="#landing-singup-accordion" >{{t "join_Register"}}</a>
       <h4>{{t "join_Ongoing_trips_2"}}</h4>
@@ -76,12 +76,28 @@
 <template name="TripAddForm">
   {{> profilePanel}}
   <div>
-    <input id="trip-toAddress" class="address-input" type="text"
-       value="{{currentTrip.getToAddress}}" placeholder="{{t "map_toAddress_placeholder"}}">
+
+    <div class="input-append">
+      <input id="trip-toAddress" class="address-input" type="text"
+         value="{{currentTrip.getToAddress}}" placeholder="{{t "map_toAddress_placeholder"}}">
+      {{#if currentTrip.getToLatLng}}
+        <span class="add-on to-geo-location"><i class="icon-map-marker"></i></span>
+      {{else}}
+        <span class="add-on"><i class="icon-screenshot"></i></span>
+      {{/if}}
+    </div>
+
   </div>
   <div style="{{visible.hideFromAddress}}">
-    <input id="trip-fromAddress" type="text" class="address-input"
-       value="{{currentTrip.getFromAddress}}" placeholder="{{t "map_fromAddress_placeholder"}}">
+    <div class="input-append">
+      <input id="trip-fromAddress" type="text" class="address-input"
+         value="{{currentTrip.getFromAddress}}" placeholder="{{t "map_fromAddress_placeholder"}}">
+      {{#if currentTrip.getFromLatLng}}
+        <span class="add-on from-geo-location"><i class="icon-map-marker"></i></span>
+      {{else}}
+        <span class="add-on"><i class="icon-screenshot"></i></span>
+      {{/if}}
+    </div>
   </div>
   <div style="{{visible.hideFromAddress}}" >
       <div class="control-group">

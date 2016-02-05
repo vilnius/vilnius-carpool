@@ -18,7 +18,7 @@ Meteor.methods({
 			var trip = _(options).omit(['_id']);
 			Trips.update({_id: options._id},{$set:trip});
 			da(['INFO','viewport-map'], "Updated trip:",options);
-			da(['INFO','viewport-map'], "Updated trip in DB:", Trips.findOne({_id: options._id}));
+			//da(['INFO','viewport-map'], "Updated trip in DB:", Trips.findOne({_id: options._id}));
 		} else {
 			options.owner = this.userId;
 			options.requests = [];
