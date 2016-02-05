@@ -30,8 +30,8 @@ cache:
     - "src/.meteor/local/mirrors"
 
 before_cache:
-  - rm -rf $HOME/build/spastai/vilnius-carpool/.meteor/local/log
-  - rm -rf $HOME/build/spastai/vilnius-carpool/.meteor/local/run
+  - rm -rf $HOME/build/vilnius/vilnius-carpool/.meteor/local/log
+  - rm -rf $HOME/build/vilnius/vilnius-carpool/.meteor/local/run
 
 before_install:
   # Download Meteor
@@ -50,7 +50,7 @@ before_install:
   - export PATH=$MONGO_HOME/bin:$PATH
   - mkdir -p $HOME/data/db
   - $MONGO_HOME/bin/mongod --dbpath $HOME/data/db > $HOME/mongo.log 2>&1 &
-  - cd $HOME/build/spastai/vilnius-carpool
+  - cd $HOME/build/vilnius/vilnius-carpool
 
   # Install NPM dependencies
   - npm install
