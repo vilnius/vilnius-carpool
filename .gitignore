@@ -1,2 +1,2 @@
-server/install.js
-packages/carpool-service/
+src/server/install.js
+src/packages/carpool-service/
