@@ -3,7 +3,7 @@ Feature: Third party login
   I want to login using third-party
   So that I start entering trips easy
 
-
+  @ignore
   Scenario: Login using g+
     Given I'm logged off
     When I press on g+ login

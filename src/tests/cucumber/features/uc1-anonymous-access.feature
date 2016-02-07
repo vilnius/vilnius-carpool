@@ -3,6 +3,7 @@ Feature: Anonymous access
   I want to reach app anonymously
   So that all users could use app imediatly
 
+  @ignore
   Scenario: View public trips anonymously
     Given User "user1@domain.com" entered trip:
       | from        | to         |
