@@ -26,4 +26,5 @@ spastai:google-client
 spastai:flow-controll
 cucumber-fixtures
 spastai:carpool-service
+carpool-admin
 

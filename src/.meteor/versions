@@ -14,6 +14,7 @@ blaze@2.0.3
 boilerplate-generator@1.0.1
 bootstrap@1.0.1
 callback-hook@1.0.1
+carpool-admin@1.0.0
 check@1.0.2
 coffeescript@1.0.4
 ctl-helper@1.0.4

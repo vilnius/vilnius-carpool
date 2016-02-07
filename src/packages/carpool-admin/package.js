@@ -8,11 +8,13 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
   api.use(['underscore', 'coffeescript'], ['server', 'client']);
-  api.addFiles('carpool-admin.js');
+  api.addFiles('client/AdminController.coffee', "client");
+  api.addFiles(['client/AdminLanding.html', 'client/AdminLanding.coffee'], "client");
+  api.addFiles('client/routes.coffee', "client");
 });
 
 Package.onTest(function(api) {
   api.use('tinytest');
   api.use('carpool-admin');
-  api.addFiles('carpool-admin-tests.js');
+  ///api.addFiles('carpool-admin-tests.js');
 });
