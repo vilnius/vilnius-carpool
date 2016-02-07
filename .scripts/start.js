@@ -35,8 +35,8 @@ var mirrorOptions = {
 
 var chimpSwitches =
    ' --path=' + path.resolve('src/tests/cucumber/features') +
-   ' -r=' + path.resolve('src/tests/cucumber/features/step_definitions/domain') +
-   ' --criticalSteps=' + path.resolve('src/tests/cucumber/features/step_definitions/critical') +
+   //' -r=' + path.resolve('src/tests/cucumber/features/step_definitions/domain') +
+   //' --criticalSteps=' + path.resolve('src/tests/cucumber/features/step_definitions/critical') +
    ' --singleSnippetPerFile=1'+
    ' --coffee';
 
