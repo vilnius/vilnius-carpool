@@ -69,7 +69,7 @@ before_install:
 install:
 
 before_script:
-  - coffee -c src/tests/cucumber/features/step_definitions
+  - coffee -c src/tests/cucumber/features/
 
 script:
   - npm test
