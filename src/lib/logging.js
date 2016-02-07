@@ -40,15 +40,15 @@ aspect = [
   //'0.1.4',
 	//'queues',
 
-	'get-path',
+	//'get-path',
 	//'map-component',
 	//'geoloc',
 	//"async-capsule",
 	//'trip-capsule',
 	//'add-trip'
-	'edit-trip',
-	'active-trips',
-	'trips-drawing',
+	//'edit-trip',
+	//'active-trips',
+	//'trips-drawing',
 ];
 
 /*
