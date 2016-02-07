@@ -1,0 +1,1 @@
+class @AdminLanding extends AdminController

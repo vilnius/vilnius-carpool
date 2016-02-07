@@ -1,0 +1,1 @@
+class @StopsAdmin extends AdminController
