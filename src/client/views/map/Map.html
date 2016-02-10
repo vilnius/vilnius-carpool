@@ -23,27 +23,46 @@
 <template name="Login">
   <!-- Login accordion -->
   <div id="landing-login-accordion" class="accordion-body collapse in" style="background-color: rgba(105,105,105,0.2)">
-    <div class="accordion-inner">
-      <form class="form">
-         <h3>Login with</h3>
-         <a class="btn btn-primary facebookLogin" data-loading-text="Preparing...">facebook</a>
-         <h3 class="form-signin-heading">or your account</h3>
-         {{#if session 'loginError'}}
-             <div class="alert alert-error fade in">
-               <button type="button" class="close" data-dismiss="alert">×</button>
-               <strong>Holy guacamole!</strong><br/>
-               {{session 'loginError'}}
-             </div>
-         {{/if}}
-         <input id="inputUsername" type="text" class="input-block-level" placeholder="Email address">
-         <input id="inputPassword" type="password" class="input-block-level" placeholder="Password">
-         <label class="checkbox">
-           <input type="checkbox" value="remember-me"> Remember me
-         </label>
-         <button class="btn btn-primary login" type="button">Sign in</button>
-         {{t "join_Or"}}
-         <a href="{{pathFor 'Register'}}">{{t "login_Register"}}</a>
-       </form>
+    <div class="accordion-inner" style="padding:5px 20px">
+      <h3>Login with</h3>
+      <a class="btn btn-primary facebookLogin" data-loading-text="Preparing...">facebook</a>
+      <h3 class="form-signin-heading">or your account</h3>
+      {{#if session 'loginError'}}
+          <div class="alert alert-error fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>Holy guacamole!</strong><br/>
+            {{session 'loginError'}}
+          </div>
+      {{/if}}
+      <form class="form-horizontal">
+        <div class="form-group">
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="inputUsername" placeholder="Email">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"> Remember me
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="button" class="btn btn-default login">Sign in</button>
+          </div>
+        </div>
+        {{t "join_Or"}}
+        <a href="{{pathFor 'Register'}}">{{t "login_Register"}}</a>
+      </form>
+
      </div>
    </div>
 </template>
@@ -51,8 +70,7 @@
 <template name="Register">
   <!-- Signup accordion -->
   <div id="landing-singup-accordion" class="accordion-body collapse in" style="background-color: rgba(105,105,105,0.2)">
-    <div class="accordion-inner">
-      <form class="form">
+    <div class="accordion-inner" style="padding:5px 20px">
          <h3>Register with your</h3>
          <a class="btn btn-primary facebookLogin" data-loading-text="Preparing...">facebook</a>
          <h3 class="form-signin-heading">or create account</h3>
@@ -64,11 +82,28 @@
              </div>
          {{/if}}
 
-         <input id="userName" type="text" required class="input-block-level" placeholder="Name">
-         <input id="userEmail" type="email" required class="input-block-level" placeholder="Email address">
-         <input id="userPassword" type="password" required class="input-block-level" placeholder="Password">
-         <button class="btn btn-primary register" type="button">Sign up</button>
-       </form>
+         <form class="form-horizontal">
+           <div class="form-group">
+             <div class="col-sm-10">
+               <input id="userName" type="text" required class="form-control" placeholder="Name">
+             </div>
+           </div>
+           <div class="form-group">
+             <div class="col-sm-10">
+               <input id="userEmail" type="email" required class="form-control" placeholder="Email address">
+             </div>
+           </div>
+           <div class="form-group">
+             <div class="col-sm-10">
+               <input id="userPassword" type="password" required class="form-control" placeholder="Password">
+             </div>
+           </div>
+           <div class="form-group">
+             <div class="col-sm-offset-2 col-sm-10">
+               <button class="btn btn-primary register" type="button">Sign up</button>
+             </div>
+           </div>
+         </form>
      </div>
   </div>
 </template>
@@ -77,30 +112,30 @@
   {{> profilePanel}}
   <div>
 
-    <div class="input-append">
-      <input id="trip-toAddress" class="address-input" type="text"
+    <div class="input-group">
+      <input id="trip-toAddress" class="address-input form-control" type="text"
          value="{{currentTrip.getToAddress}}" placeholder="{{t "map_toAddress_placeholder"}}">
       {{#if currentTrip.getToLatLng}}
-        <span class="add-on to-geo-location"><i class="icon-map-marker"></i></span>
+        <span class="input-group-addon to-geo-location"><span class="glyphicon glyphicon-map-marker"></span></span>
       {{else}}
-        <span class="add-on"><i class="icon-screenshot"></i></span>
+        <span class="input-group-addon"><span class="glyphicon glyphicon-screenshot"></span></span>
       {{/if}}
     </div>
 
   </div>
   <div style="{{visible.hideFromAddress}}">
-    <div class="input-append">
-      <input id="trip-fromAddress" type="text" class="address-input"
+    <div class="input-group">
+      <input id="trip-fromAddress" type="text" class="address-input form-control"
          value="{{currentTrip.getFromAddress}}" placeholder="{{t "map_fromAddress_placeholder"}}">
       {{#if currentTrip.getFromLatLng}}
-        <span class="add-on from-geo-location"><i class="icon-map-marker"></i></span>
+        <span class="input-group-addon from-geo-location"><span class="glyphicon glyphicon-map-marker"></span></span>
       {{else}}
-        <span class="add-on"><i class="icon-screenshot"></i></span>
+        <span class="input-group-addon"><span class="glyphicon glyphicon-screenshot"></span></span>
       {{/if}}
     </div>
   </div>
   <div style="{{visible.hideFromAddress}}" >
-      <div class="control-group">
+      <div class="input-group">
         {{#with combine currentTrip field="trip-time"}}
           {{> fieldTimePick}}
         {{/with}}
