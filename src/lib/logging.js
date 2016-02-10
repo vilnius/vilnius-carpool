@@ -10,7 +10,7 @@
 function async(data, callback) {
 	callback().call(null,null);
 };
-fn = Meteor._wrapAsync(async);
+fn = Meteor.wrapAsync(async);
 
 
 aspect = [

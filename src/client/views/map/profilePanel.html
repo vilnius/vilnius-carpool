@@ -1,15 +1,15 @@
 <template name="profilePanel">
   {{#if currentUser}}
     <div class="btn-group">
-      <a href="{{pathFor 'Profile'}}" class="btn login profile_Name">{{displayName currentUser}}</a>
-      <button class="btn dropdown-toggle" data-toggle="dropdown">
+      <a href="{{pathFor 'Profile'}}" class="btn btn-default login profile_Name">{{displayName currentUser}}</a>
+      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" autofocus="" >
         <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
         <li><a href="#" class="logout">Logout</a></li>
       </ul>
     </div>
-
+    
     <strong>@</strong>
 		<div class="btn-group">
 		  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
