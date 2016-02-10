@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+
+:admin: as "Admin"
+
+usecase uc4 as "4 Administrates carpool"
+usecase uc41 as "4.1 Login as admin"
+usecase uc42 as "4.2 CRUD stops"
+usecase uc421 as "4.2.1 Drops stop on a map"
+usecase uc422 as "4.2.2 Selects stop on a map"
+usecase uc423 as "4.2.3 Updates stop on a map"
+usecase uc424 as "4.2.4 Deletes stop on a map"
+
+
+admin -- uc4
+uc4 <.. uc41: extends
+uc4 <.. uc42: extends
+uc42 <.. uc421: extends
+uc42 <.. uc422: extends
+uc42 <.. uc423: extends
+uc42 <.. uc424: extends
+
+@enduml

@@ -1,4 +1,3 @@
-
 d = console.log.bind @, "---"
 
 module.exports = ()->

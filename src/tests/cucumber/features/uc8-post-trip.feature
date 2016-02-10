@@ -6,7 +6,6 @@ Feature: Post the trip
   Background: Cleanup old trips
     Given Trip removed
 
-  @focus
   Scenario: Driver saves the trip
     Given Login with "user1@tiktai.lt"
     When I enter:

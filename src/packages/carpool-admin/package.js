@@ -9,6 +9,7 @@ Package.onUse(function(api) {
   api.versionsFrom('1.0');
   api.use(['underscore', 'coffeescript'], ['server', 'client']);
   api.use('templating','client');
+  api.use('iron:router','client');
   api.addFiles('client/AdminController.coffee', "client");
   api.addFiles(['client/AdminLanding.html', 'client/AdminLanding.coffee'], "client");
   api.addFiles('client/routes.coffee', "client");

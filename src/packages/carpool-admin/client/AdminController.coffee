@@ -1,4 +1,4 @@
-class @AdminController extends EvaluationController
+class @AdminController extends RouteController
   onBeforeAction: (pause) ->
     @render('navbar', {to: 'navbar'});
     #d "Check the user has admin role", ;
