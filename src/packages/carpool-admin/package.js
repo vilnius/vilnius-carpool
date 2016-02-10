@@ -14,6 +14,7 @@ Package.onUse(function(api) {
   api.addFiles('server/publishAdmin.coffee', "server");
   api.addFiles('client/AdminController.coffee', "client");
   api.addFiles(['client/AdminLanding.html', 'client/AdminLanding.coffee'], "client");
+  api.addFiles(['client/StopsAdmin.html', 'client/StopsAdmin.coffee'], "client");
   api.addFiles('client/routes.coffee', "client");
 });
 

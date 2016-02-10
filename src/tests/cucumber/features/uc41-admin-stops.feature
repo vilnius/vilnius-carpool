@@ -8,4 +8,4 @@ Feature: 4.1 CRUD stops
 
   Scenario: 4.1.2 Selects stop on a map
     Given Login with "admin@tiktai.lt"
-    And I see ".stops" in "/admin/stops"
+    And I see ".stopsAdmin" in "/admin/stops"
