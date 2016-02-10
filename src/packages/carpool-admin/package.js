@@ -10,6 +10,8 @@ Package.onUse(function(api) {
   api.use(['underscore', 'coffeescript'], ['server', 'client']);
   api.use('templating','client');
   api.use('iron:router','client');
+  api.addFiles('lib/Security.coffee');
+  api.addFiles('server/publishAdmin.coffee', "server");
   api.addFiles('client/AdminController.coffee', "client");
   api.addFiles(['client/AdminLanding.html', 'client/AdminLanding.coffee'], "client");
   api.addFiles('client/routes.coffee', "client");

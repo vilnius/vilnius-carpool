@@ -6,7 +6,6 @@ Feature: 4.1 CRUD stops
   Background: Admin account exists
     Given Admin exists
 
-  @focus
   Scenario: 4.1.2 Selects stop on a map
     Given Login with "admin@tiktai.lt"
     And I see ".stops" in "/admin/stops"
