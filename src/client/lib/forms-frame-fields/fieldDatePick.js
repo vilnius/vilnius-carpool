@@ -1,6 +1,8 @@
 Template.fieldDatePick.rendered = function() {
 	//d("feildDatePick", this.data, ['trip-edit'])
 	//var now = new Date();
+
+	/*
 	$('#trip-date').datepicker({
 	//$('#'+this.data.field).datepicker({
 		format: 'yyyy-mm-dd'
@@ -8,6 +10,7 @@ Template.fieldDatePick.rendered = function() {
 		//console.log(ev.date.valueOf());
 		$('#'+this.data.field).datepicker('hide');
 	});
+	*/
 	//$('#trip-date').datepicker('setValue', now);
 }
 

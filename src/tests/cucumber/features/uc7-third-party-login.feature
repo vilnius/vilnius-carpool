@@ -5,9 +5,9 @@ Feature: Third party login
 
   @ignore
   Scenario: Login using g+
-    Given I'm logged off
+    Given I am logged off
     When I press on g+ login
-    And I enter
+    And I enter:
       | #username         | #password |
       | carpool@tiktai.lt | Muitines3 |
     Then I see ".profile" text "Developer"

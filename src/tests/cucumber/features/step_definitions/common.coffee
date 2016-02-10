@@ -24,7 +24,7 @@ module.exports = ()->
     client.waitForExist(element);
     d "Found #{element}"
 
-  @Then /^I See "([^"]*)" in "([^"]*)"$/, (element, path)->
+  @Then /^I see "([^"]*)" in "([^"]*)"$/, (element, path)->
     link = process.env.ROOT_URL + path;
     d "Link to create evaluation #{link}"
     client.url(link);

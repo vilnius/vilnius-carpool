@@ -7,14 +7,17 @@ Meteor.methods
     console.log '---', "Remove user"
     Meteor.users.remove {"emails.address": email}
 
-  assureUser: (opts) ->
-    console.log '---', "Create users", opts
+  assureUser: (opts, extra) ->
     try
-      Accounts.createUser
+      id =  Accounts.createUser
         email: opts.email
         password: if opts.password then opts.password else 'aaa'
+      console.log '---', "Created user #{id}", opts
+      if extra
+        err = Meteor.users.update _id: id, {$set: extra}
+        console.log '---', "Added extra to user #{id}", extra, err
     catch err
-      console.log '---', "Ignore", err
+      console.log '---', "Creation error", err unless err.error is 403
 
   removeTrips: (email) ->
     user = Meteor.users.findOne "emails.address": email
