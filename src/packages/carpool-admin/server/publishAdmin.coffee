@@ -7,3 +7,6 @@ Meteor.publish 'adminUserContacts', ->
       'roles': true
       'profile': true
       "emails": true
+
+Meteor.publish 'adminStops', ->
+  Stops.find();

@@ -1,3 +1,15 @@
 <template name="StopsAdmin">
-  <h2 class="stopsAdmin">Stops admin</h2>
+  <div class="row" style="height: 100%">
+    <div class="col-md-3">
+      <h2 class="stopsAdmin">Stops admin</h2>
+      <ul>
+        {{#each stops}}
+        <li>Stop</li>
+        {{/each}}
+      </ul>
+    </div>
+    <div class="col-md-9" style="height: 100%">
+      <div id="stops-admin-map" style="height: 100%"></div>
+    </div>
+  </div>
 </template>
