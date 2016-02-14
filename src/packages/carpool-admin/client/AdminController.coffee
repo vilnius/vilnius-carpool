@@ -1,3 +1,6 @@
+###
+  Base admin controller. Checks has use admin role
+###
 class @AdminController extends RouteController
   subscriptions: ()->
     [Meteor.subscribe("adminUserContacts")]

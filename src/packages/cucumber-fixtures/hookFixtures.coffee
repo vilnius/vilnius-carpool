@@ -19,6 +19,10 @@ Meteor.methods
     catch err
       console.log '---', "Creation error", err unless err.error is 403
 
+  assureStop: (title) ->
+    Stops.upsert({title: title}, {title: title, "loc" : [  25.272159576416016,  54.69387649850695 ]})
+
+
   removeTrips: (email) ->
     user = Meteor.users.findOne "emails.address": email
     console.log '---', "Remove trips for", user

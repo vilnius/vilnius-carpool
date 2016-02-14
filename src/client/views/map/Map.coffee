@@ -97,7 +97,6 @@ Template.Login.events
   "click .login": (event, template) ->
     user = template.find("#inputUsername").value
     password = template.find("#inputPassword").value
-    d "Login user " + user, ["login-error"]
     Meteor.loginWithPassword user, password, (error) ->
       if error
         d "Log in " + user + "  error: " + error.reason

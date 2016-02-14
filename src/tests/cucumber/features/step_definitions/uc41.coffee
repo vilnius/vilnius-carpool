@@ -10,3 +10,6 @@ module.exports = ()->
         name: 'Admin'
     },
       roles: ['root']
+
+  @Given /^Stop "([^"]*)" is created$/, ()->
+    server.call "assureStop", "testStop-1"
