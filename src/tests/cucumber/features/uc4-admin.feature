@@ -6,12 +6,10 @@ Feature: 4.1 Login as admin
   Background: Admin account exists
     Given Admin exists
 
-  @focus
   Scenario: Admin should see langing page
     Given Login with "admin@tiktai.lt"
     And I see ".stops" in "/admin"
 
-  @focus
   Scenario: Admin should see langing page
     Given Login with "user1@tiktai.lt"
     And I see ".noPermission" in "/admin"

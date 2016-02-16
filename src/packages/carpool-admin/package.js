@@ -10,8 +10,15 @@ Package.onUse(function(api) {
   api.use(['underscore', 'coffeescript'], ['server', 'client']);
   api.use('templating','client');
   api.use('iron:router','client');
+  api.use("matb33:collection-hooks");
+  
+  api.use("spastai:flow-controll@0.0.2", ["client", "server"]);
+  api.use(['spastai:google-client@0.0.6'], 'client');
+
+
   api.addFiles('lib/Security.coffee');
   api.addFiles('server/publishAdmin.coffee', "server");
+  api.addFiles('client/CarpoolAdminClient.coffee', "client");
   api.addFiles('client/AdminController.coffee', "client");
   api.addFiles(['client/AdminLanding.html', 'client/AdminLanding.coffee'], "client");
   api.addFiles(['client/StopsAdmin.html', 'client/StopsAdmin.coffee'], "client");

@@ -1,12 +1,11 @@
 //console.log("Loading libs");
 
-Trips = new Meteor.Collection("trips");
-Streets = new Meteor.Collection("streets");
-CityStreets = new Meteor.Collection("city_streets");
+Trips = new Mongo.Collection("trips");
+Streets = new Mongo.Collection("streets");
+CityStreets = new Mongo.Collection("city_streets");
 
-Groups = new Meteor.Collection("groups");
+Groups = new Mongo.Collection("groups");
 
-FacebookMessages = new Meteor.Collection("facebookMessages");
+FacebookMessages = new Mongo.Collection("facebookMessages");
 
-Meanings = new Meteor.Collection("meanings");
-
+Meanings = new Mongo.Collection("meanings");

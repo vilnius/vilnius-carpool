@@ -6,6 +6,10 @@ Feature: 4.1 CRUD stops
   Background: Admin account exists
     Given Admin exists
 
+  @focus
   Scenario: 4.1.2 Selects stop on a map
     Given Login with "admin@tiktai.lt"
-    And I see ".stopsAdmin" in "/admin/stops"
+    And Stop "testStop-1" is created
+    And I see "[title='testStop-1']" in "/admin/stops"
+    When Click on "[title='testStop-1']"
+    Then I see ".removeStop"

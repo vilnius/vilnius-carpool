@@ -1,3 +1,36 @@
 <template name="StopsAdmin">
-  <h2 class="stopsAdmin">Stops admin</h2>
+  <div class="row" style="height: 100%">
+    <div class="col-md-3">
+      <h2 class="stopsAdmin">Stops admin</h2>
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        {{#each stops}}
+          {{> stopItem}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="col-md-9" style="height: 100%">
+      <div id="stops-admin-map" style="height: 100%"></div>
+    </div>
+  </div>
+</template>
+
+
+<template name="stopItem">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        {{title}}
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#stop-{{_id}}" aria-expanded="true" aria-controls="stop-{{_id}}">
+          <span class="glyphicon glyphicon-chevron-down pull-right" aria-hidden="true" ></span>
+        </a>
+      </h4>
+    </div>
+    <div id="stop-{{_id}}" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <button type="button" class="btn btn-default removeStop" aria-label="Left Align">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
