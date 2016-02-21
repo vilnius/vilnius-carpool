@@ -38,7 +38,7 @@ MapBridge = function () {
 MapBridge.prototype._loadGoogle = function (cb) {
 	this.s = 'ok';
 	da(['mapbridge-init'], "Loading google");
-	google.load("maps", "3", {other_params: "libraries=geometry,places&sensor=false", callback: cb});
+	google.load("maps", "3", {other_params: "libraries=geometry,places", callback: cb});
 };
 
 MapBridge.prototype._initServices = function (cb) {

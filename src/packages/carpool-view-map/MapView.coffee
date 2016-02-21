@@ -25,8 +25,11 @@ class MapView
   trip: new CarpoolTrip();
   toMarker: null;
   fromMarker: null;
+  stops: []
 
-  # Shows Google Map when all required libraries are ready and starts afterMapShown queue
+  ###
+  Shows Google Map when all required libraries are ready and starts afterMapShown queue
+  ###
   showMap: (id, cb)->
     mapElement = document.getElementById(id);
     # This method is called after google services are initialized
@@ -38,7 +41,9 @@ class MapView
       @map = new (google.maps.Map)(mapElement, myOptions)
       cb(null, @map);
       afterMapShown.start();
-  # Automcomplete requires map to be initialized
+  ###
+  Automcomplete requires map to be initialized
+  ###
   addAutocomplete: afterMapShown.wrap (input, cb)->
     googleServices.addAutocomplete input, @map, cb
   clarifyPlace: (latlng, address, cb)->
@@ -48,6 +53,9 @@ class MapView
         cb?(null, result[0].geometry.location, address)
       else
         cb?(error)
+  ###
+  The new trip destination
+  ###
   setCurrentTripTo: (err, latlng, address, place)=>
     #d "Set current trip to", address
     setToLatLng = (refinedLatlng, refinedAddress)=>
@@ -69,6 +77,9 @@ class MapView
         draggable: true)
     else
       @toMarker.setPosition(location);
+  ###
+  The new trip origin
+  ###
   setCurrentTripFrom: (err, latlng, address, place)=>
     #d "Set current trip to", address
     setFromLatLng = (refinedLatlng, refinedAddress)=>
@@ -90,7 +101,53 @@ class MapView
         draggable: true)
     else
       @toMarker.setPosition(location);
-
+  ###
+  Draw stops on the map
+  ###
+  showStops: (stops)->
+    for i, stop of stops
+      #d "Show stop", stop
+      @stops[i] = new (google.maps.Marker)(
+        map: @map
+        position: googleServices.toLatLng stop.loc
+        draggable: false
+        icon: new (google.maps.MarkerImage)('/img/red-dot-small.png',
+          new (google.maps.Size)(9, 9),
+          new (google.maps.Point)(0, 0),
+          new (google.maps.Point)(0, 0)))
+  ###
+  Puts markers and decoded points on the map
+  ###
+  drawActiveTrip: afterMapShown.wrap (trip, options, cb) ->
+    result = points: []
+    da ['trips-drawing'], 'Drawing trip:', trip
+    if trip.path and trip.toLoc and trip.fromLoc
+      decodedPoints = google.maps.geometry.encoding.decodePath(trip.path)
+      fromLatLng = googleServices.toLatLng trip.fromLoc
+      toLatLng = googleServices.toLatLng trip.toLoc
+      #d("Decoded points:", decodedPoints);
+      result.line = new (google.maps.Polyline)(_.extend({
+        clickable: true
+        map: @map
+        path: decodedPoints
+        strokeColor: 'SteelBlue'
+        strokeOpacity: 0.5
+        strokeWeight: 3
+      }, options))
+      result.points[0] = new (google.maps.Marker)(
+        map: @map
+        position: fromLatLng
+        draggable: false
+        icon: new (google.maps.MarkerImage)('/img/red-dot-small.png', new (google.maps.Size)(9, 9), new (google.maps.Point)(0, 0), new (google.maps.Point)(0, 0)))
+      result.points[1] = new (google.maps.Marker)(
+        map: streetsMap
+        position: toLatLng
+        draggable: false
+        icon: new (google.maps.MarkerImage)('/img/green-dot-small.png', new (google.maps.Size)(9, 9), new (google.maps.Point)(0, 0), new (google.maps.Point)(5, 5)))
+      cb and cb(null, result)
+    else
+      da ['veiwport-map'], 'Can\'t draw - path is not decoded: ' + trip
+      cb? null, null
 
 @mapView = new MapView
 
@@ -102,6 +159,8 @@ class @CarpoolController extends RouteController
 class @CarpoolLoginController extends CarpoolController
 
 class @CarpoolMapController extends CarpoolController
+  subscriptions: ()->
+    [Meteor.subscribe("stops")]
 
   onBeforeAction: ()->
     query = {}
@@ -140,6 +199,7 @@ class @CarpoolMapController extends CarpoolController
     result =
       currentTrip: mapView.trip
       activeTrips:  carpoolService.getActiveTrips()
+      stops: carpoolService.getStops();
       myTrips: tripClient.getOwnTrips(),
 
 ###
@@ -147,5 +207,6 @@ class @CarpoolMapController extends CarpoolController
 ###
 Template.MapView.rendered = ->
   #d "Stops admin rendered"
-  mapView.showMap "map_canvas", (err, map)->
-    #d "Map shown"
+  mapView.showMap "map_canvas", (err, map)=>
+    #console.log "Map shown"
+    mapView.showStops @data.stops

@@ -75,7 +75,8 @@ spacebars-compiler@1.0.3
 spacebars@1.0.3
 spastai:carpool-service@0.0.1
 spastai:flow-controll@0.0.7
-spastai:google-client@0.0.9
+spastai:google-client@0.0.10
+spastai:logw@0.0.4
 spiderable@1.0.5
 srp@1.0.1
 standard-app-packages@1.0.3

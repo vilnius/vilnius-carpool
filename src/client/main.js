@@ -9,6 +9,7 @@
 Meteor.startup(function () {
 	//console.log("Creating MapBridge");
 	//mapController = new MapBridge();
+  googleServices.init();
 });
 
 Router.configure({

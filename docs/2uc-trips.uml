@@ -6,8 +6,8 @@ left to right direction
 :manager: as "Group owner"
 :user: as "User"
 
-usecase uc11 as "Edit trip"
-usecase uc17 as "Enter new trip"
+usecase uc11 as "8. Edit trip"
+usecase uc17 as "8.1 Enter new trip"
 usecase uc12 as "Selects predefined trip"
 usecase uc13 as "Edits existing trip"
 usecase uc14 as "Drops to location on map"

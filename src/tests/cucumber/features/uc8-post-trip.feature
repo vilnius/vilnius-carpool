@@ -5,6 +5,7 @@ Feature: Post the trip
 
   Background: Cleanup old trips
     Given Trip removed
+    And Stops exists
 
   @focus
   Scenario: Driver saves the trip passing the stop
@@ -19,4 +20,4 @@ Feature: Post the trip
     Then I see my trip
       | from               | to                      |
       | Krivių 68, Vilnius | Muitinės g. 35, Vilnius |
-    And I see the stops on the road
+    And I see the stop "Filaretu" on the route

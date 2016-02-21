@@ -67,6 +67,7 @@ Template.StopsAdmin.rendered = ->
   #d "Stops admin rendered"
   stopsMap.showMap "stops-admin-map", (err, map)->
     google.maps.event.addListener map, 'click', (event)->
+      da ["admin-stops"], "Clicked", event
       carpoolAdmin.createStop event.latLng
 
 Template.StopsAdmin.events

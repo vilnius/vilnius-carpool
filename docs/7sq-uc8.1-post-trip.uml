@@ -1,0 +1,82 @@
+@startuml
+
+participant template as "Template"
+participant controller as "RouteController"
+participant view as "MapView"
+participant trip as "Trip"
+participant location as "Location"
+participant service as "Service"
+participant google as "GoogleService"
+
+create trip
+controller -> trip
+create location
+trip -> location
+
+[-> template: rendered
+activate template
+  template -> view: showMap
+  template -> google: addAutocomplete(input, controller.setCurrentTripTo)
+deactivate template
+
+template -\ controller: data
+activate controller
+  template \-- controller: trip
+deactivate controller
+template -> trip: getFromAddress
+
+alt Set from location from browser
+  [-> controller: setCurrentTripFrom(latlng, null)
+  activate controller
+  controller -> controller: clarifyLocation(latlng, null)
+  activate controller
+  controller -\ google: geocode(latlng, trip.from.setAddress)
+  controller -> location: setLatLng
+  deactivate controller
+  deactivate controller
+  controller -> view: showCurrentTripFrom
+  alt reactive
+    location \-- google: setAddress
+    activate location
+    template -> location: getAddress
+    deactivate location
+  end
+end
+
+alt Autocomplete address
+  [-> google: typeahead toAddress
+  view <- google: setCurrentTripTo(latlng, address)
+  activate view
+  view -> view: clarifyLocation(latlng, address)
+  activate view
+  view -> location: setLatLng
+  view -> location: address
+  deactivate view
+  deactivate view
+end
+
+alt Drop marker
+  view -> controller: setCurrentTripTo(latlng, null)
+  note left: when to update address?
+  activate controller
+  controller -> controller: clarifyLocation(latlng, null)
+  activate controller
+  controller -\ google: geocode(latlng, trip.to.setAddress)
+  controller -> location: setLatLng
+  deactivate controller
+  deactivate controller
+  controller -> view: showCurrentTripTo
+  alt reactive
+    location \-- google: setAddress
+    activate location
+    template -> location: getAddress
+    deactivate location
+  end
+end
+
+
+[-> template: click .saveTrip
+template -> service: saveTrip(trip)
+service -> service: Are to / from locations set?
+
+@enduml

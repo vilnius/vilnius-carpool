@@ -21,6 +21,7 @@ Template.CarpoolMap.events
     d "Saving trip:", query
     $("#save-button").button "loading"
 
-    carpoolService.saveTrip query, (error, value) ->
+    carpoolService.saveTrip query, (error, routedTrip) ->
+      mapView.drawActiveTrip routedTrip
       $("*[id^='trip-toAddress']").val ""
       $("#save-button").button "reset"

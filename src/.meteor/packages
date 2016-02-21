@@ -27,4 +27,5 @@ cucumber-fixtures
 spastai:carpool-service
 carpool-admin
 carpool-view-map
+spastai:logw
 
