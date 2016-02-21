@@ -1,40 +1,48 @@
 @startuml
 
-participant template as "Template"
 participant controller as "RouteController"
+participant template as "Template"
 participant view as "MapView"
 participant trip as "Trip"
 participant location as "Location"
 participant service as "Service"
 participant google as "GoogleService"
 
+
 create trip
-controller -> trip
+view -> trip: currentTrip
 create location
 trip -> location
+
+controller -> service: getActiveTrips
+controller -> service: getStops
+controller -> view: trip
+controller -> template: data(currentTrip, activeTrips, stops)
 
 [-> template: rendered
 activate template
   template -> view: showMap
-  template -> google: addAutocomplete(input, controller.setCurrentTripTo)
+  template -> google: addAutocomplete(input, view.setCurrentTripTo)
 deactivate template
 
-template -\ controller: data
-activate controller
-  template \-- controller: trip
-deactivate controller
+template -\ view: data
+activate view
+  template \-- view: trip
+deactivate view
 template -> trip: getFromAddress
 
 alt Set from location from browser
-  [-> controller: setCurrentTripFrom(latlng, null)
-  activate controller
-  controller -> controller: clarifyLocation(latlng, null)
-  activate controller
-  controller -\ google: geocode(latlng, trip.from.setAddress)
-  controller -> location: setLatLng
-  deactivate controller
-  deactivate controller
-  controller -> view: showCurrentTripFrom
+  [-> view: setCurrentTripFrom(latlng, null)
+  activate view
+  view -> view: clarifyLocation(latlng, null)
+  activate view
+  view -\ google: geocode(latlng, trip.from.setAddress)
+  alt reactive
+    view -> location: setLatLng
+    template -> location: getLatLng
+  end
+  deactivate view
+  deactivate view
   alt reactive
     location \-- google: setAddress
     activate location
@@ -56,16 +64,18 @@ alt Autocomplete address
 end
 
 alt Drop marker
-  view -> controller: setCurrentTripTo(latlng, null)
+  view -> view: setCurrentTripTo(latlng, null)
   note left: when to update address?
-  activate controller
-  controller -> controller: clarifyLocation(latlng, null)
-  activate controller
-  controller -\ google: geocode(latlng, trip.to.setAddress)
-  controller -> location: setLatLng
-  deactivate controller
-  deactivate controller
-  controller -> view: showCurrentTripTo
+  activate view
+  view -> view: clarifyLocation(latlng, null)
+  activate view
+  view -\ google: geocode(latlng, trip.to.setAddress)
+  alt reactive
+    view -> location: setLatLng
+    template -> location: getLatLng
+  end
+  deactivate view
+  deactivate view
   alt reactive
     location \-- google: setAddress
     activate location
@@ -73,7 +83,6 @@ alt Drop marker
     deactivate location
   end
 end
-
 
 [-> template: click .saveTrip
 template -> service: saveTrip(trip)
