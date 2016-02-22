@@ -1,3 +1,3 @@
 Router.map ()->
-  @route 'CarpoolLogin', path: '/map/login'
-  @route 'CarpoolMap', path: '/map'
+  @route 'CarpoolLogin', path: '/login'
+  @route 'CarpoolMap', path: '/'

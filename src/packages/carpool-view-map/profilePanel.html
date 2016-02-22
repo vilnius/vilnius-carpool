@@ -1,0 +1,64 @@
+<template name="profilePanel">
+  {{#if currentUser}}
+    <div class="btn-group">
+      <a href="#" class="btn btn-default login profile_Name">{{displayName currentUser}}</a>
+      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" autofocus="" >
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="#" class="logout">Logout</a></li>
+      </ul>
+    </div>
+
+    <strong>@</strong>
+		<div class="btn-group">
+		  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+        {{#if group.title}}
+		      {{group.title}}
+		    {{else}}
+		      Public
+		    {{/if}}
+		    <span class="caret"></span>
+		  </a>
+		  <ul class="dropdown-menu">
+        {{#each myGroups}}
+          <li><a href="/{{niceLink}}">{{title}}</a></li>
+        {{/each}}
+		  </ul>
+		</div>
+
+  {{else}}
+	  <div class="accordion" id="join-accordion" >
+	    <div class="accordion-group" style="border:0px;">
+        <!-- Toggle to show login or register panels -->
+        <div class="accordion-heading" style="background-color: rgba(105,105,105,0.2)">
+          <div class="accordion-toggle" data-parent="#accordion2" >
+              <h3>No user</h3>
+          </div>
+        </div>
+       <!-- end -->
+	    </div>
+	  </div>
+
+    <!--
+	  <div class="accordion" id="accordion2" >
+	    <div class="accordion-group">
+	      <div id="collapseOne" class="accordion-body collapse in" style="background-color: rgba(105,105,105,0.2)">
+	        <div class="accordion-inner">
+	           {{> Adsense}}
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+    -->
+
+	{{/if}}
+</template>
+
+<template name="Adsense">
+	<!-- TakeMeHome -->
+	<ins class="adsbygoogle"
+	    style="display:inline-block;width:320px;height:50px"
+	    data-ad-client="ca-pub-4552584647616477"
+	    data-ad-slot="2950036681"></ins>
+</template>

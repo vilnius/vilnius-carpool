@@ -16,9 +16,12 @@ Package.onUse(function(api) {
   api.use(['spastai:google-client@0.0.9'], 'client');
 
   api.addFiles(['mapLayout.html'], "client");
+  api.addFiles(['i18n/helper.js', 'CarpoolMap_i18n.coffee'], "client");
+  api.addFiles(['profilePanel.html', 'profilePanel.coffee'], "client");
   api.addFiles(['CarpoolLogin.html', 'CarpoolLogin.coffee'], "client");
   api.addFiles(['CarpoolMap.html', 'CarpoolMap.coffee'], "client");
   api.addFiles(['MapView.html', 'MapView.coffee'], "client");
+  api.addFiles('Controller.coffee', "client");
   api.addFiles('routes.coffee', "client");
 
 });

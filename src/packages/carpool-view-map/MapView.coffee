@@ -26,6 +26,7 @@ class MapView
   toMarker: null;
   fromMarker: null;
   stops: []
+  progress: {};
 
   ###
   Shows Google Map when all required libraries are ready and starts afterMapShown queue
@@ -148,59 +149,36 @@ class MapView
     else
       da ['veiwport-map'], 'Can\'t draw - path is not decoded: ' + trip
       cb? null, null
+  ###
+  Progress bar reset
+  ###
+  resetActionProgress: ->
+    @progress = {}
+    NProgress.done()
+  ###
+  Set progress bar values
+  ###
+  setActionProgress: (action, value) ->
+    if value == 100
+      delete @progress[action]
+    else
+      @progress[action] = value
+    sum = 0
+    total = 0
+    _.each @progress, (item) ->
+      sum += item
+      total += 100
+      return
+    #da(['ie8-router', 'group-security'], "Progress:"+sum+"/"+total+" of "+action+"="+value, progress);
+    if sum == 0
+      if total == 0
+        NProgress.done()
+      else
+        NProgress.start()
+    else
+      NProgress.set sum / total
 
 @mapView = new MapView
-
-class @CarpoolController extends RouteController
-  layoutTemplate: 'carpoolMapLayout',
-  yieldTemplates:
-    MapView: to: 'map'
-
-class @CarpoolLoginController extends CarpoolController
-
-class @CarpoolMapController extends CarpoolController
-  subscriptions: ()->
-    [Meteor.subscribe("stops")]
-
-  onBeforeAction: ()->
-    query = {}
-    location = undefined
-    if @params.query.aLoc
-      da ['geoloc'], "Location present in url has biggest priority:", @params.query.abLoc
-      location = googleServices.decodePoints(@params.query.aLoc)[0]
-
-    if location
-      radius = 50*1000;
-      f = radius * 180 / (3.14*6371*1000);
-      query["address.location"] =
-        $near : location,
-        $maxDistance : f;
-
-    @activeTripsSub = Meteor.subscribe("activeTrips", @params.niceLink, query)
-    @ownTripsSub =  Meteor.subscribe("ownTrips",@params.niceLink)
-
-    da(['data-publish'], "1. Subscribing for active trips:"+Meteor.userId()+"@"+@params.niceLink, query);
-    if @activeTripsSub.ready()
-      da(['data-publish'], "3. Subscribtion active trips is ready:", query);
-      tripClient.setActionProgress('activeTrips',100);
-      this.next();
-    else
-      da(['data-publish'], "2. Wait for subscribtion to the active trips:", query);
-      tripClient.setActionProgress('activeTrips',0);
-
-    if(@ownTripsSub.ready())
-      da(['data-publish'], "5. Subscribtion own trips is ready:"+@params.niceLink, query);
-      tripClient.setActionProgress('ownTrips',100);
-    else
-      da(['data-publish'], "4. Wait for subscribtion to own trips:"+@params.niceLink, query);
-      tripClient.setActionProgress('ownTrips',0);
-
-  data: ->
-    result =
-      currentTrip: mapView.trip
-      activeTrips:  carpoolService.getActiveTrips()
-      stops: carpoolService.getStops();
-      myTrips: tripClient.getOwnTrips(),
 
 ###
   Meteor templates for UI
