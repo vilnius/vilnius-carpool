@@ -8,7 +8,7 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
   api.use(['underscore', 'coffeescript'], ['server', 'client']);
-  api.use(["less@1.0.11"], 'client');
+  //api.use(["less@1.0.11"], 'client');
   api.use(['templating', 'tracker'], 'client');
 
   api.use('iron:router','client');
@@ -18,7 +18,7 @@ Package.onUse(function(api) {
 
   api.addFiles(['i18n/helper.js', 'CarpoolMap_i18n.coffee'], "client");
   api.addFiles(['mapLayout.html'], "client");
-  api.addFiles(['Map.less'], "client");
+  //api.addFiles(['Map.less'], "client");
   api.addFiles(['profilePanel.html', 'profilePanel.coffee'], "client");
   api.addFiles(['CarpoolLogin.html', 'CarpoolLogin.coffee'], "client");
   api.addFiles(['CarpoolMap.html', 'CarpoolMap.coffee'], "client");
