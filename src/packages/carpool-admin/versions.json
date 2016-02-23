@@ -170,7 +170,7 @@
     ],
     [
       "spastai:google-client",
-      "0.0.10"
+      "0.0.11"
     ],
     [
       "templating",

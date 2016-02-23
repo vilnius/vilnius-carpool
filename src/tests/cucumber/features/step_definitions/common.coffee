@@ -13,6 +13,7 @@ module.exports = ()->
       client.click(".logout");
 
   @When /^Login with "([^"]*)"$/, (username)->
+    #d "Do login #{username}"
     @TestHelper.login(username)
 
   @Then /^I see "([^"]*)" text "([^"]*)"$/, (element, text)->

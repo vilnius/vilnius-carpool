@@ -13,7 +13,7 @@ Package.onUse(function(api) {
   api.use('iron:router','client');
 
   api.use("spastai:flow-controll@0.0.2", ["client", "server"]);
-  api.use(['spastai:google-client@0.0.9'], 'client');
+  api.use(['spastai:google-client@0.0.11'], 'client');
 
   api.addFiles(['i18n/helper.js', 'CarpoolMap_i18n.coffee'], "client");
   api.addFiles(['mapLayout.html'], "client");

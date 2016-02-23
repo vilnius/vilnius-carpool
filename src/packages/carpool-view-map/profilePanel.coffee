@@ -52,5 +52,5 @@ Template.profilePanel.events
     da [ 'viewport-map' ], 'Do logout and go to first page'
     Meteor.logout()
     #da(['group-security'], "Go to MainLogin");
-    Router.go 'Welcome'
+    Router.go 'CarpoolLogin'
     return

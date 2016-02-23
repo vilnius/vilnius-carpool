@@ -10,7 +10,7 @@ Feature: Post the trip
   @focus
   Scenario: Driver saves the trip passing the stop
     Given Login with "user1@tiktai.lt"
-    And I see "#trip-toAddress" in "/map"
+    And I see "#trip-toAddress" in "/"
     When I enter:
       | trip-fromAddress   | trip-toAddress          |
       | Krivių 68, Vilnius | Muitinės g. 35, Vilnius |

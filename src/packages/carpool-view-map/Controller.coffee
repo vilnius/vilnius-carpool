@@ -11,6 +11,12 @@ class @CarpoolMapController extends CarpoolController
     MapView: to: 'map'
 
   onBeforeAction: ()->
+    unless Meteor.userId()
+      da ['data-publish'], "0. No user, nothing to subscribe", Meteor.userId();
+      @render("MapView", {to: 'map'});
+      @render("CarpoolLogin");
+      return
+
     query = {}
     location = undefined
     if @params.query.aLoc
@@ -61,11 +67,16 @@ class @CarpoolMapController extends CarpoolController
   data: ->
     return if @dataLoading;
     da(['data-publish'], "6. Preparing data for CarpoolMap:"+@params.niceLink);
-    activeTrips = carpoolService.getActiveTrips()
-    da ['data-publish'], "Active trips:", activeTrips.fetch();
+    activeTrips = carpoolService.getActiveTrips().fetch()
+    da ['data-publish'], "Draw Active trips:", activeTrips;
+    for trip in activeTrips
+      mapView.drawActiveTrip trip
+    ownTrips = carpoolService.getOwnTrips().fetch()
+    for trip in ownTrips
+      mapView.drawActiveTrip trip
 
     result =
       currentTrip: mapView.trip
       activeTrips: activeTrips
+      myTrips: ownTrips
       stops: carpoolService.getStops();
-      #myTrips: tripClient.getOwnTrips(),

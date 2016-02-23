@@ -139,12 +139,18 @@ class MapView
         map: @map
         position: fromLatLng
         draggable: false
-        icon: new (google.maps.MarkerImage)('/img/red-dot-small.png', new (google.maps.Size)(9, 9), new (google.maps.Point)(0, 0), new (google.maps.Point)(0, 0)))
+        icon: new (google.maps.MarkerImage)('/img/red-dot-small.png',
+          new (google.maps.Size)(9, 9),
+          new (google.maps.Point)(0, 0),
+          new (google.maps.Point)(4, 4)))
       result.points[1] = new (google.maps.Marker)(
-        map: streetsMap
+        map: @map
         position: toLatLng
         draggable: false
-        icon: new (google.maps.MarkerImage)('/img/green-dot-small.png', new (google.maps.Size)(9, 9), new (google.maps.Point)(0, 0), new (google.maps.Point)(5, 5)))
+        icon: new (google.maps.MarkerImage)('/img/green-dot-small.png',
+          new (google.maps.Size)(9, 9),
+          new (google.maps.Point)(0, 0),
+          new (google.maps.Point)(4, 4)))
       cb and cb(null, result)
     else
       da ['veiwport-map'], 'Can\'t draw - path is not decoded: ' + trip
@@ -186,5 +192,5 @@ class MapView
 Template.MapView.rendered = ->
   #d "Stops admin rendered"
   mapView.showMap "map_canvas", (err, map)=>
-    console.log "Stops might not be loaded", @data
+    #d "Stops might not be loaded", @data
     mapView.showStops @data?.stops
