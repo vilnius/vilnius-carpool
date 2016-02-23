@@ -1,13 +1,14 @@
 Package.describe({
   name: 'carpool-view-map',
   summary: ' /* Fill me in! */ ',
-  version: '1.0.0',
+  version: '0.0.1',
   git: ' /* Fill me in! */ '
 });
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
-  api.use(['underscore', 'coffeescript', "less"], ['server', 'client']);
+  api.use(['underscore', 'coffeescript'], ['server', 'client']);
+  api.use(["less@1.0.11"], 'client');
   api.use(['templating', 'tracker'], 'client');
 
   api.use('iron:router','client');

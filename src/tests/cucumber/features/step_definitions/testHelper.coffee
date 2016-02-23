@@ -21,7 +21,6 @@ module.exports = ()->
             client.click(".showLogout");
             client.waitForVisible('.logout');
             client.click(".logout");
-
         else
           client.waitForVisible('.join_Login');
           client.click '.join_Login'
