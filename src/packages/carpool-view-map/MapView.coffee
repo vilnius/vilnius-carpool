@@ -186,5 +186,5 @@ class MapView
 Template.MapView.rendered = ->
   #d "Stops admin rendered"
   mapView.showMap "map_canvas", (err, map)=>
-    #console.log "Map shown"
-    mapView.showStops @data.stops
+    console.log "Stops might not be loaded", @data
+    mapView.showStops @data?.stops

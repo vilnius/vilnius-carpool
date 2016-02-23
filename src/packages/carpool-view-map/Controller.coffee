@@ -6,6 +6,9 @@ class @CarpoolController extends RouteController
 class @CarpoolLoginController extends CarpoolController
 
 class @CarpoolMapController extends CarpoolController
+  layoutTemplate: 'carpoolMapLayout',
+  yieldTemplates:
+    MapView: to: 'map'
 
   onBeforeAction: ()->
     query = {}
@@ -21,17 +24,16 @@ class @CarpoolMapController extends CarpoolController
         $near : location,
         $maxDistance : f;
 
-    console.log "Router", @
-
     @activeTripsSub = Meteor.subscribe("activeTrips", @params.niceLink, query)
     @ownTripsSub =  Meteor.subscribe("ownTrips",@params.niceLink)
     @stopsSubs = Meteor.subscribe("stops");
 
+    @dataLoading = 3
     da(['data-publish'], "1. Subscribing for active trips:"+Meteor.userId()+"@"+@params.niceLink, query);
     if @activeTripsSub.ready()
       da(['data-publish'], "3. Subscribtion active trips is ready:", query);
-      mapView.setActionProgress('activeTrips',100);
-      this.next();
+      mapView.setActionProgress('activeTrips', 100);
+      @dataLoading--
     else
       da(['data-publish'], "2. Wait for subscribtion to the active trips:", query);
       mapView.setActionProgress('activeTrips',0);
@@ -39,13 +41,31 @@ class @CarpoolMapController extends CarpoolController
     if(@ownTripsSub.ready())
       da(['data-publish'], "5. Subscribtion own trips is ready:"+@params.niceLink, query);
       mapView.setActionProgress('ownTrips',100);
+      @dataLoading--
     else
       da(['data-publish'], "4. Wait for subscribtion to own trips:"+@params.niceLink, query);
       mapView.setActionProgress('ownTrips',0);
 
+    if(@stopsSubs.ready())
+      @dataLoading--
+    else
+      mapView.setActionProgress('ownTrips',0);
+
+    if @dataLoading
+      # If not ready show only map
+      @render("MapView", {to: 'map'});
+    else
+      @next();
+
+
   data: ->
+    return if @dataLoading;
+    da(['data-publish'], "6. Preparing data for CarpoolMap:"+@params.niceLink);
+    activeTrips = carpoolService.getActiveTrips()
+    da ['data-publish'], "Active trips:", activeTrips.fetch();
+
     result =
       currentTrip: mapView.trip
-      activeTrips:  carpoolService.getActiveTrips()
+      activeTrips: activeTrips
       stops: carpoolService.getStops();
       #myTrips: tripClient.getOwnTrips(),

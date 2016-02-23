@@ -6,3 +6,4 @@ aspect.push "install"
 
 aspect.push "trips-drawing"
 aspect.push "admin-stops"
+aspect.push "data-publish"

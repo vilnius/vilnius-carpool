@@ -7,7 +7,7 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
-  api.use(['underscore', 'coffeescript'], ['server', 'client']);
+  api.use(['underscore', 'coffeescript', "less"], ['server', 'client']);
   api.use(['templating', 'tracker'], 'client');
 
   api.use('iron:router','client');
@@ -15,8 +15,9 @@ Package.onUse(function(api) {
   api.use("spastai:flow-controll@0.0.2", ["client", "server"]);
   api.use(['spastai:google-client@0.0.9'], 'client');
 
-  api.addFiles(['mapLayout.html'], "client");
   api.addFiles(['i18n/helper.js', 'CarpoolMap_i18n.coffee'], "client");
+  api.addFiles(['mapLayout.html'], "client");
+  api.addFiles(['Map.less'], "client");
   api.addFiles(['profilePanel.html', 'profilePanel.coffee'], "client");
   api.addFiles(['CarpoolLogin.html', 'CarpoolLogin.coffee'], "client");
   api.addFiles(['CarpoolMap.html', 'CarpoolMap.coffee'], "client");
