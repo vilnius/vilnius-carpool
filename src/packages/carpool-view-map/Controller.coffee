@@ -74,9 +74,12 @@ class @CarpoolMapController extends CarpoolController
     ownTrips = carpoolService.getOwnTrips().fetch()
     for trip in ownTrips
       mapView.drawActiveTrip trip
+    stops = carpoolService.getStops();
+    #da ["stops-drawing"], "Controller stops", stops
+    mapView.showStops stops
 
     result =
       currentTrip: mapView.trip
       activeTrips: activeTrips
       myTrips: ownTrips
-      stops: carpoolService.getStops();
+      stops: stops

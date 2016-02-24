@@ -41,12 +41,16 @@ class MapView
         mapTypeId: google.maps.MapTypeId.ROADMAP
       @map = new (google.maps.Map)(mapElement, myOptions)
       cb(null, @map);
+      #da ["stops-drawing"], "Map is shown"
       afterMapShown.start();
   ###
   Automcomplete requires map to be initialized
   ###
   addAutocomplete: afterMapShown.wrap (input, cb)->
     googleServices.addAutocomplete input, @map, cb
+  ###
+  Geolocate more details about location
+  ###
   clarifyPlace: (latlng, address, cb)->
     #d "Clarify place", address
     googleServices.getGeocoder().geocode { 'address': address }, (error, result) ->
@@ -105,17 +109,19 @@ class MapView
   ###
   Draw stops on the map
   ###
-  showStops: (stops)->
+  showStops: afterMapShown.wrap (stops) ->
+    #da ["stops-drawing"], "Stops", stops
     for i, stop of stops
-      #d "Show stop", stop
+      #da ["stops-drawing"], "Show stop", stop
       @stops[i] = new (google.maps.Marker)(
         map: @map
         position: googleServices.toLatLng stop.loc
         draggable: false
-        icon: new (google.maps.MarkerImage)('/img/red-dot-small.png',
-          new (google.maps.Size)(9, 9),
+        icon: new (google.maps.MarkerImage)('/img/white-dot.png',
+          new (google.maps.Size)(11, 11),
           new (google.maps.Point)(0, 0),
-          new (google.maps.Point)(0, 0)))
+          new (google.maps.Point)(6, 6)))
+
   ###
   Puts markers and decoded points on the map
   ###
@@ -193,4 +199,3 @@ Template.MapView.rendered = ->
   #d "Stops admin rendered"
   mapView.showMap "map_canvas", (err, map)=>
     #d "Stops might not be loaded", @data
-    mapView.showStops @data?.stops
