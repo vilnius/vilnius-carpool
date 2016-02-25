@@ -3,7 +3,10 @@ class @CarpoolController extends RouteController
   yieldTemplates:
     MapView: to: 'map'
 
-class @CarpoolLoginController extends CarpoolController
+class @RegisterController extends CarpoolController
+  layoutTemplate: 'carpoolMapLayout',
+  yieldTemplates:
+    MapView: to: 'map'
 
 class @CarpoolMapController extends CarpoolController
   layoutTemplate: 'carpoolMapLayout',

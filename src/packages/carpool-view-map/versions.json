@@ -1,6 +1,10 @@
 {
   "dependencies": [
     [
+      "accounts-base",
+      "1.1.2"
+    ],
+    [
       "application-configuration",
       "1.0.3"
     ],
@@ -69,36 +73,20 @@
       "1.0.1"
     ],
     [
-      "iron:controller",
-      "1.0.0"
-    ],
-    [
       "iron:core",
-      "1.0.11"
+      "0.3.4"
     ],
     [
       "iron:dynamic-template",
-      "1.0.3"
+      "0.4.1"
     ],
     [
       "iron:layout",
-      "1.0.3"
-    ],
-    [
-      "iron:location",
-      "1.0.11"
-    ],
-    [
-      "iron:middleware-stack",
-      "1.0.0"
+      "0.4.1"
     ],
     [
       "iron:router",
-      "1.0.0"
-    ],
-    [
-      "iron:url",
-      "1.0.11"
+      "0.9.3"
     ],
     [
       "jquery",
@@ -106,6 +94,10 @@
     ],
     [
       "json",
+      "1.0.1"
+    ],
+    [
+      "localstorage",
       "1.0.1"
     ],
     [
@@ -157,6 +149,10 @@
       "1.0.2"
     ],
     [
+      "service-configuration",
+      "1.0.2"
+    ],
+    [
       "spacebars",
       "1.0.3"
     ],
@@ -165,12 +161,20 @@
       "1.0.3"
     ],
     [
+      "spastai:carpool-service",
+      "0.0.3"
+    ],
+    [
       "spastai:flow-controll",
-      "0.0.7"
+      "0.0.2"
     ],
     [
       "spastai:google-client",
       "0.0.11"
+    ],
+    [
+      "spastai:logw",
+      "0.0.4"
     ],
     [
       "templating",

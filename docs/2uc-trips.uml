@@ -1,13 +1,15 @@
 @startuml
 left to right direction
 
+skinparam usecase {
+	BackgroundColor<< TDD >> DarkSeaGreen
+}
+
 :rider: as "Rider"
 :driver: as "Driver"
-:manager: as "Group owner"
-:user: as "User"
 
-usecase uc11 as "8. Edit trip"
-usecase uc17 as "8.1 Enter new trip"
+usecase uc11 as "uc8 Edit trip"
+usecase uc17 as "uc8.1 Enter new trip" << TDD >>
 usecase uc12 as "Selects predefined trip"
 usecase uc13 as "Edits existing trip"
 usecase uc14 as "Drops to location on map"
@@ -22,8 +24,8 @@ uc11 <.. uc14
 uc11 <.. uc15
 uc11 <.. uc16
 
-usecase uc21 as "Requests ride"
-usecase uc22 as "Filters active trips by to/from"
+usecase uc21 as "uc10 Requests ride"
+usecase uc22 as "uc3 Filters active trips by to/from"
 uc11 <.. uc21
 
 uc11 <-- uc22
@@ -32,19 +34,19 @@ uc21 -- rider
 uc22 -- rider
 
 
-usecase uc31 as "Creates group"
-usecase uc32 as "Invites member"
-usecase uc33 as "Joins group"
-usecase uc34 as "Requests membership"
-usecase uc35 as "Confirms membership"
+'usecase uc31 as "Creates group"
+'usecase uc32 as "Invites member"
+'usecase uc33 as "Joins group"
+'usecase uc34 as "Requests membership"
+'usecase uc35 as "Confirms membership"
 
-manager -- uc31
-uc31 <.. uc32
-uc32 <.. uc33
-uc33 -- user
-uc34 -- user
-uc34 <.. uc35
-uc35 <-- uc33
-manager -- uc35
+'manager -- uc31
+'uc31 <.. uc32
+'uc32 <.. uc33
+'uc33 -- user
+'uc34 -- user
+'uc34 <.. uc35
+'uc35 <-- uc33
+'manager -- uc35
 
 @enduml

@@ -1,3 +1,4 @@
 node_modules/
-src/server/install.js
+build/
+src/server/installService.coffee
 src/packages/carpool-service/

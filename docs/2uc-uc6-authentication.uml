@@ -1,0 +1,15 @@
+@startuml
+left to right direction
+
+:user: as "User"
+
+usecase uc6 as "6. Authenticate"
+usecase uc61 as "6.1 Register"
+usecase uc62 as "6.2 Login"
+
+user -- uc6
+uc6 -- uc61
+uc6 -- uc62
+
+
+@enduml

@@ -21,3 +21,4 @@ Feature: Post the trip
       | from               | to                      |
       | Krivių 68, Vilnius | Muitinės g. 35, Vilnius |
     And I see the stop "Filaretu" on the route
+    And The stop "Filaretu" is marked

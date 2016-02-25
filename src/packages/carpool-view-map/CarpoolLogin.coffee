@@ -13,3 +13,12 @@ Template.CarpoolLogin.events
         #d("Logged in");
         Router.go Session.get("workflow") or "CarpoolMap"
         Session.set "loginError", ""
+        
+  "click .facebookLogin": (event, template) ->
+    Meteor.loginWithFacebook (error) ->
+      if error
+        d "Log in with facebook error: ", error
+      else
+        nextPage = Session.get("workflow") or "CarpoolMap"
+        d "Login with facebook succesful, redirecting:" + nextPage
+        Router.go nextPage

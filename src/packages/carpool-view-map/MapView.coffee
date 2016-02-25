@@ -19,7 +19,7 @@ class CarpoolTrip
 
   getTime: () ->
     return @time
-
+    
 class MapView
   afterMapShown = new ParallelQueue(@);
   trip: new CarpoolTrip();
