@@ -19,7 +19,7 @@ class CarpoolTrip
 
   getTime: () ->
     return @time
-    
+
 class MapView
   afterMapShown = new ParallelQueue(@);
   trip: new CarpoolTrip();
@@ -27,6 +27,7 @@ class MapView
   fromMarker: null;
   stops: []
   progress: {};
+  activeTrips: {}
 
   ###
   Shows Google Map when all required libraries are ready and starts afterMapShown queue
@@ -121,12 +122,23 @@ class MapView
           new (google.maps.Size)(11, 11),
           new (google.maps.Point)(0, 0),
           new (google.maps.Point)(6, 6)))
-
+  ###
+  Removes the trip from map
+  ###
+  removeTrip: (trip)->
+    da ['trips-drawing'], "Removign trip", trip
+    trip.line.setMap(null);
+    for point in trip.points
+      point.setMap(null)
   ###
   Puts markers and decoded points on the map
   ###
   drawActiveTrip: afterMapShown.wrap (trip, options, cb) ->
-    result = points: []
+    da ['trips-drawing'], "Check is trip already drawn", trip
+    if @activeTrips[trip._id]?
+      @removeTrip @activeTrips[trip._id]
+    result =
+      points: []
     da ['trips-drawing'], 'Drawing trip:', trip
     if trip.path and trip.toLoc and trip.fromLoc
       decodedPoints = google.maps.geometry.encoding.decodePath(trip.path)
@@ -157,10 +169,19 @@ class MapView
           new (google.maps.Size)(9, 9),
           new (google.maps.Point)(0, 0),
           new (google.maps.Point)(4, 4)))
+      @activeTrips[trip._id] = result
       cb and cb(null, result)
     else
       da ['veiwport-map'], 'Can\'t draw - path is not decoded: ' + trip
-      cb? null, null
+      cb? "No path", null
+  ###
+  Removes the trips not present in set
+  ###
+  invalidateActiveTrips: (set)->
+    oldTrips = _(@activeTrips).keys()
+    purge = _.difference(oldTrips,set)
+    for key in purge
+      @removeTrip(@activeTrips[key])
   ###
   Progress bar reset
   ###

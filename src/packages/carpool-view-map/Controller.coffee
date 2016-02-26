@@ -74,6 +74,8 @@ class @CarpoolMapController extends CarpoolController
     da ['data-publish'], "Draw Active trips:", activeTrips;
     for trip in activeTrips
       mapView.drawActiveTrip trip
+    mapView.invalidateActiveTrips(_(activeTrips).pluck("_id"));
+    
     ownTrips = carpoolService.getOwnTrips().fetch()
     for trip in ownTrips
       mapView.drawActiveTrip trip

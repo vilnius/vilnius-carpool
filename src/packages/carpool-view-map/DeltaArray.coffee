@@ -7,6 +7,11 @@ class @DeltaArray
   push: (obj)->
     @buffer[@key(obj)] = obj
 
+  update: (obj)->
+    # Remove old item - add the key that doens't exist in buffer
+    if @items[@key(obj)]? then @items["purge-"+@key(obj)] = @items[@key(obj)]
+    push(obj)
+
   flush: (add, remove)->
     #d "First remove items not present in buffer", @items
     for key, item of @items
