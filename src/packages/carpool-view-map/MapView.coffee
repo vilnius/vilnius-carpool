@@ -28,6 +28,7 @@ class MapView
   stops: []
   progress: {};
   activeTrips: {}
+  ownTrips: {}
 
   ###
   Shows Google Map when all required libraries are ready and starts afterMapShown queue
@@ -110,15 +111,20 @@ class MapView
   ###
   Draw stops on the map
   ###
-  showStops: afterMapShown.wrap (stops) ->
+  showStops: afterMapShown.wrap (stops, stopsOnRoutes) ->
     #da ["stops-drawing"], "Stops", stops
     for i, stop of stops
       #da ["stops-drawing"], "Show stop", stop
+      if stopsOnRoutes?[stop._id]?
+        img = "/img/yellow-stop.png"
+      else
+        img = '/img/white-stop.png';
       @stops[i] = new (google.maps.Marker)(
         map: @map
         position: googleServices.toLatLng stop.loc
         draggable: false
-        icon: new (google.maps.MarkerImage)('/img/white-dot.png',
+        title: stop.title
+        icon: new (google.maps.MarkerImage)(img,
           new (google.maps.Size)(11, 11),
           new (google.maps.Point)(0, 0),
           new (google.maps.Point)(6, 6)))
@@ -133,10 +139,8 @@ class MapView
   ###
   Puts markers and decoded points on the map
   ###
-  drawActiveTrip: afterMapShown.wrap (trip, options, cb) ->
+  drawTrip: afterMapShown.wrap (trip, options, cb) ->
     da ['trips-drawing'], "Check is trip already drawn", trip
-    if @activeTrips[trip._id]?
-      @removeTrip @activeTrips[trip._id]
     result =
       points: []
     da ['trips-drawing'], 'Drawing trip:', trip
@@ -169,11 +173,36 @@ class MapView
           new (google.maps.Size)(9, 9),
           new (google.maps.Point)(0, 0),
           new (google.maps.Point)(4, 4)))
-      @activeTrips[trip._id] = result
       cb and cb(null, result)
     else
       da ['veiwport-map'], 'Can\'t draw - path is not decoded: ' + trip
       cb? "No path", null
+  ###
+  Draws active trip
+  ###
+  drawOwnTrip: afterMapShown.wrap (trip, cb) ->
+    if @ownTrips[trip._id]?
+      @removeTrip @ownTrips[trip._id]
+    @drawTrip trip, strokeColor: 'Red', (err, mapTrip)=>
+      @ownTrips[trip._id] = mapTrip
+      cb(err, mapTrip);
+  ###
+  Removes the trips not present in set
+  ###
+  invalidateOwnTrips: (set)->
+    oldTrips = _(@ownTrips).keys()
+    purge = _.difference(oldTrips,set)
+    for key in purge
+      @removeTrip(@ownTrips[key])
+  ###
+  Draws active trip
+  ###
+  drawActiveTrip: afterMapShown.wrap (trip, cb) ->
+    if @activeTrips[trip._id]?
+      @removeTrip @activeTrips[trip._id]
+    @drawTrip trip, strokeColor: 'SteelBlue', (err, mapTrip)=>
+      @activeTrips[trip._id] = mapTrip
+      cb(err, mapTrip);
   ###
   Removes the trips not present in set
   ###

@@ -19,3 +19,7 @@ module.exports = ()->
     element = ".stopsOnRoute"
     client.waitForExist(element);
     expect(client.getText(element)).toEqual(stopTitle)
+             
+  @Then /^The stop "([^"]*)" is marked$/, (stopTitle)->
+    element = "[title='#{stopTitle}']"
+    client.waitForExist(element);

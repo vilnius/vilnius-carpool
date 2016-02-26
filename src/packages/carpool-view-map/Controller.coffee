@@ -71,17 +71,25 @@ class @CarpoolMapController extends CarpoolController
     return if @dataLoading;
     da(['data-publish'], "6. Preparing data for CarpoolMap:"+@params.niceLink);
     activeTrips = carpoolService.getActiveTrips().fetch()
-    da ['data-publish'], "Draw Active trips:", activeTrips;
+    da ['data-publish','stops-drawing'], "Draw active trips:", activeTrips
+    stopsOnRoutes = {};
+    da ["stops-drawing"], "Collect the stops to be marked"
     for trip in activeTrips
+      da ["stops-drawing"], "Trip stops", trip.stops
+      stopsOnRoutes[stop._id] = stop for stop in trip.stops
       mapView.drawActiveTrip trip
     mapView.invalidateActiveTrips(_(activeTrips).pluck("_id"));
-    
+
     ownTrips = carpoolService.getOwnTrips().fetch()
+    da ['data-publish','stops-drawing'], "Draw own trips:", ownTrips
     for trip in ownTrips
-      mapView.drawActiveTrip trip
+      stopsOnRoutes[stop._id] = stop for stop in trip.stops
+      mapView.drawOwnTrip trip
+    mapView.invalidateOwnTrips(_(ownTrips).pluck("_id"));
+
     stops = carpoolService.getStops();
     #da ["stops-drawing"], "Controller stops", stops
-    mapView.showStops stops
+    mapView.showStops stops, stopsOnRoutes
 
     result =
       currentTrip: mapView.trip
