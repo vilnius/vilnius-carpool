@@ -1,21 +1,72 @@
-<template name="notificationsPanel">
+<template name="CarpoolMap">
+  <div class="row" style="padding-top:20px" >
+    <div class="col-md-12" >
+      {{> profilePanel}}
+    </div>
+  </div>
+
+  <div style="padding-top:10px">
+    <div class="input-group">
+      <input id="trip-toAddress" class="address-input form-control" type="text"
+         value="{{currentTrip.getToAddress}}" placeholder="{{t "map_toAddress_placeholder"}}">
+      {{#if currentTrip.to.getLatlng}}
+        <span class="input-group-addon to-geo-location"><span class="glyphicon glyphicon-map-marker"></span></span>
+      {{else}}
+        <span class="input-group-addon"><span class="glyphicon glyphicon-screenshot"></span></span>
+      {{/if}}
+    </div>
+  </div>
+  <div style="{{visible.hideFromAddress}}">
+    <div class="input-group">
+      <input id="trip-fromAddress" type="text" class="address-input form-control"
+         value="{{currentTrip.getFromAddress}}" placeholder="{{t "map_fromAddress_placeholder"}}">
+      {{#if currentTrip.from.getLatlng}}
+        <span class="input-group-addon from-geo-location"><span class="glyphicon glyphicon-map-marker"></span></span>
+      {{else}}
+        <span class="input-group-addon"><span class="glyphicon glyphicon-screenshot"></span></span>
+      {{/if}}
+    </div>
+  </div>
+  <div style="{{visible.hideFromAddress}}" >
+      <div class="input-group">
+        {{#with combine currentTrip field="trip-time"}}
+          {{> fieldTimePick}}
+        {{/with}}
+        {{#with combine currentTrip field="trip-date"}}
+          {{> fieldDatePick}}
+        {{/with}}
+      </div>
+      <div class="control-group">
+        <button type="button" class="btn btn-primary button-responsive save" value="driver" >{{t "map_driver_button"}}</button>
+        <button type="button" class="btn btn-primary button-responsive save" value="rider" >{{t "map_rider_button"}}</button>
+      </div>
+      {{#if equal obj=alert value='login'}}
+          <div class="alert alert-warning fade in">
+            <button type="button" class="close" data-dismiss="alert">�</button>
+            <strong>Please login or register to proceed</strong><br/>
+          </div>
+      {{/if}}
+  </div>
+
   {{#if currentUser}}
   <div class="accordion-group">
     <div class="panel-toggle" data-toggle="collapse" data-parent="#accordion2"
           href="#myTripsPanel">
+      My trips
       <span class="badge badge-info" data-toggle="tooltip" title="My trips">{{myTrips.length}}</span>
       <i class="icon-chevron-down pull-right"></i>
     </div>
-    <div id="myTripsPanel" class="accordion-body collapse">
+    <div id="myTripsPanel" class="accordion-body collapse in">
         {{#each myTrips}}
-          {{> myMapTrip}}
+          {{> myTrip}}
         {{/each}}
     </div>
   </div>
- {{/if}}
+  {{/if}}
+
 </template>
 
-<template name="myMapTrip">
+<template name="myTrip">
 <div class="accordion-group" style="background-color: white;">
   <div class="accordion-heading">
     <div class="trip-toggle {{#if equal obj=_id value=selectedTrip}}trip-selected{{/if}}">
@@ -27,16 +78,15 @@
       {{/if}}
       <span class="selectTrip" style="display:inline-block; padding-left: 10px">
         <div>
-          <strong>From: </strong>{{fromStreet}} {{fromHouse}}
-          {{#if equal obj=fromCity value=toCity}}
-          {{else}}, {{fromCity}}
-          {{/if}}
+          <strong>From: </strong>
+          <span class="myTripFrom">{{fromAddress}}
+          </span>
         </div>
         <div>
-          <strong>To: </strong>{{toStreet}} {{toHouse}}
-          {{#if equal obj=fromCity value=toCity}}
-          {{else}}, {{toCity}}
-          {{/if}}
+          <strong>To: </strong>{{toAddress}}
+        </div>
+        <div>
+          <strong>Stops: </strong><span class="stopsOnRoute">{{#each stops}}{{title}}<br/>{{/each}}</span>
         </div>
       </span>
       <span style="display:inline-block; padding-left: 10px">
@@ -50,7 +100,7 @@
       <span style="display:inline-block; padding-left: 10px; vertical-align:top">
         <a href="{{pathFor 'TripView'}}" >link</a>
         {{#if equal obj=currentUser._id value=owner}}
-        <button type="button" class="removeTrip btn"><i class="icon-remove"></i></button>
+        <button type="button" class="removeTrip btn"><span class="glyphicon glyphicon-remove"></span></button>
         {{/if}}
       </span>
       <i class="icon-chevron-down pull-right" data-toggle="collapse" data-parent="#accordion2" href="#myTripColalape-{{_id}}"></i>

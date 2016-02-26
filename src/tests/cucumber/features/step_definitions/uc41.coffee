@@ -11,5 +11,5 @@ module.exports = ()->
     },
       roles: ['root']
 
-  @Given /^Stop "([^"]*)" is created$/, ()->
-    server.call "assureStop", "testStop-1"
+  @Given /^Stop "([^"]*)" is created$/, (stopTitle)->
+    server.call "assureStop", stopTitle

@@ -1,6 +1,10 @@
 {
   "dependencies": [
     [
+      "accounts-base",
+      "1.1.2"
+    ],
+    [
       "application-configuration",
       "1.0.3"
     ],
@@ -31,6 +35,10 @@
     [
       "check",
       "1.0.2"
+    ],
+    [
+      "coffeescript",
+      "1.0.4"
     ],
     [
       "ddp",
@@ -105,6 +113,10 @@
       "1.0.1"
     ],
     [
+      "localstorage",
+      "1.0.1"
+    ],
+    [
       "logging",
       "1.0.5"
     ],
@@ -153,12 +165,32 @@
       "1.0.2"
     ],
     [
+      "service-configuration",
+      "1.0.2"
+    ],
+    [
       "spacebars",
       "1.0.3"
     ],
     [
       "spacebars-compiler",
       "1.0.3"
+    ],
+    [
+      "spastai:carpool-service",
+      "0.0.4"
+    ],
+    [
+      "spastai:flow-controll",
+      "0.0.7"
+    ],
+    [
+      "spastai:google-client",
+      "0.0.11"
+    ],
+    [
+      "spastai:logw",
+      "0.0.4"
     ],
     [
       "templating",

@@ -5,6 +5,7 @@ class StopsMap
   stopMarkers = [];
   afterMapShown = new ParallelQueue(@);
 
+  # Shows Google Map when all required libraries are ready and starts afterMapShown queue
   showMap: (id, cb)->
     mapElement = document.getElementById(id);
     # This method is called after google services are initialized
@@ -17,6 +18,7 @@ class StopsMap
       cb(null, @map);
       afterMapShown.start();
 
+  # Method wrapped in queue, wich is actived only then map is ready
   showStop: afterMapShown.wrap (stop)->
     pinImage = new (google.maps.MarkerImage)(
       'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
@@ -35,11 +37,13 @@ class StopsMap
       stopId = @get("_id");
       $("#stop-#{stopId}").collapse('show')
 
+  # Not optimized version to redraw markers - simply removes old and adds new
   displayStops: (items)->
     for stop in stopMarkers
       stop.setMap(null);
     for stop in items
       @showStop stop
+
 @stopsMap = new StopsMap
 
 ###
@@ -63,6 +67,7 @@ Template.StopsAdmin.rendered = ->
   #d "Stops admin rendered"
   stopsMap.showMap "stops-admin-map", (err, map)->
     google.maps.event.addListener map, 'click', (event)->
+      da ["admin-stops"], "Clicked", event
       carpoolAdmin.createStop event.latLng
 
 Template.StopsAdmin.events

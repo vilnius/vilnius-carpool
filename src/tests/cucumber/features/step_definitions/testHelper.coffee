@@ -14,12 +14,16 @@ module.exports = ()->
 
         # Check user already logged in
         if client.isExisting(".profile_Name")
-          d "Current user"+ client.getText(".profile_Name")
+          d "Current user: #{client.getText(".profile_Name")}, wanted #{username}"
           if client.getText(".profile_Name") is username
             return
-
-        client.waitForVisible('.join_Login');
-        client.click '.join_Login'
+          else
+            client.click(".showLogout");
+            client.waitForVisible('.logout');
+            client.click(".logout");
+        else
+          client.waitForVisible('.join_Login');
+          client.click '.join_Login'
 
         #console.log("Login with #{username} / #{password}")
         client.waitForExist 'input[id="inputUsername"]'

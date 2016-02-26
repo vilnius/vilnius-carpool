@@ -9,11 +9,13 @@
 Meteor.startup(function () {
 	//console.log("Creating MapBridge");
 	//mapController = new MapBridge();
+  googleServices.init();
 });
 
 Router.configure({
 });
 
+/*
 Router.map(function() {
   	this.route('About', {path: '/about'});
   	this.route('Profile', {path: '/profile', controller: 'ProfileController'});
@@ -63,6 +65,7 @@ Router.map(function() {
 
   	Session.setDefault("pathForMain", Router.routes['Main'].path())
 });
+*/
 
 Template.loadingSplash.progress = function() {
 	//d("Gettign progress:",Session.get("progress"));

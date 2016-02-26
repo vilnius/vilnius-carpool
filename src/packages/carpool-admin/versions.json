@@ -74,7 +74,7 @@
     ],
     [
       "iron:core",
-      "1.0.3"
+      "1.0.11"
     ],
     [
       "iron:dynamic-template",
@@ -86,7 +86,7 @@
     ],
     [
       "iron:location",
-      "1.0.3"
+      "1.0.11"
     ],
     [
       "iron:middleware-stack",
@@ -98,7 +98,7 @@
     ],
     [
       "iron:url",
-      "1.0.3"
+      "1.0.11"
     ],
     [
       "jquery",
@@ -111,10 +111,6 @@
     [
       "logging",
       "1.0.5"
-    ],
-    [
-      "matb33:collection-hooks",
-      "0.7.5"
     ],
     [
       "meteor",
@@ -174,7 +170,7 @@
     ],
     [
       "spastai:google-client",
-      "0.0.6"
+      "0.0.11"
     ],
     [
       "templating",
