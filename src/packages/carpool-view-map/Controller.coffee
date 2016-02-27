@@ -46,7 +46,6 @@ class @CarpoolMapController extends CarpoolController
     else
       da(['data-publish'], "2. Wait for subscribtion to the active trips:", query);
       mapView.setActionProgress('activeTrips',0);
-
     if(@ownTripsSub.ready())
       da(['data-publish'], "5. Subscribtion own trips is ready:"+@params.niceLink, query);
       mapView.setActionProgress('ownTrips',100);
@@ -54,18 +53,15 @@ class @CarpoolMapController extends CarpoolController
     else
       da(['data-publish'], "4. Wait for subscribtion to own trips:"+@params.niceLink, query);
       mapView.setActionProgress('ownTrips',0);
-
     if(@stopsSubs.ready())
       @dataLoading--
     else
       mapView.setActionProgress('ownTrips',0);
-
     if @dataLoading
       # If not ready show only map
       @render("MapView", {to: 'map'});
     else
       @next();
-
 
   data: ->
     return if @dataLoading;
