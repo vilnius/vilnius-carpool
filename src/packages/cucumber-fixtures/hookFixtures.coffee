@@ -22,6 +22,10 @@ Meteor.methods
   assureStop: (title, loc) ->
     Stops.upsert({title: title}, {title: title, "loc" : loc or [  25.272159576416016,  54.69387649850695 ]})
 
+  assureTrip: (trip) ->
+    trip.owner = this.userId;
+    trip.requests = [];
+    Trips.upsert({fromAddress: trip.fromAddress, toAddress: trip.toAddress}, trip);
 
   removeTrips: (email) ->
     user = Meteor.users.findOne "emails.address": email

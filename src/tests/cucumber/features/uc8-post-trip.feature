@@ -1,13 +1,13 @@
-Feature: Post the trip
-  As an user
-  I want to enter the trip
-  So that other users can get matches to share the ride
+Feature: uc8 Post the trip
+As an user
+I I want to search for a trip
+So that quickly find matching ride
 
-  Background: Cleanup old trips
-    Given Trip removed
-    And Stops exists
+Background: Cleanup old trips
+  Given Trip removed
+  And Stops exists
 
-  @focus
+  #@focus
   Scenario: Driver saves the trip passing the stop
     Given Login with "user1@tiktai.lt"
     And I see "#trip-toAddress" in "/"

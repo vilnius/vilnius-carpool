@@ -8,31 +8,31 @@ skinparam usecase {
 :rider: as "Rider"
 :driver: as "Driver"
 
-usecase uc11 as "uc8 Edit trip"
-usecase uc17 as "uc8.1 Enter new trip" << TDD >>
-usecase uc12 as "Selects predefined trip"
-usecase uc13 as "Edits existing trip"
-usecase uc14 as "Drops to location on map"
-usecase uc15 as "Drags from location on map"
-usecase uc16 as "Drags to location on map"
+usecase uc8 as "uc8 Edit trip"
+usecase uc8_1 as "uc8.1 Enter new trip" << TDD >>
+usecase uc10 as "uc10 As a rider\n I want to send request for a driver"
+usecase uc3 as "uc3 As a user\n I want to search for a trip"
+usecase uc13 as "uc13 As a rider\n I want to get notification on confirmed trip"
+usecase uc9 as "uc9 As a rider\n I want to get proposals\n when driver enters matching trips"
+usecase uc11 as "uc11 As a driver\n I want to get requests when rider asks for a lift"
+usecase uc12 as "uc12 As a driver\n I want to confirm verified rider and route"
 
-uc11 <|-down- uc17
-uc11 <|-- uc13
+uc8 <|-down- uc8_1
+uc8_1 <.. uc10: extends
+uc8 <.. uc3
+uc11 --> uc10: includes
+uc8_1 <.. uc9
+uc11 <.. uc12
+uc12 <-- uc13
+
+uc3 -- rider
+uc10 -- rider
+uc13 -- rider
+uc9 -- rider
+
+driver -- uc8
 driver -- uc11
-uc17 <.. uc12
-uc11 <.. uc14
-uc11 <.. uc15
-uc11 <.. uc16
-
-usecase uc21 as "uc10 Requests ride"
-usecase uc22 as "uc3 Filters active trips by to/from"
-uc11 <.. uc21
-
-uc11 <-- uc22
-
-uc21 -- rider
-uc22 -- rider
-
+driver -- uc12
 
 'usecase uc31 as "Creates group"
 'usecase uc32 as "Invites member"
