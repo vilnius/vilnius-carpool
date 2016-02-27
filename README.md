@@ -17,4 +17,4 @@ Demo for The code commited in this repository: http://arciau.lt
 
 ## Documentation
 
-[[Home]]
+[Architecture](https://github.com/vilnius/vilnius-carpool/wiki)
