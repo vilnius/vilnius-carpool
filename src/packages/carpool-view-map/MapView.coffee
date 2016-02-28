@@ -100,6 +100,8 @@ class MapView
         position: latlng
         icon: pinImage
         draggable: true)
+      google.maps.event.addListener @toMarker, 'dragend', (event)->
+        updateUrl("bLoc", event.latLng);
     else
       @toMarker.setPosition(latlng);
   ###
@@ -123,8 +125,10 @@ class MapView
         position: latlng
         icon: pinImage
         draggable: true)
+      google.maps.event.addListener @fromMarker, 'dragend', (event)->
+        updateUrl("aLoc", event.latLng);
     else
-      @toMarker.setPosition(latlng);
+      @fromMarker.setPosition(latlng);
   ###
   Draw stops on the map
   ###

@@ -1,10 +1,3 @@
-updateUrl = (param, latlng)->
-  location = googleServices.toLocation(latlng);
-  locStr = googleServices.encodePoints([location]);
-  params = {};
-  params[param] = locStr
-  goExtendedQuery {}, params, mapPersistQuery
-
 Template.CarpoolMap.rendered = ->
   toAddressElement = document.getElementById("trip-toAddress")
   mapView.addAutocomplete toAddressElement, (err, latlng, address, place)->

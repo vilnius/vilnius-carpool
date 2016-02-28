@@ -19,5 +19,5 @@ Background: Cleanup old trips
     And Click on "[value='driver']"
     Then I see my trip
       | from               | to                      |
-      | Krivių 68, Vilnius | Muitinės g. 35, Vilnius |
+      | 68 Krivių g. Vilnius | Muitinės g. 35, Vilnius |
     And I see the stop "Filaretu" on the route
