@@ -22,3 +22,6 @@ module.exports = ()->
                 if err then done err else done trip
         , trip
     d "Result:",result
+
+  @Given /^I see no trips filtered$/, ()->    
+    client.waitForExist(".noActiveTrips");

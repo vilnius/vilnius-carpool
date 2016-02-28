@@ -73,9 +73,13 @@
       <i class="icon-chevron-down pull-right"></i>
     </div>
     <div id="activeTripsPanel" class="accordion-body collapse in">
+      {{#if activeTrips.length}}
         {{#each activeTrips}}
           {{> activeTrip}}
         {{/each}}
+      {{else}}
+        <div class="noActiveTrips">No trips found</div>
+      {{/if}}
     </div>
   </div>
   {{/if}}
