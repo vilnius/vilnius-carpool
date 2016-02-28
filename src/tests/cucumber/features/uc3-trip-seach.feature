@@ -9,6 +9,7 @@ Feature: uc3 Search for the trip
     And Assure "user1@tiktai.lt" trip:
       | fromAddress        | toAddress               |
       | Krivių 68, Vilnius | Muitinės g. 35, Vilnius |
+      | Dzūkų 54, Vilnius  | Šeškinės g. 10, Vilnius |
 
   @focus
   Scenario: User searches by exact address

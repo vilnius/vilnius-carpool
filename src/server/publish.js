@@ -93,9 +93,11 @@ Meteor.publish("ownTrips", function (niceLink) {
 	return result;
 });
 
+/*
+Moved to carpool-service
 Meteor.publish("activeTrips", function (niceLink, filter) {
 	var groups = getAvailableGroups(niceLink, this.userId);
-	da(['data-publish'], "Publish only public and user groups trips:"+niceLink, groups);
+	da ['data-publish'], "Publish only public and user groups trips:"+niceLink, groups
 
 	filteredTrips = getTripIdsFilteredByLoc(Trips, filter);
 	var groupFilter = {
@@ -120,6 +122,7 @@ Meteor.publish("activeTrips", function (niceLink, filter) {
 	}, 5000)
 	return result;
 });
+*/
 
 getTripIdsFilteredByLoc = function(collection, filter) {
 	var fromTrips = []

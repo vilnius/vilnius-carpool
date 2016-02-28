@@ -11,6 +11,7 @@ class Location
   latlng: null;
 
 reactivate(Location, "latlng");
+reactivate(Location, "address");
 
 class CarpoolTrip
   time: new Date();
@@ -51,29 +52,46 @@ class MapView
   addAutocomplete: afterMapShown.wrap (input, cb)->
     googleServices.addAutocomplete input, @map, cb
   ###
+  Form adress
+  ###
+  formAddress: (place)->
+    if place.address_components
+      address = [
+        place.address_components[0]?.short_name or ""
+        place.address_components[1]?.short_name or ""
+        place.address_components[2]?.short_name or ""
+      ].join(" ")
+      #da ["trips-filter"], "Formed address #{address} from:", place
+      return address
+    else
+      #da ["trips-filter"], "Couldn't form address", place
+      return ""
+  ###
   Geolocate more details about location
   ###
   clarifyPlace: (latlng, address, cb)->
-    #d "Clarify place", address
-    googleServices.getGeocoder().geocode { 'address': address }, (error, result) ->
+    query = {}
+    if not latlng? and address? then query = 'address': address
+    if latlng? and not address? then query = 'latLng': latlng
+    #da ["trips-filter"], "Clarify place:", query
+    googleServices.getGeocoder().geocode query, (error, result)=>
       if !error and result.length > 0
-        cb?(null, result[0].geometry.location, address)
+        cb?(null, result[0].geometry.location, @formAddress(result[0]))
       else
         cb?(error)
   ###
   The new trip destination
   ###
-  setCurrentTripTo: (err, latlng, address, place)=>
+  setCurrentTripTo: (err, latlng, address, place, cb)=>
     #d "Set current trip to", address
     setToLatLng = (refinedLatlng, refinedAddress)=>
       @trip.to.setLatlng(refinedLatlng)
       @trip.to.address = refinedAddress
       @dropToMarker @trip.to.latlng
-    if not latlng then @clarifyPlace location, address, (err, refinedLatlng, refinedAddress)=>
-      d "Refined latlng #{refinedAddress}:", refinedLatlng,
+      cb? refinedLatlng, refinedAddress
+    @clarifyPlace latlng, address, (err, refinedLatlng, refinedAddress)=>
+      #da ["trips-drawing", "trips-filter"], "Refined latlng #{refinedAddress}:", refinedLatlng,
       setToLatLng(refinedLatlng, refinedAddress) unless err
-    else
-      setToLatLng(latlng, address)
   dropToMarker: (latlng)->
     if not @toMarker
       pinImage = new (google.maps.MarkerImage)('http://maps.google.com/mapfiles/ms/icons/green-dot.png', new (google.maps.Size)(32, 32), new (google.maps.Point)(0, 0), new (google.maps.Point)(16, 32))
@@ -87,17 +105,16 @@ class MapView
   ###
   The new trip origin
   ###
-  setCurrentTripFrom: (err, latlng, address, place)=>
+  setCurrentTripFrom: (err, latlng, address, place, cb)=>
     #d "Set current trip to", address
     setFromLatLng = (refinedLatlng, refinedAddress)=>
       #d "Refine latlng", refinedLatlng
       @trip.from.setLatlng(refinedLatlng)
       @trip.from.address = refinedAddress
       @dropFromMarker @trip.from.latlng
-    if not latlng then @clarifyPlace location, address, (err, refinedLatlng, refinedAddress)=>
+      cb? refinedLatlng, refinedAddress
+    @clarifyPlace latlng, address, (err, refinedLatlng, refinedAddress)=>
       setFromLatLng(refinedLatlng, refinedAddress) unless err
-    else
-      setFromLatLng(latlng, address)
   dropFromMarker: (latlng)->
     if not @fromMarker
       pinImage = new (google.maps.MarkerImage)('http://maps.google.com/mapfiles/ms/icons/red-dot.png', new (google.maps.Size)(32, 32), new (google.maps.Point)(0, 0), new (google.maps.Point)(16, 32))

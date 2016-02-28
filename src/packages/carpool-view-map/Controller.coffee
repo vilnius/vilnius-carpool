@@ -1,3 +1,7 @@
+@mapPersistQuery = ['aLoc', 'bLoc', 'alert']
+locRadiusFilter = 1000 * 180 / (3.14*6371*1000);
+
+
 class @CarpoolController extends RouteController
   layoutTemplate: 'carpoolMapLayout',
   yieldTemplates:
@@ -20,18 +24,30 @@ class @CarpoolMapController extends CarpoolController
       @render("CarpoolLogin");
       return
 
+    # Filter trips by parameters in query - these are set then trip form is filled
     query = {}
-    location = undefined
     if @params.query.aLoc
-      da ['geoloc'], "Location present in url has biggest priority:", @params.query.abLoc
+      da ['geoloc'], "Location present in url has biggest priority:", @params.query.aLoc
       location = googleServices.decodePoints(@params.query.aLoc)[0]
+      googleServices.afterInit ()=>
+        latlng = googleServices.toLatLng(location)
+        mapView.setCurrentTripFrom null, latlng, null, null, (refinedLatlng, refinedAddress)->
+          # TODO check why this can't be moved to mapView
+          #da ["trips-filter"], "Update from field", refinedAddress
+          mapView.trip.from.setAddress(refinedAddress)
+      query["fromLoc"] = location
 
-    if location
-      radius = 50*1000;
-      f = radius * 180 / (3.14*6371*1000);
-      query["address.location"] =
-        $near : location,
-        $maxDistance : f;
+    if @params.query.bLoc
+      da ['geoloc'], "Location present in url has biggest priority:", @params.query.bLoc
+      location = googleServices.decodePoints(@params.query.bLoc)[0]
+      googleServices.afterInit ()=>
+        latlng = googleServices.toLatLng(location)
+        mapView.setCurrentTripTo null, latlng, null, null, (refinedLatlng, refinedAddress)->
+          # TODO check why this can't be moved to mapView
+          #da ["trips-filter"], "Update from field", refinedAddress
+          mapView.trip.to.setAddress(refinedAddress)
+      query["toLoc"] = location
+
 
     @activeTripsSub = Meteor.subscribe("activeTrips", @params.niceLink, query)
     @ownTripsSub =  Meteor.subscribe("ownTrips",@params.niceLink)
