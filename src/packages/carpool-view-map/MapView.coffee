@@ -95,13 +95,13 @@ class MapView
   dropToMarker: (latlng)->
     if not @toMarker
       pinImage = new (google.maps.MarkerImage)('http://maps.google.com/mapfiles/ms/icons/green-dot.png', new (google.maps.Size)(32, 32), new (google.maps.Point)(0, 0), new (google.maps.Point)(16, 32))
-      toMarker = new (google.maps.Marker)(
+      @toMarker = new (google.maps.Marker)(
         map: @map
         position: latlng
         icon: pinImage
         draggable: true)
     else
-      @toMarker.setPosition(location);
+      @toMarker.setPosition(latlng);
   ###
   The new trip origin
   ###
@@ -118,13 +118,13 @@ class MapView
   dropFromMarker: (latlng)->
     if not @fromMarker
       pinImage = new (google.maps.MarkerImage)('http://maps.google.com/mapfiles/ms/icons/red-dot.png', new (google.maps.Size)(32, 32), new (google.maps.Point)(0, 0), new (google.maps.Point)(16, 32))
-      fromMarker = new (google.maps.Marker)(
+      @fromMarker = new (google.maps.Marker)(
         map: @map
         position: latlng
         icon: pinImage
         draggable: true)
     else
-      @toMarker.setPosition(location);
+      @toMarker.setPosition(latlng);
   ###
   Draw stops on the map
   ###

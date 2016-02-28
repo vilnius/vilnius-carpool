@@ -28,25 +28,27 @@ class @CarpoolMapController extends CarpoolController
     query = {}
     if @params.query.aLoc
       da ['geoloc'], "Location present in url has biggest priority:", @params.query.aLoc
-      location = googleServices.decodePoints(@params.query.aLoc)[0]
+      aLoc = googleServices.decodePoints(@params.query.aLoc)[0]
       googleServices.afterInit ()=>
-        latlng = googleServices.toLatLng(location)
+        latlng = googleServices.toLatLng(aLoc)
+        da ["trips-filter"], "Update A location", aLoc
         mapView.setCurrentTripFrom null, latlng, null, null, (refinedLatlng, refinedAddress)->
           # TODO check why this can't be moved to mapView
-          #da ["trips-filter"], "Update from field", refinedAddress
+          da ["trips-filter"], "Update A address", refinedAddress
           mapView.trip.from.setAddress(refinedAddress)
-      query["fromLoc"] = location
+      query["fromLoc"] = aLoc
 
     if @params.query.bLoc
       da ['geoloc'], "Location present in url has biggest priority:", @params.query.bLoc
-      location = googleServices.decodePoints(@params.query.bLoc)[0]
+      bLoc = googleServices.decodePoints(@params.query.bLoc)[0]
       googleServices.afterInit ()=>
-        latlng = googleServices.toLatLng(location)
+        latlng = googleServices.toLatLng(bLoc)
+        da ["trips-filter"], "Update B location", bLoc
         mapView.setCurrentTripTo null, latlng, null, null, (refinedLatlng, refinedAddress)->
           # TODO check why this can't be moved to mapView
-          #da ["trips-filter"], "Update from field", refinedAddress
+          da ["trips-filter"], "Update B address", refinedAddress
           mapView.trip.to.setAddress(refinedAddress)
-      query["toLoc"] = location
+      query["toLoc"] = bLoc
 
 
     @activeTripsSub = Meteor.subscribe("activeTrips", @params.niceLink, query)
