@@ -5,40 +5,47 @@
     </div>
   </div>
 
-  <div style="padding-top:10px">
-    <div class="input-group">
-      <input id="trip-toAddress" class="address-input form-control" type="text"
-         value="{{currentTrip.to.getAddress}}" placeholder="{{t "map_toAddress_placeholder"}}">
-      {{#if currentTrip.to.getLatlng}}
-        <span class="input-group-addon to-geo-location"><span class="glyphicon glyphicon-map-marker"></span></span>
-      {{else}}
-        <span class="input-group-addon"><span class="glyphicon glyphicon-screenshot"></span></span>
-      {{/if}}
-    </div>
-  </div>
-  <div style="{{visible.hideFromAddress}}">
-    <div class="input-group">
-      <input id="trip-fromAddress" type="text" class="address-input form-control"
-         value="{{currentTrip.from.getAddress}}" placeholder="{{t "map_fromAddress_placeholder"}}">
-      {{#if currentTrip.from.getLatlng}}
-        <span class="input-group-addon from-geo-location"><span class="glyphicon glyphicon-map-marker"></span></span>
-      {{else}}
-        <span class="input-group-addon"><span class="glyphicon glyphicon-screenshot"></span></span>
-      {{/if}}
-    </div>
-  </div>
-  <div style="{{visible.hideFromAddress}}" >
+  <form style="padding-top:10px">
+    <div class="form-group">
+      <label for="trip-toAddress">To</label>
       <div class="input-group">
-        {{#with combine currentTrip field="trip-time"}}
-          {{> fieldTimePick}}
-        {{/with}}
-        {{#with combine currentTrip field="trip-date"}}
-          {{> fieldDatePick}}
-        {{/with}}
+        <input id="trip-toAddress" class="form-control" type="text"
+           value="{{currentTrip.to.getAddress}}" placeholder="{{t "map_toAddress_placeholder"}}">
+        {{#if currentTrip.to.getLatlng}}
+          <span class="input-group-addon to-geo-location"><span class="glyphicon glyphicon-map-marker"></span></span>
+        {{else}}
+          <span class="input-group-addon"><span class="glyphicon glyphicon-screenshot"></span></span>
+        {{/if}}
       </div>
-      <div class="control-group">
-        <button type="button" class="btn btn-primary button-responsive save" value="driver" >{{t "map_driver_button"}}</button>
-        <button type="button" class="btn btn-primary button-responsive save" value="rider" >{{t "map_rider_button"}}</button>
+    </div>
+    <div class="form-group" style="{{visible.hideFromAddress}}">
+      <label for="trip-toAddress">From</label>
+      <div class="input-group">
+        <input id="trip-fromAddress" type="text" class="form-control"
+           value="{{currentTrip.from.getAddress}}" placeholder="{{t "map_fromAddress_placeholder"}}">
+        {{#if currentTrip.from.getLatlng}}
+          <span class="input-group-addon from-geo-location"><span class="glyphicon glyphicon-map-marker"></span></span>
+        {{else}}
+          <span class="input-group-addon"><span class="glyphicon glyphicon-screenshot"></span></span>
+        {{/if}}
+      </div>
+    </div>
+    <div style="{{visible.hideFromAddress}}" >
+      <div class="form-group">
+        <div class="input-group">
+          {{#with combine currentTrip field="trip-time"}}
+            {{> fieldTimePick}}
+          {{/with}}
+          {{#with combine currentTrip field="trip-date"}}
+            {{> fieldDatePick}}
+          {{/with}}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="button" class="btn btn-primary save" value="driver" >{{t "map_driver_button"}}</button>
+          <button type="button" class="btn btn-primary save" value="rider" >{{t "map_rider_button"}}</button>
+        </div>
       </div>
       {{#if equal obj=alert value='login'}}
           <div class="alert alert-warning fade in">
@@ -46,7 +53,8 @@
             <strong>Please login or register to proceed</strong><br/>
           </div>
       {{/if}}
-  </div>
+    </div>
+  </form>
 
   {{#if currentUser}}
   <div class="accordion-group">
@@ -83,7 +91,6 @@
     </div>
   </div>
   {{/if}}
-
 
 </template>
 

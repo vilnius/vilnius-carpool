@@ -1,12 +1,11 @@
 App.info({
-  name: 'MyApp',
-  description: 'An Android app built with Meteor',
+  name: 'Carpool',
+  description: 'Ride sharing application',
   version: '0.0.1'
 });
 
 App.icons({
-  'android_ldpi': 'resources/icons/icon-ldpi.png',
-  'android_mdpi': 'resources/icons/icon-mdpi.png',
-  'android_hdpi': 'resources/icons/icon-hdpi.png',
-  'android_xhdpi': 'resources/icons/icon-xhdpi.png'
+  'android_mdpi': 'resources/mipmap-mdpi/ic_launcher.png',
+  'android_hdpi': 'resources/mipmap-hdpi/ic_launcher.png',
+  'android_xhdpi': 'resources/mipmap-xhdpi/ic_launcher.png'
 });
