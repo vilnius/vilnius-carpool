@@ -71,9 +71,12 @@ class MapView
   ###
   clarifyPlace: (latlng, address, cb)->
     query = {}
+    if latlng? and address?
+      cb(null, latlng, address)
+      return
     if not latlng? and address? then query = 'address': address
     if latlng? and not address? then query = 'latLng': latlng
-    #da ["trips-filter"], "Clarify place:", query
+    da ["trips-filter"], "Clarify place:", query
     googleServices.getGeocoder().geocode query, (error, result)=>
       if !error and result.length > 0
         cb?(null, result[0].geometry.location, @formAddress(result[0]))
@@ -83,14 +86,14 @@ class MapView
   The new trip destination
   ###
   setCurrentTripTo: (err, latlng, address, place, cb)=>
-    #d "Set current trip to", address
+    da ["trips-filter"], "Set current trip to", address, latlng
     setToLatLng = (refinedLatlng, refinedAddress)=>
       @trip.to.setLatlng(refinedLatlng)
       @trip.to.address = refinedAddress
       @dropToMarker @trip.to.latlng
       cb? refinedLatlng, refinedAddress
     @clarifyPlace latlng, address, (err, refinedLatlng, refinedAddress)=>
-      #da ["trips-drawing", "trips-filter"], "Refined latlng #{refinedAddress}:", refinedLatlng,
+      da ["trips-drawing", "trips-filter"], "Refined latlng #{refinedAddress}:", refinedLatlng,
       setToLatLng(refinedLatlng, refinedAddress) unless err
   dropToMarker: (latlng)->
     if not @toMarker
