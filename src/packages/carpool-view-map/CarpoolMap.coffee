@@ -21,12 +21,12 @@ Template.CarpoolMap.events
       toAddress: trip.to.address
       fromAddress: trip.from.address
       time: new Date()
-
-    #da ["trip-saving"], "Saving trip:", query
-    d "Saving trip:", query
+    da ["trip-crud"], "Saving trip:", query
     $("#save-button").button "loading"
-
     carpoolService.saveTrip query, (error, routedTrip) ->
       #mapView.drawOwnTrip routedTrip # not needed as will be redrawn from collection
       $("*[id^='trip-toAddress']").val ""
       $("#save-button").button "reset"
+  "click .removeTrip": (event, template) ->
+    da ["trip-crud"], "Remove trip", @_id
+    carpoolService.removeTrip @_id

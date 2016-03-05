@@ -11,7 +11,7 @@ skinparam usecase {
 usecase uc8 as "uc8 Edit trip"
 usecase uc8_1 as "uc8.1 Enter new trip" << TDD >>
 usecase uc10 as "uc10 As a rider\n I want to send request for a driver"
-usecase uc3 as "uc3 As a user\n I want to search for a trip"
+usecase uc3 as "uc3 As a user\n I want to search for a trip" << TDD >>
 usecase uc13 as "uc13 As a rider\n I want to get notification on confirmed trip"
 usecase uc9 as "uc9 As a rider\n I want to get proposals\n when driver enters matching trips"
 usecase uc11 as "uc11 As a driver\n I want to get requests when rider asks for a lift"

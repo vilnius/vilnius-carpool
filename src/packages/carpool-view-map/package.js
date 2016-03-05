@@ -15,12 +15,13 @@ Package.onUse(function(api) {
   api.use('iron:router','client');
 
   api.use("spastai:flow-controll@0.0.2", ["client", "server"]);
-  api.use(['spastai:google-client@0.0.11'], 'client');
+  api.use(['spastai:google-client@0.0.12'], 'client');
   api.use('spastai:logw@0.0.4')
   api.use("spastai:carpool-service");
+  api.use("carpool-notifications");
 
   api.addFiles(['i18n/helper.js', 'CarpoolMap_i18n.coffee'], "client");
-  api.addFiles(['mapLayout.html'], "client");
+  api.addFiles(['mapLayout.html', "mapLayout.coffee"], "client");
   //api.addFiles(['Map.less'], "client");
   api.addFiles('DeltaArray.coffee');
   api.addFiles(['profilePanel.html', 'profilePanel.coffee'], "client");

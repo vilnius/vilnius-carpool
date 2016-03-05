@@ -36,7 +36,7 @@ class MapView
   ###
   showMap: (id, cb)->
     mapElement = document.getElementById(id);
-    # This method is called after google services are initialized
+    #d "This method is called after google services are initialized"
     googleServices.afterInit =>
       myOptions =
         zoom: 12
@@ -44,8 +44,10 @@ class MapView
         mapTypeId: google.maps.MapTypeId.ROADMAP
       @map = new (google.maps.Map)(mapElement, myOptions)
       cb(null, @map);
-      #da ["stops-drawing"], "Map is shown"
-      afterMapShown.start();
+      da ["stops-drawing"], "Map is shown"
+      afterMapShown.purge ()->
+        #da ["stops-drawing"], "Map is shown"
+
   ###
   Automcomplete requires map to be initialized
   ###
