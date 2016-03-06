@@ -7,12 +7,20 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
+  api.use(["mongo", "minimongo"]);
   api.use('react');
   api.use('react-template-helper');
+  api.use(['underscore', 'coffeescript']);
 
-  api.addFiles('app-react.jsx', "client");
-  api.addFiles('Task.jsx', "client");
-  api.addFiles('NotificationPanel.jsx', "client");
+  api.use('spastai:logw@0.0.4')
+
+  api.addFiles('server/publish.coffee', "server");
+
+  api.addFiles('lib/model.coffee');
+
+  api.addFiles('client/app-react.jsx', "client");
+  api.addFiles('client/Notification.jsx', "client");
+  api.addFiles('client/NotificationPanel.jsx', "client");
   api.export(['NotificationPanel'], 'client');
 
 });
