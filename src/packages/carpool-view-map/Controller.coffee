@@ -29,6 +29,32 @@ class @CarpoolMapController extends CarpoolController
       @render("MapView", {to: 'map'});
       @render("CarpoolLogin");
       return
+    @next();
+
+  data: ->
+    @ownTripsSub =  Meteor.subscribe("ownTrips",@params.niceLink)
+    @stopsSubs = Meteor.subscribe("stops");
+    @dataLoading = 3
+
+    if(@ownTripsSub.ready())
+      da(['data-publish-ownTrips'], "5. Subscribtion own trips is ready");
+      mapView.setActionProgress('ownTrips',100);
+      @dataLoading--
+    else
+      da(['data-publish-ownTrips'], "4. Wait for subscribtion to own trips");
+      mapView.setActionProgress('ownTrips',0);
+    if(@stopsSubs.ready())
+      @dataLoading--
+    else
+      mapView.setActionProgress('ownTrips',0);
+
+    ###
+    if @dataLoading
+      # If not ready show only map
+      @render("MapView", {to: 'map'});
+    else
+    da ['trips-filter', 'data-publish'], "Carpoolmap subcribtions to load:"+@dataLoading
+    ###
 
     # Filter trips by parameters in query - these are set then trip form is filled
     query = {}
@@ -41,37 +67,15 @@ class @CarpoolMapController extends CarpoolController
       bLoc = googleServices.decodePoints(@params.query.bLoc)[0]
       query["toLoc"] = bLoc
 
-    @activeTripsSub = Meteor.subscribe("activeTrips", @params.niceLink, query)
-    @ownTripsSub =  Meteor.subscribe("ownTrips",@params.niceLink)
-    @stopsSubs = Meteor.subscribe("stops");
-    @dataLoading = 3
-    da(['data-publish'], "1. Subscribing for active trips:"+Meteor.userId()+"@"+@params.niceLink, query);
-    if @activeTripsSub.ready()
-      da(['data-publish'], "3. Subscribtion active trips is ready:", query);
-      mapView.setActionProgress('activeTrips', 100);
-      @dataLoading--
-    else
-      da(['data-publish'], "2. Wait for subscribtion to the active trips:", query);
-      mapView.setActionProgress('activeTrips',0);
-    if(@ownTripsSub.ready())
-      da(['data-publish'], "5. Subscribtion own trips is ready:"+@params.niceLink, query);
-      mapView.setActionProgress('ownTrips',100);
-      @dataLoading--
-    else
-      da(['data-publish'], "4. Wait for subscribtion to own trips:"+@params.niceLink, query);
-      mapView.setActionProgress('ownTrips',0);
-    if(@stopsSubs.ready())
-      @dataLoading--
-    else
-      mapView.setActionProgress('ownTrips',0);
-    if @dataLoading
-      # If not ready show only map
-      @render("MapView", {to: 'map'});
-    else
-      @next();
-    da ['trips-filter'], "Carpoolmap subcribtions to load:"+@dataLoading
+    activeTrips = carpoolService.pullActiveTrips query, (progress)=>
+      if 100 == progress
+        da(['data-publish'], "3. Subscribtion active trips is ready:", query);
+        mapView.setActionProgress('activeTrips', 100);
+        @dataLoading--
+      else
+        da(['data-publish'], "2. Wait for subscribtion to the active trips:", query);
+        mapView.setActionProgress('activeTrips',0);
 
-  data: ->
     return if @dataLoading;
 
     if @params.query.aLoc
@@ -95,10 +99,8 @@ class @CarpoolMapController extends CarpoolController
           da ["trips-filter"], "Update B address", refinedAddress
           mapView.trip.to.setAddress(refinedAddress)
 
-
-    da(['data-publish'], "6. Preparing data for CarpoolMap:"+@params.niceLink);
-    activeTrips = carpoolService.getActiveTrips().fetch()
-    da ['data-publish','stops-drawing'], "Draw active trips:", activeTrips
+    #activeTrips = carpoolService.getActiveTrips().fetch()
+    da ['data-publish'], "7. Draw active trips:", activeTrips
     stopsOnRoutes = {};
     da ["stops-drawing"], "Collect the stops to be marked"
     for trip in activeTrips
@@ -108,7 +110,7 @@ class @CarpoolMapController extends CarpoolController
     mapView.invalidateActiveTrips(_(activeTrips).pluck("_id"));
 
     ownTrips = carpoolService.getOwnTrips().fetch()
-    da ['data-publish','stops-drawing'], "Draw own trips:", ownTrips
+    da ['data-publish-ownTrips','stops-drawing'], "Draw own trips:", ownTrips
     for trip in ownTrips
       stopsOnRoutes[stop._id] = stop for stop in trip.stops
       mapView.drawOwnTrip trip

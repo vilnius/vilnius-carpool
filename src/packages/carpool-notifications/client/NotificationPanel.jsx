@@ -2,27 +2,27 @@
 NotificationPanel = React.createClass({
   mixins: [ReactMeteorData],
 
-  // Loads items from the Tasks collection and puts them on this.data.tasks
+  // Loads items from the notifications collection and puts them on this.data.notifications
   getMeteorData() {
     data = {
-      tasks: []
+      notifications: []
     }
     var handle = Meteor.subscribe('Notifications');
     if(handle.ready()) {
       var query = {};
       var showHistory = false
   		query = {recievedAt: {$exists: showHistory}};
-      data.tasks = NotificationHistory.find(query).fetch();
+      data.notifications = NotificationHistory.find(query).fetch();
     }
     return data;
   },
 
-  getTasks() {
+  getNotifications() {
 
   },
 
   renderNotifications() {
-    return this.data.tasks.map((task) => {
+    return this.data.notifications.map((task) => {
       return <Notification key={task._id} notification={task} />;
     });
   },

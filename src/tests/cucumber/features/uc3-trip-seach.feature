@@ -4,7 +4,7 @@ Feature: uc3 Search for the trip
   So that other users can get matches to share the ride
 
   Background: Cleanup old trips
-    Given Trip removed
+    Given Trips removed
     And Stops exists
     And Assure "user1@tiktai.lt" trip:
       | fromAddress        | toAddress               |

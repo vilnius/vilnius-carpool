@@ -4,7 +4,7 @@ I I want to search for a trip
 So that quickly find matching ride
 
 Background: Cleanup old trips
-  Given Trip removed
+  Given Trips removed
   And Stops exists
 
   #@focus

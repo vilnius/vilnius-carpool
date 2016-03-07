@@ -1,2 +1,2 @@
 Meteor.publish 'Notifications', ->
-  NotificationHistory.find();
+  NotificationHistory.find({userId: this.userId});

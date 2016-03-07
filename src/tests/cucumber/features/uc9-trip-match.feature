@@ -4,7 +4,9 @@ Feature: uc9 Notify on matching trip
   So that quickly reach the driver
 
   Background: Cleanup old trips
-    Given Trip removed
+    Given Trips removed
+    And Notifications for "user1@tiktai.lt" removed
+    And Notifications for "user2@tiktai.lt" removed
     And Stops exists
     And Assure "user1@tiktai.lt" trip:
       | fromAddress        | toAddress               | role   |
