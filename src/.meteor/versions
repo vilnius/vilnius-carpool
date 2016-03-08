@@ -17,6 +17,7 @@ caching-compiler@1.0.0
 caching-html-compiler@1.0.2
 callback-hook@1.0.4
 carpool-admin@1.0.0
+carpool-api@0.0.1
 carpool-notifications@1.0.0
 carpool-view-map@0.0.1
 check@1.1.0
