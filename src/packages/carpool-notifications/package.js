@@ -1,7 +1,7 @@
 Package.describe({
   name: 'carpool-notifications',
   summary: ' /* Fill me in! */ ',
-  version: '1.0.0',
+  version: '0.0.1',
   git: ' /* Fill me in! */ '
 });
 
@@ -12,7 +12,7 @@ Package.onUse(function(api) {
   api.use('react-template-helper');
   api.use(['underscore', 'coffeescript']);
 
-  api.use('raix:push@2.6.0')
+  api.use('raix:push@3.0.2')
 
   api.use('spastai:logw@0.0.4')
 

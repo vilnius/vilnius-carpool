@@ -206,4 +206,4 @@ Meteor.onConnection(function(connection){
 */
 
 
-d("Tmh Server started. Version 0.1.6.SNAPSHOT-150224.1");
+d("Tmh Server started. Version 0.1.7.SNAPSHOT-150308.1");
