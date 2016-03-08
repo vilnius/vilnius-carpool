@@ -62,10 +62,24 @@ class @CarpoolMapController extends CarpoolController
       da ['geoloc'], "Location present in url has biggest priority:", @params.query.aLoc
       aLoc = googleServices.decodePoints(@params.query.aLoc)[0]
       query["fromLoc"] = aLoc
+      googleServices.afterInit ()=>
+        latlng = googleServices.toLatLng(aLoc)
+        da ["trips-filter"], "Update A location", aLoc
+        mapView.setCurrentTripFrom null, latlng, null, null, (refinedLatlng, refinedAddress)->
+          # TODO check why this can't be moved to mapView
+          da ["trips-filter"], "Update A address", refinedAddress
+          mapView.trip.from.setAddress(refinedAddress)
     if @params.query.bLoc
       da ['geoloc'], "Location present in url has biggest priority:", @params.query.bLoc
       bLoc = googleServices.decodePoints(@params.query.bLoc)[0]
       query["toLoc"] = bLoc
+      googleServices.afterInit ()=>
+        latlng = googleServices.toLatLng(bLoc)
+        da ["trips-filter"], "Update B location", bLoc
+        mapView.setCurrentTripTo null, latlng, null, null, (refinedLatlng, refinedAddress)->
+          # TODO check why this can't be moved to mapView
+          da ["trips-filter"], "Update B address", refinedAddress
+          mapView.trip.to.setAddress(refinedAddress)
 
     activeTrips = carpoolService.pullActiveTrips query, (progress)=>
       if 100 == progress
@@ -77,27 +91,6 @@ class @CarpoolMapController extends CarpoolController
         mapView.setActionProgress('activeTrips',0);
 
     return if @dataLoading;
-
-    if @params.query.aLoc
-      da ['geoloc'], "Location present in url has biggest priority:", @params.query.aLoc
-      aLoc = googleServices.decodePoints(@params.query.aLoc)[0]
-      googleServices.afterInit ()=>
-        latlng = googleServices.toLatLng(aLoc)
-        da ["trips-filter"], "Update A location", aLoc
-        mapView.setCurrentTripFrom null, latlng, null, null, (refinedLatlng, refinedAddress)->
-          # TODO check why this can't be moved to mapView
-          da ["trips-filter"], "Update A address", refinedAddress
-          mapView.trip.from.setAddress(refinedAddress)
-    if @params.query.bLoc
-      da ['geoloc'], "Location present in url has biggest priority:", @params.query.bLoc
-      bLoc = googleServices.decodePoints(@params.query.bLoc)[0]
-      googleServices.afterInit ()=>
-        latlng = googleServices.toLatLng(bLoc)
-        da ["trips-filter"], "Update B location", bLoc
-        mapView.setCurrentTripTo null, latlng, null, null, (refinedLatlng, refinedAddress)->
-          # TODO check why this can't be moved to mapView
-          da ["trips-filter"], "Update B address", refinedAddress
-          mapView.trip.to.setAddress(refinedAddress)
 
     #activeTrips = carpoolService.getActiveTrips().fetch()
     da ['data-publish'], "7. Draw active trips:", activeTrips

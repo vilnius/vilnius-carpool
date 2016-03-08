@@ -12,21 +12,24 @@ Notification = React.createClass({
     var handle = Meteor.subscribe('notifiedTrips');
 
     var address = ""
+    var reason = ""
     if(handle.ready()) {
       var trip = carpoolService.getTrip(this.props.notification.trip);
       if(trip) {
-        address = `Added trip ${trip.fromAddress}`
+        address = `${trip.fromAddress}`
+        if (this.props.notification.reason == "matched") {
+          reason = "Matched trip"
+        }
         da(["trips-matcher"], "Notification for trip "+this.props.notification.trip, address);
       } else {
-        da(["trips-matcher"], "Can't show notified trip "+this.props.notification.trip, address);                
+        da(["trips-matcher"], "Can't show notified trip "+this.props.notification.trip, address);
       }
     } else {
       da(["trips-matcher"], "Loading notified trip "+this.props.notification.trip);
     }
     return {
-      notification: {
-        text: address
-      }
+      text: address,
+      reason: reason
     }
   },
 
@@ -47,7 +50,8 @@ Notification = React.createClass({
           </a>
         </div>
         <div className="media-body">
-          <h4 className="media-heading">{this.data.notification.text}</h4>
+          <h4 className="media-heading">{this.data.reason}</h4>
+          {this.data.text}
           <button type="button" className="dismissNotification btn" onClick={this.dismissNotification}>
             <span className="glyphicon glyphicon-remove"></span>
           </button>
