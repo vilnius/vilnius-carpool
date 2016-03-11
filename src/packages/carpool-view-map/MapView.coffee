@@ -47,7 +47,6 @@ class MapView
       da ["stops-drawing"], "Map is shown"
       afterMapShown.purge ()->
         #da ["stops-drawing"], "Map is shown"
-
   ###
   Automcomplete requires map to be initialized
   ###
@@ -155,10 +154,23 @@ class MapView
           new (google.maps.Point)(0, 0),
           new (google.maps.Point)(6, 6)))
   ###
+  Highlights the trip
+  ###
+  selectTrip: (trip)->
+    return unless trip?
+    tripId = trip._id
+    @selectedTrip = tripId
+    if @activeTrips[tripId]?
+      da ["trips-matcher"], "Higlight only drawn trip #{tripId}"
+      mapTrip = @activeTrips[tripId]
+      @removeTrip mapTrip
+      @drawTrip trip, {strokeColor: 'yellow', strokeOpacity: 1}, (err, mapTrip)=>
+        @activeTrips[trip._id] = mapTrip
+  ###
   Removes the trip from map
   ###
   removeTrip: (trip)->
-    da ['trips-drawing'], "Removign trip", trip
+    da ['trips-drawing'], "Removing trip", trip
     trip.line.setMap(null);
     for point in trip.points
       point.setMap(null)
@@ -166,10 +178,9 @@ class MapView
   Puts markers and decoded points on the map
   ###
   drawTrip: afterMapShown.wrap (trip, options, cb) ->
-    da ['trips-drawing'], "Check is trip already drawn", trip
     result =
       points: []
-    da ['trips-drawing'], 'Drawing trip:', trip
+    da ['trips-drawing'], 'Drawing trip:', trip, options
     if trip.path and trip.toLoc and trip.fromLoc
       decodedPoints = google.maps.geometry.encoding.decodePath(trip.path)
       fromLatLng = googleServices.toLatLng trip.fromLoc

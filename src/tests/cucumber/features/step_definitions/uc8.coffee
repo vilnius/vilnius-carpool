@@ -15,6 +15,7 @@ module.exports = ()->
     element = ".myTripFrom"
     client.waitForExist(element);
     expect(client.getText(element)).toEqual(table.hashes()[0].from)
+    expect(client.getText(".myTripTo")).toEqual(table.hashes()[0].to)
 
   @Then /^I see the stop "([^"]*)" on the route$/, (stopTitle)->
     element = ".stopsOnRoute"

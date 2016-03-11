@@ -3,7 +3,7 @@ Feature: uc9 Notify on matching trip
   I want to get proposals when driver enters matching trips
   So that quickly reach the driver
 
-  Background: Cleanup old trips
+  Background: Cleanup old trips and add new ones
     Given Trips removed
     And Notifications for "user1@tiktai.lt" removed
     And Notifications for "user2@tiktai.lt" removed
@@ -24,6 +24,6 @@ Feature: uc9 Notify on matching trip
     And I see ".to-geo-location"
     And Click on "[value='driver']"
     And I see my trip
-      | from                 | to                      |
-      | 68 Krivių g. Vilnius | Muitinės g. 35, Vilnius |
-    Then User "user1@tiktai.lt" get notification
+      | from                 | to                     |
+      | 68 Krivių g. Vilnius | 35 Muitinės g. Vilnius |
+    Then User "user1@tiktai.lt" gets notification

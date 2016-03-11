@@ -1,4 +1,4 @@
-@mapPersistQuery = ['aLoc', 'bLoc', 'alert']
+@mapPersistQuery = ['aLoc', 'bLoc', 'alert', 'trip']
 locRadiusFilter = 1000 * 180 / (3.14*6371*1000);
 
 @updateUrl = (param, latlng)->
@@ -113,8 +113,19 @@ class @CarpoolMapController extends CarpoolController
     #da ["stops-drawing"], "Controller stops", stops
     mapView.showStops stops, stopsOnRoutes
 
+    # Redraw trip on top
+    if @params.query.trip?
+      da ["trips-matcher"], "Highlight selected trip: #{@params.query.trip}"
+      trip = _(activeTrips).findWhere({_id: @params.query.trip})
+      mapView.selectTrip(trip);
+
     result =
       currentTrip: mapView.trip
       activeTrips: activeTrips
       myTrips: ownTrips
       stops: stops
+      selectedTrip: @params.query.trip
+
+@selectTrip = (tripId)->
+  da ["trips-matcher"], "Selected trip #{tripId}", tripId
+  goExtendedQuery {}, {trip: tripId}, mapPersistQuery

@@ -107,11 +107,11 @@
       <span class="selectTrip" style="display:inline-block; padding-left: 10px">
         <div>
           <strong>From: </strong>
-          <span class="myTripFrom">{{fromAddress}}
-          </span>
+          <span class="myTripFrom">{{fromAddress}}</span>
         </div>
         <div>
-          <strong>To: </strong>{{toAddress}}
+          <strong>To: </strong>
+          <span class="myTripTo">{{toAddress}}</span>
         </div>
         <div>
           <strong>Stops: </strong><span class="stopsOnRoute">{{#each stops}}{{title}}<br/>{{/each}}</span>
@@ -131,7 +131,10 @@
         <button type="button" class="removeTrip btn"><span class="glyphicon glyphicon-remove"></span></button>
         {{/if}}
       </span>
-      <i class="icon-chevron-down pull-right" data-toggle="collapse" data-parent="#accordion2" href="#myTripColalape-{{_id}}"></i>
+      <span class="glyphicon glyphicon-chevron-down pull-right"
+        aria-hidden="true"
+        data-toggle="collapse" data-parent="#accordion2"
+        href="#myTripColalape-{{_id}}"></span>
     </div>
   </div>
   <div id="myTripColalape-{{_id}}" class="accordion-body collapse">
@@ -191,7 +194,7 @@
 <template name="activeTrip">
 <div class="accordion-group" style="background-color: white;">
   <div class="accordion-heading">
-    <div class="trip-toggle {{#if equal obj=_id value=selectedTrip}}trip-selected{{/if}}">
+    <div class="trip-toggle {{#if equal obj=_id value=../selectedTrip}}trip-selected{{/if}}">
       {{#if equal obj=currentUser._id value=owner}}
       {{else}}
       <a class="pull-left" href="#">
@@ -201,14 +204,11 @@
       <span class="selectTrip" style="display:inline-block; padding-left: 10px">
         <div>
           <strong>From: </strong>
-          <span class="myTripFrom">{{fromAddress}}
-          </span>
+          <span class="activeTripFrom">{{fromAddress}}</span>
         </div>
         <div>
-          <strong>To: </strong>{{toAddress}}
-        </div>
-        <div>
-          <strong>Stops: </strong><span class="stopsOnRoute">{{#each stops}}{{title}}<br/>{{/each}}</span>
+          <strong>To: </strong>
+          <span class="activeTripTo">{{toAddress}}</span>
         </div>
       </span>
       <span style="display:inline-block; padding-left: 10px">
@@ -221,16 +221,19 @@
       </span>
       <span style="display:inline-block; padding-left: 10px; vertical-align:top">
         <a href="#" >link</a>
-        {{#if equal obj=currentUser._id value=owner}}
-        <button type="button" class="removeTrip btn"><span class="glyphicon glyphicon-remove"></span></button>
-        {{/if}}
       </span>
-      <i class="icon-chevron-down pull-right" data-toggle="collapse" data-parent="#accordion2" href="#activeTripColalape-{{_id}}"></i>
+      <span class="glyphicon glyphicon-chevron-down pull-right"
+        aria-hidden="true"
+        data-toggle="collapse" data-parent="#accordion2"
+        href="#activeTripColalape-{{_id}}"></span>
     </div>
   </div>
-  <div id="activeTripColalape-{{_id}}" class="accordion-body collapse">
+  <div id="activeTripColalape-{{_id}}"
+    class="accordion-body collapse {{#if equal obj=../selectedTrip value=_id}}in{{else}}out{{/if}}">
     <div class="accordion-inner">
-        Details
+      <div>
+        <strong>Stops: </strong><span class="stopsOnRoute">{{#each stops}}{{title}}<br/>{{/each}}</span>
+      </div>
     </div>
   </div>
 </div>

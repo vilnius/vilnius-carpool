@@ -1,4 +1,4 @@
-Feature: uc8 Post the trip
+Feature: uc8 Crud trips
 As an user
 I I want to search for a trip
 So that quickly find matching ride
@@ -18,6 +18,6 @@ Background: Cleanup old trips
     And I see ".to-geo-location"
     And Click on "[value='driver']"
     Then I see my trip
-      | from               | to                      |
-      | 68 Krivių g. Vilnius | Muitinės g. 35, Vilnius |
+      | from                 | to                       |
+      | 68 Krivių g. Vilnius | 35 Muitinės g. Vilnius |
     And I see the stop "Filaretu" on the route

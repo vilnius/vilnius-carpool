@@ -9,3 +9,5 @@ App.icons({
   'android_hdpi': 'resources/mipmap-hdpi/ic_launcher.png',
   'android_xhdpi': 'resources/mipmap-xhdpi/ic_launcher.png'
 });
+
+App.accessRule("*");

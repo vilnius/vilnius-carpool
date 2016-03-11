@@ -1,7 +1,7 @@
 Meteor.startup ()->
   if Meteor.isCordova
-    d "Setting alter:", window
-    window.alert = navigator.notification.alert
+    d "Setting alter:", navigator
+    window.alert = navigator.notification?.alert
 
   Push.addListener 'message', (notification) ->
     # Called on every message

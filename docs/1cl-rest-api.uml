@@ -1,0 +1,14 @@
+@startuml
+class "Carpool" as application <<Application>>
+class "User" as user <<Resource>> {
+}
+class "Location" as location <<Resource>> {
+}
+class "Trip" as trip <<Resource>> {
+}
+
+application - user: /user
+user - location: /location
+
+application -- trip: /trip
+@enduml

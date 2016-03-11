@@ -13,6 +13,7 @@ Notification = React.createClass({
 
     var address = ""
     var reason = ""
+    da(["trips-notification"], "Notification subscribtion ready:"+handle.ready());
     if(handle.ready()) {
       var trip = carpoolService.getTrip(this.props.notification.trip);
       if(trip) {
@@ -20,17 +21,23 @@ Notification = React.createClass({
         if (this.props.notification.reason == "matched") {
           reason = "Matched trip"
         }
-        da(["trips-matcher"], "Notification for trip "+this.props.notification.trip, address);
+        da(["trips-notification"], "Notification for trip "+this.props.notification.trip, address);
       } else {
-        da(["trips-matcher"], "Can't show notified trip "+this.props.notification.trip, address);
+        da(["trips-notification"], "Can't show notified trip "+this.props.notification.trip, address);
       }
     } else {
-      da(["trips-matcher"], "Loading notified trip "+this.props.notification.trip);
+      da(["trips-notification"], "Loading notified trip "+this.props.notification.trip);
     }
     return {
       text: address,
       reason: reason
     }
+  },
+
+
+  selectTrip() {
+    da(["trips-matcher"], "Using globally defined functions",this.props.notification);
+    selectTrip(this.props.notification.trip)
   },
 
   dismissNotification() {
@@ -50,8 +57,10 @@ Notification = React.createClass({
           </a>
         </div>
         <div className="media-body">
+          <span className="selectNotification" onClick={this.selectTrip}>
           <h4 className="media-heading">{this.data.reason}</h4>
           {this.data.text}
+          </span>
           <button type="button" className="dismissNotification btn" onClick={this.dismissNotification}>
             <span className="glyphicon glyphicon-remove"></span>
           </button>

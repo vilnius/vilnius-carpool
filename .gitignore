@@ -3,3 +3,4 @@ build/
 src/server/installService.coffee
 src/packages/carpool-service/
 src/tests/cucumber/node_modules
+src/config.push.json

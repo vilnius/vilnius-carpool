@@ -6,5 +6,7 @@ module.exports = ()->
     #d "Remove old trips"
     server.call "removeNotifications", user
 
-  @Then /^User "([^"]*)" get notification$/, (username)->
-    @TestHelper.login(username)
+  @Then /^User "([^"]*)" gets notification$/, (username)->
+    @TestHelper.login(username);
+    client.waitForExist ".selectNotification"
+    client.click ".selectNotification"
