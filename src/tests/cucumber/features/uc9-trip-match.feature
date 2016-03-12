@@ -26,4 +26,5 @@ Feature: uc9 Notify on matching trip
     And I see my trip
       | from                 | to                     |
       | 68 Krivių g. Vilnius | 35 Muitinės g. Vilnius |
-    Then User "user1@tiktai.lt" gets notification
+    Then User "user1@tiktai.lt" gets notification and sends request
+    And user "user2@tiktai.lt" aproves request

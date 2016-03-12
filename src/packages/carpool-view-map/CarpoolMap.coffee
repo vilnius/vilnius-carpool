@@ -30,6 +30,9 @@ Template.CarpoolMap.events
   "click .requestRide": (event, template) ->
     da ["trip-request"], "Request ride", @_id
     carpoolService.requestRide @_id
+  "click .acceptRequest": (event, template) ->
+    da ["trip-request"], "Accept request", @
+    carpoolService.acceptRequest @id, "accept"
   "click .removeTrip": (event, template) ->
     da ["trip-crud"], "Remove trip", @_id
     carpoolService.removeTrip @_id

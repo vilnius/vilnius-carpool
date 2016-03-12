@@ -131,7 +131,7 @@
         <button type="button" class="removeTrip btn"><span class="glyphicon glyphicon-remove"></span></button>
         {{/if}}
       </span>
-      <span class="glyphicon glyphicon-chevron-down pull-right"
+      <span class="glyphicon glyphicon-chevron-down pull-right showMyTrip"
         aria-hidden="true"
         data-toggle="collapse" data-parent="#accordion2"
         href="#myTripColalape-{{_id}}"></span>
@@ -163,11 +163,12 @@
           {{/if}}
           <a class="btn btn-mini removeInvitee" href="#"><i class="icon-trash"></i></a>
         {{else}}
-            {{userText}} is asking to join
             <div class="btn-group">
               {{#if equal obj=response value="accept"}}
-                <i class="icon-ok"></i>
+                Confirmed ride with {{userText}}
+                <a class="btn btn-mini cacnelConfirmation" href="#"><span class="glyphicon glyphicon glyphicon-ban-circle"></span></a>
               {{else}}
+                {{userText}} is asking to join
                 <a class="btn btn-mini acceptRequest" href="#"><span class="glyphicon glyphicon-ok"></span></a>
               {{/if}}
 

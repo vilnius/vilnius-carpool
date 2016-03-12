@@ -22,6 +22,8 @@ Notification = React.createClass({
           reason = "Matched trip"
         } else if (this.props.notification.reason == "request") {
           reason = "Requested ride"
+        } else if (this.props.notification.reason == "confirmation") {
+          reason = "Confirmed ride"
         }
         da(["trips-notification"], "Notification for trip "+this.props.notification.trip, address);
       } else {
