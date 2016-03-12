@@ -11,6 +11,7 @@ Feature: uc3 Search for the trip
       | Krivių 68, Vilnius | Muitinės g. 35, Vilnius |
       | Dzūkų 54, Vilnius  | Šeškinės g. 10, Vilnius |
 
+  @focus
   Scenario: User searches by exact address
     Given Login with "user2@tiktai.lt"
     And I see "#trip-toAddress" in "/"
@@ -19,7 +20,7 @@ Feature: uc3 Search for the trip
       | Krivių 68, Vilnius | Muitinės g. 35, Vilnius |
     And I see ".from-geo-location"
     And I see ".to-geo-location"
-    Then I see my trip
+    Then I see active trip
       | from               | to                      |
       | Krivių 68, Vilnius | Muitinės g. 35, Vilnius |
     And I see the stop "Filaretu" on the route

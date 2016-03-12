@@ -17,6 +17,12 @@ module.exports = ()->
     expect(client.getText(element)).toEqual(table.hashes()[0].from)
     expect(client.getText(".myTripTo")).toEqual(table.hashes()[0].to)
 
+  @Then /^I see active trip$/, (table)->
+    element = ".activeTripFrom"
+    client.waitForExist(element);
+    expect(client.getText(element)).toEqual(table.hashes()[0].from)
+    expect(client.getText(".activeTripTo")).toEqual(table.hashes()[0].to)
+
   @Then /^I see the stop "([^"]*)" on the route$/, (stopTitle)->
     element = ".stopsOnRoute"
     client.waitForExist(element);
