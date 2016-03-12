@@ -28,4 +28,8 @@ spastai:carpool-service
 carpool-admin
 carpool-view-map
 spastai:logw
+carpool-notifications
 
+standard-minifiers
+carpool-api
+raix:push

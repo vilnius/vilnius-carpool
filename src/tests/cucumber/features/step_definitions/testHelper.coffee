@@ -1,3 +1,6 @@
+###
+  Most common test steps should be collected here
+###
 d = console.log.bind @, "---"
 url = require('url');
 

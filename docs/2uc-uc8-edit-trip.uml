@@ -1,0 +1,28 @@
+@startuml
+left to right direction
+
+skinparam usecase {
+	BackgroundColor<< TDD >> DarkSeaGreen
+}
+
+:rider: as "Rider"
+:driver: as "Driver"
+
+usecase uc11 as "uc8 Edit trip"
+usecase uc17 as "uc8.1 Enter new trip" << TDD >>
+
+usecase uc12 as "Selects predefined trip"
+usecase uc13 as "Edits existing trip"
+usecase uc14 as "Drops to location on map"
+usecase uc15 as "Drags from location on map"
+usecase uc16 as "Drags to location on map"
+
+uc11 <|-down- uc17
+uc11 <|-- uc13
+driver -- uc11
+uc17 <.. uc12
+uc11 <.. uc14
+uc11 <.. uc15
+uc11 <.. uc16
+
+@enduml

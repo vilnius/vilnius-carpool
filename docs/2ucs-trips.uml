@@ -1,0 +1,15 @@
+@startuml
+!include 2uc-trips.uml
+
+skinparam usecase {
+	BackgroundColor<< UCS >> Silver
+}
+
+usecase ucs8_1_1 as "ucs8.1.1 Match trips" << UCS >>
+usecase ucs9_1_1 as "ucs9.1.1 Send notification" << UCS >>
+
+uc8_1 <- ucs8_1_1
+ucs8_1_1 <-- ucs9_1_1
+ucs9_1_1 <-- uc9
+
+@enduml

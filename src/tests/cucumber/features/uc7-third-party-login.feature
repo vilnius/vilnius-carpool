@@ -15,4 +15,4 @@ Feature: Third party login
   Scenario: Login using username
     Given I am logged off
     When Login with "user1@tiktai.lt"
-    Then I see ".profile_Name" text "user1@tiktai.lt"
+    Then I see ".profile_Name" text "Ron"

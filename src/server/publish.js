@@ -10,8 +10,12 @@ Meteor.publish("userData", function () {
 	});
 });
 
+/*
+
 Meteor.publish("userContacts", function () {
 	da(['data-publish'],"Publish user contacts");
+	d("Publish user contacts");
+
 	return Meteor.users.find(
 		//{_id: this.userId},
 		{}, {
@@ -19,7 +23,6 @@ Meteor.publish("userContacts", function () {
 				'profile': true,
 		}
 	});
-	/*
 	var usersAsking = _(Trips.find({"owner" : "dQ7kQYH3abR6A7EBC", "requests.asked": true}).map(function(item) {
 		return _.chain(item.requests).filter(function(request) {
 			return request.asked == true;
@@ -37,8 +40,8 @@ Meteor.publish("userContacts", function () {
 	});
 	d("Users with numbers:", users.fetch());
 	return users;
-	*/
 });
+*/
 
 Meteor.publish("groupMemberData", function () {
 	var groupQuery = {$or: [
@@ -72,7 +75,6 @@ Meteor.publish("trip", function (id) {
 
 /*
  * ownTrips returns more data
- */
 Meteor.publish("ownTrips", function (niceLink) {
 	var self = this;
 	if(!this.userId) {
@@ -92,10 +94,13 @@ Meteor.publish("ownTrips", function (niceLink) {
 	//this.ready(); return; // for debuging
 	return result;
 });
+*/
 
+/*
+Moved to carpool-service
 Meteor.publish("activeTrips", function (niceLink, filter) {
 	var groups = getAvailableGroups(niceLink, this.userId);
-	da(['data-publish'], "Publish only public and user groups trips:"+niceLink, groups);
+	da ['data-publish'], "Publish only public and user groups trips:"+niceLink, groups
 
 	filteredTrips = getTripIdsFilteredByLoc(Trips, filter);
 	var groupFilter = {
@@ -120,6 +125,7 @@ Meteor.publish("activeTrips", function (niceLink, filter) {
 	}, 5000)
 	return result;
 });
+*/
 
 getTripIdsFilteredByLoc = function(collection, filter) {
 	var fromTrips = []

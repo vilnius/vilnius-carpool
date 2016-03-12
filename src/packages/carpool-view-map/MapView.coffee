@@ -11,6 +11,7 @@ class Location
   latlng: null;
 
 reactivate(Location, "latlng");
+reactivate(Location, "address");
 
 class CarpoolTrip
   time: new Date();
@@ -35,7 +36,7 @@ class MapView
   ###
   showMap: (id, cb)->
     mapElement = document.getElementById(id);
-    # This method is called after google services are initialized
+    #d "This method is called after google services are initialized"
     googleServices.afterInit =>
       myOptions =
         zoom: 12
@@ -43,71 +44,95 @@ class MapView
         mapTypeId: google.maps.MapTypeId.ROADMAP
       @map = new (google.maps.Map)(mapElement, myOptions)
       cb(null, @map);
-      #da ["stops-drawing"], "Map is shown"
-      afterMapShown.start();
+      da ["stops-drawing"], "Map is shown"
+      afterMapShown.purge ()->
+        #da ["stops-drawing"], "Map is shown"
   ###
   Automcomplete requires map to be initialized
   ###
   addAutocomplete: afterMapShown.wrap (input, cb)->
     googleServices.addAutocomplete input, @map, cb
   ###
+  Form adress
+  ###
+  formAddress: (place)->
+    if place.address_components
+      address = [
+        place.address_components[0]?.short_name or ""
+        place.address_components[1]?.short_name or ""
+        place.address_components[2]?.short_name or ""
+      ].join(" ")
+      #da ["trips-filter"], "Formed address #{address} from:", place
+      return address
+    else
+      #da ["trips-filter"], "Couldn't form address", place
+      return ""
+  ###
   Geolocate more details about location
   ###
   clarifyPlace: (latlng, address, cb)->
-    #d "Clarify place", address
-    googleServices.getGeocoder().geocode { 'address': address }, (error, result) ->
+    query = {}
+    if latlng? and address?
+      cb(null, latlng, address)
+      return
+    if not latlng? and address? then query = 'address': address
+    if latlng? and not address? then query = 'latLng': latlng
+    da ["trips-filter"], "Clarify place:", query
+    googleServices.getGeocoder().geocode query, (error, result)=>
       if !error and result.length > 0
-        cb?(null, result[0].geometry.location, address)
+        cb?(null, result[0].geometry.location, @formAddress(result[0]))
       else
         cb?(error)
   ###
   The new trip destination
   ###
-  setCurrentTripTo: (err, latlng, address, place)=>
-    #d "Set current trip to", address
+  setCurrentTripTo: (err, latlng, address, place, cb)=>
+    da ["trips-filter"], "Set current trip to", address, latlng
     setToLatLng = (refinedLatlng, refinedAddress)=>
       @trip.to.setLatlng(refinedLatlng)
       @trip.to.address = refinedAddress
       @dropToMarker @trip.to.latlng
-    if not latlng then @clarifyPlace location, address, (err, refinedLatlng, refinedAddress)=>
-      d "Refined latlng #{refinedAddress}:", refinedLatlng,
+      cb? refinedLatlng, refinedAddress
+    @clarifyPlace latlng, address, (err, refinedLatlng, refinedAddress)=>
+      da ["trips-drawing", "trips-filter"], "Refined latlng #{refinedAddress}:", refinedLatlng,
       setToLatLng(refinedLatlng, refinedAddress) unless err
-    else
-      setToLatLng(latlng, address)
   dropToMarker: (latlng)->
     if not @toMarker
       pinImage = new (google.maps.MarkerImage)('http://maps.google.com/mapfiles/ms/icons/green-dot.png', new (google.maps.Size)(32, 32), new (google.maps.Point)(0, 0), new (google.maps.Point)(16, 32))
-      toMarker = new (google.maps.Marker)(
+      @toMarker = new (google.maps.Marker)(
         map: @map
         position: latlng
         icon: pinImage
         draggable: true)
+      google.maps.event.addListener @toMarker, 'dragend', (event)->
+        updateUrl("bLoc", event.latLng);
     else
-      @toMarker.setPosition(location);
+      @toMarker.setPosition(latlng);
   ###
   The new trip origin
   ###
-  setCurrentTripFrom: (err, latlng, address, place)=>
+  setCurrentTripFrom: (err, latlng, address, place, cb)=>
     #d "Set current trip to", address
     setFromLatLng = (refinedLatlng, refinedAddress)=>
       #d "Refine latlng", refinedLatlng
       @trip.from.setLatlng(refinedLatlng)
       @trip.from.address = refinedAddress
       @dropFromMarker @trip.from.latlng
-    if not latlng then @clarifyPlace location, address, (err, refinedLatlng, refinedAddress)=>
+      cb? refinedLatlng, refinedAddress
+    @clarifyPlace latlng, address, (err, refinedLatlng, refinedAddress)=>
       setFromLatLng(refinedLatlng, refinedAddress) unless err
-    else
-      setFromLatLng(latlng, address)
   dropFromMarker: (latlng)->
     if not @fromMarker
       pinImage = new (google.maps.MarkerImage)('http://maps.google.com/mapfiles/ms/icons/red-dot.png', new (google.maps.Size)(32, 32), new (google.maps.Point)(0, 0), new (google.maps.Point)(16, 32))
-      fromMarker = new (google.maps.Marker)(
+      @fromMarker = new (google.maps.Marker)(
         map: @map
         position: latlng
         icon: pinImage
         draggable: true)
+      google.maps.event.addListener @fromMarker, 'dragend', (event)->
+        updateUrl("aLoc", event.latLng);
     else
-      @toMarker.setPosition(location);
+      @fromMarker.setPosition(latlng);
   ###
   Draw stops on the map
   ###
@@ -129,10 +154,23 @@ class MapView
           new (google.maps.Point)(0, 0),
           new (google.maps.Point)(6, 6)))
   ###
+  Highlights the trip
+  ###
+  selectTrip: (trip)->
+    return unless trip?
+    tripId = trip._id
+    @selectedTrip = tripId
+    if @activeTrips[tripId]?
+      da ["trips-matcher"], "Higlight only drawn trip #{tripId}"
+      mapTrip = @activeTrips[tripId]
+      @removeTrip mapTrip
+      @drawTrip trip, {strokeColor: 'yellow', strokeOpacity: 1}, (err, mapTrip)=>
+        @activeTrips[trip._id] = mapTrip
+  ###
   Removes the trip from map
   ###
   removeTrip: (trip)->
-    da ['trips-drawing'], "Removign trip", trip
+    da ['trips-drawing'], "Removing trip", trip
     trip.line.setMap(null);
     for point in trip.points
       point.setMap(null)
@@ -140,10 +178,9 @@ class MapView
   Puts markers and decoded points on the map
   ###
   drawTrip: afterMapShown.wrap (trip, options, cb) ->
-    da ['trips-drawing'], "Check is trip already drawn", trip
     result =
       points: []
-    da ['trips-drawing'], 'Drawing trip:', trip
+    da ['trips-drawing'], 'Drawing trip:', trip, options
     if trip.path and trip.toLoc and trip.fromLoc
       decodedPoints = google.maps.geometry.encoding.decodePath(trip.path)
       fromLatLng = googleServices.toLatLng trip.fromLoc

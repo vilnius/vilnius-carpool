@@ -30,10 +30,6 @@ Meteor.methods({
 		}
 	},
 
-	removeTrip : function(id) {
-		Trips.remove({_id: id, owner: Meteor.userId()});
-	},
-
 	inviteForTrip: function(tripId, invitee) {
 		var trip = Trips.findOne({_id: tripId});
 		var invitationId = getRandomString("ABCDEFGHIKLMNOPQRSTUVWXY0123456789", 5);
@@ -198,10 +194,12 @@ Meteor.methods({
 		d("Mock called");
 	}
 });
+
 /*
 Meteor.onConnection(function(connection){
 	da(['data-publish'],"Client connected:"+connection.id);
 });
 */
 
-d("Tmh Server started. Version 0.1.6.SNAPSHOT-150224.1");
+
+d("Tmh Server started. Version 0.1.7.SNAPSHOT-150308.1");

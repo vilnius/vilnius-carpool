@@ -1,0 +1,30 @@
+@startuml
+
+
+node Browser {
+  component "meteor:Blaze" as client
+}
+
+node iPhone {
+  component "Application" as iApp
+}
+
+node Android {
+  component "Application" as aApp
+}
+
+
+node Server {
+  component "meteor:nodejs" as server
+}
+
+database Mongo {
+  storage Tmh as db
+}
+
+iApp -- server: ia
+aApp -- server: ia
+
+client -- server: DDP
+server -- db
+@enduml
