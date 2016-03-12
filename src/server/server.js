@@ -30,10 +30,6 @@ Meteor.methods({
 		}
 	},
 
-	removeTrip : function(id) {
-		Trips.remove({_id: id, owner: Meteor.userId()});
-	},
-
 	inviteForTrip: function(tripId, invitee) {
 		var trip = Trips.findOne({_id: tripId});
 		var invitationId = getRandomString("ABCDEFGHIKLMNOPQRSTUVWXY0123456789", 5);

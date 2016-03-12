@@ -20,6 +20,8 @@ Notification = React.createClass({
         address = `${trip.fromAddress}`
         if (this.props.notification.reason == "matched") {
           reason = "Matched trip"
+        } else if (this.props.notification.reason == "request") {
+          reason = "Requested ride"
         }
         da(["trips-notification"], "Notification for trip "+this.props.notification.trip, address);
       } else {

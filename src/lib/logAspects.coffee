@@ -14,4 +14,5 @@ aspect.push "install"
 #aspect.push "trip-publish"
 
 #aspect.push "trip-crud"
-aspect.push "trips-matcher"
+#aspect.push "trips-matcher"
+aspect.push "trip-request"

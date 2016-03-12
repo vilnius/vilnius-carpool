@@ -42,11 +42,11 @@ Handlebars.registerHelper('session',function(input, field) {
 			return compare(input.hash.operator, obj, input.hash.value);
 		}
 	} else if(field.hash) {
-		//v("Session object "+input); 
+		//v("Session object "+input);
 		return Session.get(input);
 	} else {
         var value = Session.get(input) ? getProperty(Session.get(input),field) : ""
-        //v("Session property "+input+" "+field+" "+value); 
+        //v("Session property "+input+" "+field+" "+value);
         return value;
     }
 });
@@ -64,6 +64,7 @@ Handlebars.registerHelper("equal", function(options) {
 	//d("qeual", options);
 	return options.hash.obj == options.hash.value;
 });
+
 
 compare = function(operator, lvalue, rvalue) {
 	//d("Comparing:",[operator, lvalue, rvalue]);

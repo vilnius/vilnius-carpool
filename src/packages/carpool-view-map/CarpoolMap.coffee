@@ -27,6 +27,9 @@ Template.CarpoolMap.events
       #mapView.drawOwnTrip routedTrip # not needed as will be redrawn from collection
       $("*[id^='trip-toAddress']").val ""
       $("#save-button").button "reset"
+  "click .requestRide": (event, template) ->
+    da ["trip-request"], "Request ride", @_id
+    carpoolService.requestRide @_id    
   "click .removeTrip": (event, template) ->
     da ["trip-crud"], "Remove trip", @_id
     carpoolService.removeTrip @_id
