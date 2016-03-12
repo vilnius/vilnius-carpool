@@ -8,8 +8,6 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
   api.use(["mongo", "minimongo"]);
-  api.use('react');
-  api.use('react-template-helper');
   api.use(['underscore', 'coffeescript']);
 
   api.use('raix:push@3.0.2')
@@ -22,12 +20,6 @@ Package.onUse(function(api) {
   api.addFiles('lib/model.coffee');
 
   api.addFiles('client/NotificationClient.coffee', "client");
-
-  api.addFiles('client/app-react.jsx', "client");
-  api.addFiles('client/Notification.jsx', "client");
-  api.addFiles('client/NotificationPanel.jsx', "client");
-
-  api.export(['NotificationPanel'], 'client');
 });
 
 Package.onTest(function(api) {

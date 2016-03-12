@@ -20,10 +20,18 @@ Package.onUse(function(api) {
   api.use("spastai:carpool-service");
   api.use("carpool-notifications");
 
+  api.use('react');
+  api.use('react-template-helper');
+
+  api.addFiles('components/notifications/app-react.jsx', "client");
+  api.addFiles('components/notifications/Notification.jsx', "client");
+  api.addFiles('components/notifications/NotificationPanel.jsx', "client");
+
   api.addFiles(['i18n/helper.js', 'CarpoolMap_i18n.coffee'], "client");
   api.addFiles(['mapLayout.html', "mapLayout.coffee"], "client");
   //api.addFiles(['Map.less'], "client");
   api.addFiles('map.css', "client");
+
 
   api.addFiles('DeltaArray.coffee');
   api.addFiles(['profilePanel.html', 'profilePanel.coffee'], "client");
