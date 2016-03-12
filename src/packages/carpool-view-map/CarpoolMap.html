@@ -137,18 +137,18 @@
         href="#myTripColalape-{{_id}}"></span>
     </div>
   </div>
-  <div id="myTripColalape-{{_id}}" class="accordion-body collapse">
+  <div id="myTripColalape-{{_id}}" class="accordion-body collapse {{#if equal obj=../selectedTrip value=_id}}in{{else}}out{{/if}}">
     <div class="accordion-inner">
-      {{#if equal obj=currentUser._id value=owner}}
         <form id="invite-form-{{_id}}" class="form-inline">
-          <div class="control-group">
-            <input  id="inviteField-{{_id}}" type="text" class="input-small required email" placeholder="email" size="25"  >
-            <button type="button" class="invite btn" >Invite</button>
+          <div class="input-group">
+            <input  id="inviteField-{{_id}}" type="text" class="input-small required email form-control" placeholder="email" size="25"  >
+            <span class="input-group-btn">
+              <button class="invite btn btn-default" type="button">Invite</button>
+            </span>
           </div>
         </form>
         <h4>Invitees:</h4>
-      {{/if}}
-      {{#each ownTripRequests}}
+      {{#each requests}}
       <div>
         {{#if proposed}}
           {{userEmail}}
@@ -168,7 +168,7 @@
               {{#if equal obj=response value="accept"}}
                 <i class="icon-ok"></i>
               {{else}}
-                <a class="btn btn-mini acceptRequest" href="#"><i class="icon-ok"></i></a>
+                <a class="btn btn-mini acceptRequest" href="#"><span class="glyphicon glyphicon-ok"></span></a>
               {{/if}}
 
               {{#if equal obj=response value="reject"}}

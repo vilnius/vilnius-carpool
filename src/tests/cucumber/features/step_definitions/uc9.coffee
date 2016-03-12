@@ -9,4 +9,6 @@ module.exports = ()->
   @Then /^User "([^"]*)" gets notification$/, (username)->
     @TestHelper.login(username);
     client.waitForExist ".selectNotification"
-    #client.click ".selectNotification"
+    client.click ".selectNotification"
+    client.waitForExist ".requestRide"
+    client.click ".requestRide"
