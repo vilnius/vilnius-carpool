@@ -10,6 +10,4 @@ class @CarpoolTripController extends CarpoolController
     trip = activeTrips[0]
     mapView.setCurrentTrip trip, ()->
       #da ["read-trip"], "Active trip is shown", activeTrips
-
-
     return currentTrip: mapView.trip
