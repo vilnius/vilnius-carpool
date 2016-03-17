@@ -1,16 +1,30 @@
-Router.route('/api/user/location', where: 'server').get(->
-  result =
-    loc: [25.26246500000002,54.6779097]
-    time: new Date()
-    user: "HX8jY2bnYWGoHB7Em"
+Router.route('/api/user/:userId/location', where: 'server').get(->
+  try
+    result = Locations.findOne {userId: @params.userId}, {sort:{tsi:-1}, limit:1}
+    da ["carpool-api"], "Read location for #{@params.userId}", result
+    headers =
+      'Content-type': 'application/json; charset=utf-8'
+    @response.writeHead(200, headers);
+    @response.end(JSON.stringify(result), "utf-8");
+  catch e
+    console.error(e)
+    @response.writeHead(503, headers);
+    @response.end("error:"+JSON.stringify(e), "utf-8");
+
+
+).post(->
+  location = @request.body
+  location.tsi = new Date();
+  location.userId = @params.userId;
+  da ["carpool-api"], "Create location", location
+  Locations.insert(location);
+
   headers =
     'Content-type': 'application/json; charset=utf-8'
   @response.writeHead(200, headers);
+  result =
+    status: "ok"
   @response.end(JSON.stringify(result), "utf-8");
-
-).post(->
-  # POST /webhooks/stripe
-  return
 ).put ->
   # PUT /webhooks/stripe
   return

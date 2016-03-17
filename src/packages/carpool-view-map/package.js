@@ -23,15 +23,10 @@ Package.onUse(function(api) {
   api.use('react');
   api.use('react-template-helper');
 
-  api.addFiles('components/notifications/app-react.jsx', "client");
-  api.addFiles('components/notifications/Notification.jsx', "client");
-  api.addFiles('components/notifications/NotificationPanel.jsx', "client");
-
   api.addFiles(['i18n/helper.js', 'CarpoolMap_i18n.coffee'], "client");
   api.addFiles(['mapLayout.html', "mapLayout.coffee"], "client");
   //api.addFiles(['Map.less'], "client");
   api.addFiles('map.css', "client");
-
 
   api.addFiles('DeltaArray.coffee');
   api.addFiles(['profilePanel.html', 'profilePanel.coffee'], "client");
@@ -41,6 +36,13 @@ Package.onUse(function(api) {
   api.addFiles(['MapView.html', 'MapView.coffee'], "client");
   api.addFiles('Controller.coffee', "client");
   api.addFiles('routes.coffee', "client");
+
+  api.addFiles('components/notifications/app-react.jsx', "client");
+  api.addFiles('components/notifications/Notification.jsx', "client");
+  api.addFiles('components/notifications/NotificationPanel.jsx', "client");
+
+  api.addFiles(['components/trip-form/CarpoolTrip.html', 'components/trip-form/CarpoolTrip.coffee'], "client");
+  api.addFiles('components/trip-form/Controller.coffee', "client");
 
 });
 

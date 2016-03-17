@@ -7,7 +7,7 @@ class "Location" as location <<Resource>> {
 class "Trip" as trip <<Resource>> {
 }
 
-application - user: /user
+application - user: /user/<userId>
 user - location: /location
 
 application -- trip: /trip

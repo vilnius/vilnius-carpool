@@ -57,7 +57,7 @@ Notification = React.createClass({
       <div className="media">
         <div className="media-left">
           <a href="#">
-            <img className="media-object" src="img/icon-driver.png" alt="..." />
+            <img className="media-object" src="/img/icon-driver.png" alt="..." />
           </a>
         </div>
         <div className="media-body">

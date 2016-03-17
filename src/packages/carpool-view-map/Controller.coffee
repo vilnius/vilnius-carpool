@@ -18,6 +18,35 @@ class @RegisterController extends CarpoolController
   yieldTemplates:
     MapView: to: 'map'
 
+###
+  ControllerHelper methods
+###
+@currentTripMarkers = (params)->
+  query = {}
+  if params.query.aLoc
+    da ['geoloc'], "Location present in url has biggest priority:", params.query.aLoc
+    aLoc = googleServices.decodePoints(params.query.aLoc)[0]
+    query["fromLoc"] = aLoc
+    googleServices.afterInit ()=>
+      latlng = googleServices.toLatLng(aLoc)
+      da ["trips-filter"], "Update A location", aLoc
+      mapView.setCurrentTripFrom null, latlng, null, null, (refinedLatlng, refinedAddress)->
+        # TODO check why this can't be moved to mapView
+        da ["trips-filter"], "Update A address", refinedAddress
+        mapView.trip.from.setAddress(refinedAddress)
+  if params.query.bLoc
+    da ['geoloc'], "Location present in url has biggest priority:", params.query.bLoc
+    bLoc = googleServices.decodePoints(params.query.bLoc)[0]
+    query["toLoc"] = bLoc
+    googleServices.afterInit ()=>
+      latlng = googleServices.toLatLng(bLoc)
+      da ["trips-filter"], "Update B location", bLoc
+      mapView.setCurrentTripTo null, latlng, null, null, (refinedLatlng, refinedAddress)->
+        # TODO check why this can't be moved to mapView
+        da ["trips-filter"], "Update B address", refinedAddress
+        mapView.trip.to.setAddress(refinedAddress)
+  return query
+
 class @CarpoolMapController extends CarpoolController
   layoutTemplate: 'carpoolMapLayout',
   yieldTemplates:
@@ -32,65 +61,26 @@ class @CarpoolMapController extends CarpoolController
     @next();
 
   data: ->
-    @ownTripsSub =  Meteor.subscribe("ownTrips",@params.niceLink)
+    @ownTripsSub =  Meteor.subscribe("ownTrips", @params.niceLink)
     @stopsSubs = Meteor.subscribe("stops");
-    @dataLoading = 3
 
     if(@ownTripsSub.ready())
       da(['data-publish-ownTrips'], "5. Subscribtion own trips is ready");
       mapView.setActionProgress('ownTrips',100);
-      @dataLoading--
     else
       da(['data-publish-ownTrips'], "4. Wait for subscribtion to own trips");
       mapView.setActionProgress('ownTrips',0);
     if(@stopsSubs.ready())
-      @dataLoading--
+      mapView.setActionProgress('stops',100);
     else
-      mapView.setActionProgress('ownTrips',0);
-
-    ###
-    if @dataLoading
-      # If not ready show only map
-      @render("MapView", {to: 'map'});
-    else
-    da ['trips-filter', 'data-publish'], "Carpoolmap subcribtions to load:"+@dataLoading
-    ###
+      mapView.setActionProgress('stops',0);
 
     # Filter trips by parameters in query - these are set then trip form is filled
-    query = {}
-    if @params.query.aLoc
-      da ['geoloc'], "Location present in url has biggest priority:", @params.query.aLoc
-      aLoc = googleServices.decodePoints(@params.query.aLoc)[0]
-      query["fromLoc"] = aLoc
-      googleServices.afterInit ()=>
-        latlng = googleServices.toLatLng(aLoc)
-        da ["trips-filter"], "Update A location", aLoc
-        mapView.setCurrentTripFrom null, latlng, null, null, (refinedLatlng, refinedAddress)->
-          # TODO check why this can't be moved to mapView
-          da ["trips-filter"], "Update A address", refinedAddress
-          mapView.trip.from.setAddress(refinedAddress)
-    if @params.query.bLoc
-      da ['geoloc'], "Location present in url has biggest priority:", @params.query.bLoc
-      bLoc = googleServices.decodePoints(@params.query.bLoc)[0]
-      query["toLoc"] = bLoc
-      googleServices.afterInit ()=>
-        latlng = googleServices.toLatLng(bLoc)
-        da ["trips-filter"], "Update B location", bLoc
-        mapView.setCurrentTripTo null, latlng, null, null, (refinedLatlng, refinedAddress)->
-          # TODO check why this can't be moved to mapView
-          da ["trips-filter"], "Update B address", refinedAddress
-          mapView.trip.to.setAddress(refinedAddress)
+    query = currentTripMarkers(@params);
 
-    activeTrips = carpoolService.pullActiveTrips query, (progress)=>
-      if 100 == progress
-        da(['data-publish'], "3. Subscribtion active trips is ready:", query);
-        mapView.setActionProgress('activeTrips', 100);
-        @dataLoading--
-      else
-        da(['data-publish'], "2. Wait for subscribtion to the active trips:", query);
-        mapView.setActionProgress('activeTrips',0);
+    activeTrips = carpoolService.pullActiveTrips query, mapView.setActionProgress.bind(mapView, 'activeTrips')
 
-    return if @dataLoading;
+    #if mapView.progress.getProgress() isnt 100 then return
 
     #activeTrips = carpoolService.getActiveTrips().fetch()
     da ['data-publish'], "7. Draw active trips:", activeTrips

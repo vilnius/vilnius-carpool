@@ -15,4 +15,7 @@ aspect.push "install"
 
 #aspect.push "trip-crud"
 #aspect.push "trips-matcher"
-aspect.push "trip-request"
+#aspect.push "trip-request"
+#aspect.push "read-trip"
+#aspect.push "trips-drawing"
+aspect.push "carpool-api"
