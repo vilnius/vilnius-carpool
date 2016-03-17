@@ -8,3 +8,7 @@ Template.CarpoolTrip.rendered = ->
   mapView.addAutocomplete fromAddressElement, (err, latlng, address, place)->
     mapView.setCurrentTripFrom err, latlng, address, place, (refinedLatlng, refinedAddress)->
       updateUrl "aLoc", refinedLatlng
+
+Template.CarpoolTrip.helpers
+   tripForm: ()->
+     return TripForm

@@ -43,6 +43,7 @@ Package.onUse(function(api) {
 
   api.addFiles(['components/trip-form/CarpoolTrip.html', 'components/trip-form/CarpoolTrip.coffee'], "client");
   api.addFiles('components/trip-form/Controller.coffee', "client");
+  api.addFiles('components/trip-form/TripForm.jsx', "client");
 
 });
 
