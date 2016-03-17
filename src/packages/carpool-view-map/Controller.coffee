@@ -18,6 +18,35 @@ class @RegisterController extends CarpoolController
   yieldTemplates:
     MapView: to: 'map'
 
+###
+  ControllerHelper methods
+###
+@currentTripMarkers = (params)->
+  query = {}
+  if params.query.aLoc
+    da ['geoloc'], "Location present in url has biggest priority:", params.query.aLoc
+    aLoc = googleServices.decodePoints(params.query.aLoc)[0]
+    query["fromLoc"] = aLoc
+    googleServices.afterInit ()=>
+      latlng = googleServices.toLatLng(aLoc)
+      da ["trips-filter"], "Update A location", aLoc
+      mapView.setCurrentTripFrom null, latlng, null, null, (refinedLatlng, refinedAddress)->
+        # TODO check why this can't be moved to mapView
+        da ["trips-filter"], "Update A address", refinedAddress
+        mapView.trip.from.setAddress(refinedAddress)
+  if params.query.bLoc
+    da ['geoloc'], "Location present in url has biggest priority:", params.query.bLoc
+    bLoc = googleServices.decodePoints(params.query.bLoc)[0]
+    query["toLoc"] = bLoc
+    googleServices.afterInit ()=>
+      latlng = googleServices.toLatLng(bLoc)
+      da ["trips-filter"], "Update B location", bLoc
+      mapView.setCurrentTripTo null, latlng, null, null, (refinedLatlng, refinedAddress)->
+        # TODO check why this can't be moved to mapView
+        da ["trips-filter"], "Update B address", refinedAddress
+        mapView.trip.to.setAddress(refinedAddress)
+  return query
+
 class @CarpoolMapController extends CarpoolController
   layoutTemplate: 'carpoolMapLayout',
   yieldTemplates:
@@ -32,7 +61,7 @@ class @CarpoolMapController extends CarpoolController
     @next();
 
   data: ->
-    @ownTripsSub =  Meteor.subscribe("ownTrips",@params.niceLink)
+    @ownTripsSub =  Meteor.subscribe("ownTrips", @params.niceLink)
     @stopsSubs = Meteor.subscribe("stops");
 
     if(@ownTripsSub.ready())
@@ -47,29 +76,7 @@ class @CarpoolMapController extends CarpoolController
       mapView.setActionProgress('stops',0);
 
     # Filter trips by parameters in query - these are set then trip form is filled
-    query = {}
-    if @params.query.aLoc
-      da ['geoloc'], "Location present in url has biggest priority:", @params.query.aLoc
-      aLoc = googleServices.decodePoints(@params.query.aLoc)[0]
-      query["fromLoc"] = aLoc
-      googleServices.afterInit ()=>
-        latlng = googleServices.toLatLng(aLoc)
-        da ["trips-filter"], "Update A location", aLoc
-        mapView.setCurrentTripFrom null, latlng, null, null, (refinedLatlng, refinedAddress)->
-          # TODO check why this can't be moved to mapView
-          da ["trips-filter"], "Update A address", refinedAddress
-          mapView.trip.from.setAddress(refinedAddress)
-    if @params.query.bLoc
-      da ['geoloc'], "Location present in url has biggest priority:", @params.query.bLoc
-      bLoc = googleServices.decodePoints(@params.query.bLoc)[0]
-      query["toLoc"] = bLoc
-      googleServices.afterInit ()=>
-        latlng = googleServices.toLatLng(bLoc)
-        da ["trips-filter"], "Update B location", bLoc
-        mapView.setCurrentTripTo null, latlng, null, null, (refinedLatlng, refinedAddress)->
-          # TODO check why this can't be moved to mapView
-          da ["trips-filter"], "Update B address", refinedAddress
-          mapView.trip.to.setAddress(refinedAddress)
+    query = currentTripMarkers(@params);
 
     activeTrips = carpoolService.pullActiveTrips query, mapView.setActionProgress.bind(mapView, 'activeTrips')
 
@@ -112,4 +119,3 @@ class @CarpoolMapController extends CarpoolController
 @selectTrip = (tripId)->
   da ["trips-matcher"], "Selected trip #{tripId}", tripId
   goExtendedQuery {}, {trip: tripId}, mapPersistQuery
-n
