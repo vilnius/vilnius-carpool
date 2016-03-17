@@ -34,27 +34,17 @@ class @CarpoolMapController extends CarpoolController
   data: ->
     @ownTripsSub =  Meteor.subscribe("ownTrips",@params.niceLink)
     @stopsSubs = Meteor.subscribe("stops");
-    @dataLoading = 3
 
     if(@ownTripsSub.ready())
       da(['data-publish-ownTrips'], "5. Subscribtion own trips is ready");
       mapView.setActionProgress('ownTrips',100);
-      @dataLoading--
     else
       da(['data-publish-ownTrips'], "4. Wait for subscribtion to own trips");
       mapView.setActionProgress('ownTrips',0);
     if(@stopsSubs.ready())
-      @dataLoading--
+      mapView.setActionProgress('stops',100);
     else
-      mapView.setActionProgress('ownTrips',0);
-
-    ###
-    if @dataLoading
-      # If not ready show only map
-      @render("MapView", {to: 'map'});
-    else
-    da ['trips-filter', 'data-publish'], "Carpoolmap subcribtions to load:"+@dataLoading
-    ###
+      mapView.setActionProgress('stops',0);
 
     # Filter trips by parameters in query - these are set then trip form is filled
     query = {}
@@ -81,16 +71,9 @@ class @CarpoolMapController extends CarpoolController
           da ["trips-filter"], "Update B address", refinedAddress
           mapView.trip.to.setAddress(refinedAddress)
 
-    activeTrips = carpoolService.pullActiveTrips query, (progress)=>
-      if 100 == progress
-        da(['data-publish'], "3. Subscribtion active trips is ready:", query);
-        mapView.setActionProgress('activeTrips', 100);
-        @dataLoading--
-      else
-        da(['data-publish'], "2. Wait for subscribtion to the active trips:", query);
-        mapView.setActionProgress('activeTrips',0);
+    activeTrips = carpoolService.pullActiveTrips query, mapView.setActionProgress.bind(mapView, 'activeTrips')
 
-    return if @dataLoading;
+    #if mapView.progress.getProgress() isnt 100 then return
 
     #activeTrips = carpoolService.getActiveTrips().fetch()
     da ['data-publish'], "7. Draw active trips:", activeTrips
@@ -129,3 +112,4 @@ class @CarpoolMapController extends CarpoolController
 @selectTrip = (tripId)->
   da ["trips-matcher"], "Selected trip #{tripId}", tripId
   goExtendedQuery {}, {trip: tripId}, mapPersistQuery
+n

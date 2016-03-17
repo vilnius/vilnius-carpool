@@ -13,6 +13,31 @@ class Location
 reactivate(Location, "latlng");
 reactivate(Location, "address");
 
+# TODO merge with mapView functions
+class @Progress
+  progress: {}
+  setProgress: (action, progress)->
+    if progress == 100
+      delete @progress[action]
+    else
+      @progress[action] = progress
+    @getProgress();
+  getProgress: ()->
+    sum = 0
+    total = 0
+    _.each @progress, (item) ->
+      sum += item
+      total += 100
+    if sum == 0
+      if total == 0
+        return 100;
+      else
+        return 0;
+    else
+      return sum / total
+  isReady: ()->
+    return getProgress == 0
+
 class CarpoolTrip
   time: new Date();
   from: new Location
@@ -27,9 +52,9 @@ class MapView
   toMarker: null;
   fromMarker: null;
   stops: []
-  progress: {};
   activeTrips: {}
   ownTrips: {}
+  progress: new Progress();
 
   ###
   Shows Google Map when all required libraries are ready and starts afterMapShown queue
@@ -68,6 +93,24 @@ class MapView
       #da ["trips-filter"], "Couldn't form address", place
       return ""
   ###
+  Set current trip
+  ###
+  setCurrentTrip: afterMapShown.wrap (loadedTrip, cb)->
+    return unless loadedTrip
+    #da ["read-trip"], "Loaded trip", trip
+    #@trip = new CarpoolTrip();
+    toLatlng = googleServices.toLatLng(loadedTrip.toLoc)
+    @trip.path = loadedTrip.path
+    @trip.toLoc = loadedTrip.toLoc
+    @trip.to.setLatlng(toLatlng)
+    @trip.to.setAddress(loadedTrip.toAddress);
+    fromLatlng = googleServices.toLatLng(loadedTrip.fromLoc)
+    @trip.fromLoc = loadedTrip.fromLoc
+    @trip.from.setLatlng(fromLatlng);
+    @trip.from.setAddress(loadedTrip.fromAddress);
+    @drawOwnTrip @trip
+    cb?(null, @trip);
+  ###
   Geolocate more details about location
   ###
   clarifyPlace: (latlng, address, cb)->
@@ -96,6 +139,9 @@ class MapView
     @clarifyPlace latlng, address, (err, refinedLatlng, refinedAddress)=>
       da ["trips-drawing", "trips-filter"], "Refined latlng #{refinedAddress}:", refinedLatlng,
       setToLatLng(refinedLatlng, refinedAddress) unless err
+  ###
+  Show 'to' marker on map
+  ###
   dropToMarker: (latlng)->
     if not @toMarker
       pinImage = new (google.maps.MarkerImage)('http://maps.google.com/mapfiles/ms/icons/green-dot.png', new (google.maps.Size)(32, 32), new (google.maps.Point)(0, 0), new (google.maps.Point)(16, 32))
@@ -121,6 +167,9 @@ class MapView
       cb? refinedLatlng, refinedAddress
     @clarifyPlace latlng, address, (err, refinedLatlng, refinedAddress)=>
       setFromLatLng(refinedLatlng, refinedAddress) unless err
+  ###
+  Show 'from' marker on map
+  ###
   dropFromMarker: (latlng)->
     if not @fromMarker
       pinImage = new (google.maps.MarkerImage)('http://maps.google.com/mapfiles/ms/icons/red-dot.png', new (google.maps.Size)(32, 32), new (google.maps.Point)(0, 0), new (google.maps.Point)(16, 32))
@@ -252,30 +301,13 @@ class MapView
   Progress bar reset
   ###
   resetActionProgress: ->
-    @progress = {}
+    @progress = new Progress();
     NProgress.done()
   ###
   Set progress bar values
   ###
   setActionProgress: (action, value) ->
-    if value == 100
-      delete @progress[action]
-    else
-      @progress[action] = value
-    sum = 0
-    total = 0
-    _.each @progress, (item) ->
-      sum += item
-      total += 100
-      return
-    #da(['ie8-router', 'group-security'], "Progress:"+sum+"/"+total+" of "+action+"="+value, progress);
-    if sum == 0
-      if total == 0
-        NProgress.done()
-      else
-        NProgress.start()
-    else
-      NProgress.set sum / total
+    NProgress.set @progress.setProgress(action, value)
 
 @mapView = new MapView
 
