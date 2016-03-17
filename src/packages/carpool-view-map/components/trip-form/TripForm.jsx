@@ -19,12 +19,12 @@ TripForm = React.createClass({
   },
 
   drive() {
-    console.log('Drive', this.state)
+    console.log('Drive', this.state, this.refs.inputFrom.getDOMNode().value, this.refs.inputTo.getDOMNode().value)
     // TODO call db
   },
 
   ride() {
-    console.log('Ride', this.state)
+    console.log('Ride', this.state, this.refs, this.refs.inputFrom.getDOMNode().value, this.refs.inputTo.getDOMNode().value)
     // TODO call db
   },
 
@@ -32,9 +32,9 @@ TripForm = React.createClass({
     return (
       <div>
         <div>To</div>
-        <div><input type="text" placeholder="Kur vykstate?" style={styles.fullWidthInput} value={this.state.from} onChange={this.valueChanged.bind(this, 'from')} /></div>
+        <div><input ref="inputFrom" id="trip-form-input-from" type="text" placeholder="Kur vykstate?" style={styles.fullWidthInput} /></div>
         <div>From</div>
-        <div><input type="text" placeholder="Iš" style={styles.fullWidthInput} onChange={this.valueChanged.bind(this, 'to')} /></div>
+        <div><input ref="inputTo" id="trip-form-input-to" type="text" placeholder="Iš" style={styles.fullWidthInput} /></div>
         <div style={styles.datesWrapper} >
           <input type="text" placeholder="Time" style={styles.timeInput} value={this.state.time} onChange={this.valueChanged.bind(this, 'time')} />
           <input type="text" placeholder="Date" style={styles.dateInput} value={this.state.date} onChange={this.valueChanged.bind(this, 'date')} />
