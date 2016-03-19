@@ -5,10 +5,10 @@ Meteor.startup ()->
     window.alert = navigator.notification?.alert
 
   Push.addListener 'startup', (notification) ->
-    da ["trip-notifications"] "Startup on notification:", notification
+    da ["trip-notifications"], "Startup on notification:", notification
 
   Push.addListener 'message', (notification) ->
     # Called on every message
     alertDismissed = ->
       NotificationHistory.update { _id: notification.payload.historyId }, $set: 'recievedAt': new Date
-    da ["trip-notifications"] "Notification received:", notification
+    da ["trip-notifications"], "Notification received:", notification
