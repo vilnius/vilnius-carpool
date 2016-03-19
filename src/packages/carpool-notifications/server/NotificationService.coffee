@@ -24,14 +24,12 @@ class @NotificationService
       userId: userId
       reason: reason
     }, (error, result) ->
-      ###
       Push.send
         from: 'push'
         title: 'Carpool'
         text: text
         badge: badge
         payload:
-          title: 'Hello World'
+          title: "Trip #{reason}" 
           historyId: result
         query: userId: userId
-      ###
