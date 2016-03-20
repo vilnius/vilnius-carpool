@@ -10,6 +10,7 @@ Package.onUse(function(api) {
   api.use(['underscore', 'coffeescript'], ['server', 'client']);
   //api.use(["less@1.0.11"], 'client');
   api.use(['templating', 'tracker'], 'client');
+  api.use('less@2.5.1', 'client');
   api.use(['accounts-base@1.1.2'], 'client');
 
   api.use('iron:router','client');
@@ -26,7 +27,8 @@ Package.onUse(function(api) {
   api.addFiles(['i18n/helper.js', 'CarpoolMap_i18n.coffee'], "client");
   api.addFiles(['mapLayout.html', "mapLayout.coffee"], "client");
   //api.addFiles(['Map.less'], "client");
-  api.addFiles('map.css', "client");
+  api.addFiles('map.less', "client");
+  api.addFiles(['navbar.html', 'navbar.coffee'], "client");
 
   api.addFiles('DeltaArray.coffee');
   api.addFiles(['profilePanel.html', 'profilePanel.coffee'], "client");
