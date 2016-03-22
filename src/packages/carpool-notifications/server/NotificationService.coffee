@@ -30,6 +30,9 @@ class @NotificationService
         text: text
         badge: badge
         payload:
-          title: "Trip #{reason}" 
+          title: "Trip #{reason}"
           historyId: result
         query: userId: userId
+
+  removeTripNotifications: (tripId)->
+    NotificationHistory.remove({trip: tripId})

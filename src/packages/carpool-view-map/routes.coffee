@@ -3,3 +3,4 @@ Router.map ()->
   @route 'CarpoolLogin', path: '/login', controller: "CarpoolMapController"
   @route 'CarpoolMap', path: '/'
   @route 'CarpoolTrip', path: '/trip'
+  @route 'ShowRide', path: '/showRide'

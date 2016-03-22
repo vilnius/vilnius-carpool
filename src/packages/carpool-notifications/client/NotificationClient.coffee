@@ -6,6 +6,7 @@ Meteor.startup ()->
 
   Push.addListener 'startup', (notification) ->
     da ["trip-notifications"], "Startup on notification:", notification
+    controllerHelper.showRideView(notification.trip);
 
   Push.addListener 'message', (notification) ->
     # Called on every message

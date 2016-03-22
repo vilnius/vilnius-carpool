@@ -16,7 +16,7 @@ Package.onUse(function(api) {
   api.use('ecmascript');
   api.use(['underscore', 'coffeescript'], ['server', 'client']);
 
-  api.addFiles('carpool-geo.coffee');
+  api.addFiles('carpool-geo.coffee', 'client');
 
 });
 

@@ -8,6 +8,16 @@ locRadiusFilter = 1000 * 180 / (3.14*6371*1000);
   params[param] = locStr
   goExtendedQuery {}, params, mapPersistQuery
 
+@selectTrip = (tripId)->
+  da ["trips-matcher"], "Selected trip #{tripId}", tripId
+  goExtendedQuery {}, {trip: tripId}, mapPersistQuery
+
+class ControllerHelper
+  showRideView: (tripId)->
+    Router.go('ShowRide', {}, {query: {trip: tripId}});
+@controllerHelper = new ControllerHelper();
+
+
 class @CarpoolController extends RouteController
   layoutTemplate: 'carpoolMapLayout',
   yieldTemplates:
@@ -26,6 +36,9 @@ class @RegisterController extends CarpoolController
   if params.query.aLoc
     da ['geoloc'], "Location present in url has biggest priority:", params.query.aLoc
     aLoc = googleServices.decodePoints(params.query.aLoc)[0]
+  else
+    aLoc = Session.get("geoIpLoc");
+  if aLoc
     query["fromLoc"] = aLoc
     googleServices.afterInit ()=>
       latlng = googleServices.toLatLng(aLoc)
@@ -34,6 +47,7 @@ class @RegisterController extends CarpoolController
         # TODO check why this can't be moved to mapView
         da ["trips-filter"], "Update A address", refinedAddress
         mapView.trip.from.setAddress(refinedAddress)
+    
   if params.query.bLoc
     da ['geoloc'], "Location present in url has biggest priority:", params.query.bLoc
     bLoc = googleServices.decodePoints(params.query.bLoc)[0]
@@ -115,7 +129,3 @@ class @CarpoolMapController extends CarpoolController
       myTrips: ownTrips
       stops: stops
       selectedTrip: @params.query.trip
-
-@selectTrip = (tripId)->
-  da ["trips-matcher"], "Selected trip #{tripId}", tripId
-  goExtendedQuery {}, {trip: tripId}, mapPersistQuery
