@@ -3,4 +3,12 @@
   <div>{{> React component=tripTitle trip=currentTrip }}</div>
   <div><strong>Matching trips:</strong></div>
 
+  {{#if activeTrips.length}}
+    {{#each activeTrips}}
+      {{> activeTrip}}
+    {{/each}}
+  {{else}}
+    <div class="noActiveTrips">No trips found</div>
+  {{/if}}
+  
 </template>

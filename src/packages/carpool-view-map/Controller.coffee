@@ -47,7 +47,7 @@ class @RegisterController extends CarpoolController
         # TODO check why this can't be moved to mapView
         da ["trips-filter"], "Update A address", refinedAddress
         mapView.trip.from.setAddress(refinedAddress)
-    
+
   if params.query.bLoc
     da ['geoloc'], "Location present in url has biggest priority:", params.query.bLoc
     bLoc = googleServices.decodePoints(params.query.bLoc)[0]
@@ -75,15 +75,8 @@ class @CarpoolMapController extends CarpoolController
     @next();
 
   data: ->
-    @ownTripsSub =  Meteor.subscribe("ownTrips", @params.niceLink)
     @stopsSubs = Meteor.subscribe("stops");
 
-    if(@ownTripsSub.ready())
-      da(['data-publish-ownTrips'], "5. Subscribtion own trips is ready");
-      mapView.setActionProgress('ownTrips',100);
-    else
-      da(['data-publish-ownTrips'], "4. Wait for subscribtion to own trips");
-      mapView.setActionProgress('ownTrips',0);
     if(@stopsSubs.ready())
       mapView.setActionProgress('stops',100);
     else
@@ -106,7 +99,7 @@ class @CarpoolMapController extends CarpoolController
       mapView.drawActiveTrip trip
     mapView.invalidateActiveTrips(_(activeTrips).pluck("_id"));
 
-    ownTrips = carpoolService.getOwnTrips().fetch()
+    ownTrips = carpoolService.pullOwnTrips {}, mapView.setActionProgress.bind(mapView, 'ownTrips')
     da ['data-publish-ownTrips','stops-drawing'], "Draw own trips:", ownTrips
     for trip in ownTrips
       stopsOnRoutes[stop._id] = stop for stop in trip.stops

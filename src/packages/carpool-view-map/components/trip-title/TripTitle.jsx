@@ -3,22 +3,16 @@ TripTitle = React.createClass({
     //d("Trip in props:", this.props);
     if(this.props.trip) {
       return (
-        <span className="selectTrip" style={styles.titleWrapper} >
-          <div>
-            <strong>From: </strong>
-            <span className="myTripFrom">{this.props.trip.fromAddress}</span>
-          </div>
-          <div>
-            <strong>To: </strong>
-            <span className="myTripTo">{this.props.trip.toAddress}</span>
-          </div>
-          <div>
-            <strong>Stops: </strong><span className="stopsOnRoute">..</span>
-          </div>
-          <span >
-            Time
-          </span>
-        </span>
+        <dl className="dl-horizontal">
+          <dt>From:</dt>
+          <dd>{this.props.trip.fromAddress}</dd>
+
+          <dt>To:</dt>
+          <dd>{this.props.trip.toAddress}</dd>
+
+          <dt>Stops:</dt>
+          <dd></dd>
+        </dl>
       )
     } else {
       return (
