@@ -41,7 +41,11 @@ Notification = React.createClass({
 
   selectTrip() {
     da(["trips-matcher"], "Using globally defined functions", this.props.notification);
-    controllerHelper.selectTrip(this.props.notification.trip, this.props.notification.filterTrip)
+    if (this.props.notification.reason == "matched") {
+      controllerHelper.selectTrip(this.props.notification.trip, this.props.notification.filterTrip)
+    } else if (this.props.notification.reason == "request") {
+      controllerHelper.showDrive(this.props.notification.trip)      
+    }
   },
 
   dismissNotification() {

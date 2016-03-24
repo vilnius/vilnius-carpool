@@ -1,5 +1,7 @@
 d = console.log.bind @, "---"
 
+url = require('url');
+
 module.exports = ()->
 
   @Given /^Notifications for "([^"]*)" removed$/, (user)->
@@ -22,7 +24,18 @@ module.exports = ()->
 
   @Then /^User "([^"]*)" gets mobile notification and sends request$/, (username)->
     @TestHelper.login(username);
+    client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
     client.waitForExist ".selectNotification"
     client.click ".selectNotification"
     client.waitForExist ".requestRide"
     client.click ".requestRide"
+    client.waitForExist ".cancelRequest"
+
+  @Then /^user "([^"]*)" aproves request on mobile$/, (username)->
+    @TestHelper.login(username);
+    client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
+    # TODO check is notification correct
+    client.waitForExist ".selectNotification"
+    client.click ".selectNotification"
+    client.waitForVisible ".acceptRequest"
+    client.click ".acceptRequest"

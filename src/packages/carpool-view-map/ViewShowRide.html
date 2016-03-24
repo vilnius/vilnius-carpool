@@ -5,10 +5,73 @@
 
   {{#if activeTrips.length}}
     {{#each activeTrips}}
-      {{> activeTrip}}
+      {{> matchedDrive}}
     {{/each}}
   {{else}}
     <div class="noActiveTrips">No trips found</div>
   {{/if}}
-  
+</template>
+
+<template name="matchedDrive">
+<div class="accordion-group" style="background-color: white;">
+  <div class="accordion-heading">
+    <div class="trip-toggle {{#if equal obj=_id value=../selectedTrip}}trip-selected{{/if}}">
+      {{#if equal obj=currentUser._id value=owner}}{{else}}
+      <a class="pull-left" href="#">
+        <img class="media-object" src="{{userPictureUrl owner}}" height="50px"  width="50px">
+      </a>
+      {{/if}}
+      <span class="selectTrip" style="display:inline-block; padding-left: 10px">
+        <div>
+          <strong>From: </strong>
+          <span class="activeTripFrom">{{fromAddress}}</span>
+        </div>
+        <div>
+          <strong>To: </strong>
+          <span class="activeTripTo">{{toAddress}}</span>
+        </div>
+        <div>
+          <strong>Stops: </strong><span class="stopsOnRoute">{{#each stops}}{{title}}<br/>{{/each}}</span>
+        </div>
+      </span>
+      <span style="display:inline-block; padding-left: 10px">
+        <div>
+          {{formatDate tripTime '{yyyy}-{MM}-{dd}'}}
+        </div>
+        <div>
+          {{formatDate tripTime '{hh}:{mm}'}}
+        </div>
+      </span>
+      <span style="display:inline-block; padding-left: 10px; vertical-align:top">
+        <a href="#" >link</a>
+      </span>
+      <span class="glyphicon glyphicon-chevron-down pull-right"
+        aria-hidden="true"
+        data-toggle="collapse" data-parent="#accordion2"
+        href="#activeTripColalape-{{_id}}"></span>
+      <div>
+        {{#if requested}}
+          <button type="button" class="cancelRequest btn btn-warning">Cancel request</button>
+        {{else}}
+          <button type="button" class="requestRide btn btn-primary">Request</button>
+        {{/if}}
+
+        {{#if requested.response}}
+          {{#if equal obj=requested.response value="accept"}}
+            <i class="icon-ok"></i> accepted
+          {{else}}
+            <i class="icon-remove"></i> rejected
+          {{/if}}
+        {{else}}
+          no response
+        {{/if}}
+      </div>
+    </div>
+  </div>
+  <div id="activeTripColalape-{{_id}}"
+    class="accordion-body collapse {{#if equal obj=../selectedTrip value=_id}}in{{else}}out{{/if}}">
+    <div class="accordion-inner">
+    </div>
+  </div>
+</div>
 </template>

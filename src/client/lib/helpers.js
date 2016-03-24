@@ -11,6 +11,12 @@ Handlebars.registerHelper('displayName',function(user) {
 	return (user.profile && user.profile.name) || getUserEmail(user);
 });
 
+Handlebars.registerHelper('displayNameById',function(userId) {
+	//d("Showing display name:", user);
+	user = Meteor.users.findOne(userId);
+	return (user.profile && user.profile.name) || getUserEmail(user);
+});
+
 Handlebars.registerHelper('formatDate',function(input, pattern) {
 	  var iso = /^(\d{4})(?:-?W(\d+)(?:-?(\d+)D?)?|(?:-(\d+))?-(\d+))(?:[T ](\d+):(\d+)(?::(\d+)(?:\.(\d+))?)?)?(?:Z(-?\d*))?$/;
 	  if(input) {

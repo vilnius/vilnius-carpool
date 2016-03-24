@@ -17,6 +17,9 @@ class ControllerHelper
       Router.go "ShowRide", {}, {query:{trip: filterTrip._id}}
     else
       goExtendedQuery {}, {trip: tripId}, mapPersistQuery
+  showDrive: (tripId)->
+    Router.go "ShowDrive", {}, {query:{trip: tripId}}
+
 @controllerHelper = new ControllerHelper();
 
 

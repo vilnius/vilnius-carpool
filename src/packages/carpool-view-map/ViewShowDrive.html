@@ -1,0 +1,24 @@
+<template name="ShowDrive">
+  <h3><strong>You ride:</strong></h3>
+  <div>{{> React component=tripTitle trip=currentTrip }}</div>
+
+  <h3><strong>Requests:</strong></h3>
+  {{#each currentTrip.requests}}
+    <div class="media">
+      <div class="media-left">
+        <a href="#">
+          <img class="media-object" src="{{userPictureUrl userId}}" height="50px" width="50px">
+        </a>
+      </div>
+      <div class="media-body">
+        {{#if equal obj=response value="accept"}}
+          <h4 class="media-heading"><strong>{{displayNameById userId}}</strong> waiting for pickup</h4>
+          <a class="btn btn-warning cancelConfirmation" href="#">Cancel confirmation</a>
+        {{else}}
+          <h4 class="media-heading"><strong>{{displayNameById userId}}</strong> is asking to join</h4>
+          <a class="btn btn-primary acceptRequest" href="#">Accept</a>
+        {{/if}}
+      </div>
+    </div>
+  {{/each}}
+</template>
