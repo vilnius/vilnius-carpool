@@ -98,7 +98,7 @@ session@1.1.1
 sha@1.0.4
 spacebars@1.0.7
 spacebars-compiler@1.0.7
-spastai:carpool-service@0.0.9
+spastai:carpool-service@0.0.10
 spastai:flow-controll@0.0.9
 spastai:google-client@0.0.12
 spastai:logw@0.0.4
@@ -116,3 +116,4 @@ user-panels@0.0.0
 webapp@1.2.3
 webapp-hashing@1.0.5
 winston@0.0.0
+zeroasterisk:cordova-geolocation-foreground@0.0.3

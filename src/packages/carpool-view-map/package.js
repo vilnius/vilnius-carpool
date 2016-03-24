@@ -36,6 +36,7 @@ Package.onUse(function(api) {
   api.addFiles(['CarpoolLogin.html', 'CarpoolLogin.coffee'], "client");
   api.addFiles(['CarpoolProfile.html', 'CarpoolProfile.coffee'], "client");
   api.addFiles(['ViewSearchTrip.html', 'ViewSearchTrip.coffee'], "client");
+  api.addFiles(['ViewNotifications.html', 'ViewNotifications.coffee'], "client");
   api.addFiles(['MapView.html', 'MapView.coffee'], "client");
   api.addFiles('routes.coffee', "client");
 

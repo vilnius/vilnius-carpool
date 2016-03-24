@@ -8,13 +8,15 @@ locRadiusFilter = 1000 * 180 / (3.14*6371*1000);
   params[param] = locStr
   goExtendedQuery {}, params, mapPersistQuery
 
-@selectTrip = (tripId)->
-  da ["trips-matcher"], "Selected trip #{tripId}", tripId
-  goExtendedQuery {}, {trip: tripId}, mapPersistQuery
-
 class ControllerHelper
   showRideView: (tripId)->
     Router.go('ShowRide', {}, {query: {trip: tripId}});
+  selectTrip: (tripId, filterTrip)->
+    da ["trips-matcher"], "Selected trip #{tripId} depend on mobile or web view", tripId
+    if Router.current({reactive: false}).route.getName() is "Notifications"
+      Router.go "ShowRide", {}, {query:{trip: filterTrip._id}}
+    else
+      goExtendedQuery {}, {trip: tripId}, mapPersistQuery
 @controllerHelper = new ControllerHelper();
 
 

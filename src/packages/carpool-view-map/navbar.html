@@ -15,9 +15,9 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav hidden-md hidden-lg">
-        <li class="active"><a href="#">New trip <span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="{{pathFor 'CarpoolMap'}}">New trip <span class="sr-only">(current)</span></a></li>
         <li ><a href="#">My trips <span class="sr-only">(current)</span></a></li>
-        <li ><a href="#">Notifications <span class="sr-only">(current)</span></a></li>
+        <li ><a href="{{pathFor 'Notifications'}}">Notifications <span class="sr-only">(current)</span></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {{#if currentUser}}

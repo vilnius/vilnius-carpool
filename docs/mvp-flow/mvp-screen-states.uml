@@ -4,7 +4,9 @@ title Take a passenger
 
 state "<img:landing.png>" as landing
 state "<img:SelectDestinationOnMap.png>" as selectB
+state "<img:ShowRide.png>" as showRide
 
-landing -> selectB
+landing -> showRide: /showRide?trip=<tripId>
+landing -down-> selectB
 
 @enduml

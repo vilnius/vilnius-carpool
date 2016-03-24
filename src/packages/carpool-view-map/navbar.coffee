@@ -4,3 +4,6 @@ Template.navbarCarpool.events
     Meteor.logout()
     #da(['group-security'], "Go to MainLogin");
     Router.go 'CarpoolLogin'
+    
+  'click .nav a': (event, template) ->
+    $('.navbar-toggle').click()

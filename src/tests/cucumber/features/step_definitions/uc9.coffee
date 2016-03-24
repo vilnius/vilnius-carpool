@@ -19,3 +19,10 @@ module.exports = ()->
     client.click ".showMyTrip"
     client.waitForVisible ".acceptRequest"
     client.click ".acceptRequest"
+
+  @Then /^User "([^"]*)" gets mobile notification and sends request$/, (username)->
+    @TestHelper.login(username);
+    client.waitForExist ".selectNotification"
+    client.click ".selectNotification"
+    client.waitForExist ".requestRide"
+    client.click ".requestRide"
