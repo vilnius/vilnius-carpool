@@ -309,6 +309,10 @@ class MapView
   setActionProgress: (action, value) ->
     NProgress.set @progress.setProgress(action, value)
 
+  getActionProgress: () ->
+    @progress.getProgress();
+
+
 @mapView = new MapView
 
 ###

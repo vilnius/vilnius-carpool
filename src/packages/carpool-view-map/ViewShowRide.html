@@ -1,8 +1,8 @@
 <template name="ShowRide">
-  <div><strong>You ride:</strong></div>
+  <h3><strong>You ride:</strong></h3>
   <div>{{> React component=tripTitle trip=currentTrip }}</div>
-  <div><strong>Matching trips:</strong></div>
 
+  <h3><strong>Matching trips:</strong></h3>
   {{#if activeTrips.length}}
     {{#each activeTrips}}
       {{> matchedDrive}}

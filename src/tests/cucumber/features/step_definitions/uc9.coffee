@@ -25,10 +25,11 @@ module.exports = ()->
   @Then /^User "([^"]*)" gets mobile notification and sends request$/, (username)->
     @TestHelper.login(username);
     client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
-    client.screenshot();
+    #client.saveScreenshot('../build/screenshots/uc9-notifications.png')
     client.waitForExist ".selectNotification"
     client.click ".selectNotification"
     client.waitForExist ".requestRide"
+    #client.saveScreenshot('../build/screenshots/uc9-showRide.png')
     client.click ".requestRide"
     client.waitForExist ".cancelRequest"
 

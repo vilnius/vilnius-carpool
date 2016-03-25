@@ -48,6 +48,7 @@ Notification = React.createClass({
     } else if (this.props.notification.reason == "confirmation") {
       controllerHelper.showPickup(this.props.notification.trip)
     }
+    this.dismissNotification();
   },
 
   dismissNotification() {

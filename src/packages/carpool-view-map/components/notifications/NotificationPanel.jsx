@@ -30,7 +30,7 @@ NotificationPanel = React.createClass({
   render() {
     return (
       <div className="container">
-        <header><h2>Notifications</h2></header>
+        <header><h2>Notifications</h2> <a href="#">show all</a></header>
         {this.renderNotifications()}
       </div>
     );
