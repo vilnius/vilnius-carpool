@@ -19,6 +19,8 @@ class ControllerHelper
       goExtendedQuery {}, {trip: tripId}, mapPersistQuery
   showDrive: (tripId)->
     Router.go "ShowDrive", {}, {query:{trip: tripId}}
+  showPickup: (tripId)->
+    Router.go "ShowPickup", {}, {query:{trip: tripId}}
 
 @controllerHelper = new ControllerHelper();
 

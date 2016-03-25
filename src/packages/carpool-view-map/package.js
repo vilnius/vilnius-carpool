@@ -51,6 +51,7 @@ Package.onUse(function(api) {
   api.addFiles('components/trip-title/TripTitle.jsx', "client");
   api.addFiles(['ViewShowRide.html', 'ViewShowRide.coffee'], "client");
   api.addFiles(['ViewShowDrive.html', 'ViewShowDrive.coffee'], "client");
+  api.addFiles(['ViewShowPickup.html', 'ViewShowPickup.coffee'], "client");
 
 });
 

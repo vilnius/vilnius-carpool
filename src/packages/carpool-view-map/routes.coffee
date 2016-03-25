@@ -7,4 +7,5 @@ Router.map ()->
   # Mobile views
   @route 'ShowRide', path: '/showRide'
   @route 'ShowDrive', path: '/showDrive'
+  @route 'ShowPickup', path: '/showPickup'
   @route 'Notifications', path: '/notifications'

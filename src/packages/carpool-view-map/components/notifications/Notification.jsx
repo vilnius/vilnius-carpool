@@ -44,7 +44,9 @@ Notification = React.createClass({
     if (this.props.notification.reason == "matched") {
       controllerHelper.selectTrip(this.props.notification.trip, this.props.notification.filterTrip)
     } else if (this.props.notification.reason == "request") {
-      controllerHelper.showDrive(this.props.notification.trip)      
+      controllerHelper.showDrive(this.props.notification.trip)
+    } else if (this.props.notification.reason == "confirmation") {
+      controllerHelper.showPickup(this.props.notification.trip)
     }
   },
 
