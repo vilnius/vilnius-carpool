@@ -10,7 +10,7 @@ NotificationPanel = React.createClass({
     var handle = Meteor.subscribe('Notifications');
     if(handle.ready()) {
       var query = {};
-      var showHistory = false
+      var showHistory = this.props.showHistory
   		query = {recievedAt: {$exists: showHistory}};
       data.notifications = NotificationHistory.find(query).fetch();
     }

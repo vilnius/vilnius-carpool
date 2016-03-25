@@ -4,10 +4,10 @@ class @ShowPickupController extends CarpoolController
   data: ->
     query = _id: @params.query.trip
     trip = carpoolService.pullOneTrip query, mapView.setActionProgress.bind(mapView, 'oneTrip')
-    da ["read-trip"], "Own trip retrieve progress", mapView.getActionProgress();
+    #da ["read-trip"], "Own trip retrieve progress", mapView.getActionProgress();
     if mapView.getActionProgress() isnt 100 then return
-    
-    if trip then mapView.setCurrentTrip trip, ()->
+
+    mapView.setCurrentTrip trip, ()->
       da ["read-trip"], "Own trip is shown", trip
     result =
       currentTrip: trip

@@ -13,6 +13,8 @@ Package.onUse(function(api) {
   api.use('less@2.5.1', 'client');
   api.use(['accounts-base@1.1.2'], 'client');
 
+  api.use('momentjs:moment','client');
+
   api.use('iron:router','client');
 
   api.use("spastai:flow-controll@0.0.2", ["client", "server"]);
