@@ -9,17 +9,27 @@ Package.onUse(function(api) {
   api.versionsFrom('1.0');
   api.use(['underscore', 'coffeescript'], ['server', 'client']);
   api.use('templating','client');
+  api.use('reactive-var','client');
+
   api.use('iron:router','client');
 
   api.use("spastai:flow-controll@0.0.2", ["client", "server"]);
+  api.use("dry:forms-frame@0.1.5");
+  api.use("dry:forms-field-listedit@0.0.1");
+
   api.use(['spastai:google-client@0.0.6'], 'client');
 
   api.addFiles('lib/Security.coffee');
   api.addFiles('server/publishAdmin.coffee', "server");
+  api.addFiles('server/admin.coffee', "server");
+
   api.addFiles('client/CarpoolAdminClient.coffee', "client");
   api.addFiles('client/AdminController.coffee', "client");
   api.addFiles(['client/AdminLanding.html', 'client/AdminLanding.coffee'], "client");
   api.addFiles(['client/StopsAdmin.html', 'client/StopsAdmin.coffee'], "client");
+  api.addFiles(['client/NeldRowsTable.html', 'client/NeldRowsTable.coffee'], "client");
+
+  api.addFiles(['client/UsersAdmin.html', 'client/UsersAdmin.coffee'], "client");
   api.addFiles('client/routes.coffee', "client");
 });
 

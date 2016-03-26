@@ -1,0 +1,38 @@
+<template name="NeldRowsTable">
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        {{#each form}}
+        <th>{{label}}</th>
+        {{/each}}
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each forms}}
+      <tr>
+        {{#each formValues}}
+          <td>
+            {{#if ../editMode.get}}
+              {{> getFieldTemplate}}
+            {{else}}
+              {{> getValueTemplate}}
+            {{/if}}
+          </td>
+        {{/each}}
+        <td width="150px">
+          {{#if editMode.get}}
+            <button type="button" class="saveItem btn btn-default"><i class="glyphicon glyphicon-ok"></i></button>
+            <button type="button" class="cancelItemEdit btn btn-default"><i class="glyphicon glyphicon-ban-circle"></i></button>
+            <button type="button" class="removeItem btn btn-default pull-right"><i class="glyphicon glyphicon-remove"></i></button>
+          {{else}}
+            <button type="button" class="editItem btn btn-default">
+              <i class="glyphicon glyphicon-pencil"></i>
+            </button>
+          {{/if}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>

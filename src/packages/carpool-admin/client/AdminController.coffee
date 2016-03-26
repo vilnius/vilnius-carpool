@@ -11,4 +11,4 @@ class @AdminController extends RouteController
     if _(Meteor.user()?.roles).contains('root')
       @render();
     else
-      @render 'NoPermission'
+      @render 'CarpoolLogin'
