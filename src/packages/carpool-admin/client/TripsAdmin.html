@@ -1,0 +1,14 @@
+<template name="fieldTripusername">
+  {{>fieldText}}
+</template>
+
+<template name="valueTripusername">
+  <a href="#{{value}}">{{displayNameById value}}</a>
+</template>
+
+<template name="TripsAdmin">
+  <a href="{{pathFor 'AdminLanding'}}" class="btn">back to main menu</a>
+  <h3>Edit trips</h3>
+  {{>NeldRowsTable}}
+  <a href="{{pathFor 'AdminLanding'}}" class="btn">back to main menu</a>
+</template>

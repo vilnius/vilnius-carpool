@@ -8,6 +8,8 @@ Meteor.publish 'adminUserContacts', ->
       'profile': true
       "emails": true
 
-      
 Meteor.publish 'adminStops', ->
   Stops.find();
+
+Meteor.publish 'adminTrips', ->
+  Trips.find();
