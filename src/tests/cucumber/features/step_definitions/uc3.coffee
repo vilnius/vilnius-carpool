@@ -21,7 +21,8 @@ module.exports = ()->
               carpoolService.saveTrip trip, (err)->
                 if err then done err else done trip
         , trip
+    client.saveScreenshot('../build/screenshots/uc3-assureTrips.png')    
     d "Result:",result
 
-  @Given /^I see no trips filtered$/, ()->    
+  @Given /^I see no trips filtered$/, ()->
     client.waitForExist(".noActiveTrips");

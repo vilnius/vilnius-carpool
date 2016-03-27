@@ -21,6 +21,10 @@ module.exports = ()->
           if client.getText(".profile_Name") is username
             return
           else
+            if client.isVisible(".navbar-toggle.collapsed")
+              #d "Click menu toggle"
+              client.click(".navbar-toggle.collapsed");
+              client.waitForVisible('.showLogout');
             client.click(".showLogout");
             client.waitForVisible('.logout');
             client.click(".logout");
