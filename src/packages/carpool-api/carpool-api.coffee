@@ -1,17 +1,20 @@
 Router.route('/api/user/:userId/location', where: 'server').get(->
   try
-    result = Locations.findOne {userId: @params.userId}, {sort:{tsi:-1}, limit:1}
-    da ["carpool-api"], "Read location for #{@params.userId}", result
     headers =
       'Content-type': 'application/json; charset=utf-8'
+    if not security.authorize(@params.userId, @params.query.access_token)
+      @response.writeHead(404, headers);
+      @response.end(JSON.stringify({error: "Forbiden: token or user is wrong"}), "utf-8");
+      return
+    result = Locations.findOne {userId: @params.userId}, {sort:{tsi:-1}, limit:1}
+    result = {error: "No location saved"} unless result
+    da ["carpool-api"], "Read location for #{@params.userId}", result
     @response.writeHead(200, headers);
     @response.end(JSON.stringify(result), "utf-8");
   catch e
     console.error(e)
     @response.writeHead(503, headers);
     @response.end("error:"+JSON.stringify(e), "utf-8");
-
-
 ).post(->
   location = @request.body
   location.tsi = new Date();

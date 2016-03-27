@@ -13,15 +13,26 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.2.1');
   api.use('ecmascript');
-  api.use(['underscore', 'coffeescript'], ['server', 'client']);
-  api.use('iron:router');
+  api.use(['underscore', 'coffeescript']);
+  api.use('accounts-password');
 
-  api.addFiles('carpool-api.coffee');
+  api.use('iron:router@1.0.0'); // for fixtures
+  api.use('spastai:logw')
+  api.use('spastai:carpool-service');
+
+  api.addFiles('security.coffee');
+  api.addFiles('carpool-api-authorization.coffee', "server");
+  api.addFiles('carpool-api.coffee', "server");
 });
 
 Package.onTest(function(api) {
   api.use('ecmascript');
-  api.use('tinytest');
+  api.use(['tinytest', 'test-helpers']);
+  api.use(['underscore', 'coffeescript']);
+  api.use('accounts-password');
+  api.use('http');
+
+  api.use('spastai:logw')
   api.use('carpool-api');
-  api.addFiles('carpool-api-tests.coffee');
+  api.addFiles('carpool-api-tests.coffee', "server");
 });
