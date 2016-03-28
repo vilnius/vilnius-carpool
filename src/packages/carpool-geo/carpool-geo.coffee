@@ -9,12 +9,15 @@ Meteor.startup () =>
 
   if Meteor.isCordova
 
-    GeolocationFG.get (location)->
-      da ['geoloc'], "Setting cordova location:", location.coords
+    saveLocation = (location)->
+      da ['geoloc'], "Got cordova location:", location
+      Locations.insert
+        tsi: new Date(location.timestamp)
+        userId: Meteor.userId()
+        loc: [location.coords.longitude, location.coords.latitude]
+        acc: location.coords.accuracy
 
-    GeolocationCallback = (location)->
-      da ['geoloc'], "Watching cordova location:", location.coords
-
-    watchId = GeolocationFG.watch GeolocationCallback, 30000,
+    GeolocationFG.get saveLocation
+    watchId = GeolocationFG.watch saveLocation, 30000,
       maximumAge: 3000,
       enableHighAccuracy: true
