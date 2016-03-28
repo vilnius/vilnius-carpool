@@ -5,7 +5,7 @@ aspect.push "client-error"
 aspect.push "server-error"
 aspect.push "install"
 
-aspect.push "geoloc"
+#aspect.push "geoloc"
 #aspect.push "trips-filter"
 #aspect.push "trips-drawing"
 #aspect.push "stops-drawing"

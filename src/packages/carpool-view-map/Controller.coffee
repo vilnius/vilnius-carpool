@@ -11,9 +11,20 @@ locRadiusFilter = 1000 * 180 / (3.14*6371*1000);
 class ControllerHelper
   showRideView: (tripId)->
     Router.go('ShowRide', {}, {query: {trip: tripId}});
+  showNotifiedView: (notification)->
+    if notification.reason is "matched"
+      da ["read-trip"], "Show matching trip for rider", notification
+      @selectTrip(notification.trip, notification.filterTrip)
+    else if notification.reason is "request"
+      da ["read-trip"], "Show request for driver", notification
+      @showDrive(notification.trip)
+    else if notification.reason is "confirmation"
+      da ["read-trip"], "Show confirmation for rider", notification
+      @showPickup(notification.trip)
   selectTrip: (tripId, filterTrip)->
     da ["trips-matcher"], "Selected trip #{tripId} depend on mobile or web view", tripId
-    if Router.current({reactive: false}).route.getName() is "Notifications"
+    currentView = Router.current({reactive: false}).route.getName()
+    if currentView is "Notifications" or Meteor.isCordova
       Router.go "ShowRide", {}, {query:{trip: filterTrip._id}}
     else
       goExtendedQuery {}, {trip: tripId}, mapPersistQuery

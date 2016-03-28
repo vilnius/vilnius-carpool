@@ -8,7 +8,7 @@ class @ShowPickupController extends CarpoolController
     if mapView.getActionProgress() isnt 100 then return
 
     mapView.setCurrentTrip trip, ()->
-      da ["read-trip"], "Own trip is shown", trip
+      da ["read-trip"], "Own trip for pickup is shown", trip
     result =
       currentTrip: trip
     return result

@@ -7,7 +7,7 @@ class @ShowRideController extends CarpoolController
     ownTrips  = carpoolService.pullOwnTrips query, mapView.setActionProgress.bind(mapView, 'ownTrips')
     trip = ownTrips[0]
     mapView.setCurrentTrip trip, ()->
-      da ["read-trip"], "Own trip is shown", trip
+      da ["read-trip"], "Own matching trip is shown", trip
     result =
       currentTrip: trip
     if trip

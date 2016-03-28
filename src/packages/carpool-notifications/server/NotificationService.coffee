@@ -12,7 +12,7 @@ class @NotificationService
 
   notify: (reason, userId, doc, filterTrip)->
     da ["trips-matcher"], "Notify #{userId}: #{text}"
-    text = "Added trip: #{doc.fromAddress}-#{doc.toAddress}"
+    text = "Trip #{reason}: #{doc.fromAddress}-#{doc.toAddress}"
     last = NotificationHistory.findOne({}, sort: addedAt: -1)
     badge = 1
     if last != null
@@ -32,7 +32,10 @@ class @NotificationService
         badge: badge
         payload:
           title: "Trip #{reason}"
+          trip: doc._id
+          filterTrip: filterTrip
           historyId: result
+          reason: reason
         query: userId: userId
 
   removeTripNotifications: (tripId)->
