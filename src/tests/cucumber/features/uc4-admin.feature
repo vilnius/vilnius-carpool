@@ -10,6 +10,7 @@ Feature: 4.1 Login as admin
     Given Login with "admin@tiktai.lt"
     And I see ".stops" in "/admin"
 
+  @focus
   Scenario: Not Admin shouldn't see langing page
     Given Login with "user1@tiktai.lt"
-    And I see ".noPermission" in "/admin"
+    And I see ".join_Login" in "/admin"
