@@ -7,7 +7,7 @@ module.exports = ()->
   For test preparation sophisticated function created which takes addresses
   turns then into location and saves the trip using carpoolService
   ###
-  @Given /^Assure "([^"]*)" trip:$/, (user, table)->
+  @Given /^Assure "([^"]*)" trip:$/, {timeout: 20 * 1000}, (user, table)->
     @TestHelper.login(user);
     #d "Table", table.hashes()
     for trip in table.hashes()
@@ -21,7 +21,7 @@ module.exports = ()->
               carpoolService.saveTrip trip, (err)->
                 if err then done err else done trip
         , trip
-    #client.saveScreenshot('../build/screenshots/uc3-assureTrips.png')    
+    #client.saveScreenshot('../build/screenshots/uc3-assureTrips.png')
     d "Result:",result
 
   @Given /^I see no trips filtered$/, ()->
