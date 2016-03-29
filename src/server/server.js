@@ -1,5 +1,8 @@
-Meteor.methods({
+// Accounts.config({
+//    loginExpirationInDays: 90
+// })
 
+Meteor.methods({
 	inviteToGroup: function(group, member) {
 		var emailText = "Join the group "
 			+group.title+" clicking on the link\n"
@@ -202,4 +205,4 @@ Meteor.onConnection(function(connection){
 */
 
 
-d("Tmh Server started. Version 0.1.7.SNAPSHOT-150308.1");
+d("Tmh Server started. Version 0.1.8.SNAPSHOT-160326.1");

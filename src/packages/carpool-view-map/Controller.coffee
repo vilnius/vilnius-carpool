@@ -8,6 +8,34 @@ locRadiusFilter = 1000 * 180 / (3.14*6371*1000);
   params[param] = locStr
   goExtendedQuery {}, params, mapPersistQuery
 
+class ControllerHelper
+  showRideView: (tripId)->
+    Router.go('ShowRide', {}, {query: {trip: tripId}});
+  showNotifiedView: (notification)->
+    if notification.reason is "matched"
+      da ["read-trip"], "Show matching trip for rider", notification
+      @selectTrip(notification.trip, notification.filterTrip)
+    else if notification.reason is "request"
+      da ["read-trip"], "Show request for driver", notification
+      @showDrive(notification.trip)
+    else if notification.reason is "confirmation"
+      da ["read-trip"], "Show confirmation for rider", notification
+      @showPickup(notification.trip)
+  selectTrip: (tripId, filterTrip)->
+    da ["trips-matcher"], "Selected trip #{tripId} depend on mobile or web view", tripId
+    currentView = Router.current({reactive: false}).route.getName()
+    if currentView is "Notifications" or Meteor.isCordova
+      Router.go "ShowRide", {}, {query:{trip: filterTrip._id}}
+    else
+      goExtendedQuery {}, {trip: tripId}, mapPersistQuery
+  showDrive: (tripId)->
+    Router.go "ShowDrive", {}, {query:{trip: tripId}}
+  showPickup: (tripId)->
+    Router.go "ShowPickup", {}, {query:{trip: tripId}}
+
+@controllerHelper = new ControllerHelper();
+
+
 class @CarpoolController extends RouteController
   layoutTemplate: 'carpoolMapLayout',
   yieldTemplates:
@@ -26,6 +54,9 @@ class @RegisterController extends CarpoolController
   if params.query.aLoc
     da ['geoloc'], "Location present in url has biggest priority:", params.query.aLoc
     aLoc = googleServices.decodePoints(params.query.aLoc)[0]
+  else
+    aLoc = Session.get("geoIpLoc");
+  if aLoc
     query["fromLoc"] = aLoc
     googleServices.afterInit ()=>
       latlng = googleServices.toLatLng(aLoc)
@@ -34,6 +65,7 @@ class @RegisterController extends CarpoolController
         # TODO check why this can't be moved to mapView
         da ["trips-filter"], "Update A address", refinedAddress
         mapView.trip.from.setAddress(refinedAddress)
+
   if params.query.bLoc
     da ['geoloc'], "Location present in url has biggest priority:", params.query.bLoc
     bLoc = googleServices.decodePoints(params.query.bLoc)[0]
@@ -61,15 +93,8 @@ class @CarpoolMapController extends CarpoolController
     @next();
 
   data: ->
-    @ownTripsSub =  Meteor.subscribe("ownTrips", @params.niceLink)
     @stopsSubs = Meteor.subscribe("stops");
 
-    if(@ownTripsSub.ready())
-      da(['data-publish-ownTrips'], "5. Subscribtion own trips is ready");
-      mapView.setActionProgress('ownTrips',100);
-    else
-      da(['data-publish-ownTrips'], "4. Wait for subscribtion to own trips");
-      mapView.setActionProgress('ownTrips',0);
     if(@stopsSubs.ready())
       mapView.setActionProgress('stops',100);
     else
@@ -92,7 +117,7 @@ class @CarpoolMapController extends CarpoolController
       mapView.drawActiveTrip trip
     mapView.invalidateActiveTrips(_(activeTrips).pluck("_id"));
 
-    ownTrips = carpoolService.getOwnTrips().fetch()
+    ownTrips = carpoolService.pullOwnTrips {}, mapView.setActionProgress.bind(mapView, 'ownTrips')
     da ['data-publish-ownTrips','stops-drawing'], "Draw own trips:", ownTrips
     for trip in ownTrips
       stopsOnRoutes[stop._id] = stop for stop in trip.stops
@@ -115,7 +140,3 @@ class @CarpoolMapController extends CarpoolController
       myTrips: ownTrips
       stops: stops
       selectedTrip: @params.query.trip
-
-@selectTrip = (tripId)->
-  da ["trips-matcher"], "Selected trip #{tripId}", tripId
-  goExtendedQuery {}, {trip: tripId}, mapPersistQuery

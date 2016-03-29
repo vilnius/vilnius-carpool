@@ -6,3 +6,9 @@ Handlebars.registerHelper 'userPictureUrl', (userId) ->
     if user.services.facebook then 'http://graph.facebook.com/' + user.services.facebook.id + '/picture' else result
   else
     result
+
+
+Handlebars.registerHelper 'displayNameById', (userId) ->
+  #d("Showing display name:", user);
+  user = Meteor.users.findOne(userId)
+  user?.profile?.name or getUserEmail(user)

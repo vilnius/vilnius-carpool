@@ -6,8 +6,8 @@ class @CarpoolTripController extends CarpoolController
   data: ->
     query = _id: @params.query.trip
     activeTrips = carpoolService.pullActiveTrips query, mapView.setActionProgress.bind(mapView, 'activeTrips')
-    #da ["read-trip"], "Active trip", activeTrips
+    da ["read-trip"], "Active trips", activeTrips
     trip = activeTrips[0]
     mapView.setCurrentTrip trip, ()->
-      #da ["read-trip"], "Active trip is shown", activeTrips
-    return currentTrip: mapView.trip
+      da ["read-trip"], "Active trip is shown", trip
+    return currentTrip: trip

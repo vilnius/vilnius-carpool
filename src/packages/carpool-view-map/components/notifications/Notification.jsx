@@ -40,8 +40,9 @@ Notification = React.createClass({
 
 
   selectTrip() {
-    da(["trips-matcher"], "Using globally defined functions",this.props.notification);
-    selectTrip(this.props.notification.trip)
+    da(["trips-matcher"], "Using globally defined functions", this.props.notification);
+    controllerHelper.showNotifiedView(this.props.notification);    
+    this.dismissNotification();
   },
 
   dismissNotification() {

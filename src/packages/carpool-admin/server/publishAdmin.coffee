@@ -1,4 +1,3 @@
-
 Meteor.publish 'adminUserContacts', ->
   return this.ready() unless security.isAdmin(Meteor.users.findOne(@userId))
   da [ 'data-publish' ], 'Publish all user contacts'
@@ -10,3 +9,6 @@ Meteor.publish 'adminUserContacts', ->
 
 Meteor.publish 'adminStops', ->
   Stops.find();
+
+Meteor.publish 'adminTrips', ->
+  Trips.find();

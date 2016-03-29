@@ -1,0 +1,10 @@
+@startuml
+
+participant app as "Application"
+participant srv as "Server"
+
+app -> srv: GET /api/access_token?username=user@domain.lt&password=xxxx
+app /- srv: access_token
+
+app -> srv: POST /user/... ?access_token=<>
+@enduml

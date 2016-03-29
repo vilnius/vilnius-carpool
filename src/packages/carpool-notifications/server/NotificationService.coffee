@@ -10,9 +10,9 @@ class @NotificationService
       subject: "Asking to join the trip",
       text: emailText
 
-  notify: (reason, userId, doc)->
+  notify: (reason, userId, doc, filterTrip)->
     da ["trips-matcher"], "Notify #{userId}: #{text}"
-    text = "Added trip: #{doc.fromAddress}-#{doc.toAddress}"
+    text = "Trip #{reason}: #{doc.fromAddress}-#{doc.toAddress}"
     last = NotificationHistory.findOne({}, sort: addedAt: -1)
     badge = 1
     if last != null
@@ -21,17 +21,22 @@ class @NotificationService
       badge: badge
       addedAt: new Date
       trip: doc._id
+      filterTrip: filterTrip
       userId: userId
       reason: reason
     }, (error, result) ->
-      ###
       Push.send
         from: 'push'
         title: 'Carpool'
         text: text
         badge: badge
         payload:
-          title: 'Hello World'
+          title: "Trip #{reason}"
+          trip: doc._id
+          filterTrip: filterTrip
           historyId: result
+          reason: reason
         query: userId: userId
-      ###
+
+  removeTripNotifications: (tripId)->
+    NotificationHistory.remove({trip: tripId})

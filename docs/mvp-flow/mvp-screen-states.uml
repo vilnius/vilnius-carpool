@@ -2,9 +2,24 @@
 
 title Take a passenger
 
-state "<img:landing.png>" as landing
-state "<img:SelectDestinationOnMap.png>" as selectB
+state "Landing page\n<img:landing.png>" as landing
+state "Rider scheduled trip\n<img:uc3-assureTrips.png>" as riderTrips
+state "<img:uc9-notifications.png>" as notifications
+state "<img:uc9-showRide.png>" as showRide
 
-landing -> selectB
+state "Driver enters trip\n<img:uc9-driverTrip.png>" as driverTrip
+state "<img:uc9-acceptRequest.png>" as acceptRequest
+
+[*] -> landing
+landing -[#blue]> riderTrips
+riderTrips -[#blue]> notifications
+notifications -[#blue]> showRide
+
+landing -down[#green]-> driverTrip
+driverTrip -up-> showRide: notification
+driverTrip -[#green]> acceptRequest
+
+showRide -down-> acceptRequest: notification
+
 
 @enduml

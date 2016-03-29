@@ -37,17 +37,6 @@ Template.MapCanvas.rendered = function() {
 }
 
 //*** Helpers ***
-Handlebars.registerHelper('userPictureUrl', function(userId){
-	var user = Meteor.users.findOne(userId);
-	var result = "/img/Man_Silhouette.png";
-	//d("User picture:"+userId, user);
-	if(user) {
-		return user.services.facebook ?  "http://graph.facebook.com/"+user.services.facebook.id+"/picture" : result;
-	} else {
-		return result;
-	}
-});
-
 Handlebars.registerHelper('userFacebookId',function(userId){
 	var user = Meteor.users.findOne(userId);
 	if(user) {
