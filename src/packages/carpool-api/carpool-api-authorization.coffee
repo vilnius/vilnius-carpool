@@ -1,4 +1,4 @@
-@security = new Security
+@apiSecurity = new ApiSecurity
 
 Router.route('/api/access_token', where: 'server').get(->
   username = @params.query.username
@@ -8,7 +8,7 @@ Router.route('/api/access_token', where: 'server').get(->
   headers =
     'Content-type': 'application/json; charset=utf-8'
 
-  result = security.authenticate(username, password);
+  result = apiSecurity.authenticate(username, password);
   if result.error
     da ["carpool-api"], "Authentication #{username} result", result
     @response.writeHead(result.error, headers);

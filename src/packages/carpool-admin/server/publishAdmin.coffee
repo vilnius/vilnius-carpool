@@ -1,4 +1,3 @@
-
 Meteor.publish 'adminUserContacts', ->
   return this.ready() unless security.isAdmin(Meteor.users.findOne(@userId))
   da [ 'data-publish' ], 'Publish all user contacts'

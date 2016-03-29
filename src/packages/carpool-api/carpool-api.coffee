@@ -2,7 +2,7 @@ Router.route('/api/user/:userId/location', where: 'server').get(->
   try
     headers =
       'Content-type': 'application/json; charset=utf-8'
-    if not security.authorize(@params.userId, @params.query.access_token)
+    if not apiSecurity.authorize(@params.userId, @params.query.access_token)
       @response.writeHead(404, headers);
       @response.end(JSON.stringify({error: "Forbiden: token or user is wrong"}), "utf-8");
       return

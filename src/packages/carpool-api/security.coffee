@@ -1,4 +1,4 @@
-class @Security
+class @ApiSecurity
   authenticate: (username, password)->
     user = Meteor.users.findOne($or: [{username: username},{"emails.address" : username}]);
     da ["carpool-api"], "Authenticate #{username}", user
