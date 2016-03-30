@@ -30,8 +30,10 @@ carpool-view-map
 spastai:logw
 carpool-notifications
 
-standard-minifiers
 carpool-api
 raix:push
 carpool-geo
 zeroasterisk:cordova-geolocation-foreground
+standard-minifier-css
+standard-minifier-js
+react-meteor-data

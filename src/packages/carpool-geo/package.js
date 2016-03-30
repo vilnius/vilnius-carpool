@@ -13,7 +13,7 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.2.1');
   api.use('ecmascript');
-  api.use('ecmascript');
+
   api.use(['underscore', 'coffeescript'], ['server', 'client']);
 
   api.addFiles('carpool-geo.coffee', 'client');

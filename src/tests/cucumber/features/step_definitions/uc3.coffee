@@ -7,10 +7,11 @@ module.exports = ()->
   For test preparation sophisticated function created which takes addresses
   turns then into location and saves the trip using carpoolService
   ###
-  @Given /^Assure "([^"]*)" trip:$/, {timeout: 20 * 1000}, (user, table)->
+  @Given /^Assure "([^"]*)" trip:$/, (user, table)->
     @TestHelper.login(user);
     #d "Table", table.hashes()
     for trip in table.hashes()
+      client.timeoutsAsyncScript(5000);
       result = client.executeAsync (trip, done) ->
           trip.time = new Date()
           #d "Trips:", carpoolService.getOwnTrips();
