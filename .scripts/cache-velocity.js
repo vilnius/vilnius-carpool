@@ -14,7 +14,7 @@ function cacheVelocityMeteorRelease() {
      [
        '--raw-logs',
        '--settings', 'settings.json',
-       '--release', 'velocity:METEOR@1.2.1_2'
+       '--release', 'velocity:METEOR@1.3'
      ],
      {
        cwd: srcDir,
