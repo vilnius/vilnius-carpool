@@ -30,8 +30,8 @@ cache:
     - "src/.meteor/local/mirrors"
 
 before_cache:
-  - rm -rf $HOME/build/vilnius/vilnius-carpool/.meteor/local/log
-  - rm -rf $HOME/build/vilnius/vilnius-carpool/.meteor/local/run
+  - rm -rf $HOME/build/$TRAVIS_REPO_SLUG/.meteor/local/log
+  - rm -rf $HOME/build/$TRAVIS_REPO_SLUG/.meteor/local/run
 
 before_install:
   # Download Meteor
