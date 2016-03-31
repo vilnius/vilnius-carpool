@@ -50,7 +50,7 @@ before_install:
   - export PATH=$MONGO_HOME/bin:$PATH
   - mkdir -p $HOME/data/db
   - $MONGO_HOME/bin/mongod --dbpath $HOME/data/db > $HOME/mongo.log 2>&1 &
-  - cd $HOME/build/vilnius/vilnius-carpool
+  - cd $HOME/build/$TRAVIS_REPO_SLUG
 
   # Install NPM dependencies
   - npm install
