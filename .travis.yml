@@ -73,6 +73,7 @@ install:
   #- npm install react react-dom
 
 before_script:
+  - ls ../node_modules
   - coffee -c src/tests/cucumber/features/
 
 script:
