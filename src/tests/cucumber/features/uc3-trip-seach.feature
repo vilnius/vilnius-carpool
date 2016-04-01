@@ -23,7 +23,11 @@ Feature: uc3 Search for the trip
     Then I see active trip
       | from               | to                      |
       | Krivių 68, Vilnius | Muitinės g. 35, Vilnius |
-    And I see the stop "Filaretu" on the route
+    #And I see the stop "Filaretu" on the route
+    And I see the stops on the route:
+      | name     |
+      | Filaretu |
+      | Kauno    |
 
   Scenario: User enters destination for no trips
     Given Login with "user2@tiktai.lt"
