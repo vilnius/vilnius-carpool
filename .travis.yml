@@ -76,4 +76,5 @@ before_script:
   - ../node_modules/.bin/coffee -c tests/cucumber/features/
 
 script:
+  - cd ..
   - npm test
