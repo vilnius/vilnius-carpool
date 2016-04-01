@@ -22,6 +22,7 @@ carpool-api@0.0.1
 carpool-geo@0.0.1
 carpool-notifications@0.0.1
 carpool-view-map@0.0.1
+carpool-view-mui@0.0.1
 check@1.1.2
 coffeescript@1.0.15
 cucumber-fixtures@1.0.0
