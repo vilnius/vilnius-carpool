@@ -47,10 +47,6 @@ Package.onUse(function(api) {
   api.addFiles('components/notifications/Notification.jsx', "client");
   api.addFiles('components/notifications/NotificationPanel.jsx', "client");
 
-  api.addFiles(['components/trip-form/CarpoolTrip.html', 'components/trip-form/CarpoolTrip.coffee'], "client");
-  api.addFiles('components/trip-form/Controller.coffee', "client");
-  api.addFiles('components/trip-form/TripForm.jsx', "client");
-
   api.addFiles('components/trip-title/TripTitle.jsx', "client");
   api.addFiles(['ViewShowRide.html', 'ViewShowRide.coffee'], "client");
   api.addFiles(['ViewShowDrive.html', 'ViewShowDrive.coffee'], "client");
