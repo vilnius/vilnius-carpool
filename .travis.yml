@@ -69,9 +69,7 @@ before_install:
 install:
   - meteor npm install react react-dom react-addons-transition-group react-addons-css-transition-group react-addons-linked-state-mixin react-addons-create-fragment react-addons-update react-addons-pure-render-mixin react-addons-test-utils react-addons-perf
   #- npm install react react-dom
-  - pwd
-  - ls -al
-  - mv ../node_modules/ ./
+  - mv node_modules src/
 
 before_script:
   - coffee -c src/tests/cucumber/features/
