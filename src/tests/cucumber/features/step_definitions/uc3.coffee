@@ -7,10 +7,12 @@ module.exports = ()->
   For test preparation sophisticated function created which takes addresses
   turns then into location and saves the trip using carpoolService
   ###
-  @Given /^Assure "([^"]*)" trip:$/, {timeout: 20 * 1000}, (user, table)->
+  @Given /^Assure "([^"]*)" trip:$/, (user, table)->
     @TestHelper.login(user);
     #d "Table", table.hashes()
+    client.timeoutsAsyncScript(5000);
     for trip in table.hashes()
+      # Trip stops calculation is time consuming
       result = client.executeAsync (trip, done) ->
           trip.time = new Date()
           #d "Trips:", carpoolService.getOwnTrips();
@@ -26,3 +28,13 @@ module.exports = ()->
 
   @Given /^I see no trips filtered$/, ()->
     client.waitForExist(".noActiveTrips");
+
+  @Then /^I see the stops on the route:$/, (table)->
+    element = ".stopsOnRoute"
+    client.waitForExist(element);
+    stopsShown = client.getText(".stopsOnRoute .stop");
+    for stop in table.hashes()
+      d "Check the stop #{stop.name}",
+      expect(stopsShown).toContain(stop.name);
+      #expect(_(stopsShown).contains(stop.name)).toBe(true);
+      #expect().toEqual(stopTitle)

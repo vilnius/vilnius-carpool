@@ -9,6 +9,8 @@ class @ShowPickupController extends CarpoolController
 
     mapView.setCurrentTrip trip, ()->
       da ["read-trip"], "Own trip for pickup is shown", trip
+      mapView.showStops trip.stops, []
+
     result =
       currentTrip: trip
     return result

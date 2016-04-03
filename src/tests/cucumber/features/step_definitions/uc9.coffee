@@ -43,3 +43,9 @@ module.exports = ()->
     client.waitForVisible ".acceptRequest"
     #client.saveScreenshot('../build/screenshots/uc9-acceptRequest.png')
     client.click ".acceptRequest"
+
+  @Then /^user "([^"]*)" sees pickup stop$/, (username)->
+    @TestHelper.login(username);
+    client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
+    client.waitForExist ".selectNotification"
+    client.click ".selectNotification"

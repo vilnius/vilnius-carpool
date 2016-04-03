@@ -15,7 +15,9 @@ TripTitle = React.createClass({
           <dd>{timeString}</dd>
 
           <dt>Stops:</dt>
-          <dd></dd>
+          {this.props.trip.stops.map(function(stop) {
+            return (<dd key={stop._id}>{stop.title}</dd>)
+          })}
         </dl>
       )
     } else {
