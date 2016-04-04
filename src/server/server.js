@@ -26,7 +26,7 @@ Meteor.methods({
 			options.owner = this.userId;
 			options.requests = [];
 			var tripId = Trips.insert(options);
-			da(['INFO','viewport-map'], "Saved trip:"+tripId, options);
+			da(['viewport-map'], "Saved trip:"+tripId, options);
 			options._id = tripId;
 			userNotifier.notify('tripCreated', {trip: options});
 			return tripId;

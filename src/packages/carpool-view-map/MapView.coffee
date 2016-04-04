@@ -186,13 +186,13 @@ class MapView
   Draw stops on the map
   ###
   showStops: afterMapShown.wrap (stops, stopsOnRoutes) ->
-    #da ["stops-drawing"], "Stops", stops
+    da ["stops-drawing"], "Stops highlights", stopsOnRoutes
     for i, stop of stops
-      #da ["stops-drawing"], "Show stop", stop
       if stopsOnRoutes?[stop._id]?
         img = "/img/yellow-stop.png"
       else
         img = '/img/white-stop.png';
+      da ["stops-drawing"], "Show stop #{img}", stop
       @stops[i] = new (google.maps.Marker)(
         map: @map
         position: googleServices.toLatLng stop.loc

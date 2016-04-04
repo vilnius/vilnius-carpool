@@ -11,8 +11,8 @@ class @NotificationService
       text: emailText
 
   notify: (reason, userId, doc, filterTrip)->
-    da ["trips-matcher"], "Notify #{userId}: #{text}"
     text = "Trip #{reason}: #{doc.fromAddress}-#{doc.toAddress}"
+    da ["trips-matcher"], "Notify #{userId}: #{text}"
     last = NotificationHistory.findOne({}, sort: addedAt: -1)
     badge = 1
     if last != null
