@@ -11,6 +11,7 @@ module.exports = ()->
     @TestHelper.login(user);
     #d "Table", table.hashes()
     for trip in table.hashes()
+      # Trip stops calculation is time consuming
       client.timeoutsAsyncScript(5000);
       result = client.executeAsync (trip, done) ->
           trip.time = new Date()
@@ -27,3 +28,13 @@ module.exports = ()->
 
   @Given /^I see no trips filtered$/, ()->
     client.waitForExist(".noActiveTrips");
+
+  @Then /^I see the stops on the route:$/, (table)->
+    element = ".stopsOnRoute"
+    client.waitForExist(element);
+    stopsShown = client.getText(".stopsOnRoute .stop");
+    for stop in table.hashes()
+      d "Check the stop #{stop.name}",
+      expect(stopsShown).toContain(stop.name);
+      #expect(_(stopsShown).contains(stop.name)).toBe(true);
+      #expect().toEqual(stopTitle)

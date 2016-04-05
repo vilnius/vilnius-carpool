@@ -24,6 +24,8 @@ Package.onUse(function(api) {
   api.use("spastai:carpool-service");
   api.use("carpool-notifications");
 
+  api.addFiles('controller.coffee', "client");
+
   api.addFiles('components/trip-form/TripForm.jsx', "client");
   api.addFiles('components/landing/Landing.jsx', "client");
 

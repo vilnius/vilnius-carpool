@@ -6,6 +6,8 @@ Meteor.startup () =>
       #latlng = new google.maps.LatLng(location.coords.latitude, location.coords.longitude)
       da ['geoloc'], "Setting location:", location.coords
       Session.set("geoIpLoc", [location.coords.longitude, location.coords.latitude]);
+    , ()->
+      da ['geoloc'], "Geolocation error:", arguments
 
   if Meteor.isCordova
 
@@ -17,7 +19,15 @@ Meteor.startup () =>
         loc: [location.coords.longitude, location.coords.latitude]
         acc: location.coords.accuracy
 
-    GeolocationFG.get saveLocation
-    watchId = GeolocationFG.watch saveLocation, 30000,
+    geoError = ()->
+      da ['geoloc'], "Geolocation error:", arguments
+
+    watchId = navigator.geolocation.watchPosition saveLocation, geoError,
+      timeout: 30000,
       maximumAge: 3000,
       enableHighAccuracy: true
+      
+    # GeolocationFG.get saveLocation
+    # watchId = GeolocationFG.watch saveLocation, 30000,
+    #   maximumAge: 3000,
+    #   enableHighAccuracy: true
