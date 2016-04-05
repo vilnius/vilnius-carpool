@@ -4,6 +4,7 @@ accounts-oauth@1.1.10
 accounts-password@1.1.6
 accounts-ui@1.1.7
 accounts-ui-unstyled@1.1.10
+aldeed:simple-schema@1.3.3
 allow-deny@1.0.2
 autoupdate@1.2.6
 babel-compiler@6.5.2
@@ -23,6 +24,7 @@ carpool-geo@0.0.1
 carpool-notifications@0.0.1
 carpool-view-map@0.0.1
 carpool-view-mui@0.0.1
+cfs:http-methods@0.0.30
 check@1.1.2
 coffeescript@1.0.15
 cucumber-fixtures@1.0.0
@@ -68,6 +70,7 @@ logging@1.0.10
 matb33:collection-hooks@0.7.15
 meteor@1.1.12
 meteor-platform@1.2.4
+meteorspark:util@0.2.0
 minifier-css@1.1.9
 minifier-js@1.1.9
 minimongo@1.0.12
@@ -112,6 +115,7 @@ srp@1.0.6
 standard-app-packages@1.0.7
 standard-minifier-css@1.0.4
 standard-minifier-js@1.0.4
+tap:i18n@1.8.0
 templating@1.1.7
 templating-tools@1.0.2
 tmeasday:check-npm-versions@0.2.0

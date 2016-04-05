@@ -19,14 +19,17 @@ Package.onUse(function(api) {
   api.use('react');
   api.use('react-template-helper');
   api.use('iron:router','client');
+  api.use('tap:i18n', 'client');
 
   api.use("spastai:carpool-service");
   api.use("carpool-notifications");
 
   api.addFiles('components/trip-form/TripForm.jsx', "client");
+  api.addFiles('components/landing/Landing.jsx', "client");
 
   api.addFiles(['views/MuiLanding.html', 'views/MuiLanding.coffee'], "client");
   api.addFiles(['views/MuiEditTrip.html', 'views/MuiEditTrip.coffee'], "client");
+  api.addFiles('views/styles.css', "client");
 
   api.mainModule('routes.coffee', "client");
 });
