@@ -8,7 +8,7 @@ class LandingBase extends React.Component {
   render () {
     return (
       <div>
-        <FloatingActionButton primary={true} onClick={() => {console.log('Should route to trip form')}} style={{
+        <FloatingActionButton primary={true} onClick={() => {muiControllerHelper.goToView('MuiEditTrip')}} style={{
           position: 'absolute',
           bottom: 12,
           right: 12,
