@@ -19,6 +19,21 @@ Feature: uc9 Notify on matching trip
     And I see "#trip-toAddress" in "/"
     When I enter:
       | trip-fromAddress     | trip-toAddress          |
+      | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius |
+    And I see ".from-geo-location"
+    And I see ".to-geo-location"
+    And Click on "[value='driver']"
+    And I see my trip
+      | from                   | to                     |
+      | 1 Paplaujos g. Vilnius | 35 Muitinės g. Vilnius |
+    Then User "user1@tiktai.lt" gets mobile notification and sends request
+    And user "user2@tiktai.lt" aproves request on mobile
+
+  Scenario: Driver Bob enters route through stop and rider Ana gets notification
+    Given Login with "user2@tiktai.lt"
+    And I see "#trip-toAddress" in "/"
+    When I enter:
+      | trip-fromAddress     | trip-toAddress          |
       | 54 Krivių g. Vilnius | Muitinės g. 35, Vilnius |
     And I see ".from-geo-location"
     And I see ".to-geo-location"
