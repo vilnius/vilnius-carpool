@@ -34,7 +34,7 @@
           <strong>Stops: </strong>
           <span class="stopsOnRoute">
           {{#each stops}}
-            <button type="button" class="btn btn-primary">Request</button> {{title}}           
+            {{title}}           
           {{/each}}
           </span>
         </div>
@@ -58,9 +58,7 @@
         {{#if requested}}
           <button type="button" class="cancelRequest btn btn-warning">Cancel request</button>
         {{else}}
-          <!--
           <button type="button" class="requestRide btn btn-primary">Request</button>
-          -->
         {{/if}}
 
         {{#if requested.response}}
