@@ -14,6 +14,8 @@ Package.onUse(function(api) {
   api.versionsFrom('1.2.1');
   api.use('ecmascript');
 
+  //api.use('cordova:cordova-plugin-geolocation@2.1.0');
+
   api.use(['underscore', 'coffeescript'], ['server', 'client']);
 
   api.addFiles('carpool-geo.coffee', 'client');
