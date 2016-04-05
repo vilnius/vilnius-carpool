@@ -22,6 +22,7 @@ Package.onUse(function(api) {
   api.use('tap:i18n', 'client');
 
   api.use("spastai:carpool-service");
+  api.use("spastai:google-client@0.0.12", 'client');
   api.use("carpool-notifications");
 
   api.addFiles('controller.coffee', "client");
