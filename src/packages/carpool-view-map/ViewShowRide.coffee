@@ -14,7 +14,7 @@ class @ShowRideController extends CarpoolController
       activeTrips = carpoolService.pullActiveTrips trip, mapView.setActionProgress.bind(mapView, 'activeTrips')
       da ["read-trip"], "Active trips filtered", activeTrips
       for key, trip of activeTrips
-        da ["read-trip"], "Check every trip", trip
+        da ["read-trip"], "Check every trip for request", trip
         tripRequest = _(trip.requests).findWhere({userId: Meteor.userId()})
         if tripRequest then trip.requested = tripRequest
       result.activeTrips = activeTrips

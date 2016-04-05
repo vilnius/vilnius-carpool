@@ -10,7 +10,7 @@ Feature: uc9 Notify on matching trip
     And Stops exists
     And Assure "user1@tiktai.lt" trip:
       | fromAddress          | toAddress               | role   |
-      | 54 Krivių g. Vilnius | Muitinės g. 35, Vilnius | rider  |
+      | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius | rider  |
       | Dzūkų 50, Vilnius    | Šeškinės g. 10, Vilnius | driver |
 
   @focus
