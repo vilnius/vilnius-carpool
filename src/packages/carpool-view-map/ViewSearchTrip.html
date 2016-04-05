@@ -108,7 +108,12 @@
           <span class="myTripTo">{{toAddress}}</span>
         </div>
         <div>
-          <strong>Stops: </strong><span class="stopsOnRoute">{{#each stops}}{{title}}<br/>{{/each}}</span>
+          <strong>Stops: </strong>
+          <span class="stopsOnRoute">
+            {{#each stops}}
+            <div class="stop">{{title}}</div>
+            {{/each}}
+          </span>
         </div>
       </span>
       <span style="display:inline-block; padding-left: 10px">
@@ -206,10 +211,12 @@
           <span class="activeTripTo">{{toAddress}}</span>
         </div>
         <div>
-          <strong>Stops: </strong><span class="stopsOnRoute">
+          <strong>Stops: </strong>
+          <span class="stopsOnRoute">
             {{#each stops}}
             <div class="stop">{{title}}</div>
-            {{/each}}</span>
+            {{/each}}
+          </span>
         </div>
       </span>
       <span style="display:inline-block; padding-left: 10px">
