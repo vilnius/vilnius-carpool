@@ -1,5 +1,5 @@
 <template name="ShowPickup">
-  <h3><strong>You ride:</strong></h3>
+  <h3><strong>Driver ride:</strong></h3>
   <div>{{> React component=tripTitle trip=currentTrip }}</div>
 
   <h3><strong>Catch the driver</strong></h3>
@@ -11,6 +11,7 @@
     </div>
     <div class="media-body">
       <h4 class="media-heading"><strong>{{displayNameById currentTrip.owner}}</strong> will pickup you</h4>
+      <div>at stop {{pickupStop}}</div>
       <a class="btn btn-warning cancelConfirmation" href="#">Cancel request</a>
     </div>
   </div>

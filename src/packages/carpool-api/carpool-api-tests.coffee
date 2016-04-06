@@ -15,7 +15,10 @@ id = Locations.insert {
   userId: userId
   loc: [  25.272159576416016,  54.69387649850695 ]
 }
-d "Location inserted for #{userId}", id
+
+Meteor.users.remove {"emails.address": "user3@tiktai.lt"}
+
+#d "Location inserted for #{userId}", id
 
 Tinytest.addAsync "API - get protected resource", (test, onComplete)->
   #d "Test fn:", _(test).functions();
@@ -24,6 +27,7 @@ Tinytest.addAsync "API - get protected resource", (test, onComplete)->
       username: "user1@tiktai.lt"
       password: "aaa"
   }, (error, result) ->
+    #d "Authentication result:", result, error
     test.isNull(error)
     test.isUndefined(result.data.error);
     token = result.data.token
@@ -36,3 +40,15 @@ Tinytest.addAsync "API - get protected resource", (test, onComplete)->
       test.isNull(error)
       test.isUndefined(result.data.error);
       onComplete();
+
+Tinytest.addAsync "API - register user", (test, onComplete)->
+  HTTP.call "POST", Meteor.absoluteUrl('/api/account'), {
+    params:
+      username: "user3@tiktai.lt"
+      password: "aaa"
+      name: "RegistrationTest"
+  }, (error, result) ->
+    #console.log("Register user result:", result, error)
+    test.isNull(error)
+    test.isUndefined(result.data?.error);
+    onComplete();

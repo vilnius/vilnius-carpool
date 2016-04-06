@@ -22,7 +22,7 @@ module.exports = ()->
 
   @Then /^I see "([^"]*)"$/, (element)->
     d "Wait for exist #{element}"
-    client.waitForExist(element);
+    client.waitForExist element, 1000;
     d "Found #{element}"
 
   @Then /^I see "([^"]*)" in "([^"]*)"$/, (element, path)->

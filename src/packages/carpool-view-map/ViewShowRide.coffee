@@ -14,10 +14,16 @@ class @ShowRideController extends CarpoolController
       activeTrips = carpoolService.pullActiveTrips trip, mapView.setActionProgress.bind(mapView, 'activeTrips')
       da ["read-trip"], "Active trips filtered", activeTrips
       for key, trip of activeTrips
-        da ["read-trip"], "Check every trip", trip
+        da ["read-trip"], "Check every trip for request", trip
         tripRequest = _(trip.requests).findWhere({userId: Meteor.userId()})
         if tripRequest then trip.requested = tripRequest
       result.activeTrips = activeTrips
+    if @params.query.matchedTrip
+      da ["read-trip"], "Fetch matched trip #{@params.query.matchedTrip}"
+      query =
+        _id: @params.query.matchedTrip
+      matchedTrip = carpoolService.pullOneTrip query, mapView.setActionProgress.bind(mapView, 'matchedTrip')
+      result.fromLoc = matchedTrip?.fromLoc
     return result
 
 Template.ShowRide.helpers
@@ -26,5 +32,5 @@ Template.ShowRide.helpers
 
 Template.matchedDrive.events
   "click .requestRide": (event, template) ->
-    da ["trip-request"], "Request ride", @_id
-    carpoolService.requestRide @_id
+    da ["trip-request"], "Request ride #{@_id}", template.data.currentTrip
+    carpoolService.requestRide @_id, template.data.fromLoc

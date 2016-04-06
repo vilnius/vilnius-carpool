@@ -1,4 +1,13 @@
 class @ApiSecurity
+  register: (email, password, name)->
+    user =
+      email: email
+      password: password
+      profile:
+        name: name
+    da ["carpool-api"], "Creating user:", user        
+    Accounts.createUser(user);
+
   authenticate: (username, password)->
     user = Meteor.users.findOne($or: [{username: username},{"emails.address" : username}]);
     da ["carpool-api"], "Authenticate #{username}", user

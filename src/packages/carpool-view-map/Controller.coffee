@@ -25,9 +25,9 @@ class ControllerHelper
     da ["trips-matcher"], "Selected trip #{tripId} depend on mobile or web view", tripId
     currentView = Router.current({reactive: false}).route.getName()
     if currentView is "Notifications" or Meteor.isCordova
-      Router.go "ShowRide", {}, {query:{trip: filterTrip._id}}
+      Router.go "ShowRide", {}, {query:{trip: filterTrip._id, matchedTrip: filterTrip._id}}
     else
-      goExtendedQuery {}, {trip: tripId}, mapPersistQuery
+      goExtendedQuery {}, {trip: tripId, matchedTrip: filterTrip._id}, mapPersistQuery
   showDrive: (tripId)->
     Router.go "ShowDrive", {}, {query:{trip: tripId}}
   showPickup: (tripId)->
@@ -128,6 +128,12 @@ class @CarpoolMapController extends CarpoolController
     #da ["stops-drawing"], "Controller stops", stops
     mapView.showStops stops, stopsOnRoutes
 
+    if @params.query.matchedTrip
+      da ["read-trip"], "Fetch matched trip #{@params.query.matchedTrip}"
+      query =
+        _id: @params.query.matchedTrip
+      matchedTrip = carpoolService.pullOneTrip query, mapView.setActionProgress.bind(mapView, 'matchedTrip')
+
     # Redraw trip on top
     if @params.query.trip?
       da ["trips-matcher"], "Highlight selected trip: #{@params.query.trip}"
@@ -140,3 +146,4 @@ class @CarpoolMapController extends CarpoolController
       myTrips: ownTrips
       stops: stops
       selectedTrip: @params.query.trip
+      fromLoc: matchedTrip?.fromLoc

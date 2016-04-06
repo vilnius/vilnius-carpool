@@ -7,6 +7,8 @@ Handlebars.registerHelper 'userPictureUrl', (userId) ->
   else
     result
 
+Handlebars.registerHelper 'displayName', (user) ->
+  user?.profile?.name or getUserEmail(user)
 
 Handlebars.registerHelper 'displayNameById', (userId) ->
   #d("Showing display name:", user);

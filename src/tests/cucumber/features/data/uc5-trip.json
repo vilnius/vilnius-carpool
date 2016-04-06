@@ -1,0 +1,36 @@
+{
+	"_id" : "Ydjj89tug2F3zQGW9",
+	"fromAddress" : "Krivių 68, Vilnius",
+	"toAddress" : "Muitinės g. 35, Vilnius",
+	"time" : ISODate("2016-04-03T10:56:49.261Z"),
+	"toLoc" : [
+		25.26246500000002,
+		54.6779097
+	],
+	"fromLoc" : [
+		25.305228100000022,
+		54.6877209
+	],
+	"path" : "iexlI}lmyCn@q@dC{BfBqBbAqA\\o@z@yAvAuC~@_CdAiDr@kB^mAjBiE^q@^e@n@m@vAoAxAs@lAGrEz@hB`Av@`AlAxANPd@l@xAlBbCvCbDbFnAjC^v@n@fBj@lB`@dBvB`L~ClVxCrNh@dB\\dBr@xDb@rCNbCLjEJpCPlCR`BlAzHdAuAXMzAdD`CnE`@bAn@~Bp@hBjAjC|@|At@`Av@p@Xf@^fAx@vC~@lE~A|GXhCPdBp@~JV|DpAlNTvCPzC^lEeBd@wBp@ULi@b@aDrD_C|BcBz@iFbA{Cz@sBx@{@P}@TsHdBwCp@cCr@oHnBoBf@x@xJNxANvCVlDk@Pl@bIMEoC{A[GG?",
+	"stops" : [
+		{
+			"_id" : "RwfrAZ9phkvq2z5AW",
+			"title" : "Filaretu",
+			"loc" : [
+				25.309768170118332,
+				54.68432633458854
+			]
+		},
+		{
+			"_id" : "k5EDLYAeZRHX4XGGJ",
+			"title" : "Kauno",
+			"loc" : [
+				25.268912762403488,
+				54.671944985679346
+			]
+		}
+	],
+	"owner" : "jbvL2vh9stYX7YLbw",
+	"requests" : [ ],
+	"status" : "scheduled"
+}

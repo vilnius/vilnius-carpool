@@ -10,10 +10,12 @@ module.exports = ()->
   @Given /^Stops exists$/, ()->
     server.call "assureStop", "Filaretu", [25.309768170118332,54.68432633458854]
     server.call "assureStop", "Kauno", [25.268912762403488,54.671944985679346]
+    server.call "assureStop", "Audejo", [25.3087453, 54.6785911]
+
 
   @Then /^I see my trip$/, (table)->
     element = ".myTripFrom"
-    client.waitForExist(element);
+    client.waitForExist(element, 5000);
     expect(client.getText(element)).toEqual(table.hashes()[0].from)
     expect(client.getText(".myTripTo")).toEqual(table.hashes()[0].to)
 

@@ -28,8 +28,8 @@ Template.CarpoolMap.events
       $("*[id^='trip-toAddress']").val ""
       $("#save-button").button "reset"
   "click .requestRide": (event, template) ->
-    da ["trip-request"], "Request ride", @_id
-    carpoolService.requestRide @_id
+    da ["trip-request"], "Desktop Request ride #{@_id}", template.data.fromLoc
+    carpoolService.requestRide @_id, template.data.fromLoc
   "click .acceptRequest": (event, template) ->
     da ["trip-request"], "Accept request", @
     carpoolService.acceptRequest @id, "accept"
