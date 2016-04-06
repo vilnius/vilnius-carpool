@@ -10,7 +10,7 @@ module.exports = ()->
   @Given /^Assure "([^"]*)" trip:$/, (user, table)->
     @TestHelper.login(user);
     #d "Table", table.hashes()
-    client.timeoutsAsyncScript(5000);
+    client.timeoutsAsyncScript(10000);
     for trip in table.hashes()
       # Trip stops calculation is time consuming
       result = client.executeAsync (trip, done) ->
