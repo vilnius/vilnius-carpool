@@ -80,7 +80,6 @@ class TripFormBase extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
         <AutoComplete floatingLabelText={TAPi18n.__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions} onUpdateInput={this.fromInputUpdate.bind(this)} filter={() => true} />
