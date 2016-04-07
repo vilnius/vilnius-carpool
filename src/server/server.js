@@ -205,4 +205,4 @@ Meteor.onConnection(function(connection){
 */
 
 
-d("Tmh Server started. Version 0.1.9-mui.SNAPSHOT-160405.1");
+d("Tmh Server started. Version 0.1.9-mui.SNAPSHOT-160407.1 on "+Meteor.settings.public.environment);

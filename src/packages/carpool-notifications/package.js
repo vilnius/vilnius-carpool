@@ -5,6 +5,12 @@ Package.describe({
   git: ' /* Fill me in! */ '
 });
 
+// https://github.com/meteor/meteor/wiki/Meteor-Cordova-integration
+// https://github.com/apache/cordova-plugin-device
+Cordova.depends({
+  'cordova-plugin-device': '1.1.1'
+});
+
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
   api.use(["mongo", "minimongo"]);

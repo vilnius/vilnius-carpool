@@ -91,10 +91,10 @@ class TripFormBase extends React.Component {
     //console.log(this.state)
     return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
-        <AutoComplete floatingLabelText={TAPi18n.__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions} onUpdateInput={this.fromInputUpdate.bind(this)} filter={() => true} />
-        <AutoComplete floatingLabelText={TAPi18n.__('labelTo')} className="mui-input" dataSource={this.state.toSuggestions} onUpdateInput={this.toInputUpdate.bind(this)} filter={() => true} />
-        <DatePicker hintText={TAPi18n.__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
-        <TimePicker hintText={TAPi18n.__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />
+        <AutoComplete floatingLabelText={__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions} onUpdateInput={this.fromInputUpdate.bind(this)} filter={() => true} />
+        <AutoComplete floatingLabelText={__('labelTo')} className="mui-input" dataSource={this.state.toSuggestions} onUpdateInput={this.toInputUpdate.bind(this)} filter={() => true} />
+        <DatePicker hintText={__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
+        <TimePicker hintText={__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />
         <RadioButtonGroup name="driver" valueSelected={this.state.role} style={{marginTop: 20, marginBottom: 20}} onChange={this.muiValueChanged.bind(this, 'role')}>
           <RadioButton
             value="driver"

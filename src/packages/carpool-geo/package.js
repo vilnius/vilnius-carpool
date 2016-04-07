@@ -10,6 +10,11 @@ Package.describe({
   documentation: 'README.md'
 });
 
+// https://github.com/apache/cordova-plugin-geolocation.git
+Cordova.depends({
+  "cordova-plugin-geolocation": "2.1.0"
+});
+
 Package.onUse(function(api) {
   api.versionsFrom('1.2.1');
   api.use('ecmascript');
