@@ -1,0 +1,17 @@
+{
+  "public": {
+    "environment": "dev"
+  },
+
+  "push": {
+    "gcm": {
+      "apiKey": "AIzaSyDjg-wX4AMaczReA_CNcDuFp-rSIvej260",
+      "projectNumber": 270486855279
+    },
+    "production": false,
+    "badge": true,
+    "sound": true,
+    "alert": true,
+    "vibrate": true
+  }
+}

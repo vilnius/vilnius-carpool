@@ -10,14 +10,15 @@ Meteor.startup () =>
       da ['geoloc'], "Geolocation error:", arguments
 
   if Meteor.isCordova
-
     saveLocation = (location)->
-      da ['geoloc'], "Got cordova location:", location
+      da ['geoloc'], "Saving cordova location tsi #{location.timestamp}:", JSON.stringify(location.coords)
       Locations.insert
         tsi: new Date(location.timestamp)
         userId: Meteor.userId()
         loc: [location.coords.longitude, location.coords.latitude]
         acc: location.coords.accuracy
+      , ()->
+        da ['geoloc'], "Saving result", JSON.stringify(arguments)
 
     geoError = ()->
       da ['geoloc'], "Geolocation error:", arguments
@@ -26,8 +27,3 @@ Meteor.startup () =>
       timeout: 30000,
       maximumAge: 3000,
       enableHighAccuracy: true
-      
-    # GeolocationFG.get saveLocation
-    # watchId = GeolocationFG.watch saveLocation, 30000,
-    #   maximumAge: 3000,
-    #   enableHighAccuracy: true
