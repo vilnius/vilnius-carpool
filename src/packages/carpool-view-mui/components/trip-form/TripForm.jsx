@@ -96,7 +96,7 @@ class TripFormBase extends React.Component {
             label="Passenger"
           />
         </RadioButtonGroup>
-        <RaisedButton label={'Submit'} primary={true} onClick={this.submitForm.bind(this)} />
+        <RaisedButton label={'Submit'} secondary={true} onClick={this.submitForm.bind(this)} />
       </div>
     )
   }
