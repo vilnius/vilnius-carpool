@@ -3,8 +3,10 @@ import MobileNavigation from './MobileNavigation'
 import { AppBar } from 'material-ui'
 import DropDownMenu from 'material-ui/lib/DropDownMenu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
-import MenuIcon from 'material-ui/lib/svg-icons/navigation/menu';
+import HomeIcon from 'material-ui/lib/svg-icons/action/home';
 import IconButton from 'material-ui/lib/icon-button';
+import NotifiactionsIcon from 'material-ui/lib/svg-icons/social/notifications'
+import NotifiactionsNoneIcon from 'material-ui/lib/svg-icons/social/notifications-none'
 
 export default class MobileLayout extends React.Component {
 
@@ -39,14 +41,17 @@ export default class MobileLayout extends React.Component {
           title="Carpool"
           iconElementLeft={
             <div >
-              <IconButton onClick={this.openNavigation.bind(this)}><MenuIcon color="#fff"/></IconButton>
+              <IconButton onClick={() => {muiControllerHelper.goToView('MuiLanding')}}><HomeIcon color="#fff"/></IconButton>
             </div>
           }
           iconElementRight={
-            <DropDownMenu labelStyle={{color: 'white'}} value={language} onChange={(e, ind, value) => this.changeLanguage(value)}>
-              <MenuItem value="en" primaryText="EN"/>
-              <MenuItem value="lt" primaryText="LT"/>
-            </DropDownMenu>
+            <div>
+              <DropDownMenu labelStyle={{color: 'white'}} value={'en'} onChange={(e, ind, value) => {}}>
+                <MenuItem value="en" primaryText="EN"/>
+                <MenuItem value="lt" primaryText="LT"/>
+              </DropDownMenu>
+              <IconButton onClick={() => {muiControllerHelper.goToView('MuiNotifications')}}><NotifiactionsIcon color="#fff"/></IconButton>
+            </div>
           }
         />
         <MobileNavigation open={this.state.navOpen} onRequestChangeLeftNav={this.handleChangeRequestLeftNav.bind(this)} />

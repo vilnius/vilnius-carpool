@@ -22,15 +22,22 @@ Package.onUse(function(api) {
   api.use('tap:i18n', 'client');
 
   api.use("spastai:carpool-service");
+  api.use("spastai:google-client@0.0.12", 'client');
   api.use("carpool-notifications");
 
   api.addFiles('controller.coffee', "client");
 
   api.addFiles('components/trip-form/TripForm.jsx', "client");
   api.addFiles('components/landing/Landing.jsx', "client");
+  api.addFiles('components/trip/DriverTrip.jsx', "client");
+  api.addFiles('components/trip/PassengerTrip.jsx', "client");
+  api.addFiles('components/notifications/Notifications.jsx', "client");
 
   api.addFiles(['views/MuiLanding.html', 'views/MuiLanding.coffee'], "client");
   api.addFiles(['views/MuiEditTrip.html', 'views/MuiEditTrip.coffee'], "client");
+  api.addFiles(['views/MuiDriverTrip.html', 'views/MuiDriverTrip.coffee'], "client");
+  api.addFiles(['views/MuiPassengerTrip.html', 'views/MuiPassengerTrip.coffee'], "client");
+  api.addFiles(['views/MuiNotifications.html', 'views/MuiNotifications.coffee'], "client");
   api.addFiles('views/styles.css', "client");
 
   api.mainModule('routes.coffee', "client");

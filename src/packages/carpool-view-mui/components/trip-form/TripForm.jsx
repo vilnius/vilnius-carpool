@@ -5,8 +5,26 @@ import AutoComplete from 'material-ui/lib/auto-complete';
 import { TextField, DatePicker, TimePicker, RaisedButton, Snackbar, RadioButtonGroup, RadioButton } from 'material-ui'
 
 // TODO: replace this with real function
+
+var service = null;
+googleServices.afterInit(function (){
+  service = new google.maps.places.AutocompleteService();
+})
 const getLocationSuggestions = (inputVal, callback) => {
-  callback(['Suggestions', 'For', inputVal])
+  if (service && inputVal) {
+    service.getQueryPredictions({
+        input: inputVal,
+        location: new google.maps.LatLng(54.67704, 25.25405),
+        radius: 30000
+      }, function(suggestions, status) {
+      if (status != google.maps.places.PlacesServiceStatus.OK) {
+        return callback([]);
+      }
+      callback(_(suggestions).pluck("description"));
+    });
+  } else {
+    callback([]);
+  }
 }
 
 class TripFormBase extends React.Component {
@@ -62,7 +80,6 @@ class TripFormBase extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
         <AutoComplete floatingLabelText={TAPi18n.__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions} onUpdateInput={this.fromInputUpdate.bind(this)} filter={() => true} />

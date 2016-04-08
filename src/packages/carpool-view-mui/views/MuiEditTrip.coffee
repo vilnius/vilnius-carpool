@@ -1,3 +1,4 @@
+console.log(Template.MuiEditTrip, Template)
 Template.MuiEditTrip.rendered = ->
   d "MuiEditTrip rendered"
 
