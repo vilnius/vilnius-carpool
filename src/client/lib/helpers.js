@@ -6,11 +6,6 @@ Handlebars.registerHelper('ofUserId',function(userId) {
 	return Meteor.users.findOne(userId);
 });
 
-Handlebars.registerHelper('displayName',function(user) {
-	//d("Showing display name:", user);
-	return (user.profile && user.profile.name) || getUserEmail(user);
-});
-
 Handlebars.registerHelper('formatDate',function(input, pattern) {
 	  var iso = /^(\d{4})(?:-?W(\d+)(?:-?(\d+)D?)?|(?:-(\d+))?-(\d+))(?:[T ](\d+):(\d+)(?::(\d+)(?:\.(\d+))?)?)?(?:Z(-?\d*))?$/;
 	  if(input) {

@@ -69,14 +69,22 @@ class TripFormBase extends React.Component {
   }
 
   submitForm () {
-    // TODO connect with backend or smth
-    console.log('Should submit form with prams:', {
-      from: this.state.from,
-      to: this.state.to,
+    let trip = {
+      fromAddress: this.state.from,
+      toAddress: this.state.to,
       date: this.state.date,
       time: this.state.time,
       role: this.state.role,
-    })
+    }
+    carpoolService.saveTrip(trip, function(error, routedTrip){
+      if (error) {
+        da(["trip-crud"], "Submission error:", error)
+      } else {
+        da(["trip-crud"], "Submited trip", routedTrip)
+        muiControllerHelper.goToView('MuiLanding');
+      }
+    });
+    da(["trip-crud"], "Submitting - change button state", trip)
   }
 
   render() {
