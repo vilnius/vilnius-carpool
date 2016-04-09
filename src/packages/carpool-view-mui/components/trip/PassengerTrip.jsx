@@ -1,16 +1,18 @@
 import React from 'react'
 import PageRoot from '../layout/PageRoot'
+import fakeData from '../../fakeData'
+import TripInfo from './TripInfo'
+import MatchingTrips from './MatchingTrips'
+import Divider from 'material-ui/lib/divider';
 
 class PassengerTripBase extends React.Component {
   render () {
+    const tripData = fakeData['id1']
     return (
       <div>
-        <div>Passenger Trip</div>
-        <div><b>From: </b>New York</div>
-        <div><b>To: </b>Las Vegas</div>
-        <div>Matching trips:</div>
-        <div>Trip 1 info</div>
-        <div>Trip 2 info</div>
+        <TripInfo trip={tripData} />
+        <Divider />
+        <MatchingTrips matchingTrips={tripData.matchingTrips} />
       </div>
     )
   }

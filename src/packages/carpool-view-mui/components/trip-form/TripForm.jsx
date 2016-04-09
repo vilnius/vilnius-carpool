@@ -3,8 +3,17 @@ import PageRoot from '../layout/PageRoot'
 import { TAPi18n } from 'meteor/tap:i18n';
 import AutoComplete from 'material-ui/lib/auto-complete';
 import { TextField, DatePicker, TimePicker, RaisedButton, Snackbar, RadioButtonGroup, RadioButton } from 'material-ui'
+import Colors from 'material-ui/lib/styles/colors';
 
 // TODO: replace this with real function
+
+const detectLocation = (callback) => {
+  setTimeout(() => {
+    const detectedLocation = 'Konstitucijos pr. 3'
+    const error = Math.random() > 0.5 ? null : 'Random error for testing'
+    callback(error, detectedLocation)
+  }, 1500)
+}
 
 var service = null;
 googleServices.afterInit(function (){
@@ -39,7 +48,29 @@ class TripFormBase extends React.Component {
       date: new Date(),
       time: new Date(),
       role: 'driver',
+      locationReceived: false,
+      locationDetectionError: false,
     }
+
+    detectLocation((err, location) => {
+      if (err != null) {
+        this.setState({
+          locationReceived: true,
+          locationDetectionError: true,
+        })
+      } else {
+        this.setState({
+          locationReceived: true,
+          from: location,
+        })
+      }
+    })
+  }
+
+  locationDetectionSnackbarClose() {
+    this.setState({
+      locationDetectionError: false,
+    })
   }
 
   valueChanged(valueName, e) {
@@ -82,8 +113,12 @@ class TripFormBase extends React.Component {
   render() {
     return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
-        <AutoComplete floatingLabelText={TAPi18n.__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions} onUpdateInput={this.fromInputUpdate.bind(this)} filter={() => true} />
-        <AutoComplete floatingLabelText={TAPi18n.__('labelTo')} className="mui-input" dataSource={this.state.toSuggestions} onUpdateInput={this.toInputUpdate.bind(this)} filter={() => true} />
+        <AutoComplete floatingLabelText={TAPi18n.__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions} onUpdateInput={this.fromInputUpdate.bind(this)}
+          filter={() => true} errorText={this.state.locationReceived ? null : 'Trying to receive current location'} errorStyle={{color: Colors.orange500}} searchText={this.state.from}
+        />
+        <AutoComplete floatingLabelText={TAPi18n.__('labelTo')} className="mui-input" dataSource={this.state.toSuggestions}
+          onUpdateInput={this.toInputUpdate.bind(this)} filter={() => true} searchText={this.state.to}
+        />
         <DatePicker hintText={TAPi18n.__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
         <TimePicker hintText={TAPi18n.__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />
         <RadioButtonGroup name="driver" valueSelected={this.state.role} style={{marginTop: 20, marginBottom: 20}} onChange={this.muiValueChanged.bind(this, 'role')}>
@@ -96,7 +131,13 @@ class TripFormBase extends React.Component {
             label="Passenger"
           />
         </RadioButtonGroup>
-        <RaisedButton label={'Submit'} primary={true} onClick={this.submitForm.bind(this)} />
+        <RaisedButton label={'Submit'} secondary={true} onClick={this.submitForm.bind(this)} />
+        <Snackbar
+          open={this.state.locationDetectionError}
+          message="Failed to detect your location, please enter it manually."
+          autoHideDuration={3500}
+          onRequestClose={this.locationDetectionSnackbarClose.bind(this)}
+        />
       </div>
     )
   }
