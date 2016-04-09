@@ -90,10 +90,22 @@ class TripFormBase extends React.Component {
     })
   }
 
+  fromInputSelect (val) {
+    this.setState({
+      from: val,
+    })
+  }
+
   toInputUpdate (val) {
     getLocationSuggestions(val, (suggestions) => this.setState({
       toSuggestions: suggestions
     }))
+    this.setState({
+      to: val,
+    })
+  }
+
+  toInputSelect (val) {
     this.setState({
       to: val,
     })
@@ -121,11 +133,13 @@ class TripFormBase extends React.Component {
   render() {
     return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
-        <AutoComplete floatingLabelText={__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions} onUpdateInput={this.fromInputUpdate.bind(this)}
+        <AutoComplete floatingLabelText={__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions}
+          onUpdateInput={this.fromInputUpdate.bind(this)} onNewRequest={this.fromInputSelect.bind(this)}
           filter={() => true} errorText={this.state.locationReceived ? null : 'Trying to receive current location'} errorStyle={{color: Colors.orange500}} searchText={this.state.from}
         />
         <AutoComplete floatingLabelText={__('labelTo')} className="mui-input" dataSource={this.state.toSuggestions}
-          onUpdateInput={this.toInputUpdate.bind(this)} filter={() => true} searchText={this.state.to}
+          onUpdateInput={this.toInputUpdate.bind(this)} onNewRequest={this.toInputSelect.bind(this)}
+          filter={() => true} searchText={this.state.to}
         />
         <DatePicker hintText={__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
         <TimePicker hintText={__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />
