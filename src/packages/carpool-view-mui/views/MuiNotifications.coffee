@@ -1,4 +1,4 @@
-console.log(Template)
+#console.log(Template)
 
 Template.MuiNotifications.helpers
    notifications: ()->
