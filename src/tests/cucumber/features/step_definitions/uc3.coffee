@@ -24,7 +24,7 @@ module.exports = ()->
                 if err then done err else done trip
         , trip
     #client.saveScreenshot('../build/screenshots/uc3-assureTrips.png')
-    d "Result:",result
+    #d "Result:",result
 
   @Given /^I see no trips filtered$/, ()->
     client.waitForExist(".noActiveTrips");
