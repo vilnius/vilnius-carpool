@@ -18,6 +18,10 @@ Background: Cleanup old trips
     And I see ".to-geo-location"
     And Click on "[value='driver']"
     Then I see my trip
-      | from                 | to                       |
+      | from                 | to                     |
       | 68 Krivių g. Vilnius | 35 Muitinės g. Vilnius |
-    And I see the stop "Filaretu" on the route
+    And I see the stops on the route:
+      | name                 |
+      | 68 Krivių g. Vilnius |
+      | Filaretu             |
+      | Kauno                |
