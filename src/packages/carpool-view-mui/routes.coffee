@@ -2,7 +2,8 @@ Router.map ()->
   @route 'MuiLanding', path: '/mui/'
 
   @route 'MuiRegister', path: '/mui/register'
-  @route 'MuiLogin', path: '/mui/login', controller: "CarpoolMapController"
+  @route 'MuiLogin', path: '/mui/login'
+  # @route 'MuiLogin', path: '/mui/login', controller: "CarpoolMapController"
   @route 'MuiEditTrip', path: '/mui/trip'
   @route 'MuiDriverTrip', path: '/mui/driverTrip'
   @route 'MuiPassengerTrip', path: '/mui/passengerTrip'

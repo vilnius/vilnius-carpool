@@ -36,12 +36,16 @@ Package.onUse(function(api) {
   api.addFiles('components/trip/DriverTrip.jsx', "client");
   api.addFiles('components/trip/PassengerTrip.jsx', "client");
   api.addFiles('components/notifications/Notifications.jsx', "client");
+  api.addFiles('components/auth/Login.jsx', "client");
+  api.addFiles('components/auth/Register.jsx', "client");
 
   api.addFiles(['views/MuiLanding.html', 'views/MuiLanding.coffee'], "client");
   api.addFiles(['views/MuiEditTrip.html', 'views/MuiEditTrip.coffee'], "client");
   api.addFiles(['views/MuiDriverTrip.html', 'views/MuiDriverTrip.coffee'], "client");
   api.addFiles(['views/MuiPassengerTrip.html', 'views/MuiPassengerTrip.coffee'], "client");
   api.addFiles(['views/MuiNotifications.html', 'views/MuiNotifications.coffee'], "client");
+  api.addFiles(['views/MuiLogin.html', 'views/MuiLogin.coffee'], "client");
+  api.addFiles(['views/MuiRegister.html', 'views/MuiRegister.coffee'], "client");
   api.addFiles('views/styles.css', "client");
 
   api.addFiles([
