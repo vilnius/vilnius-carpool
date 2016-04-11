@@ -1,4 +1,5 @@
 {
+  "description": "Meteor npm dependencies",
   "private": true,
   "dependencies": {
     "material-ui": "^0.14.4",

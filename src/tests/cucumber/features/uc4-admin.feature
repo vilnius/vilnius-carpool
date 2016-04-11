@@ -6,7 +6,7 @@ Feature: 4.1 Login as admin
   Background: Admin account exists
     Given Admin exists
 
-  @admin
+  @admin @focus
   Scenario: Admin should see langing page
     Given Login with "admin@tiktai.lt"
     And I see ".stops" in "/admin"

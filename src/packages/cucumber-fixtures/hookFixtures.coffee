@@ -8,6 +8,7 @@ Meteor.methods
     Meteor.users.remove {"emails.address": email}
 
   assureUser: (opts, extra) ->
+    console.log("Assure users")
     try
       id =  Accounts.createUser
         email: opts.email
