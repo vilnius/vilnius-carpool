@@ -13,15 +13,15 @@ Background: Cleanup old trips
     And I see "#trip-toAddress" in "/"
     When I enter:
       | trip-fromAddress   | trip-toAddress          |
-      | Krivių 68, Vilnius | Muitinės g. 35, Vilnius |
+      | Krivių 54, Vilnius | Muitinės g. 35, Vilnius |
     And I see ".from-geo-location"
     And I see ".to-geo-location"
     And Click on "[value='driver']"
     Then I see my trip
       | from                 | to                     |
-      | 68 Krivių g. Vilnius | 35 Muitinės g. Vilnius |
+      | 54 Krivių g. Vilnius | 35 Muitinės g. Vilnius |
     And I see the stops on the route:
       | name                 |
-      | 68 Krivių g. Vilnius |
+      | 54 Krivių g. Vilnius |
       | Filaretu             |
       | Kauno                |
