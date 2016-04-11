@@ -7,7 +7,7 @@ Background: Cleanup old trips
   Given Trips removed
   And Stops exists
 
-  #@focus
+  @trip
   Scenario: Driver saves the trip passing the stop
     Given Login with "user1@tiktai.lt"
     And I see "#trip-toAddress" in "/"
@@ -18,9 +18,10 @@ Background: Cleanup old trips
     And I see ".to-geo-location"
     And Click on "[value='driver']"
     Then I see my trip
-      | from                 | to                       |
+      | from                 | to                     |
       | 54 Krivių g. Vilnius | 35 Muitinės g. Vilnius |
     And I see the stops on the route:
-      | name     |
-      | Kauno    |
-      | Filaretu |
+      | name                 |
+      | 54 Krivių g. Vilnius |
+      | Filaretu             |
+      | Kauno                |

@@ -1,5 +1,5 @@
 #forms
-aspect.push "INFO"
+#aspect.push "INFO"
 aspect.push "error"
 aspect.push "client-error"
 aspect.push "server-error"

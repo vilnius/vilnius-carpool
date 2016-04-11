@@ -78,6 +78,7 @@ class MapView
   addAutocomplete: afterMapShown.wrap (input, cb)->
     googleServices.addAutocomplete input, @map, cb
   ###
+  @Deprecated
   Form adress
   ###
   formAddress: (place)->
@@ -111,6 +112,7 @@ class MapView
     @drawOwnTrip @trip
     cb?(null, @trip);
   ###
+  @Deprecated moved to CarpoolServiceClient
   Geolocate more details about location
   ###
   clarifyPlace: (latlng, address, cb)->

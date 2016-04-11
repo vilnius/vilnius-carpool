@@ -13,7 +13,7 @@ Feature: uc9 Notify on matching trip
       | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius | rider  |
       | Dzūkų 50, Vilnius    | Šeškinės g. 10, Vilnius | driver |
 
-  @focus
+  @trip
   Scenario: Driver Bob enters the same route and rider Ana gets notification
     Given Login with "user2@tiktai.lt"
     And I see "#trip-toAddress" in "/"

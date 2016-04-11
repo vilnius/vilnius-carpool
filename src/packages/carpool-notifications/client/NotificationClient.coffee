@@ -1,7 +1,7 @@
 Meteor.startup ()->
-  console.log "0.1.8_2 Notifications started"
+  #console.log "0.1.8_2 Notifications started"
   if Meteor.isCordova
-    d "Setting alter:", navigator
+    #d "Setting alter:", navigator
     window.alert = navigator.notification?.alert
 
   Push.addListener 'startup', (notification) ->

@@ -6,10 +6,12 @@ Feature: 4.1 Login as admin
   Background: Admin account exists
     Given Admin exists
 
+  @admin
   Scenario: Admin should see langing page
     Given Login with "admin@tiktai.lt"
     And I see ".stops" in "/admin"
 
+  @admin
   Scenario: Not Admin shouldn't see langing page
     Given Login with "user1@tiktai.lt"
     And I see ".join_Login" in "/admin"

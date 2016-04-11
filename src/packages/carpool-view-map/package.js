@@ -11,6 +11,7 @@ Package.onUse(function(api) {
   //api.use(["less@1.0.11"], 'client');
   api.use(['templating', 'tracker'], 'client');
   api.use('less@2.5.1', 'client');
+  api.use('ecmascript');
   api.use(['accounts-base@1.1.2'], 'client');
 
   api.use('momentjs:moment','client');
@@ -18,7 +19,7 @@ Package.onUse(function(api) {
   api.use('iron:router','client');
 
   api.use("spastai:flow-controll@0.0.2", ["client", "server"]);
-  api.use(['spastai:google-client@0.0.12'], 'client');
+  api.use("spastai:google-client@0.0.12", 'client');
   api.use('spastai:logw@0.0.4')
   api.use("spastai:carpool-service");
   api.use("carpool-notifications");
@@ -45,10 +46,6 @@ Package.onUse(function(api) {
   api.addFiles('components/notifications/app-react.jsx', "client");
   api.addFiles('components/notifications/Notification.jsx', "client");
   api.addFiles('components/notifications/NotificationPanel.jsx', "client");
-
-  api.addFiles(['components/trip-form/CarpoolTrip.html', 'components/trip-form/CarpoolTrip.coffee'], "client");
-  api.addFiles('components/trip-form/Controller.coffee', "client");
-  api.addFiles('components/trip-form/TripForm.jsx', "client");
 
   api.addFiles('components/trip-title/TripTitle.jsx', "client");
   api.addFiles(['ViewShowRide.html', 'ViewShowRide.coffee'], "client");

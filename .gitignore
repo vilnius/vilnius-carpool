@@ -5,3 +5,4 @@ src/server/installServiceStg.coffee
 src/packages/carpool-service/
 src/tests/cucumber/node_modules
 src/config.push.json
+src/settings.json

@@ -40,6 +40,7 @@ function runVelocity(callback) {
 }
 
 function runChimp(callback) {
+  console.log('Running chimp ', chimpScript);
   startProcess({
     name: 'Chimp',
     options: {
