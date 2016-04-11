@@ -1,6 +1,5 @@
-console.log(Template.MuiEditTrip, Template)
 Template.MuiEditTrip.rendered = ->
-  d "MuiEditTrip rendered"
+  #d "MuiEditTrip rendered"
 
   tripFormInputFrom = document.getElementById("trip-form-input-from")
   mapView.addAutocomplete tripFormInputFrom, (err, latlng, address, place)->

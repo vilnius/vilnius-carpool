@@ -13,7 +13,7 @@ module.exports = ()->
 
   @Then /^I see my trip$/, (table)->
     element = ".myTripFrom"
-    client.waitForExist(element);
+    client.waitForExist(element, 1000);
     expect(client.getText(element)).toEqual(table.hashes()[0].from)
     expect(client.getText(".myTripTo")).toEqual(table.hashes()[0].to)
 

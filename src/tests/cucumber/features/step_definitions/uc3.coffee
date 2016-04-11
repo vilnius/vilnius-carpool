@@ -11,8 +11,8 @@ module.exports = ()->
     @TestHelper.login(user);
     #d "Table", table.hashes()
     for trip in table.hashes()
-      # Trip stops calculation is time consuming
-      client.timeoutsAsyncScript(5000);
+      # Trip stops calculation is time consuming and fails on travis sometimes
+      client.timeoutsAsyncScript(10000);
       result = client.executeAsync (trip, done) ->
           trip.time = new Date()
           #d "Trips:", carpoolService.getOwnTrips();
@@ -24,7 +24,7 @@ module.exports = ()->
                 if err then done err else done trip
         , trip
     #client.saveScreenshot('../build/screenshots/uc3-assureTrips.png')
-    d "Result:",result
+    #d "Result:",result
 
   @Given /^I see no trips filtered$/, ()->
     client.waitForExist(".noActiveTrips");

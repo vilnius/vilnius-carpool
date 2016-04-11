@@ -38,4 +38,4 @@ module.exports = ()->
         client.setValue('input[id="inputPassword"]', "aaa");
 
         client.click '.login'
-        client.waitForExist('.logout');
+        client.waitForExist('.logout', 1000);

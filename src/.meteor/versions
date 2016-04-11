@@ -106,7 +106,7 @@ session@1.1.3
 sha@1.0.5
 spacebars@1.0.9
 spacebars-compiler@1.0.9
-spastai:carpool-service@0.0.17
+spastai:carpool-service@0.0.19
 spastai:flow-controll@0.0.9
 spastai:google-client@0.0.12
 spastai:logw@0.0.4

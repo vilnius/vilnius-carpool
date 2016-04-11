@@ -14,16 +14,20 @@ Package.onUse(function(api) {
   api.versionsFrom('1.3');
   api.use('ecmascript');
   api.use(['underscore', 'coffeescript']);
+  api.use('momentjs:moment','client');
+
+  api.use('tap:i18n', ['client', 'server']);
 
   api.use(['templating', 'tracker'], 'client');
   api.use('react');
   api.use('react-template-helper');
   api.use('iron:router','client');
-  api.use('tap:i18n', 'client');
 
   api.use("spastai:carpool-service");
   api.use("spastai:google-client@0.0.12", 'client');
   api.use("carpool-notifications");
+
+  api.addFiles("package-tap.i18n", ["client", "server"]);
 
   api.addFiles('controller.coffee', "client");
 
@@ -39,6 +43,11 @@ Package.onUse(function(api) {
   api.addFiles(['views/MuiPassengerTrip.html', 'views/MuiPassengerTrip.coffee'], "client");
   api.addFiles(['views/MuiNotifications.html', 'views/MuiNotifications.coffee'], "client");
   api.addFiles('views/styles.css', "client");
+
+  api.addFiles([
+    "i18n/en.i18n.json",
+    "i18n/lt.i18n.json"
+  ], ["client", "server"]);
 
   api.mainModule('routes.coffee', "client");
 });
