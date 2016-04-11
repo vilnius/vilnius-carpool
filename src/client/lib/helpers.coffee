@@ -8,10 +8,7 @@ Handlebars.registerHelper 'userPictureUrl', (userId) ->
     result
 
 Handlebars.registerHelper 'displayName', (user) ->
-<<<<<<< HEAD
-=======
   #d("Showing display name:", user);
->>>>>>> 0.1.9/refactor/meteor-1.3
   user?.profile?.name or getUserEmail(user)
 
 Handlebars.registerHelper 'displayNameById', (userId) ->
