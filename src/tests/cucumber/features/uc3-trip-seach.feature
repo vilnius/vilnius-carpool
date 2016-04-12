@@ -11,6 +11,7 @@ Feature: uc3 Search for the trip
       | Krivių 68, Vilnius | Muitinės g. 35, Vilnius |
       | Dzūkų 54, Vilnius  | Šeškinės g. 10, Vilnius |
 
+  @focus
   Scenario: User searches by exact address
     Given Login with "user2@tiktai.lt"
     And I see "#trip-toAddress" in "/"
