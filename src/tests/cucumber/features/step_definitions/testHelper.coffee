@@ -29,7 +29,7 @@ module.exports = ()->
             client.waitForVisible('.logout');
             client.click(".logout");
         else
-          client.waitForVisible('.join_Login');
+          client.waitForVisible('.join_Login', 5000);
           client.click '.join_Login'
 
         #console.log("Login with #{username} / #{password}")
