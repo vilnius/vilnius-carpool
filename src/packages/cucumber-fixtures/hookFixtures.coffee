@@ -31,7 +31,8 @@ Meteor.methods
   removeTrips: (email) ->
     user = Meteor.users.findOne "emails.address": email
     #console.log '---', "Remove trips for", user
-    Trips.remove owner: user._id
+    if user
+      Trips.remove owner: user._id
 
   removeNotifications: (email) ->
     user = Meteor.users.findOne "emails.address": email
