@@ -20,7 +20,8 @@ class LandingBase extends React.Component {
 
     return (
       <div>
-        <FloatingActionButton secondary={true} onClick={() => {muiControllerHelper.goToView('MuiEditTrip')}} style={{
+        <FloatingActionButton className="addTrip"
+          secondary={true} onClick={() => {muiControllerHelper.goToView('MuiEditTrip')}} style={{
           position: 'absolute',
           bottom: 12,
           right: 12,
