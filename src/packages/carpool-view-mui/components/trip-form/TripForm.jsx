@@ -131,6 +131,7 @@ class TripFormBase extends React.Component {
   }
 
   render() {
+    TAPi18n.__('labelFrom'); // dummy call to load __ functions
     return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
         <AutoComplete id="trip-fromAddress" floatingLabelText={__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions}
