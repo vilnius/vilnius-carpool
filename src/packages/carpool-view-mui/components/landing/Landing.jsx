@@ -32,6 +32,7 @@ class LandingBase extends React.Component {
           <List subheader="Your current trips">
             {ownTrips.map((trip, i) => (
               <ListItem
+                className={`${trip.role}-own-trip`}
                 onClick={() => {muiControllerHelper.goToView(trip.tripPage)}}
                 key={i}
                 leftIcon={trip.role === 'driver' ? <CarIcon /> : <PassengerIcon />}
@@ -45,6 +46,7 @@ class LandingBase extends React.Component {
             <List subheader="Other trips">
               {activeTrips.map((trip, i) => (
                 <ListItem
+                  className={`${trip.role}-active-trip`}
                   onClick={() => {muiControllerHelper.goToView(trip.tripPage)}}
                   key={i}
                   leftIcon={trip.role === 'driver' ? <CarIcon /> : <PassengerIcon />}
