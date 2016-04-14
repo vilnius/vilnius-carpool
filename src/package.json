@@ -14,5 +14,9 @@
     "react-addons-update": "^0.14.8",
     "react-dom": "^0.14.8",
     "react-tap-event-plugin": "^0.2.2"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.10.0",
+    "chimp": "^0.26.0"
   }
 }

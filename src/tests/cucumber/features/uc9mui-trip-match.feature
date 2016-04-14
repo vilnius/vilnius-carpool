@@ -13,7 +13,7 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
       | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius | rider  |
       | Dzūkų 50, Vilnius    | Šeškinės g. 10, Vilnius | driver |
 
-    @focus
+    @ignore
     Scenario: Driver Bob enters the same route and rider Ana gets notification
       Given Login with "user2@tiktai.lt"
       And I see ".addTrip" in "/mui"
@@ -21,10 +21,8 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
       When I enter:
         | trip-fromAddress     | trip-toAddress          |
         | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius |
-      And I see ".from-geo-location"
-      And I see ".to-geo-location"
-      And Click on "[value='driver']"
-      And I see my trip
+      And Click on ".saveTrip"
+      And I see my MUI trip
         | from                   | to                     |
         | 1 Paplaujos g. Vilnius | 35 Muitinės g. Vilnius |
       Then User "user1@tiktai.lt" gets mobile notification and sends request

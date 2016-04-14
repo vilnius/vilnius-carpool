@@ -1,5 +1,5 @@
 #forms
-#aspect.push "INFO"
+aspect.push "INFO"
 aspect.push "error"
 aspect.push "client-error"
 aspect.push "server-error"
@@ -13,7 +13,7 @@ aspect.push "install"
 #aspect.push "data-publish"
 #aspect.push "trip-publish"
 
-#aspect.push "trip-crud"
+aspect.push "trip-crud"
 #aspect.push "trips-matcher"
 #aspect.push "trip-request"
 #aspect.push "read-trip"
