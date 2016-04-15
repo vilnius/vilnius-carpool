@@ -70,7 +70,7 @@ before_install:
 
 install:
   - cd src
-  - mkdir node_modules
+  #- mkdir node_modules
   - npm install
   #- npm install react react-dom
 
