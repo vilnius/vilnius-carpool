@@ -25,8 +25,8 @@ module.exports = ()->
         # Check user already logged in
         if client.isExisting(".profile_Name")
           user = server.call('getUser', username);
-          d "Current user: #{client.getText(".profile_Name")}, wanted #{user.profile.name}"
-          if client.getText(".profile_Name") is user.profile.name
+          d "Current user: #{client.getText(".profile_Name")}, wanted #{user.profile?.name}"
+          if client.getText(".profile_Name") is user.profile?.name
             return
           else
             @findLogout();

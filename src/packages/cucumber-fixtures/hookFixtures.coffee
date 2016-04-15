@@ -5,7 +5,7 @@ Meteor.methods
 
   getUser: (email) ->
     user = Meteor.users.findOne {"emails.address": email};
-    console.log '---', "User found", user
+    #console.log '---', "User found", user
     return user
 
 
