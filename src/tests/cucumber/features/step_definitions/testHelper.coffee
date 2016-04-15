@@ -12,30 +12,37 @@ module.exports = ()->
       if err then console.log ">E>", err
 
     @TestHelper =
+
+      findLogout: ()->
+        if client.isVisible(".navbar-toggle.collapsed")
+          #d "Click menu toggle"
+          client.click(".navbar-toggle.collapsed");
+        client.waitForVisible('.showLogout');
+        client.click(".showLogout");
+
       login: (username, password, path)->
         client.url(url.resolve(process.env.ROOT_URL, "/"));
-
         # Check user already logged in
         if client.isExisting(".profile_Name")
-          d "Current user: #{client.getText(".profile_Name")}, wanted #{username}"
-          if client.getText(".profile_Name") is username
+          user = server.call('getUser', username);
+          d "Current user: #{client.getText(".profile_Name")}, wanted #{user.profile.name}"
+          if client.getText(".profile_Name") is user.profile.name
             return
           else
-            if client.isVisible(".navbar-toggle.collapsed")
-              #d "Click menu toggle"
-              client.click(".navbar-toggle.collapsed");
-              client.waitForVisible('.showLogout');
-            client.click(".showLogout");
-            client.waitForVisible('.logout');
+            @findLogout();
+            client.waitForVisible('.logout, .alert-error');
+            if client.isVisible('.alert-error')
+              expect(client.isVisible('.alert-error')).toBe(false, client.getText(".alert-error"));
             client.click(".logout");
         else
-          client.waitForVisible('.join_Login', 10000);
+          client.waitForVisible('.join_Login', 5000);
           client.click '.join_Login'
 
         #console.log("Login with #{username} / #{password}")
         client.waitForExist 'input[id="inputUsername"]'
         client.setValue('input[id="inputUsername"]', username);
         client.setValue('input[id="inputPassword"]', "aaa");
-
         client.click '.login'
-        client.waitForExist('.logout', 5000);
+
+        @findLogout();
+        client.waitForVisible('.logout, .alert-error', 5000);

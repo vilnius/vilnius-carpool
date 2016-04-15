@@ -13,7 +13,6 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
       | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius | rider  |
       | Dzūkų 50, Vilnius    | Šeškinės g. 10, Vilnius | driver |
 
-    @focus
     Scenario: Driver Bob enters the same route and rider Ana gets notification
       Given Login with "user2@tiktai.lt"
       And I see ".addTrip" in "/mui"

@@ -28,7 +28,7 @@ Feature: uc3 Search for the trip
       | Filaretu |
       | Kauno    |
 
-  @trip
+  @trip @focus
   Scenario: User enters destination for no trips
     Given Login with "user2@tiktai.lt"
     And I see "#trip-toAddress" in "/"
