@@ -13,7 +13,7 @@ addons:
     sources:
       - google-chrome
     packages:
-      - google-chrome-stable
+      - google-chrome-stable 49.0.2623.112-1
   firefox: "latest"
 
 cache:
