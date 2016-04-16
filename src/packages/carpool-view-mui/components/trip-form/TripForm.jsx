@@ -52,6 +52,7 @@ class TripFormBase extends React.Component {
       locationDetectionError: false,
     }
 
+    /*
     detectLocation((err, location) => {
       if (err != null) {
         this.setState({
@@ -65,6 +66,7 @@ class TripFormBase extends React.Component {
         })
       }
     })
+    */
   }
 
   locationDetectionSnackbarClose() {
@@ -131,13 +133,14 @@ class TripFormBase extends React.Component {
   }
 
   render() {
+    TAPi18n.__('labelFrom'); // dummy call to load __ functions -doesn't help
     return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
-        <AutoComplete floatingLabelText={__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions}
+        <AutoComplete id="trip-fromAddress" floatingLabelText={__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions}
           onUpdateInput={this.fromInputUpdate.bind(this)} onNewRequest={this.fromInputSelect.bind(this)}
           filter={() => true} errorText={this.state.locationReceived ? null : 'Trying to receive current location'} errorStyle={{color: Colors.orange500}} searchText={this.state.from}
         />
-        <AutoComplete floatingLabelText={__('labelTo')} className="mui-input" dataSource={this.state.toSuggestions}
+        <AutoComplete id="trip-toAddress" floatingLabelText={__('labelTo')} className="mui-input" dataSource={this.state.toSuggestions}
           onUpdateInput={this.toInputUpdate.bind(this)} onNewRequest={this.toInputSelect.bind(this)}
           filter={() => true} searchText={this.state.to}
         />
@@ -153,7 +156,7 @@ class TripFormBase extends React.Component {
             label="Passenger"
           />
         </RadioButtonGroup>
-        <RaisedButton label={'Submit'} secondary={true} onClick={this.submitForm.bind(this)} />
+        <RaisedButton label={'Submit'} className="saveTrip" secondary={true} onClick={this.submitForm.bind(this)} />
         <Snackbar
           open={this.state.locationDetectionError}
           message="Failed to detect your location, please enter it manually."

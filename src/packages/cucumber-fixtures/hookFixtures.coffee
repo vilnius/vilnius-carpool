@@ -3,11 +3,18 @@ Meteor.methods
     console.log '---', "Cleanup users"
     Meteor.users.remove {}
 
+  getUser: (email) ->
+    user = Meteor.users.findOne {"emails.address": email};
+    #console.log '---', "User found", user
+    return user
+
+
   removeUser: (email) ->
     console.log '---', "Remove user"
     Meteor.users.remove {"emails.address": email}
 
   assureUser: (opts, extra) ->
+    #console.log("Assure users")
     try
       id =  Accounts.createUser
         email: opts.email
@@ -30,7 +37,8 @@ Meteor.methods
   removeTrips: (email) ->
     user = Meteor.users.findOne "emails.address": email
     #console.log '---', "Remove trips for", user
-    Trips.remove owner: user._id
+    if user
+      Trips.remove owner: user._id
 
   removeNotifications: (email) ->
     user = Meteor.users.findOne "emails.address": email

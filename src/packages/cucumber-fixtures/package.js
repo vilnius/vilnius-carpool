@@ -3,7 +3,7 @@ Package.describe({
   summary: ' /* Fill me in! */ ',
   version: '1.0.0',
   git: ' /* Fill me in! */ ',
-  testOnly: true
+  //testOnly: true
 });
 
 Package.onUse(function(api) {

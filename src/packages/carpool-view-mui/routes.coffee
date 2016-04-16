@@ -9,7 +9,6 @@ Router.map ()->
   @route 'MuiPassengerTrip', path: '/mui/passengerTrip'
   @route 'MuiNotifications', path: '/mui/notifications'
 
-
   # Mobile views
   # @route 'MuiShowRide', path: '/mui/showRide'
   # @route 'MuiShowDrive', path: '/mui/showDrive'

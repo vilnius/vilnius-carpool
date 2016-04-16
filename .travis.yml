@@ -1,4 +1,5 @@
-sudo: false
+sudo: required
+dist: trusty
 
 language: node_js
 
@@ -28,6 +29,7 @@ cache:
     - "src/.meteor/local/isopacks"
     - "src/.meteor/local/plugin-cache"
     - "src/.meteor/local/mirrors"
+    - "src/node_modules"
 
 before_cache:
   - rm -rf $HOME/build/$TRAVIS_REPO_SLUG/.meteor/local/log
@@ -68,7 +70,7 @@ before_install:
 
 install:
   - cd src
-  - mkdir node_modules
+  #- mkdir node_modules
   - npm install
   #- npm install react react-dom
 

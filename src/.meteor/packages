@@ -16,7 +16,6 @@ fbgraph
 underscore
 coffeescript
 user-panels
-winston
 http
 http-logger
 spiderable
