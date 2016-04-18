@@ -38,6 +38,11 @@ Package.onUse(function(api) {
   api.addFiles('components/notifications/Notifications.jsx', "client");
   api.addFiles('components/auth/Login.jsx', "client");
   api.addFiles('components/auth/Register.jsx', "client");
+  api.addFiles('components/screens/LoggedInLanding.jsx', "client");
+  api.addFiles('components/screens/NotLoggedInLanding.jsx', "client");
+  api.addFiles('components/screens/NewRideOffer.jsx', "client");
+  api.addFiles('components/screens/RideOffers.jsx', "client");
+  api.addFiles('components/screens/RideOfferDetails.jsx', "client");
 
   api.addFiles(['views/MuiLanding.html', 'views/MuiLanding.coffee'], "client");
   api.addFiles(['views/MuiEditTrip.html', 'views/MuiEditTrip.coffee'], "client");
@@ -46,6 +51,11 @@ Package.onUse(function(api) {
   api.addFiles(['views/MuiNotifications.html', 'views/MuiNotifications.coffee'], "client");
   api.addFiles(['views/MuiLogin.html', 'views/MuiLogin.coffee'], "client");
   api.addFiles(['views/MuiRegister.html', 'views/MuiRegister.coffee'], "client");
+  api.addFiles(['views/LoggedInLanding.html', 'views/LoggedInLanding.coffee'], "client");
+  api.addFiles(['views/NotLoggedInLanding.html', 'views/NotLoggedInLanding.coffee'], "client");
+  api.addFiles(['views/NewRideOffer.html', 'views/NewRideOffer.coffee'], "client");
+  api.addFiles(['views/RideOffers.html', 'views/RideOffers.coffee'], "client");
+  api.addFiles(['views/RideOfferDetails.html', 'views/RideOfferDetails.coffee'], "client");
   api.addFiles('views/styles.css', "client");
 
   api.addFiles([
