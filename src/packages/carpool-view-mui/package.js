@@ -16,7 +16,8 @@ Package.onUse(function(api) {
   api.use(['underscore', 'coffeescript']);
   api.use('momentjs:moment','client');
 
-  api.use('tap:i18n', ['client', 'server']);
+  //api.use('tap:i18n', ['client', 'server']);
+  //api.addFiles("package-tap.i18n", ["client", "server"]);
 
   api.use(['templating', 'tracker'], 'client');
   api.use('react');
@@ -27,9 +28,13 @@ Package.onUse(function(api) {
   api.use("spastai:google-client@0.0.12", 'client');
   api.use("carpool-notifications");
 
-  api.addFiles("package-tap.i18n", ["client", "server"]);
-
   api.addFiles('controller.coffee', "client");
+
+  api.addFiles("i18n/workaround.coffee", ["client", "server"]);
+  api.addFiles([
+    "i18n/en.i18n.js",
+    "i18n/lt.i18n.js"
+  ], ["client", "server"]);
 
   api.addFiles('components/trip-form/TripForm.jsx', "client");
   api.addFiles('components/landing/Landing.jsx', "client");
@@ -43,6 +48,7 @@ Package.onUse(function(api) {
   api.addFiles('components/screens/NewRideOffer.jsx', "client");
   api.addFiles('components/screens/RideOffers.jsx', "client");
   api.addFiles('components/screens/RideOfferDetails.jsx', "client");
+  api.addFiles('components/map/GoogleMap.jsx', "client");
 
   api.addFiles(['views/MuiLanding.html', 'views/MuiLanding.coffee'], "client");
   api.addFiles(['views/MuiEditTrip.html', 'views/MuiEditTrip.coffee'], "client");
@@ -56,12 +62,10 @@ Package.onUse(function(api) {
   api.addFiles(['views/NewRideOffer.html', 'views/NewRideOffer.coffee'], "client");
   api.addFiles(['views/RideOffers.html', 'views/RideOffers.coffee'], "client");
   api.addFiles(['views/RideOfferDetails.html', 'views/RideOfferDetails.coffee'], "client");
-  api.addFiles('views/styles.css', "client");
 
-  api.addFiles([
-    "i18n/en.i18n.json",
-    "i18n/lt.i18n.json"
-  ], ["client", "server"]);
+  api.addFiles(['views/RequestRide.html', 'views/RequestRide.coffee'], "client");
+
+  api.addFiles('views/styles.css', "client");
 
   api.mainModule('routes.coffee', "client");
 });
