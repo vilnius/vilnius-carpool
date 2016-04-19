@@ -13,6 +13,7 @@ Router.map ()->
   @route 'RideOfferDetails', path: 'mui/screen3'
   @route 'RideOffers', path: 'mui/screen4'
   @route 'NewRideOffer', path: 'mui/screen5'
+  @route 'MuiRequestRide', path: 'mui/requestRide'
 
   # Mobile views
   # @route 'MuiShowRide', path: '/mui/showRide'

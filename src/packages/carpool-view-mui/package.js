@@ -48,6 +48,7 @@ Package.onUse(function(api) {
   api.addFiles('components/screens/NewRideOffer.jsx', "client");
   api.addFiles('components/screens/RideOffers.jsx', "client");
   api.addFiles('components/screens/RideOfferDetails.jsx', "client");
+  api.addFiles('components/map/GoogleMap.jsx', "client");
 
   api.addFiles(['views/MuiLanding.html', 'views/MuiLanding.coffee'], "client");
   api.addFiles(['views/MuiEditTrip.html', 'views/MuiEditTrip.coffee'], "client");
@@ -61,6 +62,9 @@ Package.onUse(function(api) {
   api.addFiles(['views/NewRideOffer.html', 'views/NewRideOffer.coffee'], "client");
   api.addFiles(['views/RideOffers.html', 'views/RideOffers.coffee'], "client");
   api.addFiles(['views/RideOfferDetails.html', 'views/RideOfferDetails.coffee'], "client");
+
+  api.addFiles(['views/RequestRide.html', 'views/RequestRide.coffee'], "client");
+
   api.addFiles('views/styles.css', "client");
 
   api.mainModule('routes.coffee', "client");
