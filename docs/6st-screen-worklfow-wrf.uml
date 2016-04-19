@@ -13,25 +13,24 @@ state "Login\n<img:mvp-flow/mui-login.png>" as login
 note top of login : Should be facebook login
 state "Register\n<img:mvp-flow/mui-register.png>" as register
 
-state "Rider requests ride\n<img:mvp-flow/wrf-uc9-acceptRequest.png>" as requestRide
+state "RequestRide\n<img:mvp-flow/wrf-uc9-acceptRequest.png>" as requestRide
 requestRide: <b>View 2</b>
 
 state "EditTrip\n<img:mvp-flow/mui-editTrip.png>" as editTrip
 editTrip: <b>View 3</b>
 
-state "Your trips" as yourTrips
-yourTrips: <b>View 4</b>
-yourTrips: Lists all your trips
+state "YourTrips" as yourTrips
+yourTrips: <b>View 4</b> Lists all your trips
 yourTrips: similar to landing page, just without from/to
 yourTrips: trips without user icons
 
-state "Matched trips" as matchedTrips
+state "MatchedTrips\n<img:mvp-flow/wrf-matchedTrips.png>" as matchedTrips
 matchedTrips: <b>View 5</b>
 matchedTrips: Similar to landing page
-matchedTrips: just from/to filled by particular "ride"
+matchedTrips: just from/to filled\n by particular "ride"
 
-state "Driver confirms ride " as confirmRide
-confirmRide: <b>View 6</b>
+state "ConfirmRide" as confirmRide
+confirmRide: <b>View 6</b> Driver confirms ride
 confirmRide: Shows your drive and requests
 confirmRide: driver should be able to see stops
 confirmRide: driver should be able to see rider profile (next phase)

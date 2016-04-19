@@ -1,9 +1,10 @@
 import DesktopLayout from '../layout/DesktopLayout'
 import PageRoot from '../layout/PageRoot'
-import { TAPi18n } from 'meteor/tap:i18n';
+//import { TAPi18n} from 'meteor/tap:i18n';
 import AutoComplete from 'material-ui/lib/auto-complete';
 import { TextField, DatePicker, TimePicker, RaisedButton, Snackbar, RadioButtonGroup, RadioButton } from 'material-ui'
 import Colors from 'material-ui/lib/styles/colors';
+
 
 // TODO: replace this with real function
 
@@ -133,7 +134,7 @@ class TripFormBase extends React.Component {
   }
 
   render() {
-    TAPi18n.__('labelFrom'); // dummy call to load __ functions -doesn't help
+    //TAPi18n.__('labelFrom'); // dummy call to load __ functions -doesn't help
     return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
         <AutoComplete id="trip-fromAddress" floatingLabelText={__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions}
