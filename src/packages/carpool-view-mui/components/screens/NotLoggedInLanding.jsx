@@ -25,7 +25,11 @@ export default class NotLoggedInLanding extends React.Component {
           <div style={{marginLeft: 20}}>G+</div>
           <div style={{marginLeft: 'auto', marginRight: 'auto'}}>Sign in with Google</div>
         </Paper>
-        <div style={{marginTop: 30}}>or just check it out</div>
+        <div style={{marginTop: 30, cursor: 'pointer'}}
+          onClick={() => muiControllerHelper.goToView('RideOffers')}
+        >
+          or just check it out
+        </div>
         <div style={{marginTop: 'auto', marginBottom: 20}}>Courtesy of cfv</div>
       </div>
     )

@@ -32,32 +32,6 @@ const wrapMobileLayout = (Component) => class MobileLayout extends React.Compone
         }}>
           <Component width={window.innerWidth} height={window.innerHeight} />
         </div>
-        <Paper style={{
-          position: 'fixed',
-          bottom: 0,
-          height: 64,
-          width: window.innerWidth,
-          zIndex: 1,
-          color: 'white'
-        }}>
-        <Tabs style={{height: 64}} inkBarStyle={{display: 'none'}}>
-          <Tab
-            style={{fontSize: 12, background: '#212121'}}
-            icon={<RequestsIcon className="tabs-icon" />}
-            label="Requests"
-          />
-          <Tab
-            style={{fontSize: 12, background: '#212121'}}
-            icon={<CarIcon className="tabs-icon" />}
-            label="Offers"
-          />
-          <Tab
-            style={{fontSize: 12, background: '#212121'}}
-            icon={<NotificationsIcon className="tabs-icon" />}
-            label="Notifications"
-          />
-        </Tabs>
-        </Paper>
       </div>
     )
   }

@@ -8,12 +8,11 @@ Router.map ()->
   @route 'MuiDriverTrip', path: '/mui/driverTrip'
   @route 'MuiPassengerTrip', path: '/mui/passengerTrip'
   @route 'MuiNotifications', path: '/mui/notifications'
-  @route 'NotLoggedInLanding', path:'/mui/screen1'
-  @route 'LoggedInLanding', path: 'mui/screen2'
-  @route 'RideOfferDetails', path: 'mui/screen3'
-  @route 'RideOffers', path: 'mui/screen4'
-  @route 'NewRideOffer', path: 'mui/screen5'
+  @route 'NotLoggedInLanding', path:'/mui/landing'
+  @route 'NewRideOffer', path: '/mui/newRide'
+  @route 'RideOffers', path: '/mui/rideOffers'
   @route 'MuiRequestRide', path: 'mui/requestRide'
+  # @route 'LoggedInLanding', path: 'mui/screen2'
 
   # Mobile views
   # @route 'MuiShowRide', path: '/mui/showRide'

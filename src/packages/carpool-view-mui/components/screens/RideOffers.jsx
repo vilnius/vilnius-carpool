@@ -3,6 +3,13 @@ import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider'
 import Avatar from 'material-ui/lib/avatar';
+import TopBar from './components/TopBar'
+import BottomTabs from './components/BottomTabs'
+import Tabs from 'material-ui/lib/tabs/tabs';
+import Tab from 'material-ui/lib/tabs/tab';
+import FloatingActionButton from 'material-ui/lib/floating-action-button';
+import ContentAdd from 'material-ui/lib/svg-icons/content/add';
+import HamburgerMenuButton from './components/HamburgerMenuButton'
 
 import wrapMobileLayout from './NewMobileWrap'
 import config from './config'
@@ -64,10 +71,22 @@ export default class RideOffers extends React.Component {
   render () {
     return (
       <div style={{paddingBottom: 64}}>
+        <TopBar
+          extraContent ={(
+            <Tabs>
+              <Tab label="All" />
+              <Tab label="Yours" />
+            </Tabs>
+          )}
+          middleContent="RideOffers"
+          leftIcon={<HamburgerMenuButton />}
+          rightIcon={'o'}
+        />
         <List>
           {offers.map((offer) => {
             return (
               [<ListItem key={1}
+                onClick={() => muiControllerHelper.goToView('MuiRequestRide')}
                 rightAvatar={
                   <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', top: 4, height: '100%'}}>
                     <Avatar src={offer.image} size={50} />
@@ -82,8 +101,8 @@ export default class RideOffers extends React.Component {
                     <span style={{fontSize: 12}}>Jun 18, 2016</span>
                   ) : (
                     <div style={{display: 'flex', flexDirection: 'row'}}>
-                      {['M', 'T', 'W', 'T', 'F', 'S'].map((day) => (
-                        <div style={Math.random() > 0.5 ? filledCircleStyle : emptyCircleStyle}>
+                      {['M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
+                        <div key={i} style={Math.random() > 0.5 ? filledCircleStyle : emptyCircleStyle}>
                           {day}
                         </div>
                       ))}
@@ -95,9 +114,19 @@ export default class RideOffers extends React.Component {
             )
           })}
         </List>
+        <BottomTabs />
+        <FloatingActionButton secondary={true} style={{
+            position: 'fixed',
+            right: 12,
+            bottom: 75,
+          }}
+          onClick={() => muiControllerHelper.goToView('NewRideOffer')}
+        >
+          <ContentAdd />
+        </FloatingActionButton>
       </div>
     )
   }
 }
 
-RideOffersScreen = wrapMobileLayout(RideOffers)
+RideOffersScreen = RideOffers
