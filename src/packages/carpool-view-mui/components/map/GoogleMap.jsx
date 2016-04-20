@@ -27,8 +27,17 @@ export default class ReactMap extends React.Component {
        defaultAnimation: 2,
        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
      }],
+     googleReady: false,
     }
     this.handleWindowResize = _.throttle(this.handleWindowResize, 500);
+  }
+
+  componentWillMount () {
+    googleServices.afterInit(() => {
+      this.setState({
+        googleReady: true,
+      })
+    })
   }
 
   handleWindowResize() {
@@ -37,8 +46,8 @@ export default class ReactMap extends React.Component {
   }
 
   render () {
-    const { googleReady} = this.props;
-    if(false == googleReady) {
+    const googleReady = this.state.googleReady
+    if (false == googleReady) {
       return (
         <section style={{height: "100%"}}>
           Loading...
@@ -86,16 +95,19 @@ export default class ReactMap extends React.Component {
   }
 }
 
-googleReady = new ReactiveVar(false);
-googleServices.afterInit(function (){
-  googleReady.set(true);
-})
+// googleReady = new ReactiveVar(false);
+// googleServices.afterInit(function (){
+//   googleReady.set(true);
+// })
+//
+// ReactMapView = createContainer(() => {
+//   return {
+//     googleReady: googleReady.get()
+//   }
+// }, ReactMap);
+ReactMapView = ReactMap
 
-ReactMapView = createContainer(() => {
-  return {
-    googleReady: googleReady.get()
-  }
-}, ReactMap);
+export default ReactMapView
 
 /*
  Can't use PageRoot as GoogleMap requires all divs above should be correct height -
