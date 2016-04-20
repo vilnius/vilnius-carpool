@@ -64,7 +64,7 @@ export default class RideOffers extends React.Component {
           {activeTrips.map((trip) => {
             return (
               [<ListItem key={1}
-                onClick={() => muiControllerHelper.goToView('MuiRequestRide')}
+                onClick={() => muiControllerHelper.goToView('MuiRequestRide', {}, {trip: trip._id})}
                 rightAvatar={
                   <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', top: 4, height: '100%'}}>
                     <Avatar src='http://lorempixel.com/200/200/people/1' size={50} />
