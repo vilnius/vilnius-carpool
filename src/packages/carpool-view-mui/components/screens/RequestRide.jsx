@@ -12,7 +12,6 @@ export default class RequestRide extends React.Component {
     const topBarHeight = 45
     const mapHeight = 375
     const {progress, trip } = this.props;
-    console.log("Request ride", progress.getProgress());
 
     if (100 != progress.getProgress()) {
       return (
@@ -71,7 +70,6 @@ RequestRideScreen = createContainer(({ id }) => {
 //  const { id } = params;
   query = { _id: id }
   const trip = carpoolService.pullOneTrip(query, progress.setProgress.bind(progress, 'oneTrip'));
-  console.log("RequestRideScreen", query, trip)
   return {
     trip,
     progress
