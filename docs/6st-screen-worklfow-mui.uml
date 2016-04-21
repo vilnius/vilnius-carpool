@@ -1,38 +1,64 @@
 @startuml
 
+skinparam state {
+  FontSize 28
+  AttributeFontSize 28
+}
 title Take a passenger
 
-state "EditTrip\n<img:mvp-flow/mui-editTrip.png>" as editTrip
 
 state "Landing\n<img:mvp-flow/mui-landing.png>" as landing
-state "Loginn\n<img:mvp-flow/mui-login.png>" as login
+landing: <b>View 1</b>
+state "Login\n<img:mvp-flow/mui-login.png>" as login
+note top of login : Should be facebook login
 state "Register\n<img:mvp-flow/mui-register.png>" as register
 
-state "Rider scheduled trip\n<img:mvp-flow/uc3-assureTrips.png>" as riderTrips
-state "Notifications\n<img:mvp-flow/mui-uc9-notifications.png>" as notifications
-state "MatchedTrips\n<img:mvp-flow/mui-uc9-matchedTrips.png>" as matchedTrips
+state "RequestRide\n<img:mvp-flow/mui-requestRide.png>" as requestRide
+requestRide: <b>View 2</b>
 
-state "Driver enters trip\n<img:mvp-flow/uc9-driverTrip.png>" as driverTrip
-state "ShowDrive\n<img:mvp-flow/mui-uc9-showDrive.png>" as showDrive
+state "EditTrip\n<img:mvp-flow/mui-editTrip.png>" as editTrip
+editTrip: <b>View 3</b>
+
+state "YourTrips" as yourTrips
+yourTrips: <b>View 4</b> Lists all your trips
+yourTrips: similar to landing page, just without from/to
+yourTrips: trips without user icons
+
+state "MatchedTrips\n<img:mvp-flow/wrf-matchedTrips.png>" as matchedTrips
+matchedTrips: <b>View 5</b>
+matchedTrips: Similar to landing page
+matchedTrips: just from/to filled\n by particular "ride"
+
+state "ConfirmRide" as confirmRide
+confirmRide: <b>View 6</b> Driver confirms ride
+confirmRide: Shows your drive and requests
+confirmRide: driver should be able to see stops
+confirmRide: driver should be able to see rider profile (next phase)
+confirmRide: driver can confirm/reject requests
+
+
 state "ShowPickup" as showPickup
+showPickup: <b>View 7</b>
+
 state "ShowItenary" as showItenary
+showItenary: <b>View 8</b>
+
+showItenary: Should show driver route\n and where to pickup riders
+
+login -right-> register
 
 [*] -> landing
 landing -up-> login
-login -right-> editTrip
-editTrip -down-> riderTrips
+landing -[#blue]right-> editTrip
+landing -[#blue]-> requestRide: Trip found
+landing -[#blue]-> yourTrips: On notification\n or selected from menu
 
-landing -[#blue]> riderTrips
-riderTrips -[#blue]> notifications
-notifications -[#blue]> matchedTrips
+yourTrips -[#blue]> matchedTrips: Clicked on ride\n from/to works as a filter
+yourTrips -[#green]-> confirmRide: Clicked on drive
 
-landing -down[#green]-> driverTrip
-driverTrip -up-> matchedTrips: notification
-driverTrip -[#green]> showDrive
+matchedTrips -[#blue]> requestRide: Clicked on best drive
+requestRide -[#blue]> showPickup: Shown if the trip arranged\n notification before trip
 
-matchedTrips -down-> showDrive: notification
-matchedTrips -[#blue]right-> showPickup
-showDrive -[#green]right> showItenary
-
+confirmRide -[#green]right> showItenary: Notification before trip
 
 @enduml
