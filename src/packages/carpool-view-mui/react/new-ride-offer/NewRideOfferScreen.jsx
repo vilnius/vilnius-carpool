@@ -1,22 +1,11 @@
 import React from 'react'
-import wrapMobileLayout from './NewMobileWrap'
 import TextField from 'material-ui/lib/text-field'
-import TopBar from './components/TopBar'
 import LocationIcon from 'material-ui/lib/svg-icons/action/room'
 import TimeIcon from 'material-ui/lib/svg-icons/action/query-builder'
 import RepeatIcon from 'material-ui/lib/svg-icons/av/loop'
-import BackButton from './components/BackButton'
-import muiTheme from './muiTheme'
-import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import wrapScreen from '../layout/wrapScreen'
 
 export default class NewRideOffer extends React.Component {
-
-  getChildContext () {
-    return {
-      muiTheme: ThemeManager.getMuiTheme(muiTheme),
-    }
-  }
-
   render () {
     const leftColWidth = 80
     const rightColWidth = window.innerWidth - leftColWidth
@@ -25,14 +14,10 @@ export default class NewRideOffer extends React.Component {
         display: 'flex',
         flexDirection: 'column',
       }}>
-        <TopBar
-          leftIcon={<BackButton />}
-          middleContent={'New ride offer'}
-        />
         <div style={{
           display: 'flex',
           flexDirection: 'row',
-          marginTop: 60,
+          marginTop: 12,
         }}>
           <div style={{
             width: leftColWidth,
@@ -123,9 +108,7 @@ export default class NewRideOffer extends React.Component {
     )
   }
 }
-
-NewRideOffer.childContextTypes = {
-  muiTheme: React.PropTypes.object,
-}
-
-NewRideOfferScreen = NewRideOffer
+NewRideOfferScreen = wrapScreen(NewRideOffer, {
+  innerScreen: true,
+  title: 'New Ride Request',
+})

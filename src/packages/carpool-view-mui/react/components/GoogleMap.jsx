@@ -106,3 +106,9 @@ export default class ReactMap extends React.Component {
 ReactMapView = ReactMap
 
 export default ReactMapView
+
+/*
+ Can't use PageRoot as GoogleMap requires all divs above should be correct height -
+ at least having height: "100%"
+*/
+//ReactMapView = PageRoot(ReactMapContainer)

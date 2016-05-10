@@ -9,10 +9,17 @@ import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import ContentAdd from 'material-ui/lib/svg-icons/content/add';
+import SearchIcon from 'material-ui/lib/svg-icons/action/search';
 import HamburgerMenuButton from './components/HamburgerMenuButton'
-
+import RepeatingDays from './components/RepeatingDays'
 import wrapMobileLayout from './NewMobileWrap'
 import config from './config'
+import muiTheme from './muiTheme'
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+
+function getRandomBool() {
+  return Math.random() < 0.5
+}
 
 const offers = [{
   image: 'http://lorempixel.com/200/200/people/0',
@@ -40,34 +47,14 @@ const offers = [{
   name: 'Harry',
 }]
 
-const filledCircleStyle = {
-  background: config.colors.main,
-  color: 'white',
-  marginRight: 4,
-  width: 15,
-  height: 15,
-  borderRadius: 999,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  fontSize: 9,
-}
-
-const emptyCircleStyle = {
-  background: 'white',
-  color: config.colors.main,
-  border: '1px solid ' + config.colors.main,
-  marginRight: 4,
-  width: 15,
-  height: 15,
-  borderRadius: 999,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  fontSize: 9,
-}
-
 export default class RideOffers extends React.Component {
+
+  getChildContext () {
+    return {
+      muiTheme: ThemeManager.getMuiTheme(muiTheme),
+    }
+  }
+
   render () {
     return (
       <div style={{paddingBottom: 64}}>
@@ -80,9 +67,9 @@ export default class RideOffers extends React.Component {
           )}
           middleContent="RideOffers"
           leftIcon={<HamburgerMenuButton />}
-          rightIcon={'o'}
+          rightIcon={<SearchIcon color="white" />}
         />
-        <List>
+        <List style={{marginTop: 45 + 48}}>
           {offers.map((offer) => {
             return (
               [<ListItem key={1}
@@ -90,23 +77,19 @@ export default class RideOffers extends React.Component {
                 rightAvatar={
                   <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', top: 4, height: '100%'}}>
                     <Avatar src={offer.image} size={50} />
-                    <span style={{fontSize: 11, marginTop: 5, color: '#9B9B9B', fontWeight: 500}}>{offer.name}</span>
+                    <span style={{fontSize: 11, marginTop: 5, color: config.colors.textColor, fontWeight: 500}}>{offer.name}</span>
                   </div>
                 }
               >
-                <div style={{display: 'flex', flexDirection: 'column'}}>
-                  <div style={{marginBottom: 7, fontSize: 14}}>From gatves g. 12 8:30</div>
-                  <div style={{marginBottom: 10, fontSize: 14}}>To prospekto pr. 57 ~9:00</div>
+                <div style={{display: 'flex', flexDirection: 'column', color: config.colors.textColor}}>
+                  <div style={{marginBottom: 7, fontSize: 13}}>From gatves g. 12 8:30</div>
+                  <div style={{marginBottom: 10, fontSize: 13}}>To prospekto pr. 57 ~9:00</div>
                   <div>{Math.random() > 0.6 ? (
                     <span style={{fontSize: 12}}>Jun 18, 2016</span>
                   ) : (
-                    <div style={{display: 'flex', flexDirection: 'row'}}>
-                      {['M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
-                        <div key={i} style={Math.random() > 0.5 ? filledCircleStyle : emptyCircleStyle}>
-                          {day}
-                        </div>
-                      ))}
-                    </div>
+                    <RepeatingDays daysActive={[getRandomBool(), getRandomBool(), getRandomBool(),
+                      getRandomBool(), getRandomBool(), getRandomBool(), getRandomBool()]}
+                    />
                   )}</div>
                 </div>
               </ListItem>,
@@ -115,7 +98,7 @@ export default class RideOffers extends React.Component {
           })}
         </List>
         <BottomTabs />
-        <FloatingActionButton secondary={true} style={{
+        <FloatingActionButton primary style={{
             position: 'fixed',
             right: 12,
             bottom: 75,
@@ -127,6 +110,10 @@ export default class RideOffers extends React.Component {
       </div>
     )
   }
+}
+
+RideOffers.childContextTypes = {
+  muiTheme: React.PropTypes.object,
 }
 
 RideOffersScreen = RideOffers

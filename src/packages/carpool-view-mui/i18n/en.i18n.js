@@ -6,5 +6,4 @@ messages.en = _(messages.en || {}).extend(
   "labelDate": "Date",
   "labelTime": "Time"
 }
-
 );
