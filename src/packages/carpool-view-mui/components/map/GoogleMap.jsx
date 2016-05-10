@@ -8,7 +8,6 @@ import { default as _ } from "lodash";
 
 export default class ReactMap extends React.Component {
   constructor(props) {
-    console.log("Map", props);
     super(props);
     this.state = {
       markers: [{
