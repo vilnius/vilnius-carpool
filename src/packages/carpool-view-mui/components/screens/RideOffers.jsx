@@ -9,12 +9,20 @@ import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import ContentAdd from 'material-ui/lib/svg-icons/content/add';
+import SearchIcon from 'material-ui/lib/svg-icons/action/search';
 import HamburgerMenuButton from './components/HamburgerMenuButton'
 import { createContainer } from 'meteor/react-meteor-data';
 
 
+import RepeatingDays from './components/RepeatingDays'
 import wrapMobileLayout from './NewMobileWrap'
 import config from './config'
+import muiTheme from './muiTheme'
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+
+function getRandomBool() {
+  return Math.random() < 0.5
+}
 
 const filledCircleStyle = {
   background: config.colors.main,
@@ -28,22 +36,14 @@ const filledCircleStyle = {
   alignItems: 'center',
   fontSize: 9,
 }
-
-const emptyCircleStyle = {
-  background: 'white',
-  color: config.colors.main,
-  border: '1px solid ' + config.colors.main,
-  marginRight: 4,
-  width: 15,
-  height: 15,
-  borderRadius: 999,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  fontSize: 9,
-}
-
 export default class RideOffers extends React.Component {
+
+  getChildContext () {
+    return {
+      muiTheme: ThemeManager.getMuiTheme(muiTheme),
+    }
+  }
+
   render () {
     const { progress, activeTrips, ownTrips} = this.props;
 
@@ -58,7 +58,7 @@ export default class RideOffers extends React.Component {
           )}
           middleContent="RideOffers"
           leftIcon={<HamburgerMenuButton />}
-          rightIcon={'o'}
+          rightIcon={<SearchIcon color="white" />}
         />
         <List>
           {activeTrips.map((trip) => {
@@ -78,13 +78,9 @@ export default class RideOffers extends React.Component {
                   <div>{Math.random() > 0.6 ? (
                     <span style={{fontSize: 12}}>{moment(trip.time).format("lll")}</span>
                   ) : (
-                    <div style={{display: 'flex', flexDirection: 'row'}}>
-                      {['M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
-                        <div key={i} style={Math.random() > 0.5 ? filledCircleStyle : emptyCircleStyle}>
-                          {day}
-                        </div>
-                      ))}
-                    </div>
+                    <RepeatingDays daysActive={[getRandomBool(), getRandomBool(), getRandomBool(),
+                      getRandomBool(), getRandomBool(), getRandomBool(), getRandomBool()]}
+                    />
                   )}</div>
                 </div>
               </ListItem>,
@@ -93,7 +89,7 @@ export default class RideOffers extends React.Component {
           })}
         </List>
         <BottomTabs />
-        <FloatingActionButton secondary={true} style={{
+        <FloatingActionButton primary style={{
             position: 'fixed',
             right: 12,
             bottom: 75,
@@ -126,3 +122,9 @@ RideOffersScreen = createContainer(() => {
     ownTrips,
   };
 }, RideOffers);
+
+RideOffers.childContextTypes = {
+  muiTheme: React.PropTypes.object,
+}
+
+RideOffersScreen = RideOffers
