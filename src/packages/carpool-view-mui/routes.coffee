@@ -11,7 +11,12 @@ Router.map ()->
   @route 'NotLoggedInLanding', path:'/mui/landing'
   @route 'NewRideOffer', path: '/mui/newRide'
   @route 'RideOffers', path: '/mui/rideOffers'
-  @route 'MuiRequestRide', path: 'mui/requestRide'
+  @route 'MuiRequestRide', path: '/mui/requestRide'
+  @route 'Requests', path: '/mui/requests'
+  @route 'MuiNotifications2', path: '/mui/notifications2'
+  @route 'Profile', path: '/mui/profile'
+  @route 'NotificationSettings', path: '/mui/notificationSettings'
+  @route 'About', path: '/mui/about'
   # @route 'LoggedInLanding', path: 'mui/screen2'
 
   # Mobile views

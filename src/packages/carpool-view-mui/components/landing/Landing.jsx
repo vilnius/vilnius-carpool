@@ -16,7 +16,7 @@ class LandingBase extends React.Component {
   }
 
   render () {
-    const { progress, activeTrips, ownTrips} = this.props;
+    const { progress, activeTrips, ownTrips } = this.props;
     return (
       <div>
         <FloatingActionButton className="addTrip"

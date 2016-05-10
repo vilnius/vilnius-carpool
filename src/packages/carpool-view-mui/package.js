@@ -43,12 +43,16 @@ Package.onUse(function(api) {
   api.addFiles('components/notifications/Notifications.jsx', "client");
   api.addFiles('components/auth/Login.jsx', "client");
   api.addFiles('components/auth/Register.jsx', "client");
-  api.addFiles('components/screens/LoggedInLanding.jsx', "client");
-  api.addFiles('components/screens/NotLoggedInLanding.jsx', "client");
-  api.addFiles('components/screens/NewRideOffer.jsx', "client");
-  api.addFiles('components/screens/RideOffers.jsx', "client");
-  api.addFiles('components/screens/RequestRide.jsx', "client");
-  api.addFiles('components/map/GoogleMap.jsx', "client");
+  api.addFiles('react/logged-in-landing/LoggedInLandingScreen.jsx', "client");
+  api.addFiles('react/not-logged-in-landing/NotLoggedInLandingScreen.jsx', "client");
+  api.addFiles('react/new-ride-offer/NewRideOfferScreen.jsx', "client");
+  api.addFiles('react/ride-offers/RideOffersScreen.jsx', "client");
+  api.addFiles('react/request-ride/RequestRideScreen.jsx', "client");
+  api.addFiles('react/requests/RequestsScreen.jsx', "client");
+  api.addFiles('react/notifications/NotificationsScreen.jsx', "client");
+  api.addFiles('react/about/AboutScreen.jsx', "client");
+  api.addFiles('react/notification-settings/NotificationSettingsScreen.jsx', "client");
+  api.addFiles('react/profile/ProfileScreen.jsx', "client");
 
   api.addFiles(['views/MuiLanding.html', 'views/MuiLanding.coffee'], "client");
   api.addFiles(['views/MuiEditTrip.html', 'views/MuiEditTrip.coffee'], "client");
@@ -61,6 +65,11 @@ Package.onUse(function(api) {
   api.addFiles(['views/NotLoggedInLanding.html', 'views/NotLoggedInLanding.coffee'], "client");
   api.addFiles(['views/NewRideOffer.html', 'views/NewRideOffer.coffee'], "client");
   api.addFiles(['views/RideOffers.html', 'views/RideOffers.coffee'], "client");
+  api.addFiles(['views/Notifications.html', 'views/Notifications.coffee'], "client");
+  api.addFiles(['views/Requests.html', 'views/Requests.coffee'], "client");
+  api.addFiles(['views/About.html', 'views/About.coffee'], "client");
+  api.addFiles(['views/NotificationSettings.html', 'views/NotificationSettings.coffee'], "client");
+  api.addFiles(['views/Profile.html', 'views/Profile.coffee'], "client");
 
   api.addFiles(['views/RequestRide.html', 'views/RequestRide.coffee'], "client");
 
