@@ -1,64 +1,64 @@
 @startuml
 
+title Take a passenger
+
 skinparam state {
   FontSize 28
   AttributeFontSize 28
+  ArrowFontSize 24
+
+  BackgroundColor<<NOTIFY>> Salmon
 }
-title Take a passenger
 
-
-state "Landing\n<img:mvp-flow/wrf-landing.png>" as landing
-landing: <b>View 1</b>
-state "Login\n<img:mvp-flow/mui-login.png>" as login
-note top of login : Should be facebook login
+state "Login\n<img:mvp-flow/wrf-login.png>" as login
 state "Register\n<img:mvp-flow/mui-register.png>" as register
+state "Settings\n<img:mvp-flow/wrf-settings.jpg>" as settings
 
-state "RequestRide\n<img:mvp-flow/wrf-uc9-acceptRequest.png>" as requestRide
-requestRide: <b>View 2</b>
-
-state "EditTrip\n<img:mvp-flow/mui-editTrip.png>" as editTrip
+state "Notifications\n<img:mvp-flow/wrf-notifications.jpg>" as notifications
+notifications: Completed: 0% / 4h
+state "Edit trip\n<img:mvp-flow/wrf-editTrip.jpg>" as editTrip
 editTrip: <b>View 3</b>
+editTrip: Completed: 80% / 2h
 
-state "YourTrips" as yourTrips
-yourTrips: <b>View 4</b> Lists all your trips
-yourTrips: similar to landing page, just without from/to
-yourTrips: trips without user icons
+/'--- Driver states ---'/
+state "All ride offers\n<img:mvp-flow/wrf-rideOfferAll.jpg>" as rideOfferAll
+rideOfferAll: Completed: 70% / 3h
+state "Your ride offers\n<img:mvp-flow/wrf-rideOffersYours.jpg>" as rideOfferYour
+rideOfferYour: Completed: 60% / 3h
+state "Ride offer\n<img:mvp-flow/wrf-rideOffer.jpg>" as rideOffer
+rideOffer: Completed: 50% / 2h
+state "Request ride\n<img:mvp-flow/wrf-requestRideOffer.jpg>" as requestRide
+requestRide: Completed: 80% / 2h
+state "Confirm ride\n<img:mvp-flow/wrf-confirmRide.jpg>" as confirmRide <<NOTIFY>>
 
-state "MatchedTrips\n<img:mvp-flow/wrf-matchedTrips.png>" as matchedTrips
-matchedTrips: <b>View 5</b>
-matchedTrips: Similar to landing page
-matchedTrips: just from/to filled\n by particular "ride"
+/'--- Rider states ---'/
+state "All ride requests\n<img:mvp-flow/wrf-rideRequestAll.jpg>" as rideRequestAll
+rideRequestAll: Completed: 20% / 3h
+state "Your ride requests\n<img:mvp-flow/wrf-rideRequestsYour.jpg>" as rideRequestYour
+rideRequestYour: Completed: 50% / 1h
+state "Request ride details\n<img:mvp-flow/wrf-requestRideFromTo.jpg>" as requestRideFromTo
+requestRideFromTo: Completed: 20% / 3h
+state "Ride request\n<img:mvp-flow/wrf-offerRide.jpg>" as offerRide
+offerRide: Completed: 20% / 4h
+state "Notify driver" as notifyDriver <<NOTIFY>>
 
-state "ConfirmRide" as confirmRide
-confirmRide: <b>View 6</b> Driver confirms ride
-confirmRide: Shows your drive and requests
-confirmRide: driver should be able to see stops
-confirmRide: driver should be able to see rider profile (next phase)
-confirmRide: driver can confirm/reject requests
 
+[*] --> login
+rideOfferAll -left-> notifications
+login -> register
+rideOfferAll -up-> editTrip
+rideOfferAll -up-> settings
 
-state "ShowPickup" as showPickup
-showPickup: <b>View 7</b>
+login -[#blue]-> rideRequestAll
+rideRequestAll -> rideRequestYour
+rideRequestAll -[#blue]-> offerRide
+offerRide --> confirmRide: Notification
 
-state "ShowItenary" as showItenary
-showItenary: <b>View 8</b>
-
-showItenary: Should show driver route\n and where to pickup riders
-
-login -right-> register
-
-[*] -> landing
-landing -up-> login
-landing -[#blue]right-> editTrip
-landing -[#blue]-> requestRide: Trip found
-landing -[#blue]-> yourTrips: On notification\n or selected from menu
-
-yourTrips -[#blue]> matchedTrips: Clicked on ride\n from/to works as a filter
-yourTrips -[#green]-> confirmRide: Clicked on drive
-
-matchedTrips -[#blue]> requestRide: Clicked on best drive
-requestRide -[#blue]> showPickup: Shown if the trip arranged\n notification before trip
-
-confirmRide -[#green]right> showItenary: Notification before trip
+login-[#green]-> rideOfferAll
+rideOfferAll -> rideOfferYour
+rideOfferAll -[#green]-> rideOffer
+rideOffer -> requestRideFromTo
+rideOffer -[#green]-> requestRide
+requestRide --> notifyDriver
 
 @enduml
