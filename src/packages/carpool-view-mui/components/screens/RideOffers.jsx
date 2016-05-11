@@ -126,5 +126,3 @@ RideOffersScreen = createContainer(() => {
 RideOffers.childContextTypes = {
   muiTheme: React.PropTypes.object,
 }
-
-RideOffersScreen = RideOffers
