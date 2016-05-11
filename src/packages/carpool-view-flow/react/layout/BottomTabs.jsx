@@ -17,24 +17,27 @@ export default class BottomTabs extends React.Component {
         zIndex: 1,
         color: 'white'
       }}>
-        <Tabs style={{height: 64}} inkBarStyle={{display: 'none'}}>
+        <Tabs style={{height: 64}} inkBarStyle={{display: 'none'}} value={this.props.selectedTabIndex}>
           <Tab
             style={{fontSize: 12, background: '#212121'}}
             icon={<RequestsIcon className="tabs-icon" />}
             label="Requests"
             onClick={() => {flowControllerHelper.goToView('Requests')}}
+            value={0}
           />
           <Tab
             style={{fontSize: 12, background: '#212121'}}
             icon={<CarIcon className="tabs-icon" />}
             label="Offers"
             onClick={() => {flowControllerHelper.goToView('RideOffers')}}
+            value={1}
           />
           <Tab
             style={{fontSize: 12, background: '#212121'}}
             icon={<NotificationsIcon className="tabs-icon" />}
             label="Notifications"
             onClick={() => {flowControllerHelper.goToView('MuiNotifications2')}}
+            value={2}
           />
         </Tabs>
       </Paper>
