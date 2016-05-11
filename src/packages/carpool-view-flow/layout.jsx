@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const MainLayout = ({topMenu, topFilter, content, bottomMenu}) => (
+export const LandingLayout = ({topMenu, topFilter, content, bottomMenu}) => (
     <div>
       <header>
         {topMenu}
