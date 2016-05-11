@@ -15,7 +15,8 @@
     "react-addons-update": "^0.14.8",
     "react-dom": "^0.14.8",
     "react-google-maps": "^4.9.1",
-    "react-tap-event-plugin": "^0.2.2"
+    "react-tap-event-plugin": "^0.2.2",
+    "react-mounter":"1.2.0"
   },
   "devDependencies": {
     "coffee-script": "^1.10.0",
