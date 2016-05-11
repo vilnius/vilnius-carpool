@@ -75,6 +75,7 @@ Package.onUse(function(api) {
 
   api.addFiles('views/styles.css', "client");
 
+  api.addFiles(['mockNotFound.html'], "client");
   api.mainModule('routes.coffee', "client");
 });
 

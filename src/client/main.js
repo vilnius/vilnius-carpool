@@ -12,10 +12,11 @@ Meteor.startup(function () {
   googleServices.init();
 });
 
+
+/*
 Router.configure({
 });
 
-/*
 Router.map(function() {
   	this.route('About', {path: '/about'});
   	this.route('Profile', {path: '/profile', controller: 'ProfileController'});

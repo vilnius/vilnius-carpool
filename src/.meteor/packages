@@ -19,7 +19,6 @@ user-panels
 http
 http-logger
 spiderable
-iron:router
 spastai:google-client
 spastai:flow-controll
 cucumber-fixtures
@@ -37,3 +36,4 @@ standard-minifier-css
 standard-minifier-js
 react-meteor-data
 carpool-view-mui
+carpool-view-flow

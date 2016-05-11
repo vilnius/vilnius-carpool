@@ -1,4 +1,6 @@
 Router.map ()->
+  @route 'MuiMock', path: '/'
+
   @route 'MuiLanding', path: '/mui/'
 
   @route 'MuiRegister', path: '/mui/register'
