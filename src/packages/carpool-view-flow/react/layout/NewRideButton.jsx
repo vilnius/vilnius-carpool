@@ -10,7 +10,7 @@ export default class newRideButton extends React.Component {
           right: 12,
           bottom: 75,
         }}
-        onClick={() => muiControllerHelper.goToView('NewRideOffer')}
+        onClick={() => flowControllerHelper.goToView('NewRideOffer')}
       >
         <ContentAdd />
       </FloatingActionButton>
