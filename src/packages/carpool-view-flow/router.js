@@ -10,6 +10,8 @@ import TopTabs from './react/layout/TopTabs'
 
 import RidesList from './react/components/RidesList'
 
+import LoginScreen from './react/auth/Login'
+import LoginUsernameScreen from './react/auth/LoginUsername'
 import RideOffersScreen from './react/ride-list/RideOffersScreen'
 import TripForm from './react/trip-form/TripForm'
 import RequestRideScreen from './react/request-ride/RequestRideScreen'
@@ -39,6 +41,26 @@ FlowRouter.route('/requests/:ownTrips?', {
       extras: [<NewRideButton key={'NewRideButton'} />],
     });
   }
+});
+
+FlowRouter.route('/login', {
+    name: "Login",
+    action: function(params, queryParams) {
+      //console.log("Routing to - new trip form", TripFormScreen);
+      mount(PlainLayout, {
+        content: <LoginScreen />,
+      });
+    }
+});
+
+FlowRouter.route('/loginUsername', {
+    name: "LoginUsername",
+    action: function(params, queryParams) {
+      //console.log("Routing to - new trip form", TripFormScreen);
+      mount(PlainLayout, {
+        content: <LoginUsernameScreen />,
+      });
+    }
 });
 
 FlowRouter.route('/newRide', {
