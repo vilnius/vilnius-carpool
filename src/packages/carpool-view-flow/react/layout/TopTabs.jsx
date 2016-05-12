@@ -27,6 +27,7 @@ export default class TopTabs extends React.Component {
             <Tab label={tab.title}
               onClick={tab.onClick}
               value={i}
+              key={i}
             />
           ))}
         </Tabs>

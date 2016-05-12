@@ -5,9 +5,10 @@ import {mount} from 'react-mounter';
 import {LandingLayout, PlainLayout} from './layout'
 import BottomTabs from "./react/layout/BottomTabs"
 import NewRideButton from './react/layout/NewRideButton'
-import RidesList from './react/components/RidesList'
 import TopMenu from './react/layout/TopMenu'
 import TopTabs from './react/layout/TopTabs'
+
+import RidesList from './react/components/RidesList'
 
 import RideOffersScreen from './react/ride-offers/RideOffersScreen'
 import TripForm from './react/trip-form/TripForm'
