@@ -38,8 +38,15 @@ export const LandingLayout = ({topMenu, topFilter, content, bottomMenu, extras})
     </Wrapper>
 );
 
-export const PlainLayout = ({content}) => (
+export const PlainLayout = ({topMenu, content}) => (
     <Wrapper>
-       {content}
+      <div>
+        <header>
+          {topMenu}
+        </header>
+        <main>
+          {content}
+        </main>        
+      </div>
     </Wrapper>
 );

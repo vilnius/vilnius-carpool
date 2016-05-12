@@ -1,6 +1,7 @@
 import React from 'react';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
+import {FlowHelpers} from '../../flowHelpers'
 
 const styles = {
   headline: {
@@ -20,16 +21,9 @@ export default class TopTabs extends React.Component {
         width: window.innerWidth,
         zIndex: 1,
       }}>
-        <Tabs
-          value={this.props.selectedTabIndex}
-        >
-          {this.props.tabs.map((tab, i) => (
-            <Tab label={tab.title}
-              onClick={tab.onClick}
-              value={i}
-              key={i}
-            />
-          ))}
+        <Tabs value={this.props.selectedTabIndex}  >
+          <Tab label="All" onClick={() => FlowHelpers.goExtendedPath({ ownTrips: 'all' })} value='0' />
+          <Tab label="Your" onClick={() => FlowHelpers.goExtendedPath({ ownTrips: 'your' })} value='1' />
         </Tabs>
       </div>
     )
