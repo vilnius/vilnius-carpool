@@ -16,6 +16,7 @@ Package.onUse(function(api) {
   api.use(['underscore', 'coffeescript'], ['server', 'client']);
   //api.use(['templating', 'tracker'], 'client');
   api.use('react');
+  api.use('momentjs:moment','client');
 
   api.use('kadira:flow-router');
 
