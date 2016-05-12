@@ -19,16 +19,18 @@ Package.onUse(function(api) {
 
   api.use('kadira:flow-router');
 
-  //api.addFiles('flowHelpers.js', 'client');
+  api.use("spastai:carpool-service");
+  api.use("spastai:google-client@0.0.12", 'client');
+
   api.addFiles('controller.coffee', 'client');
   api.addFiles('components.js', 'client');
   api.addFiles('layout.jsx', 'client');
-  api.mainModule('router.js');
+  api.mainModule('router.js', 'client');
 });
 
 Package.onTest(function(api) {
   api.use('ecmascript');
   api.use('tinytest');
   api.use('carpool-view-flow');
-  api.mainModule('carpool-view-flow-tests.js');
+  //api.mainModule('carpool-view-flow-tests.js');
 });
