@@ -12,10 +12,10 @@ function getRandomBool() {
 
 export default class RidesList extends React.Component {
   render () {
-    const { progress, activeTrips, ownTrips} = this.props;
+    const { progress, trips} = this.props;
     return (
       <List style={{marginTop: -4}}>
-        {activeTrips.map((ride) => {
+        {trips.map((ride) => {
           // >> Mocking
           ride.name = "Ana"
           ride.isReccuring = getRandomBool();

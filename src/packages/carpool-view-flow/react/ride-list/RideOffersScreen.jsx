@@ -12,13 +12,16 @@ import { config } from '../config'
 
 export default RideOffers = createContainer(() => {
   const progress = new Progress();
-  const activeTrips = carpoolService.pullActiveTrips({}, progress.setProgress.bind(progress, 'activeTrips'));
-  const ownTrips = carpoolService.pullOwnTrips({}, progress.setProgress.bind(progress, 'ownTrips'));
+  if(true) {
+    trips = carpoolService.pullActiveTrips({}, progress.setProgress.bind(progress, 'activeTrips'));
+  } else {
+    trips = carpoolService.pullOwnTrips({}, progress.setProgress.bind(progress, 'ownTrips'));
+  }
 
+  console.log("Active trips:", trips);
   return {
     progress,
-    activeTrips,
-    ownTrips,
+    trips
   };
 }, RidesList);
 
