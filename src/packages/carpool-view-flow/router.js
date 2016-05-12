@@ -10,45 +10,31 @@ import TopTabs from './react/layout/TopTabs'
 
 import RidesList from './react/components/RidesList'
 
-import RideOffersScreen from './react/ride-offers/RideOffersScreen'
+import RideOffersScreen from './react/ride-list/RideOffersScreen'
 import TripForm from './react/trip-form/TripForm'
+import RequestRideScreen from './react/request-ride/RequestRideScreen'
 
 function getRandomBool() {
   return Math.random() < 0.5
 }
 
-const ridesExample = [
-  {
-    name: 'TestName',
-    image: 'http://lorempixel.com/200/200/people/1',
-    isReccuring: getRandomBool(),
-    reccuringDays: [getRandomBool(), getRandomBool(), getRandomBool(),
-      getRandomBool(), getRandomBool(), getRandomBool(), getRandomBool()],
-    date: `May ${Math.round(Math.random() * 30)}, 2016`,
-    from: 'Gatves g. 12',
-    fromTime: '8:35',
-    to: 'Prospekto pr. 57',
-    toTime: '9:15',
-    toTimeApproximate: true,
+FlowRouter.route('/rideRequest/:id', {
+  name: "RideRequest",
+  action: function(params, queryParams) {
+    mount(PlainLayout, {
+      topMenu: <TopMenu title="Ride requests" innerScreen />,
+      content: <RequestRideScreen tripId={params.id}/>,
+    });
   }
-]
+});
 
 FlowRouter.route('/requests/:ownTrips?', {
   name: "Requests",
   action: function(params, queryParams) {
-    console.log("Yeah! We are on requests");
     mount(LandingLayout, {
       topMenu: <TopMenu title="Ride requests" hasTopTabs />,
-      topFilter: <TopTabs selectedTabIndex={0}
-                  tabs={[{
-                    title: 'All',
-                    onClick: () => {console.log('Clicked on All')}
-                  }, {
-                    title: 'Yours',
-                    onClick: () => {console.log('Clicked on Yours')}
-                  }]}
-                 />,
-      content: <RidesList rides={ridesExample} />,
+      topFilter: <TopTabs selectedTabIndex={0} />,
+      content: <RideOffersScreen />,
       bottomMenu: <BottomTabs selectedTabIndex={0} />,
       extras: [<NewRideButton key={'NewRideButton'} />],
     });
@@ -58,7 +44,7 @@ FlowRouter.route('/requests/:ownTrips?', {
 FlowRouter.route('/newRide', {
     name: "NewRideOffer",
     action: function(params, queryParams) {
-      console.log("Routing to - new trip form", TripFormScreen);
+      //console.log("Routing to - new trip form", TripFormScreen);
       mount(PlainLayout, {
         content: <TripForm />,
       });
@@ -69,19 +55,11 @@ FlowRouter.route('/newRide', {
 FlowRouter.route('/:ownTrips?', {
     name: "RideOffers",
     action: function(params, queryParams) {
-      console.log("Routing to - root.");
+      console.log("Routing to - root", params.ownTrips === "your");
       mount(LandingLayout, {
         topMenu: <TopMenu title="Ride offers" hasTopTabs />,
-        topFilter: <TopTabs selectedTabIndex={1}
-                    tabs={[{
-                      title: 'All',
-                      onClick: () => {console.log('Clicked on All')}
-                    }, {
-                      title: 'Yours',
-                      onClick: () => {console.log('Clicked on Yours')}
-                    }]}
-                   />,
-        content: <RideOffersScreen/>,
+        topFilter: <TopTabs selectedTabIndex={0} />,
+        content: <RideOffersScreen filterOwnTrips={params.ownTrips === "your"}/>,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
         extras: [<NewRideButton key={'NewRideButton'} />],
       });

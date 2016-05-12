@@ -27,7 +27,7 @@ export default class RidesList extends React.Component {
           // << Mocking
           return (
             [<ListItem key={1}
-              onClick={() => flowControllerHelper.goToView('MuiRequestRide')}
+              onClick={() => flowControllerHelper.goToView('RideRequest', {id: ride._id})}
               rightAvatar={
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', top: 4, height: '100%'}}>
                   <Avatar src="http://lorempixel.com/200/200/people/1" size={50} />

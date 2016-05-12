@@ -16,9 +16,14 @@ let extendPath = (params) => {
   return pathFor(FlowRouter.current().route.name, params);
 }
 
+let goExtendedPath = (params) => {
+  return FlowRouter.go(FlowRouter.current().route.name, params);
+}
+
 export const FlowHelpers = {
   pathFor: pathFor,
   urlFor: urlFor,
   currentRoute: currentRoute,
-  extendPath: extendPath
+  extendPath: extendPath,
+  goExtendedPath: goExtendedPath
 };
