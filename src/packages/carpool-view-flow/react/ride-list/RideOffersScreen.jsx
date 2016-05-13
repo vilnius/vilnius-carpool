@@ -14,10 +14,10 @@ export default RideOffers = createContainer(({filterOwn}) => {
   const progress = new Progress();
   if(filterOwn) {
     trips = carpoolService.pullOwnTrips({}, progress.setProgress.bind(progress, 'ownTrips'));
-    console.log("Own trips:", trips);
+    if(100 == progress.getProgress()) { console.log("Own trips:", trips);}
   } else {
     trips = carpoolService.pullActiveTrips({}, progress.setProgress.bind(progress, 'activeTrips'));
-    console.log("Active trips:", trips);
+    if(100 == progress.getProgress()) { console.log("Active trips:", trips);}
   }
 
   return {

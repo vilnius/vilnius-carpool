@@ -22,6 +22,13 @@ Package.onUse(function(api) {
 
   api.use("spastai:carpool-service");
   api.use("spastai:google-client@0.0.12", 'client');
+  api.use("carpool-i18n");
+  api.use("carpool-view");
+
+  api.addFiles([
+    "i18n/en.i18n.js",
+    "i18n/lt.i18n.js"
+  ], ["client", "server"]);
 
   api.addFiles('controller.coffee', 'client');
   api.addFiles('components.js', 'client');

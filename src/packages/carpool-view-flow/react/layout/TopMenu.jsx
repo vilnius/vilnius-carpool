@@ -12,6 +12,9 @@ import Paper from 'material-ui/lib/paper'
 import FlatButton from 'material-ui/lib/flat-button'
 import { config } from '../config'
 
+import { getUserName } from 'meteor/carpool-view'
+
+
 export default class TopMenu extends React.Component {
 
   constructor (props) {
@@ -22,6 +25,10 @@ export default class TopMenu extends React.Component {
   }
 
   render () {
+    user = Meteor.user();
+    //console.log("TopMenu user", user);
+    avatar = user && user.profile && user.profile.avatar;
+
     return (
       <Paper
         style={{
@@ -54,7 +61,7 @@ export default class TopMenu extends React.Component {
           <div style={{
             marginLeft: 12,
             fontSize: 20,
-          }}>
+          }} data-cucumber="screen-name">
             {this.props.title}
           </div>
         </div>
@@ -73,7 +80,7 @@ export default class TopMenu extends React.Component {
               paddingTop: 20,
               paddingBottom: 10
             }}>
-              <Avatar src="http://lorempixel.com/200/200/people/0" size={60} style={{marginLeft: 10}} />
+              <Avatar src={avatar} size={60} style={{marginLeft: 10}} />
               <div style={{marginLeft: 17, marginTop: 3}}>
                 Name
               </div>
@@ -89,8 +96,8 @@ export default class TopMenu extends React.Component {
             </div>
             { Meteor.userId() ? (
             <div style={{marginTop: 2, width: '100%'}}>
-              <FlatButton style={{width: '100%', textAlign: 'left'}} label="Logout" icon={<PersonOutlineIcon />}
-                onClick={() => muiControllerHelper.goToView('Logout')} />
+              <FlatButton style={{width: '100%', textAlign: 'left'}} label={`Logout ${getUserName(Meteor.user())}`} icon={<PersonOutlineIcon />}
+                onClick={() => Meteor.logout()} />
             </div>
             ) : (
               <div style={{marginTop: 2, width: '100%'}}>

@@ -24,7 +24,6 @@ spastai:flow-controll
 cucumber-fixtures
 spastai:carpool-service
 carpool-admin
-carpool-view-map
 spastai:logw
 carpool-notifications
 
@@ -35,5 +34,6 @@ zeroasterisk:cordova-geolocation-foreground
 standard-minifier-css
 standard-minifier-js
 react-meteor-data
-carpool-view-mui
 carpool-view-flow
+carpool-i18n
+carpool-view

@@ -53,6 +53,15 @@ FlowRouter.route('/login', {
     }
 });
 
+FlowRouter.route('/logout', {
+    name: "Logout",
+    action: function(params, queryParams) {
+      Meteor.logout();
+      FlowRouter.go("/")
+    }
+});
+
+
 FlowRouter.route('/loginUsername', {
     name: "LoginUsername",
     action: function(params, queryParams) {
