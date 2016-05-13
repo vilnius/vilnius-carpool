@@ -25,7 +25,7 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
       And I see my MUI trip
         | fromAddress          | toAddress               | role   |
         | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius | rider  |
-      Then User "ron@tiktai.lt" gets mobile notification and sends request
-      And user "dick@tiktai.lt" aproves request on mobile
+      Then User "ron@tiktai.lt" gets mui notification and sends request
+      And user "dick@tiktai.lt" confirms request on mui
 
     Scenario: Out of focus

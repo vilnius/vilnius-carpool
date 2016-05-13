@@ -1,6 +1,8 @@
 import React from 'react'
 import { createContainer } from 'meteor/react-meteor-data';
 
+import { _ } from 'meteor/underscore';
+
 import GoogleMap from '../components/GoogleMap'
 import { config, muiTheme } from '../config'
 import RaisedButton from 'material-ui/lib/raised-button';
@@ -25,6 +27,8 @@ export default class RequestRide extends React.Component {
       trip.driverName = 'Vytautė';
       trip.driverAge = 26;
       trip.driverPicture = 'http://lorempixel.com/200/200/people/9';
+      isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
+      console.log("Requested trip", isRequested);
       return (
         <div style={{color: config.colors.textColor}}>
           <div style={{
@@ -41,7 +45,7 @@ export default class RequestRide extends React.Component {
               textAlign: 'center',
             }}>
               <RaisedButton primary style={{width: window.innerWidth * 0.9, borderRadius: 5}}
-                label="Request ride"
+                label={isRequested ? "Withdraw request" : "Request ride"}
                 onClick={() => {alert('Modal with timechoice coming')}}
               />
             </div>
