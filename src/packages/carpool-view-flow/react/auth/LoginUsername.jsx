@@ -34,10 +34,10 @@ export default class Login extends React.Component {
     return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <h2>Login</h2>
-        <TextField className="mui-input" floatingLabelText="Email" value={this.state.email} onChange={this.valueChanged.bind(this, 'email')} />
-        <TextField type="password" className="mui-input" floatingLabelText="Password" value={this.state.password} onChange={this.valueChanged.bind(this, 'password')} />
+        <TextField id="inputUsername" className="mui-input" floatingLabelText="Email" value={this.state.email} onChange={this.valueChanged.bind(this, 'email')} />
+        <TextField id="inputPassword" type="password" className="mui-input" floatingLabelText="Password" value={this.state.password} onChange={this.valueChanged.bind(this, 'password')} />
         <div style={{marginTop: 25}}>
-          <RaisedButton secondary label="Login" onClick={this.login.bind(this)} />
+          <RaisedButton secondary label="Login" className="login" onClick={this.login.bind(this)} />
           <RaisedButton secondary label="Switch to register" onClick={() => muiControllerHelper.goToView('MuiRegister')} style={{marginLeft: 25}}/>
         </div>
       </div>

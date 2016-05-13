@@ -20,10 +20,10 @@ callback-hook@1.0.6
 carpool-admin@1.0.0
 carpool-api@0.0.1
 carpool-geo@0.0.1
+carpool-i18n@0.0.1
 carpool-notifications@0.0.1
+carpool-view@0.0.1
 carpool-view-flow@0.0.1
-carpool-view-map@0.0.1
-carpool-view-mui@0.0.1
 check@1.1.2
 coffeescript@1.0.15
 cosmos:browserify@0.5.1
@@ -95,7 +95,6 @@ rate-limit@1.0.2
 react@0.14.6
 react-meteor-data@0.2.7
 react-runtime@0.14.5
-react-template-helper@0.2.7
 reactive-dict@1.1.5
 reactive-var@1.0.7
 reload@1.1.6

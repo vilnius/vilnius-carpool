@@ -4,8 +4,8 @@ module.exports = ()->
 
   @Given /^Trips removed$/, ()->
     #d "Remove old trips"
-    server.call "removeTrips", "user1@tiktai.lt"
-    server.call "removeTrips", "user2@tiktai.lt"
+    server.call "removeTrips", "ron@tiktai.lt"
+    server.call "removeTrips", "dick@tiktai.lt"
 
   @Given /^Stops exists$/, ()->
     server.call "assureStop", "Filaretu", [25.309768170118332,54.68432633458854]

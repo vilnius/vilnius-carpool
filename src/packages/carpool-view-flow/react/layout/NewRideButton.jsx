@@ -5,7 +5,7 @@ import ContentAdd from 'material-ui/lib/svg-icons/content/add'
 export default class newRideButton extends React.Component {
   render () {
     return (
-      <FloatingActionButton primary style={{
+      <FloatingActionButton data-cucumber="addTrip" primary style={{
           position: 'fixed',
           right: 12,
           bottom: 75,
