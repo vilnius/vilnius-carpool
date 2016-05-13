@@ -77,11 +77,11 @@ FlowRouter.route('/newRide', {
 FlowRouter.route('/:ownTrips?', {
     name: "RideOffers",
     action: function(params, queryParams) {
-      console.log("Routing to - root", params.ownTrips === "your");
+      //console.log("Routing to - root", params.ownTrips === "your");
       mount(LandingLayout, {
         topMenu: <TopMenu title="Ride offers" hasTopTabs />,
         topFilter: <TopTabs selectedTabIndex={0} />,
-        content: <RideOffersScreen filterOwnTrips={params.ownTrips === "your"}/>,
+        content: <RideOffersScreen filterOwn={params.ownTrips === "your"}/>,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
         extras: [<NewRideButton key={'NewRideButton'} />],
       });

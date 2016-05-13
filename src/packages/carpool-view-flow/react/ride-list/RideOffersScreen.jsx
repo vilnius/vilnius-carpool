@@ -10,15 +10,16 @@ import SearchIcon from 'material-ui/lib/svg-icons/action/search';
 import RepeatingDays from '../components/ReccuringDays'
 import { config } from '../config'
 
-export default RideOffers = createContainer(() => {
+export default RideOffers = createContainer(({filterOwn}) => {
   const progress = new Progress();
-  if(true) {
-    trips = carpoolService.pullActiveTrips({}, progress.setProgress.bind(progress, 'activeTrips'));
-  } else {
+  if(filterOwn) {
     trips = carpoolService.pullOwnTrips({}, progress.setProgress.bind(progress, 'ownTrips'));
+    console.log("Own trips:", trips);
+  } else {
+    trips = carpoolService.pullActiveTrips({}, progress.setProgress.bind(progress, 'activeTrips'));
+    console.log("Active trips:", trips);
   }
 
-  console.log("Active trips:", trips);
   return {
     progress,
     trips
