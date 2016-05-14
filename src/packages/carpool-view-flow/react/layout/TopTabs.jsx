@@ -22,8 +22,8 @@ export default class TopTabs extends React.Component {
         zIndex: 1,
       }}>
         <Tabs value={this.props.selectedTabIndex}  >
-          <Tab label="All" data-cucumber="all-trips" onClick={() => FlowHelpers.goExtendedPath({ ownTrips: 'all' })} value='0' />
-          <Tab label="Your" data-cucumber="your-trips" onClick={() => FlowHelpers.goExtendedPath({ ownTrips: 'your' })} value='1' />
+          <Tab label="All" data-cucumber="all-trips" onClick={() => FlowHelpers.goExtendedPath({ ownTrips: 'all' })} value={0} />
+          <Tab label="Your" data-cucumber="your-trips" onClick={() => FlowHelpers.goExtendedPath({ ownTrips: 'your' })} value={1} />
         </Tabs>
       </div>
     )

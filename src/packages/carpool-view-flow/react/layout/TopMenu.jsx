@@ -37,7 +37,7 @@ export default class TopMenu extends React.Component {
           height: 50,
           width: window.innerWidth,
           background: config.colors.main,
-          zIndex: 1,
+          zIndex: 2,
           color: 'white',
           borderRadius: 0,
         }}

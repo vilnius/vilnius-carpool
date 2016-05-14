@@ -88,7 +88,7 @@ FlowRouter.route('/requests/:ownTrips?', {
   action: function(params, queryParams) {
     mount(LandingLayout, {
       topMenu: <TopMenu title="Ride requests" hasTopTabs />,
-      topFilter: <TopTabs selectedTabIndex={0} />,
+      topFilter: <TopTabs selectedTabIndex={params.ownTrips === 'all' ? 0 : 1} />,
       content: <RideOffersScreen />,
       bottomMenu: <BottomTabs selectedTabIndex={0} />,
       extras: [<NewRideButton key={'NewRideButton'} />],
@@ -103,7 +103,7 @@ FlowRouter.route('/:ownTrips?', {
       //console.log("Routing to - root", params.ownTrips === "your");
       mount(LandingLayout, {
         topMenu: <TopMenu title="Ride offers" hasTopTabs />,
-        topFilter: <TopTabs selectedTabIndex={0} />,
+        topFilter: <TopTabs selectedTabIndex={params.ownTrips === 'all' ? 0 : 1} />,
         content: <RideOffersScreen filterOwn={params.ownTrips === "your"}/>,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
         extras: [<NewRideButton key={'NewRideButton'} />],

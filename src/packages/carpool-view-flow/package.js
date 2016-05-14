@@ -34,6 +34,7 @@ Package.onUse(function(api) {
   api.addFiles('components.js', 'client');
   api.addFiles('layout.jsx', 'client');
   api.mainModule('router.js', 'client');
+  api.addFiles('styles.css', 'client');
 });
 
 Package.onTest(function(api) {
