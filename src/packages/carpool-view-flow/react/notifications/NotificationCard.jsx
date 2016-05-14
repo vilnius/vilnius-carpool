@@ -42,7 +42,7 @@ class NotificationCardComponent extends React.Component {
                 {this.props.notification.name}
                 {this.props.notification.reason === 'matched'
                   ? ' Trip matched'
-                  : ' Requested a ride'}
+                  : ' Ride request'}
               </div>
               <div style={{fontSize: 10, marginTop: 5}}>{`From ${trip.fromAddress} to ${trip.toAddress}`}</div>
               <div style={{fontSize: 10}}>{`For ${this.props.notification.date}`}</div>
