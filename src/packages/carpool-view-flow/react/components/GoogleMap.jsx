@@ -10,21 +10,23 @@ export default class ReactMap extends React.Component {
     this.state = {
       markers: [{
         position: {
-          lat: 54.6877209,
-          lng: 25.305228100000022,
+          lat: props.trip.fromLoc[1],
+          lng: props.trip.fromLoc[0]
         },
         key: `From`,
         defaultAnimation: 2,
         icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
       },{
        position: {
-         lat: 54.6779097,
-         lng: 25.26246500000002,
+         lat: props.trip.toLoc[1],
+         lng: props.trip.toLoc[0]
        },
        key: `To`,
        defaultAnimation: 2,
        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
      }],
+     trip: props.trip,
+
      googleReady: false,
     }
     this.handleWindowResize = _.throttle(this.handleWindowResize, 500);
@@ -53,7 +55,7 @@ export default class ReactMap extends React.Component {
       );
     } else
       trip = {
-        path: google.maps.geometry.encoding.decodePath("iexlI}lmyCn@q@dC{BfBqBbAqA\\o@z@yAvAuC~@_CdAiDr@kB^mAjBiE^q@^e@n@m@vAoAxAs@lAGrEz@hB`Av@`AlAxANPd@l@xAlBbCvCbDbFnAjC^v@n@fBj@lB`@dBvB`L~ClVxCrNh@dB\\dBr@xDb@rCNbCLjEJpCPlCR`BlAzHdAuAXMzAdD`CnE`@bAn@~Bp@hBjAjC|@|At@`Av@p@Xf@^fAx@vC~@lE~A|GXhCPdBp@~JV|DpAlNTvCPzC^lEeBd@wBp@ULi@b@aDrD_C|BcBz@iFbA{Cz@sBx@{@P}@TsHdBwCp@cCr@oHnBoBf@x@xJNxANvCVlDk@Pl@bIMEoC{A[GG?"),
+        path: google.maps.geometry.encoding.decodePath(this.state.trip.path),
         strokeOpacity: 0.5,
         strokeColor: "#FF0000",
       }
@@ -106,9 +108,3 @@ export default class ReactMap extends React.Component {
 ReactMapView = ReactMap
 
 export default ReactMapView
-
-/*
- Can't use PageRoot as GoogleMap requires all divs above should be correct height -
- at least having height: "100%"
-*/
-//ReactMapView = PageRoot(ReactMapContainer)

@@ -37,3 +37,34 @@ export const LandingLayout = ({topMenu, topFilter, content, bottomMenu, extras})
       </div>
     </Wrapper>
 );
+
+export const NotificationLayout = ({topMenu, content, bottomMenu, extras}) => (
+    <Wrapper>
+      <div>
+        <header>
+          {topMenu}
+        </header>
+        <main>
+          <div style={{marginTop: 50, paddingBottom: bottomMenu ? 52 : 0}}>{content}</div>
+        </main>
+        <bottom>
+          {bottomMenu}
+        </bottom>
+        {extras}
+      </div>
+    </Wrapper>
+);
+
+
+export const PlainLayout = ({topMenu, content}) => (
+    <Wrapper>
+      <div>
+        <header>
+          {topMenu}
+        </header>
+        <main>
+          {content}
+        </main>
+      </div>
+    </Wrapper>
+);

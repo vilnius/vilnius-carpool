@@ -6,9 +6,14 @@ import Avatar from 'material-ui/lib/avatar'
 import BackIcon from 'material-ui/lib/svg-icons/navigation/arrow-back'
 import MenuIcon from 'material-ui/lib/svg-icons/navigation/menu'
 import NotificationsIcon from 'material-ui/lib/svg-icons/social/notifications'
+import PersonOutlineIcon from 'material-ui/lib/svg-icons/social/person-outline'
+
 import Paper from 'material-ui/lib/paper'
 import FlatButton from 'material-ui/lib/flat-button'
 import { config } from '../config'
+
+import { getUserName } from 'meteor/carpool-view'
+
 
 export default class TopMenu extends React.Component {
 
@@ -20,6 +25,10 @@ export default class TopMenu extends React.Component {
   }
 
   render () {
+    user = Meteor.user();
+    //console.log("TopMenu user", user);
+    avatar = user && user.profile && user.profile.avatar;
+
     return (
       <Paper
         style={{
@@ -52,7 +61,7 @@ export default class TopMenu extends React.Component {
           <div style={{
             marginLeft: 12,
             fontSize: 20,
-          }}>
+          }} data-cucumber="screen-name">
             {this.props.title}
           </div>
         </div>
@@ -71,25 +80,34 @@ export default class TopMenu extends React.Component {
               paddingTop: 20,
               paddingBottom: 10
             }}>
-              <Avatar src="http://lorempixel.com/200/200/people/0" size={60} style={{marginLeft: 10}} />
+              <Avatar src={avatar} size={60} style={{marginLeft: 10}} />
               <div style={{marginLeft: 17, marginTop: 3}}>
                 Name
               </div>
             </div>
             <div style={{marginTop: 2, width: '100%'}}>
               <FlatButton style={{width: '100%', textAlign: 'left'}} label="Profile" icon={<PersonIcon />}
-                onClick={() => muiControllerHelper.goToView('Profile')}
-              />
+                onClick={() => muiControllerHelper.goToView('Profile')} />
             </div>
             <div style={{width: '100%'}}>
               <FlatButton style={{width: '100%', textAlign: 'left'}} label="Notifications" icon={<NotificationsIcon />}
                 onClick={() => muiControllerHelper.goToView('NotificationSettings')}
               />
             </div>
+            { Meteor.userId() ? (
+            <div style={{marginTop: 2, width: '100%'}}>
+              <FlatButton style={{width: '100%', textAlign: 'left'}} label={`Logout ${getUserName(Meteor.user())}`} icon={<PersonOutlineIcon />}
+                onClick={() => Meteor.logout()} />
+            </div>
+            ) : (
+              <div style={{marginTop: 2, width: '100%'}}>
+                <FlatButton style={{width: '100%', textAlign: 'left'}} label="Login" icon={<PersonOutlineIcon />}
+                  onClick={() => flowControllerHelper.goToView('LoginUsername')} />
+              </div>
+            )}
             <div style={{width: '100%'}}>
               <FlatButton style={{width: '100%', textAlign: 'left'}} label="About" icon={<AboutIcon />}
-                onClick={() => muiControllerHelper.goToView('About')}
-              />
+                onClick={() => muiControllerHelper.goToView('About')}/>
             </div>
           </div>
         </LeftNav>

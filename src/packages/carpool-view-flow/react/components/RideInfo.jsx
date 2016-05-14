@@ -32,7 +32,6 @@ const circleStyle = {
 
 export default class RideInfo extends React.Component {
   render () {
-    console.log(this.props.width)
     return (
       <div style={{display: 'flex', flexDirection: 'row'}}>
         <div style={{width: this.props.width * 0.6}}>
@@ -46,8 +45,8 @@ export default class RideInfo extends React.Component {
               borderLeft: '1px dotted #929292',
             }}>
             </div>
-              {this.props.ride.route.map((routePoint) => (
-                <div style={rideInfoLineWrap}>
+              {this.props.ride.stops.map((routePoint) => (
+                <div style={rideInfoLineWrap} key={routePoint._id} >
                   <div>{routePoint.time}</div>
                   <div style={destinationTitleStyle}>
                     <div style={{...circleStyle,

@@ -46,3 +46,14 @@ module.exports = ()->
 
         @findLogout();
         client.waitForVisible('.logout, .alert-error', 5000);
+
+      urlLogin: (path, username, password)->
+        client.url(url.resolve(process.env.ROOT_URL, "/logout"));
+        client.waitForExist "[data-cucumber='screen-name']"
+
+        client.url(url.resolve(process.env.ROOT_URL, path));
+        client.waitForExist 'input[id="inputUsername"]'
+        client.setValue('input[id="inputUsername"]', username);
+        client.setValue('input[id="inputPassword"]', "aaa");
+        client.click '.login'
+        client.waitForExist "[data-cucumber='screen-name']"

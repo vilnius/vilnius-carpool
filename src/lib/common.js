@@ -1,6 +1,6 @@
 nested = function( val, names ) {
-    names = names.split( '.' );    
-    while ( val && names.length ) { val = val[ names.shift() ]; }    
+    names = names.split( '.' );
+    while ( val && names.length ) { val = val[ names.shift() ]; }
     return val;
 }
 
@@ -11,7 +11,7 @@ NonEmptyString = Match.Where(function (x) {
 
 getUserEmail = function(user) {
 	if(!user) return;
-	
+
 	if(user.services && user.services.facebook) {
 		return user.services.facebook.email;
 	} else if(user.emails){
@@ -19,6 +19,7 @@ getUserEmail = function(user) {
 	}
 }
 
+// @Deprecated  - moved to src/imports/ui/helper.js
 getUserName = function(user) {
 	//d("User", user);
 	if(user.profile && user.profile.name) {

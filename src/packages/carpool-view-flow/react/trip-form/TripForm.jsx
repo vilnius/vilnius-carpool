@@ -1,13 +1,14 @@
-import DesktopLayout from '../layout/DesktopLayout'
-import PageRoot from '../layout/PageRoot'
+import wrapScreen from '../layout/wrapScreen'
 //import { TAPi18n} from 'meteor/tap:i18n';
+import {__} from 'meteor/carpool-i18n'
+
 import AutoComplete from 'material-ui/lib/auto-complete';
 import { TextField, DatePicker, TimePicker, RaisedButton, Snackbar, RadioButtonGroup, RadioButton } from 'material-ui'
 import Colors from 'material-ui/lib/styles/colors';
 
+import { googleServices } from 'meteor/spastai:google-client';
 
 // TODO: replace this with real function
-
 const detectLocation = (callback) => {
   setTimeout(() => {
     const detectedLocation = 'Konstitucijos pr. 3'
@@ -37,7 +38,7 @@ const getLocationSuggestions = (inputVal, callback) => {
   }
 }
 
-class TripFormBase extends React.Component {
+export default class TripForm extends React.Component {
   constructor(props) {
     super(props)
     const currDate = new Date()
@@ -127,7 +128,7 @@ class TripFormBase extends React.Component {
         da(["trip-crud"], "Submission error:", error)
       } else {
         da(["trip-crud"], "Submited trip", routedTrip)
-        muiControllerHelper.goToView('MuiLanding');
+        flowControllerHelper.goToView('RideOffers', {ownTrips: "your"});
       }
     });
     da(["trip-crud"], "Submitting - change button state", trip)
@@ -169,10 +170,6 @@ class TripFormBase extends React.Component {
   }
 }
 
-TripForm = PageRoot(TripFormBase)
-
-export default TripForm
-
 // TODO Extract to css some day or replace with current styles
 var styles = {
   datesWrapper: {
@@ -195,3 +192,8 @@ var styles = {
     width: 100,
   },
 }
+
+TripFormScreen = wrapScreen(TripForm, {
+  innerScreen: false,
+  title: 'New Ride Request',
+})

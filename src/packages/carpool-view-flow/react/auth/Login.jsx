@@ -2,7 +2,7 @@ import React from 'react'
 import { config } from '../config'
 import Paper from 'material-ui/lib/paper';
 
-export default class Login extends React.Component {
+export default class NotLoggedInLanding extends React.Component {
   render () {
     const width = window.innerWidth // TODO take from props?
     const height = window.innerHeight // TODO take from props?
@@ -26,12 +26,14 @@ export default class Login extends React.Component {
           <div style={{marginLeft: 'auto', marginRight: 'auto'}}>Sign in with Google</div>
         </Paper>
         <div style={{marginTop: 30, cursor: 'pointer'}}
-          onClick={() => flowControllerHelper.goToView('LoginUsername')}
+          onClick={() => muiControllerHelper.goToView('RideOffers')}
         >
-          or login with username
+          or just check it out
         </div>
         <div style={{marginTop: 'auto', marginBottom: 20}}>Courtesy of cfv</div>
       </div>
     )
   }
 }
+
+NotLoggedInLandingScreen = NotLoggedInLanding

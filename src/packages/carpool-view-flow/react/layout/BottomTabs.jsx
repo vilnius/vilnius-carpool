@@ -22,7 +22,7 @@ export default class BottomTabs extends React.Component {
             style={{fontSize: 12, background: '#212121'}}
             icon={<RequestsIcon className="tabs-icon" />}
             label="Requests"
-            onClick={() => {flowControllerHelper.goToView('Requests')}}
+            onClick={() => {flowControllerHelper.goToView('RideRequests')}}
             value={0}
           />
           <Tab
@@ -36,7 +36,7 @@ export default class BottomTabs extends React.Component {
             style={{fontSize: 12, background: '#212121'}}
             icon={<NotificationsIcon className="tabs-icon" />}
             label="Notifications"
-            onClick={() => {flowControllerHelper.goToView('MuiNotifications2')}}
+            onClick={() => {flowControllerHelper.goToView('Notifications')}}
             value={2}
           />
         </Tabs>
