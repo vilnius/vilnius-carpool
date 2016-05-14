@@ -30,12 +30,6 @@ Package.onUse(function(api) {
 
   api.addFiles('controller.coffee', "client");
 
-  api.addFiles("i18n/workaround.coffee", ["client", "server"]);
-  api.addFiles([
-    "i18n/en.i18n.js",
-    "i18n/lt.i18n.js"
-  ], ["client", "server"]);
-
   api.addFiles('components/trip-form/TripForm.jsx', "client");
   api.addFiles('components/landing/Landing.jsx', "client");
   api.addFiles('components/trip/DriverTrip.jsx', "client");

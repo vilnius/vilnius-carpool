@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import React from 'react'
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
@@ -12,7 +14,6 @@ import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 import SearchIcon from 'material-ui/lib/svg-icons/action/search';
 import HamburgerMenuButton from './components/HamburgerMenuButton'
 import { createContainer } from 'meteor/react-meteor-data';
-
 
 import RepeatingDays from './components/RepeatingDays'
 import wrapMobileLayout from './NewMobileWrap'
@@ -36,7 +37,8 @@ const filledCircleStyle = {
   alignItems: 'center',
   fontSize: 9,
 }
-export default class RideOffers extends React.Component {
+
+RideOffers extends React.Component {
 
   getChildContext () {
     return {
@@ -111,7 +113,7 @@ RideOffers.propTypes = {
 };
 
 
-RideOffersScreen = createContainer(() => {
+export default RideOffersScreen = createContainer(() => {
   const progress = new Progress();
   const activeTrips = carpoolService.pullActiveTrips({}, progress.setProgress.bind(progress, 'activeTrips'));
   const ownTrips = carpoolService.pullOwnTrips({}, progress.setProgress.bind(progress, 'ownTrips'));
