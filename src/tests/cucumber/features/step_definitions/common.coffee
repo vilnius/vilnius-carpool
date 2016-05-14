@@ -8,7 +8,7 @@ module.exports = ()->
   turns then into location and saves the trip using carpoolService
   ###
   @Given /^Assure "([^"]*)" trip:$/, (user, table)->
-    @TestHelper.login(user);
+    @TestHelper.urlLogin("/loginUsername", user);
     #d "Table", table.hashes()
     client.timeoutsAsyncScript(10000);
     for trip in table.hashes()
@@ -16,8 +16,8 @@ module.exports = ()->
       result = client.executeAsync (trip, done) ->
           trip.time = new Date()
           #d "Trips:", carpoolService.getOwnTrips();
-          mapView.clarifyPlace null, trip.fromAddress, (err, fromLoc)->
-            mapView.clarifyPlace null, trip.toAddress, (err, toLoc)->
+          carpoolService.clarifyPlace null, trip.fromAddress, (err, fromLoc)->
+            carpoolService.clarifyPlace null, trip.toAddress, (err, toLoc)->
               trip.toLoc = googleServices.toLocation(toLoc)
               trip.fromLoc = googleServices.toLocation(fromLoc)
               carpoolService.saveTrip trip, (err)->
@@ -38,6 +38,11 @@ module.exports = ()->
   @When /^Login with "([^"]*)"$/, (username)->
     #d "Do login #{username}"
     @TestHelper.login(username)
+
+  @When /^Login through "([^"]*)" with "([^"]*)"$/, (path, username)->
+    #d "Do login #{username}"
+    @TestHelper.urlLogin(path, username)
+
 
   @Then /^I see "([^"]*)" text "([^"]*)"$/, (element, text)->
     client.waitForExist(element);

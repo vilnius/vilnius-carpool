@@ -5,25 +5,27 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
 
   Background: Cleanup old trips and add new ones
     Given Trips removed
-    And Notifications for "user1@tiktai.lt" removed
-    And Notifications for "user2@tiktai.lt" removed
+    And Notifications for "ron@tiktai.lt" removed
+    And Notifications for "dick@tiktai.lt" removed
     And Stops exists
-    And Assure "user1@tiktai.lt" trip:
+    And Assure "ron@tiktai.lt" trip:
       | fromAddress          | toAddress               | role   |
       | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius | rider  |
       | Dzūkų 50, Vilnius    | Šeškinės g. 10, Vilnius | driver |
 
     @focus
-    Scenario: Driver Bob enters the same route and rider Ana gets notification
-      Given Login with "user2@tiktai.lt"
-      And I see ".addTrip-test" in "/mui/rideOffers"
-      And Click on ".addTrip-test"
+    Scenario: Driver Dick enters the same route and rider Ron gets notification
+      Given Login through "/loginUsername" with "dick@tiktai.lt"
+      And I see "[data-cucumber='addTrip']" in "/"
+      And Click on "[data-cucumber='addTrip']"
       When I enter:
         | trip-fromAddress     | trip-toAddress          |
         | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius |
       And Click on ".saveTrip"
       And I see my MUI trip
-        | trip                                                 |
-        | From 1 Paplaujos. Vilnius to Muitinės g. 35, Vilnius |
-      Then User "user1@tiktai.lt" gets mobile notification and sends request
-      And user "user2@tiktai.lt" aproves request on mobile
+        | fromAddress          | toAddress               | role   |
+        | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius | rider  |
+      Then User "ron@tiktai.lt" gets mui notification and sends request
+      And user "dick@tiktai.lt" confirms request on mui
+
+    Scenario: Out of focus

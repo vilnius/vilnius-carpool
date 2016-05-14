@@ -20,11 +20,13 @@ callback-hook@1.0.6
 carpool-admin@1.0.0
 carpool-api@0.0.1
 carpool-geo@0.0.1
+carpool-i18n@0.0.1
 carpool-notifications@0.0.1
-carpool-view-map@0.0.1
-carpool-view-mui@0.0.1
+carpool-view@0.0.1
+carpool-view-flow@0.0.1
 check@1.1.2
 coffeescript@1.0.15
+cosmos:browserify@0.5.1
 cucumber-fixtures@1.0.0
 ddp@1.2.3
 ddp-client@1.2.3
@@ -60,6 +62,7 @@ iron:router@1.0.12
 iron:url@1.0.11
 jquery@1.11.6
 json@1.0.3
+kadira:flow-router@2.0.2
 launch-screen@1.0.8
 less@2.5.6
 livedata@1.0.16
@@ -92,7 +95,6 @@ rate-limit@1.0.2
 react@0.14.6
 react-meteor-data@0.2.7
 react-runtime@0.14.5
-react-template-helper@0.2.7
 reactive-dict@1.1.5
 reactive-var@1.0.7
 reload@1.1.6
@@ -103,7 +105,7 @@ session@1.1.3
 sha@1.0.5
 spacebars@1.0.9
 spacebars-compiler@1.0.9
-spastai:carpool-service@0.0.19
+spastai:carpool-service@0.0.20
 spastai:flow-controll@0.0.9
 spastai:google-client@0.0.12
 spastai:logw@0.0.4

@@ -31,6 +31,9 @@ Package.onUse(function(api) {
 
   api.addFiles(['client/UsersAdmin.html', 'client/UsersAdmin.coffee'], "client");
   api.addFiles(['client/TripsAdmin.html', 'client/TripsAdmin.coffee'], "client");
+
+  api.addFiles(['client/mockNotFound.html'], "client");
+
   api.addFiles('client/routes.coffee', "client");
 });
 

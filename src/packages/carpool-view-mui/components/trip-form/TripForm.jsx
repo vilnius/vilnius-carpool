@@ -195,5 +195,3 @@ var styles = {
     width: 100,
   },
 }
-
-// TripForm = PageRoot(TripFormBase)

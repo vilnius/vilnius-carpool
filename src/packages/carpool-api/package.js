@@ -16,7 +16,7 @@ Package.onUse(function(api) {
   api.use(['underscore', 'coffeescript']);
   api.use('accounts-password');
 
-  api.use('iron:router@1.0.0'); // for fixtures
+  api.use('iron:router@1.0.0', "server"); // for fixtures
   api.use('spastai:logw')
   api.use('spastai:carpool-service');
 

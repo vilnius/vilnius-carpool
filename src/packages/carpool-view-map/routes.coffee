@@ -1,11 +1,11 @@
 Router.map ()->
   @route 'Register', path: '/register'
-  @route 'CarpoolLogin', path: '/login', controller: "CarpoolMapController"
-  @route 'CarpoolMap', path: '/'
-  @route 'CarpoolTrip', path: '/trip'
+  @route 'CarpoolLogin', path: '/map/login', controller: "CarpoolMapController"
+  @route 'CarpoolMap', path: '/map'
+  @route 'CarpoolTrip', path: '/map/trip'
 
   # Mobile views
-  @route 'ShowRide', path: '/showRide'
-  @route 'ShowDrive', path: '/showDrive'
-  @route 'ShowPickup', path: '/showPickup'
-  @route 'Notifications', path: '/notifications'
+  @route 'ShowRide', path: '/map/showRide'
+  @route 'ShowDrive', path: '/map/showDrive'
+  @route 'ShowPickup', path: '/map/showPickup'
+  @route 'Notifications', path: '/map/notifications'
