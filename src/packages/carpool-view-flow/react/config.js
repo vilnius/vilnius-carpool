@@ -7,8 +7,10 @@ export const config = {
   colors: {
     main: '#008DD0',
     highlight: '#F15A29',
+    green: '#40AC31',
+    lightBlue: '#33A4D9',
     success: '#40AC31',
-    textColor: '#666'
+    textColor: '#666',
   },
   font: 'Roboto, sans-serif',
 }
