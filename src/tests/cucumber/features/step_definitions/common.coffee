@@ -8,6 +8,8 @@ module.exports = ()->
   turns then into location and saves the trip using carpoolService
   ###
   @Given /^Assure "([^"]*)" trip:$/, (user, table)->
+    client.url(url.resolve(process.env.ROOT_URL, "/logout"));
+    client.waitForExist "[data-cucumber='screen-name']"    
     @TestHelper.urlLogin("/loginUsername", user);
     #d "Table", table.hashes()
     client.timeoutsAsyncScript(10000);

@@ -127,8 +127,10 @@ class CarpoolService
   ###
   pullOneTrip: (query, progress) ->
     @oneTripsSub = Meteor.subscribe('oneTrip', query)
+    #console.log "Subscribed", query
     if @oneTripsSub.ready()
       progress 100
+      #console.log "Ready", query
     else
       progress 0
       return null
