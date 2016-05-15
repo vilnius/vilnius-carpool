@@ -25,5 +25,5 @@ export const FlowHelpers = {
   urlFor: urlFor,
   currentRoute: currentRoute,
   extendPath: extendPath,
-  goExtendedPath: goExtendedPath
+  goExtendedPath: goExtendedPath,
 };

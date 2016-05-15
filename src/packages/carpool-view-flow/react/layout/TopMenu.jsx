@@ -3,7 +3,7 @@ import PersonIcon from 'material-ui/lib/svg-icons/social/person'
 import AboutIcon from 'material-ui/lib/svg-icons/action/help'
 import LeftNav from 'material-ui/lib/left-nav'
 import Avatar from 'material-ui/lib/avatar'
-import BackIcon from 'material-ui/lib/svg-icons/navigation/arrow-back'
+import BackButton from './BackButton'
 import MenuIcon from 'material-ui/lib/svg-icons/navigation/menu'
 import NotificationsIcon from 'material-ui/lib/svg-icons/social/notifications'
 import PersonOutlineIcon from 'material-ui/lib/svg-icons/social/person-outline'
@@ -30,41 +30,45 @@ export default class TopMenu extends React.Component {
     avatar = user && user.profile && user.profile.avatar;
 
     return (
-      <Paper
-        style={{
-          position: 'fixed',
-          top: 0,
-          height: 50,
-          width: window.innerWidth,
-          background: config.colors.main,
-          zIndex: 2,
-          color: 'white',
-          borderRadius: 0,
-        }}
-        zDepth={this.props.hasTopTabs ? 0 : 1}
-      >
-        <div style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          height: '100%',
-        }}>
-          <div style ={{
-            marginLeft: 12,
-          }}>
-            {this.props.innerScreen ? (
-              <BackIcon color="white" onClick={() => window.history.back()} />
-            ) : (
-              <MenuIcon color="white" onClick={() => this.setState({ menuOpen: true })} />
-            )}
-          </div>
+      <div>
+        <Paper
+          style={{
+            position: 'fixed',
+            top: 0,
+            height: 50,
+            width: window.innerWidth,
+            background: this.props.background === 'blue' ? config.colors.main :
+              (this.props.background === 'green' ? config.colors.green :
+              (this.props.background ? this.props.background : config.colors.main)),
+            zIndex: 2,
+            color: 'white',
+            borderRadius: 0,
+          }}
+          zDepth={this.props.hasTopTabs ? 0 : 1}
+        >
           <div style={{
-            marginLeft: 12,
-            fontSize: 20,
-          }} data-cucumber="screen-name">
-            {this.props.title}
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            height: '100%',
+          }}>
+            <div style ={{
+              marginLeft: 12,
+            }}>
+              {this.props.innerScreen ? (
+                <BackButton />
+              ) : (
+                <MenuIcon color="white" onClick={() => this.setState({ menuOpen: true })} />
+              )}
+            </div>
+            <div style={{
+              marginLeft: 12,
+              fontSize: 20,
+            }} data-cucumber="screen-name">
+              {this.props.title}
+            </div>
           </div>
-        </div>
+        </Paper>
         <LeftNav
           open={this.state.menuOpen}
           onRequestChange={(menuOpen) => this.setState({ menuOpen })}
@@ -111,7 +115,7 @@ export default class TopMenu extends React.Component {
             </div>
           </div>
         </LeftNav>
-      </Paper>
+      </div>
     )
   }
 }

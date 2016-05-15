@@ -20,7 +20,7 @@ const Wrapper = React.createClass({
   }
 })
 
-export const LandingLayout = ({topMenu, topFilter, content, bottomMenu, extras}) => (
+export const LandingLayout = ({topMenu, topFilter, topSearch, content, bottomMenu, extras}) => (
     <Wrapper>
       <div>
         <header>
@@ -28,7 +28,8 @@ export const LandingLayout = ({topMenu, topFilter, content, bottomMenu, extras})
         </header>
         <main>
           {topFilter}
-          <div style={{marginTop: topFilter ? 100 : 50, paddingBottom: bottomMenu ? 52 : 0}}>{content}</div>
+          {topSearch}
+          <div style={{marginTop: topFilter ? 100 : (topSearch ? 165 : 50), paddingBottom: bottomMenu ? 52 : 0}}>{content}</div>
         </main>
         <bottom>
           {bottomMenu}
