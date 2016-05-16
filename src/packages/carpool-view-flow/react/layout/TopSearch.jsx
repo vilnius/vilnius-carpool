@@ -6,7 +6,10 @@ import { FlowHelpers } from '../../flowHelpers'
 import { googleServices } from 'meteor/spastai:google-client';
 
 const resolveLocation = (coords, address, cb) => {
-  //console.log("Resolve location",coords, address);
+  console.log("Resolve location", coords, address);
+  if(undefined == coords) {
+    return cb("...")
+  }
   latlng = googleServices.toLatLng(coords);
   carpoolService.clarifyPlace(latlng, address, (error, newCoords, newAddress)=>{
     //console.log("Resolved", newAddress)
