@@ -21,7 +21,13 @@ export default class TopMenu extends React.Component {
     super(props)
     this.state = {
       menuOpen: false,
+      loggedIn: !!Meteor.user()
     }
+  }
+
+  doLogout() {
+    Meteor.logout();
+    this.setState({loggedIn: false})
   }
 
   render () {
@@ -98,10 +104,10 @@ export default class TopMenu extends React.Component {
                 onClick={() => muiControllerHelper.goToView('NotificationSettings')}
               />
             </div>
-            { Meteor.userId() ? (
+            { this.state.loggedIn ? (
             <div style={{marginTop: 2, width: '100%'}}>
               <FlatButton style={{width: '100%', textAlign: 'left'}} label={`Logout ${getUserName(Meteor.user())}`} icon={<PersonOutlineIcon />}
-                onClick={() => Meteor.logout()} />
+                onClick={() => this.doLogout()} />
             </div>
             ) : (
               <div style={{marginTop: 2, width: '100%'}}>

@@ -16,6 +16,7 @@ import LoginUsernameScreen from './react/auth/LoginUsername'
 import RideOffersScreen from './react/ride-list/RideOffersScreen'
 import TripFormScreen from './react/trip-form/TripForm'
 import RequestRideScreen from './react/request-ride/RequestRideScreen'
+import ConfirmRideScreen from './react/confirm-ride/ConfirmRideScreen'
 import NotificationsScreen from './react/notifications/NotificationsScreen'
 import LocationAutocomplete from './react/location-autocomplete/LocationAutocomplete'
 
@@ -32,6 +33,17 @@ FlowRouter.route('/rideRequest/:id', {
     });
   }
 });
+
+FlowRouter.route('/rideConfirm/:id', {
+  name: "RideConfirm",
+  action: function(params, queryParams) {
+    mount(PlainLayout, {
+      topMenu: <TopMenu title="Ride confirmation" innerScreen />,
+      content: <ConfirmRideScreen tripId={params.id}/>,
+    });
+  }
+});
+
 
 FlowRouter.route('/login', {
     name: "Login",
@@ -93,20 +105,31 @@ FlowRouter.route('/locationAutocomplete', {
   }
 })
 
-FlowRouter.route('/myTrips/:tripType?', {
+var securedRoutes = FlowRouter.group({
+  prefix: '/m/your',
+  name: 'your',
+  triggersEnter: [function(context, redirect) {
+    //console.log('Security check');
+    if(null === Meteor.user()) {
+      redirect("/login")
+    }
+  }]
+});
+
+securedRoutes.route('/:tripType?', {
   name: "MyTrips",
   action: function(params, queryParams) {
     mount(LandingLayout, {
       topMenu: <TopMenu title="My Trips" hasTopTabs background="blue" />,
       topFilter: <TopTabs selectedTabIndex={params.tripType === 'drives'? 1 : 0} />,
-      content: <RideOffersScreen filterOwn="your" />,
+      content: <RideOffersScreen filterOwn="your" role={'drives' === params.tripType ? "driver" : "rider" } />,
       bottomMenu: <BottomTabs selectedTabIndex={2} />,
       extras: [<NewRideButton key="NewRideButton" />],
     });
   }
 });
 
-FlowRouter.route('/requests', {
+FlowRouter.route('/m/all/requests', {
   name: "RideRequests",
   action: function(params, queryParams) {
     mount(LandingLayout, {
@@ -119,7 +142,7 @@ FlowRouter.route('/requests', {
 });
 
 // This should be the last route as it takes optional parameter which could match all other routes
-FlowRouter.route('/:ownTrips?', {
+FlowRouter.route('/m/all/offers', {
     name: "RideOffers",
     action: function(params, queryParams) {
       //console.log("Routing to - root", params.ownTrips === "your");
@@ -131,4 +154,12 @@ FlowRouter.route('/:ownTrips?', {
         extras: [<NewRideButton key={'NewRideButton'} />],
       });
     }
+});
+
+FlowRouter.route('/', {
+  triggersEnter: [function(context, redirect) {
+    redirect('/m/all/offers');
+  }],
+  action: function(params, queryParams) {
+  }
 });

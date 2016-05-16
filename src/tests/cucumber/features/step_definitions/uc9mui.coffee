@@ -4,7 +4,7 @@ url = require('url');
 module.exports = ()->
 
   @Then /^I see my trip on MUI$/, (table)->
-    client.url(url.resolve(process.env.ROOT_URL, "/myTrips"));
+    client.url(url.resolve(process.env.ROOT_URL, "/m/your/drives"));
     client.waitForExist "[data-cucumber='trips-list']"
     # client.waitForExist("[data-cucumber='your-trips']", 5000);
     # client.click("[data-cucumber='your-trips']");

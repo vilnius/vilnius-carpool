@@ -63,10 +63,10 @@ class NotificationCard extends React.Component {
                     secondary onClick={() => {
                       // TODO acceptRequest: (invitationId, answer, callback) ->
                       //carpoolService.requestRide(notification.trip)
-                      flowControllerHelper.goToView('RideConfirmation', {id: notification.trip})
+                      flowControllerHelper.goToView('RideConfirm', {id: notification.trip})
                     }} />
                   <FlatButton data-cucumber="review" label="Review" secondary
-                    onClick={() => flowControllerHelper.goToView('RideConfirmation', {id: notification.trip})} />
+                    onClick={() => flowControllerHelper.goToView('RideConfirm', {id: notification.trip})} />
                 </div>
               )}
             </div>
