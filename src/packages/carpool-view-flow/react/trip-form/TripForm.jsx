@@ -128,7 +128,7 @@ export default class TripForm extends React.Component {
         da(["trip-crud"], "Submission error:", error)
       } else {
         da(["trip-crud"], "Submited trip", routedTrip)
-        flowControllerHelper.goToView('RideOffers', {ownTrips: "your"});
+        flowControllerHelper.goToView('MyTrips', {tripType: "drives"});
       }
     });
     da(["trip-crud"], "Submitting - change button state", trip)

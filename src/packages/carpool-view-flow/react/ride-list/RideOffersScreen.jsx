@@ -10,14 +10,14 @@ import SearchIcon from 'material-ui/lib/svg-icons/action/search';
 import RepeatingDays from '../components/ReccuringDays'
 import { config } from '../config'
 
-export default RideOffers = createContainer(({filterOwn}) => {
+export default RideOffers = createContainer(({filterOwn = "all", role = "driver"}) => {
   const progress = new Progress();
-  if(filterOwn) {
-    trips = carpoolService.pullOwnTrips({}, progress.setProgress.bind(progress, 'ownTrips'));
-    //if(100 == progress.getProgress()) { console.log("Own trips:", trips);}
+  if("your" == filterOwn) {
+    trips = carpoolService.pullOwnTrips({role:role}, progress.setProgress.bind(progress, 'ownTrips'));
+    //if(100 == progress.getProgress()) { console.log(`Own ${role} trips:`, trips);}
   } else {
-    trips = carpoolService.pullActiveTrips({}, progress.setProgress.bind(progress, 'activeTrips'));
-    //if(100 == progress.getProgress()) { console.log("Active trips:", trips);}
+    trips = carpoolService.pullActiveTrips({role:role}, progress.setProgress.bind(progress, 'activeTrips'));
+    //if(100 == progress.getProgress()) { console.log(`All ${role} trips:`, trips);}
   }
 
   return {

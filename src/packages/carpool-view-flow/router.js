@@ -2,7 +2,9 @@ export const name = 'carpool-view-flow';
 
 import React from 'react';
 import {mount} from 'react-mounter';
+
 import {LandingLayout, PlainLayout, NotificationLayout} from './layout'
+import {FlowHelpers} from './flowHelpers'
 import BottomTabs from "./react/layout/BottomTabs"
 import NewRideButton from './react/layout/NewRideButton'
 import TopMenu from './react/layout/TopMenu'
@@ -16,6 +18,7 @@ import LoginUsernameScreen from './react/auth/LoginUsername'
 import RideOffersScreen from './react/ride-list/RideOffersScreen'
 import TripFormScreen from './react/trip-form/TripForm'
 import RequestRideScreen from './react/request-ride/RequestRideScreen'
+import ConfirmRideScreen from './react/confirm-ride/ConfirmRideScreen'
 import NotificationsScreen from './react/notifications/NotificationsScreen'
 import LocationAutocomplete from './react/location-autocomplete/LocationAutocomplete'
 
@@ -32,6 +35,17 @@ FlowRouter.route('/rideRequest/:id', {
     });
   }
 });
+
+FlowRouter.route('/rideConfirm/:id', {
+  name: "RideConfirm",
+  action: function(params, queryParams) {
+    mount(PlainLayout, {
+      topMenu: <TopMenu title="Ride confirmation" innerScreen />,
+      content: <ConfirmRideScreen tripId={params.id}/>,
+    });
+  }
+});
+
 
 FlowRouter.route('/login', {
     name: "Login",
@@ -84,52 +98,84 @@ FlowRouter.route('/notifications', {
     }
 });
 
-
-FlowRouter.route('/requests', {
-  name: "RideRequests",
+FlowRouter.route('/locationAutocomplete/:field', {
+  name: 'LocationAutocomplete',
   action: function(params, queryParams) {
-    mount(LandingLayout, {
-      topMenu: <TopMenu title="Ride requests" background="green" />,
-      content: <RideOffersScreen />,
-      bottomMenu: <BottomTabs selectedTabIndex={0} />,
-      extras: [<NewRideButton key={'NewRideButton'} />],
+    mount(PlainLayout, {
+      content: <LocationAutocomplete onSelect={(sugestion) => {
+        location = googleServices.toLocation(sugestion.latlng);
+        locStr = googleServices.encodePoints([location]);
+
+        queryParams[params.field] = locStr;
+        //console.log("Extending query", queryParams);
+        FlowRouter.go("RideOffers", {}, queryParams)
+      }}/>,
     });
   }
+})
+
+var securedRoutes = FlowRouter.group({
+  prefix: '/m/your',
+  name: 'your',
+  triggersEnter: [function(context, redirect) {
+    //console.log('Security check');
+    if(null === Meteor.user()) {
+      redirect("/login")
+    }
+  }]
 });
 
-FlowRouter.route('/myTrips/:tripType?', {
+securedRoutes.route('/:tripType?', {
   name: "MyTrips",
   action: function(params, queryParams) {
     mount(LandingLayout, {
       topMenu: <TopMenu title="My Trips" hasTopTabs background="blue" />,
       topFilter: <TopTabs selectedTabIndex={params.tripType === 'drives'? 1 : 0} />,
-      content: <RideOffersScreen />,
+      content: <RideOffersScreen filterOwn="your" role={'drives' === params.tripType ? "driver" : "rider" } />,
       bottomMenu: <BottomTabs selectedTabIndex={2} />,
       extras: [<NewRideButton key="NewRideButton" />],
     });
   }
 });
 
-FlowRouter.route('/locationAutocomplete', {
-  name: 'LocationAutocomplete',
+FlowRouter.route('/m/all/requests', {
+  name: "RideRequests",
   action: function(params, queryParams) {
-    mount(PlainLayout, {
-      content: <LocationAutocomplete onSelect={(location) => {alert('Location selected ' + location.title)}}/>,
+    mount(LandingLayout, {
+      topMenu: <TopMenu title="Ride requests" background="green" />,
+      content: <RideOffersScreen role="rider"/>,
+      bottomMenu: <BottomTabs selectedTabIndex={0} />,
+      extras: [<NewRideButton key={'NewRideButton'} />],
     });
   }
-})
+});
 
 // This should be the last route as it takes optional parameter which could match all other routes
-FlowRouter.route('/:ownTrips?', {
+FlowRouter.route('/m/all/offers', {
     name: "RideOffers",
     action: function(params, queryParams) {
       //console.log("Routing to - root", params.ownTrips === "your");
+      if(queryParams.aLoc) {
+        aLoc = googleServices.decodePoints(queryParams.aLoc)[0];
+      }
+      if(queryParams.bLoc) {
+        bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
+      }
+
       mount(LandingLayout, {
         topMenu: <TopMenu title="Ride offers" hasTopTabs background="blue" />,
-        topSearch: <TopSearch from={'15.13.12'} fromAddress={'Kriviu g. 57'} to={'15.13.177'} />,
-        content: <RideOffersScreen filterOwn={params.ownTrips === "your"}/>,
+        topSearch: <TopSearch from={aLoc} to={bLoc} />,
+        content: <RideOffersScreen />,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
         extras: [<NewRideButton key={'NewRideButton'} />],
       });
     }
+});
+
+FlowRouter.route('/', {
+  triggersEnter: [function(context, redirect) {
+    redirect('/m/all/offers');
+  }],
+  action: function(params, queryParams) {
+  }
 });

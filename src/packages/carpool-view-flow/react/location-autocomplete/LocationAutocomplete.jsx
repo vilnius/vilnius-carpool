@@ -8,39 +8,56 @@ import BackButton from '../layout/BackButton'
 import Paper from 'material-ui/lib/paper'
 import { config } from '../config'
 
-const getLocationSuggestions = (searchInput, cb) => {
-  setTimeout(() => {
-    if (searchInput == '') {
-      cb([
-        {title: 'Home'},
-        {title: 'Work'},
-      ])
-    } else {
-      cb([
-        {title: searchInput},
-        {title: searchInput + searchInput},
-        {title: searchInput + searchInput + searchInput},
-        {title: searchInput + searchInput + searchInput + searchInput},
-        {title: searchInput + searchInput + searchInput + searchInput + searchInput},
-      ])
-    }
-  })
+import { googleServices } from 'meteor/spastai:google-client';
+
+var autocompleteService = null;
+googleServices.afterInit(function (){
+  autocompleteService = new google.maps.places.AutocompleteService();
+})
+const getLocationSuggestions = (inputVal, callback) => {
+  if (inputVal == '') {
+    callback([
+      {description: 'Home'},
+      {description: 'Work'},
+    ])
+  } else if (autocompleteService && inputVal) {
+    autocompleteService.getQueryPredictions({
+        input: inputVal,
+        location: new google.maps.LatLng(54.67704, 25.25405),
+        radius: 30000
+      }, function(suggestions, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+          callback(suggestions);
+        } else {
+          return callback([]);
+        }
+    });
+  } else {
+    callback([]);
+  }
 }
 
 export default class LocationAutocomplete extends React.Component {
-
   constructor (props) {
     super(props)
     this.state = {
       suggestions: [],
     }
+    /*
     getLocationSuggestions('', (suggestions) => {
       this.setState({suggestions})
     })
+    */
   }
 
   suggestionSelected(suggestion) {
-    this.props.onSelect(suggestion)
+    //console.log("Selected text", suggestion)
+    googleServices.getGeocoder().geocode({address:suggestion.description},  (error, result)=> {
+      if (!error && result.length > 0) {
+          suggestion.latlng = result[0].geometry.location;
+      }
+      this.props.onSelect(suggestion);
+    });
   }
 
   inputChanged (e) {
@@ -67,7 +84,7 @@ export default class LocationAutocomplete extends React.Component {
             [
               <ListItem
                 leftIcon={<PlaceIcon />}
-                primaryText={suggestion.title}
+                primaryText={suggestion.description}
                 onClick={this.suggestionSelected.bind(this, suggestion)}
               />,
               <Divider />,

@@ -8,6 +8,8 @@ module.exports = ()->
   turns then into location and saves the trip using carpoolService
   ###
   @Given /^Assure "([^"]*)" trip:$/, (user, table)->
+    client.url(url.resolve(process.env.ROOT_URL, "/logout"));
+    client.waitForExist "[data-cucumber='screen-name']"
     @TestHelper.urlLogin("/loginUsername", user);
     #d "Table", table.hashes()
     client.timeoutsAsyncScript(10000);
@@ -66,9 +68,14 @@ module.exports = ()->
       client.setValue("input[id=\"#{key}\"]", value);
       client.keys("Enter");
 
-  @When /Click on "([^]*)"/, (button)->
+  @When /^Click on "([^]*)"$/, (button)->
     d "Clicking #{button}"
     client.click button
+
+  @When /^Clicked on "([^]*)" to see "([^]*)"$/, (button, element)->
+    d "Clicking #{button}"
+    client.click button
+    client.waitForExist element, 10000;
 
   @When /^Type "([^]*)$"/, (text)->
     client.keys(text);

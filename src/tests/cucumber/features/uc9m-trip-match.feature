@@ -13,7 +13,7 @@ Feature: uc9 Notify on matching trip
       | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius | rider  |
       | Dzūkų 50, Vilnius    | Šeškinės g. 10, Vilnius | driver |
 
-  @trip
+  @trip @ignore
   Scenario: Driver Bob enters the same route and rider Ana gets notification
     Given Login with "user2@tiktai.lt"
     And I see "#trip-toAddress" in "/"
@@ -29,6 +29,7 @@ Feature: uc9 Notify on matching trip
     Then User "user1@tiktai.lt" gets mobile notification and sends request
     And user "user2@tiktai.lt" aproves request on mobile
 
+  @ignore
   Scenario: Driver Bob enters route through stop and rider Ana gets notification
     Given Login with "user2@tiktai.lt"
     And I see "#trip-toAddress" in "/"

@@ -12,6 +12,22 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
       | fromAddress          | toAddress               | role   |
       | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius | rider  |
       | Dzūkų 50, Vilnius    | Šeškinės g. 10, Vilnius | driver |
+      | Kauno 11, Vilnius    | Vilniaus g. 13, Vilnius | rider |
+
+    Scenario: Driver Dick enters two trips and  Ron gets correct notifications
+      Given Login through "/loginUsername" with "dick@tiktai.lt"
+      And I see "[data-cucumber='addTrip']" in "/"
+      And Click on "[data-cucumber='addTrip']"
+      When I enter:
+        | trip-fromAddress     | trip-toAddress          |
+        | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius |
+      And Click on ".saveTrip"
+      And I see "[data-cucumber='screen-name']"
+      And Click on "[data-cucumber='addTrip']"
+      When I enter:
+        | trip-fromAddress     | trip-toAddress          |
+        | Kauno 11, Vilnius    | Vilniaus g. 13, Vilnius | driver |
+      And Click on ".saveTrip" to see "[data-cucumber='screen-name']"
 
     @focus
     Scenario: Driver Dick enters the same route and rider Ron gets notification
@@ -20,12 +36,12 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
       And Click on "[data-cucumber='addTrip']"
       When I enter:
         | trip-fromAddress     | trip-toAddress          |
-        | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius |
-      And Click on ".saveTrip"
-      And I see my MUI trip
+        | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius |
+      And Clicked on ".saveTrip" to see "[data-cucumber='screen-name']"
+      And I see my trip on MUI
         | fromAddress          | toAddress               | role   |
-        | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius | rider  |
-      Then User "ron@tiktai.lt" gets mui notification and sends request
-      And user "dick@tiktai.lt" confirms request on mui
+        | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius | rider  |
+      Then User "ron@tiktai.lt" gets notification and sends request on MUI
+      And user "dick@tiktai.lt" gets notification and confirms request on MUI
 
     Scenario: Out of focus

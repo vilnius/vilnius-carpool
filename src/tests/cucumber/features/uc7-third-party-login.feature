@@ -12,6 +12,7 @@ Feature: Third party login
       | carpool@tiktai.lt | Muitines3 |
     Then I see ".profile" text "Developer"
 
+  @ignore
   Scenario: Login using username
     Given I am logged off
     When Login with "user1@tiktai.lt"
