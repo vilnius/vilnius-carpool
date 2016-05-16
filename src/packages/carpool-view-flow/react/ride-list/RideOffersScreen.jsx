@@ -13,10 +13,10 @@ import { config } from '../config'
 export default RideOffers = createContainer(({filterOwn}) => {
   const progress = new Progress();
   if(filterOwn) {
-    trips = carpoolService.pullOwnTrips({}, progress.setProgress.bind(progress, 'ownTrips'));
+    trips = carpoolService.pullOwnTrips({role:"drive"}, progress.setProgress.bind(progress, 'ownTrips'));
     //if(100 == progress.getProgress()) { console.log("Own trips:", trips);}
   } else {
-    trips = carpoolService.pullActiveTrips({}, progress.setProgress.bind(progress, 'activeTrips'));
+    trips = carpoolService.pullActiveTrips({role:"drive"}, progress.setProgress.bind(progress, 'activeTrips'));
     //if(100 == progress.getProgress()) { console.log("Active trips:", trips);}
   }
 

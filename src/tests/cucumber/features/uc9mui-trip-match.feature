@@ -14,7 +14,6 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
       | Dzūkų 50, Vilnius    | Šeškinės g. 10, Vilnius | driver |
       | Kauno 11, Vilnius    | Vilniaus g. 13, Vilnius | rider |
 
-    @focus
     Scenario: Driver Dick enters two trips and  Ron gets correct notifications
       Given Login through "/loginUsername" with "dick@tiktai.lt"
       And I see "[data-cucumber='addTrip']" in "/"
@@ -30,6 +29,7 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
         | Kauno 11, Vilnius    | Vilniaus g. 13, Vilnius | driver |
       And Click on ".saveTrip"
 
+    @focus
     Scenario: Driver Dick enters the same route and rider Ron gets notification
       Given Login through "/loginUsername" with "dick@tiktai.lt"
       And I see "[data-cucumber='addTrip']" in "/"

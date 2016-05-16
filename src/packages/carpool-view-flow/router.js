@@ -103,7 +103,7 @@ FlowRouter.route('/myTrips/:tripType?', {
     mount(LandingLayout, {
       topMenu: <TopMenu title="My Trips" hasTopTabs background="blue" />,
       topFilter: <TopTabs selectedTabIndex={params.tripType === 'drives'? 1 : 0} />,
-      content: <RideOffersScreen />,
+      content: <RideOffersScreen filterOwn="your" />,
       bottomMenu: <BottomTabs selectedTabIndex={2} />,
       extras: [<NewRideButton key="NewRideButton" />],
     });
