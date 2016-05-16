@@ -27,7 +27,7 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
       When I enter:
         | trip-fromAddress     | trip-toAddress          |
         | Kauno 11, Vilnius    | Vilniaus g. 13, Vilnius | driver |
-      And Click on ".saveTrip"
+      And Click on ".saveTrip" to see "[data-cucumber='screen-name']"
 
     @focus
     Scenario: Driver Dick enters the same route and rider Ron gets notification
@@ -37,13 +37,11 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
       When I enter:
         | trip-fromAddress     | trip-toAddress          |
         | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius |
-      And Click on ".saveTrip"
+      And Clicked on ".saveTrip" to see "[data-cucumber='screen-name']"
       And I see my trip on MUI
         | fromAddress          | toAddress               | role   |
         | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius | rider  |
       Then User "ron@tiktai.lt" gets notification and sends request on MUI
       And user "dick@tiktai.lt" gets notification and confirms request on MUI
-
-
 
     Scenario: Out of focus

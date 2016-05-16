@@ -84,18 +84,14 @@ FlowRouter.route('/notifications', {
     }
 });
 
-
-FlowRouter.route('/requests', {
-  name: "RideRequests",
+FlowRouter.route('/locationAutocomplete', {
+  name: 'LocationAutocomplete',
   action: function(params, queryParams) {
-    mount(LandingLayout, {
-      topMenu: <TopMenu title="Ride requests" background="green" />,
-      content: <RideOffersScreen />,
-      bottomMenu: <BottomTabs selectedTabIndex={0} />,
-      extras: [<NewRideButton key={'NewRideButton'} />],
+    mount(PlainLayout, {
+      content: <LocationAutocomplete onSelect={(location) => {alert('Location selected ' + location.title)}}/>,
     });
   }
-});
+})
 
 FlowRouter.route('/myTrips/:tripType?', {
   name: "MyTrips",
@@ -110,14 +106,17 @@ FlowRouter.route('/myTrips/:tripType?', {
   }
 });
 
-FlowRouter.route('/locationAutocomplete', {
-  name: 'LocationAutocomplete',
+FlowRouter.route('/requests', {
+  name: "RideRequests",
   action: function(params, queryParams) {
-    mount(PlainLayout, {
-      content: <LocationAutocomplete onSelect={(location) => {alert('Location selected ' + location.title)}}/>,
+    mount(LandingLayout, {
+      topMenu: <TopMenu title="Ride requests" background="green" />,
+      content: <RideOffersScreen role="rider"/>,
+      bottomMenu: <BottomTabs selectedTabIndex={0} />,
+      extras: [<NewRideButton key={'NewRideButton'} />],
     });
   }
-})
+});
 
 // This should be the last route as it takes optional parameter which could match all other routes
 FlowRouter.route('/:ownTrips?', {
@@ -127,7 +126,7 @@ FlowRouter.route('/:ownTrips?', {
       mount(LandingLayout, {
         topMenu: <TopMenu title="Ride offers" hasTopTabs background="blue" />,
         topSearch: <TopSearch from={'15.13.12'} fromAddress={'Kriviu g. 57'} to={'15.13.177'} />,
-        content: <RideOffersScreen filterOwn={params.ownTrips === "your"}/>,
+        content: <RideOffersScreen />,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
         extras: [<NewRideButton key={'NewRideButton'} />],
       });

@@ -97,7 +97,7 @@ class CarpoolService
 
     now = new Date
     fromTime = new Date(now.getTime() - (1000 * 60 * 60 * 24 * 60))
-    query =
+    query = _(filter).extend
       owner: $ne: Meteor.userId()
       time: $gte: fromTime
     trips = Trips.find(query, sort: time: -1)
