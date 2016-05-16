@@ -2,12 +2,16 @@ import React from 'react'
 import Paper from 'material-ui/lib/paper'
 import ExpandableSearch from '../components/ExpandableSearch'
 import { config } from '../config'
-import { goToRoute } from '../../flowHelpers'
+import { FlowHelpers } from '../../flowHelpers'
+import { googleServices } from 'meteor/spastai:google-client';
 
-const resolveLocation = (coords, cb) => {
-  setTimeout(() => {
-    cb('Location from ' + coords)
-  }, 2500)
+const resolveLocation = (coords, address, cb) => {
+  //console.log("Resolve location",coords, address);
+  latlng = googleServices.toLatLng(coords);
+  carpoolService.clarifyPlace(latlng, address, (error, newCoords, newAddress)=>{
+    //console.log("Resolved", newAddress)
+    cb(newAddress);
+  })
 }
 
 const styles = {
@@ -39,21 +43,19 @@ export default class TopSearch extends React.Component {
       fromAddress : 'loading...',
       toAddress: 'loading...',
     }
-
-    if (!this.props.fromAddress) {
-      resolveLocation(this.props.from, (location) => {
+    // afterInit makes sure that google libraries are loaded
+    googleServices.afterInit(() => {
+      resolveLocation(this.props.from, this.props.fromAddress, (location) => {
         this.setState({
           fromAddress: location
         })
       })
-    }
-    if (!this.props.toAddress) {
-      resolveLocation(this.props.to, (location) => {
+      resolveLocation(this.props.to, this.props.toAddress, (location) => {
         this.setState({
           toAddress: location,
         })
       })
-    }
+    });
   }
 
   render () {
@@ -79,11 +81,11 @@ export default class TopSearch extends React.Component {
         }}
         zDepth={this.props.hasTopTabs ? 0 : 1}
       >
-        <div style={styles.searchField} onClick={() => {flowControllerHelper.goToView('LocationAutocomplete')}}>
+        <div style={styles.searchField} onClick={() => {FlowHelpers.goExtendedQuery('LocationAutocomplete', {field:"aLoc"})}}>
           <div style={styles.searchHint}>from</div>
           <div style={styles.searchValue}>{this.props.fromAddress ? this.props.fromAddress : this.state.fromAddress}</div>
         </div>
-        <div style={styles.searchField} onClick={() => {flowControllerHelper.goToView('LocationAutocomplete')}}>
+        <div style={styles.searchField} onClick={() => {FlowHelpers.goExtendedQuery('LocationAutocomplete', {field:"bLoc"})}}>
           <div style={styles.searchHint}>to</div>
           <div style={styles.searchValue}>{this.props.toAddress ? this.props.toAddress : this.state.toAddress}</div>
         </div>

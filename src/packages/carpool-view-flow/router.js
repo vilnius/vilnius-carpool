@@ -2,7 +2,9 @@ export const name = 'carpool-view-flow';
 
 import React from 'react';
 import {mount} from 'react-mounter';
+
 import {LandingLayout, PlainLayout, NotificationLayout} from './layout'
+import {FlowHelpers} from './flowHelpers'
 import BottomTabs from "./react/layout/BottomTabs"
 import NewRideButton from './react/layout/NewRideButton'
 import TopMenu from './react/layout/TopMenu'
@@ -96,11 +98,18 @@ FlowRouter.route('/notifications', {
     }
 });
 
-FlowRouter.route('/locationAutocomplete', {
+FlowRouter.route('/locationAutocomplete/:field', {
   name: 'LocationAutocomplete',
   action: function(params, queryParams) {
     mount(PlainLayout, {
-      content: <LocationAutocomplete onSelect={(location) => {alert('Location selected ' + location.title)}}/>,
+      content: <LocationAutocomplete onSelect={(sugestion) => {
+        location = googleServices.toLocation(sugestion.latlng);
+        locStr = googleServices.encodePoints([location]);
+
+        queryParams[params.field] = locStr;
+        //console.log("Extending query", queryParams);
+        FlowRouter.go("RideOffers", {}, queryParams)
+      }}/>,
     });
   }
 })
@@ -146,9 +155,16 @@ FlowRouter.route('/m/all/offers', {
     name: "RideOffers",
     action: function(params, queryParams) {
       //console.log("Routing to - root", params.ownTrips === "your");
+      if(queryParams.aLoc) {
+        aLoc = googleServices.decodePoints(queryParams.aLoc)[0];
+      }
+      if(queryParams.bLoc) {
+        bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
+      }
+
       mount(LandingLayout, {
         topMenu: <TopMenu title="Ride offers" hasTopTabs background="blue" />,
-        topSearch: <TopSearch from={'15.13.12'} fromAddress={'Kriviu g. 57'} to={'15.13.177'} />,
+        topSearch: <TopSearch from={aLoc} to={bLoc} />,
         content: <RideOffersScreen />,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
         extras: [<NewRideButton key={'NewRideButton'} />],
