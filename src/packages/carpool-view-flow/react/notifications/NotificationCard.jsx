@@ -61,6 +61,7 @@ class NotificationCard extends React.Component {
                 <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
                   <FlatButton data-cucumber="confirm" label='Confirm a ride'
                     secondary onClick={() => {
+                      console.log("Confirming", notification)
                       // TODO acceptRequest: (invitationId, answer, callback) ->
                       //carpoolService.requestRide(notification.trip)
                       flowControllerHelper.goToView('RideConfirm', {id: notification.trip})

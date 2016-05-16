@@ -40,12 +40,12 @@ class CarpoolService
       da(["trip-crud"], "Clarified A: #{trip.fromAddress}", latlng)
       trip.fromLoc = googleServices.toLocation(latlng)
       @clarifyPlace toLatLng, trip.toAddress, (err, latlng, address) =>
-          trip.toLoc = googleServices.toLocation(latlng)
-          @getTripPath trip, (err, route) ->
-            if err then return callback(err)
-            _(trip).extend route
-            Meteor.call 'saveTrip', trip, (error, result) ->
-              callback error, trip
+        trip.toLoc = googleServices.toLocation(latlng)
+        @getTripPath trip, (err, route) ->
+          if err then return callback(err)
+          _(trip).extend route
+          Meteor.call 'saveTrip', trip, (error, result) ->
+            callback error, trip
 
   ###
   Removes own trip
