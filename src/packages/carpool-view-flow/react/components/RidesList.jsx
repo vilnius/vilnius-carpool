@@ -7,6 +7,7 @@ import { config } from '../config'
 import ReccuringDays from './ReccuringDays'
 
 import { getUserName } from 'meteor/carpool-view'
+import { getUserPicture } from '../api/UserPicture.coffee'
 
 function getRandomBool() {
   return Math.random() < 0.5
@@ -27,7 +28,7 @@ export default class RidesList extends React.Component {
           {trips.map((ride) => {
             user = Meteor.users.findOne({_id: ride.owner});
             ride.ownerName = getUserName(user);
-            ride.ownerAvatar = user && user.profile && user.profile.avatar;
+            ride.ownerAvatar = getUserPicture(user);
 
             // >> Mocking
             ride.isReccuring = getRandomBool();

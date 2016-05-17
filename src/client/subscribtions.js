@@ -24,7 +24,7 @@ Subs = {
 	}
 };
 
-Meteor.subscribe("userData");
+//Meteor.subscribe("userData"); // TODO conflicts with userContacts subscribtion
 Meteor.subscribe("userContacts");
 Meteor.subscribe("groupMemberData");
 

@@ -76,16 +76,6 @@ FlowRouter.route('/loginUsername', {
     }
 });
 
-FlowRouter.route('/newRide', {
-    name: "NewRide",
-    action: function(params, queryParams) {
-      //console.log("Routing to - new trip form", TripFormScreen);
-      mount(PlainLayout, {
-        content: <TripFormScreen />,
-      });
-    }
-});
-
 FlowRouter.route('/notifications', {
     name: "Notifications",
     action: function(params, queryParams) {
@@ -123,6 +113,16 @@ var securedRoutes = FlowRouter.group({
       redirect("/login")
     }
   }]
+});
+
+securedRoutes.route('/newRide', {
+    name: "NewRide",
+    action: function(params, queryParams) {
+      //console.log("Routing to - new trip form", TripFormScreen);
+      mount(PlainLayout, {
+        content: <TripFormScreen />,
+      });
+    }
 });
 
 securedRoutes.route('/:tripType?', {

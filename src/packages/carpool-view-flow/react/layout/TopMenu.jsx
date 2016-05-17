@@ -112,7 +112,7 @@ export default class TopMenu extends React.Component {
             ) : (
               <div style={{marginTop: 2, width: '100%'}}>
                 <FlatButton style={{width: '100%', textAlign: 'left'}} label="Login" icon={<PersonOutlineIcon />}
-                  onClick={() => flowControllerHelper.goToView('LoginUsername')} />
+                  onClick={() => flowControllerHelper.goToView('Login')} />
               </div>
             )}
             <div style={{width: '100%'}}>

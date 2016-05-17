@@ -1,5 +1,6 @@
 accounts-base@1.2.4
 accounts-facebook@1.0.7
+accounts-google@1.0.7
 accounts-oauth@1.1.10
 accounts-password@1.1.6
 accounts-ui@1.1.7
@@ -43,8 +44,8 @@ ejson@1.0.9
 email@1.0.10
 facebook@1.2.4
 fastclick@1.0.9
-fbgraph@0.0.0
 geojson-utils@1.0.6
+google@1.1.9
 handlebars@1.0.5
 html-tools@1.0.7
 htmljs@1.0.7
