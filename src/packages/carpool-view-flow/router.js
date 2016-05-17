@@ -109,7 +109,7 @@ var securedRoutes = FlowRouter.group({
   name: 'your',
   triggersEnter: [function(context, redirect) {
     //console.log('Security check');
-    if(null === Meteor.user()) {
+    if(undefined == Meteor.user()) {
       redirect("/login")
     }
   }]
@@ -120,6 +120,7 @@ securedRoutes.route('/newRide', {
     action: function(params, queryParams) {
       //console.log("Routing to - new trip form", TripFormScreen);
       mount(PlainLayout, {
+        topMenu: <TopMenu title="New Trip" innerScreen />,
         content: <TripFormScreen />,
       });
     }
@@ -174,7 +175,12 @@ FlowRouter.route('/m/all/offers', {
 
 FlowRouter.route('/', {
   triggersEnter: [function(context, redirect) {
-    redirect('/m/all/offers');
+    console.log("Route user", Meteor.user())
+    if(undefined == Meteor.user()) {
+      redirect("/login")
+    } else {
+      redirect('/m/all/offers');
+    }
   }],
   action: function(params, queryParams) {
   }

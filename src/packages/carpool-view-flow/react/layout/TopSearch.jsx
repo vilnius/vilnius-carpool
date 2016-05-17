@@ -6,7 +6,7 @@ import { FlowHelpers } from '../../flowHelpers'
 import { googleServices } from 'meteor/spastai:google-client';
 
 const resolveLocation = (coords, address, cb) => {
-  console.log("Resolve location", coords, address);
+  //console.log("Resolve location", coords, address);
   if(undefined == coords) {
     return cb("...")
   }
@@ -46,14 +46,12 @@ export default class TopSearch extends React.Component {
       fromAddress : 'loading...',
       toAddress: 'loading...',
     }
-    // afterInit makes sure that google libraries are loaded
-    googleServices.afterInit(() => {
-      resolveLocation(this.props.from, this.props.fromAddress, (location) => {
+    carpoolService.resolveLocation(this.props.from, this.props.fromAddress, (location) => {
         this.setState({
           fromAddress: location
         })
       })
-      resolveLocation(this.props.to, this.props.toAddress, (location) => {
+    carpoolService.resolveLocation(this.props.to, this.props.toAddress, (location) => {
         this.setState({
           toAddress: location,
         })

@@ -1,6 +1,6 @@
 exports.getUserPicture = (user) ->
   result = '/img/Man_Silhouette.png'
-  d("User picture:", user);
+  #d("User picture:", user);
   if user
     if user.services.google
       user.services.google.picture

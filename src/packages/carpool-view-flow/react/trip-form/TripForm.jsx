@@ -1,6 +1,7 @@
 import wrapScreen from '../layout/wrapScreen'
 //import { TAPi18n} from 'meteor/tap:i18n';
 import {__} from 'meteor/carpool-i18n'
+import { config, muiTheme } from '../config'
 
 import AutoComplete from 'material-ui/lib/auto-complete';
 import { TextField, DatePicker, TimePicker, RaisedButton, Snackbar, RadioButtonGroup, RadioButton } from 'material-ui'
@@ -135,37 +136,44 @@ export default class TripForm extends React.Component {
   }
 
   render() {
+    const topBarHeight = 45
     //TAPi18n.__('labelFrom'); // dummy call to load __ functions -doesn't help
     return (
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
-        <AutoComplete id="trip-fromAddress" floatingLabelText={__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions}
-          onUpdateInput={this.fromInputUpdate.bind(this)} onNewRequest={this.fromInputSelect.bind(this)}
-          filter={() => true} errorText={this.state.locationReceived ? null : 'Trying to receive current location'} errorStyle={{color: Colors.orange500}} searchText={this.state.from}
-        />
-        <AutoComplete id="trip-toAddress" floatingLabelText={__('labelTo')} className="mui-input" dataSource={this.state.toSuggestions}
-          onUpdateInput={this.toInputUpdate.bind(this)} onNewRequest={this.toInputSelect.bind(this)}
-          filter={() => true} searchText={this.state.to}
-        />
-        <DatePicker hintText={__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
-        <TimePicker hintText={__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />
-        <RadioButtonGroup name="driver" valueSelected={this.state.role} style={{marginTop: 20, marginBottom: 20}} onChange={this.muiValueChanged.bind(this, 'role')}>
-          <RadioButton
-            value="driver"
-            label="Driver"
+      <div style={{color: config.colors.textColor}}>
+        <div style={{
+          marginTop: topBarHeight
+        }}>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
+          <AutoComplete id="trip-fromAddress" floatingLabelText={__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions}
+            onUpdateInput={this.fromInputUpdate.bind(this)} onNewRequest={this.fromInputSelect.bind(this)}
+            filter={() => true} errorText={this.state.locationReceived ? null : 'Trying to receive current location'} errorStyle={{color: Colors.orange500}} searchText={this.state.from}
           />
-          <RadioButton
-            value="passenger"
-            label="Passenger"
+          <AutoComplete id="trip-toAddress" floatingLabelText={__('labelTo')} className="mui-input" dataSource={this.state.toSuggestions}
+            onUpdateInput={this.toInputUpdate.bind(this)} onNewRequest={this.toInputSelect.bind(this)}
+            filter={() => true} searchText={this.state.to}
           />
-        </RadioButtonGroup>
-        <RaisedButton label={'Submit'} className="saveTrip" secondary={true} onClick={this.submitForm.bind(this)} />
-        <Snackbar
-          open={this.state.locationDetectionError}
-          message="Failed to detect your location, please enter it manually."
-          autoHideDuration={3500}
-          onRequestClose={this.locationDetectionSnackbarClose.bind(this)}
-        />
+          <DatePicker hintText={__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
+          <TimePicker hintText={__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />
+          <RadioButtonGroup name="driver" valueSelected={this.state.role} style={{marginTop: 20, marginBottom: 20}} onChange={this.muiValueChanged.bind(this, 'role')}>
+            <RadioButton
+              value="driver"
+              label="Driver"
+            />
+            <RadioButton
+              value="passenger"
+              label="Passenger"
+            />
+          </RadioButtonGroup>
+          <RaisedButton label={'Submit'} className="saveTrip" secondary={true} onClick={this.submitForm.bind(this)} />
+          <Snackbar
+            open={this.state.locationDetectionError}
+            message="Failed to detect your location, please enter it manually."
+            autoHideDuration={3500}
+            onRequestClose={this.locationDetectionSnackbarClose.bind(this)}
+          />
+        </div>
       </div>
+    </div>
     )
   }
 }
