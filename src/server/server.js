@@ -1,6 +1,6 @@
-// Accounts.config({
-//    loginExpirationInDays: 90
-// })
+Accounts.config({
+    loginExpirationInDays: 90
+});
 
 Meteor.methods({
 	inviteToGroup: function(group, member) {

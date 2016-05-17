@@ -11,13 +11,13 @@ class CarpoolService
     googleServices.afterInit ()=>
       preInitQueue.start()
 
-  resolveLocation: preInitQueue.wrap(loc, address, cb) ->
+  resolveLocation: preInitQueue.wrap (loc, address, cb) ->
     #console.log("Resolve location", coords, address);
     if undefined == loc
-      return cb('...')
-    latlng = googleServices.toLatLng(lox)
+      return null
+    latlng = googleServices.toLatLng(loc)
     carpoolService.clarifyPlace latlng, address, (error, newCoords, newAddress) ->
-      #console.log("Resolved", newAddress)
+      #console.log(address, "resolved", newAddress)
       cb newAddress
 
   formAddress: (place)->

@@ -54,22 +54,15 @@ export default class TripForm extends React.Component {
       locationReceived: false,
       locationDetectionError: false,
     }
+  }
 
-    /*
-    detectLocation((err, location) => {
-      if (err != null) {
-        this.setState({
-          locationReceived: true,
-          locationDetectionError: true,
-        })
-      } else {
-        this.setState({
-          locationReceived: true,
-          from: location,
-        })
-      }
+  componentWillMount() {
+    carpoolService.resolveLocation(this.props.from, this.props.fromAddress, (address) => {
+      this.setState({from: address});
     })
-    */
+    carpoolService.resolveLocation(this.props.to, this.props.toAddress, (address) => {
+      this.setState({to: address});
+    })
   }
 
   locationDetectionSnackbarClose() {
@@ -144,9 +137,11 @@ export default class TripForm extends React.Component {
           marginTop: topBarHeight
         }}>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
-          <AutoComplete id="trip-fromAddress" floatingLabelText={__('labelFrom')} className="mui-input" dataSource={this.state.fromSuggestions}
+          <AutoComplete id="trip-fromAddress" floatingLabelText={__('labelFrom')} className="mui-input"
+            dataSource={this.state.fromSuggestions} filter={() => true}
             onUpdateInput={this.fromInputUpdate.bind(this)} onNewRequest={this.fromInputSelect.bind(this)}
-            filter={() => true} errorText={this.state.locationReceived ? null : 'Trying to receive current location'} errorStyle={{color: Colors.orange500}} searchText={this.state.from}
+            errorText={this.state.locationReceived ? null : 'Trying to receive current location'}
+            errorStyle={{color: Colors.orange500}} searchText={this.state.from}
           />
           <AutoComplete id="trip-toAddress" floatingLabelText={__('labelTo')} className="mui-input" dataSource={this.state.toSuggestions}
             onUpdateInput={this.toInputUpdate.bind(this)} onNewRequest={this.toInputSelect.bind(this)}
@@ -165,6 +160,7 @@ export default class TripForm extends React.Component {
             />
           </RadioButtonGroup>
           <RaisedButton label={'Submit'} className="saveTrip" secondary={true} onClick={this.submitForm.bind(this)} />
+          <RaisedButton label={'Cancel'} secondary={true} onClick={() => FlowRouter.go("RideOffers")} />
           <Snackbar
             open={this.state.locationDetectionError}
             message="Failed to detect your location, please enter it manually."
