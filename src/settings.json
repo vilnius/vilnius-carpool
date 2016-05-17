@@ -23,8 +23,8 @@
     },
     "facebook":{
       "service": "facebook",
-      "clientId": "629390283814111",
-      "secret": "9276253eddf604a4c17b1a910ce8404c"
+      "appId": "1725090057760815",
+      "secret": "e48c975f2b3e2b3cf69e14dc7840df52"
     }
   }
 }

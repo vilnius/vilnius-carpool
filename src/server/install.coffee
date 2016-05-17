@@ -6,7 +6,7 @@ Meteor.startup ()->
 
   if Meteor.settings.oauth
     if Accounts.loginServiceConfiguration.find().count() == 0
-      da ['install'], 'Creating google login configuration:'
+      da ['install'], 'Creating login configurations'
       Accounts.loginServiceConfiguration.insert Meteor.settings.oauth.google
       Accounts.loginServiceConfiguration.insert Meteor.settings.oauth.facebook
   else

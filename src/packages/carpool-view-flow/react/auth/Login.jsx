@@ -17,7 +17,18 @@ export default class NotLoggedInLanding extends React.Component {
       }}>
         <div style={{marginTop: height / 6, textAlign:'center'}}><img src="/img/app_icon.png" width="100px"></img></div>
         <div style={{marginTop: 35, textAlign: 'center'}}>Welcome to<br/>Vilnius Carpooling Serice</div>
-        <Paper style={{marginTop: 60, width: width * 0.7, height: 45, display: 'flex', flexDirection: 'row', alignItems: 'center', background: '#3B5A9A', color: 'white'}}>
+        <Paper style={{marginTop: 60, width: width * 0.7, height: 45, display: 'flex', flexDirection: 'row', alignItems: 'center', background: '#3B5A9A', color: 'white'}}
+          onClick={() => {
+            //console.log("G+ login")
+            Meteor.loginWithFacebook({requestPermissions:["public_profile", "email"]}, (error) => {
+              if(error)
+                console.log('Log in with Facebook error: ', error.reason || 'Unknown error');
+              else {
+                console.log("Logged in Facebook user:", Meteor.user());
+                FlowRouter.go("RideOffers");
+              }
+            })
+          }}>
           <div style={{marginLeft: 20}}>f</div>
           <div style={{marginLeft: 'auto', marginRight: 'auto'}}>Sign in with Facebook</div>
         </Paper>

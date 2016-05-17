@@ -33,6 +33,7 @@ Meteor.publish 'userContacts', ->
   cursor = Meteor.users.find {}, fields:
     'profile': 1
     'services.google.picture': 1
+    'services.facebook.id': 1
 
 Meteor.publish 'ownTrips', ->
   if !@userId
