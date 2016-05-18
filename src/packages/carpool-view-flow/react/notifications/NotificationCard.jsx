@@ -5,6 +5,8 @@ import Paper from 'material-ui/lib/paper'
 import Avatar from 'material-ui/lib/avatar'
 import FlatButton from 'material-ui/lib/flat-button'
 
+import { getUserPicture } from '../api/UserPicture.coffee'
+
 class NotificationCard extends React.Component {
   render () {
     const { progress, notification, trip} = this.props;
@@ -17,7 +19,7 @@ class NotificationCard extends React.Component {
       );
     } else {
       user = Meteor.users.findOne({_id: trip.owner});
-      avatar = user && user.profile && user.profile.avatar;
+      avatar = getUserPicture(user);
 
       return (
         <Paper data-cucumber="notification" style={{
