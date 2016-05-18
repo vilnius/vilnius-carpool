@@ -8,6 +8,8 @@ import { config, muiTheme } from '../config'
 import RaisedButton from 'material-ui/lib/raised-button';
 import wrapScreen from '../layout/wrapScreen'
 import RideInfo from '../components/RideInfo'
+import { getUserPicture } from '../api/UserPicture.coffee'
+
 
 export default class RequestRide extends React.Component {
 
@@ -23,12 +25,18 @@ export default class RequestRide extends React.Component {
         </section>
       );
     } else {
-      //console.log("Trip", trip);
-      trip.driverName = 'Vytautė';
+      console.log("Trip", trip);
+      user = Meteor.users.findOne({_id: trip.owner});
+      trip.driverName = getUserName(user);
       trip.driverAge = 26;
-      trip.driverPicture = 'http://lorempixel.com/200/200/people/9';
+      trip.driverPicture = getUserPicture(user);
+
+      trip.stops.push({
+        title: trip.toAddress
+      })
+
       isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
-      console.log("Requested trip", isRequested);
+      //console.log("Requested trip", isRequested);
       return (
         <div style={{color: config.colors.textColor}}>
           <div style={{

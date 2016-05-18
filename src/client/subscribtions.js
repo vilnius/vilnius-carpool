@@ -24,8 +24,8 @@ Subs = {
 	}
 };
 
-Meteor.subscribe("userData");
-Meteor.subscribe("userContacts");
+//Meteor.subscribe("userData"); // TODO conflicts with userContacts subscribtion
+this.userSubs = Meteor.subscribe("userContacts");
 Meteor.subscribe("groupMemberData");
 
 //Meteor.subscribe("streets");

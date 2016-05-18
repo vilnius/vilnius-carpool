@@ -30,7 +30,10 @@ Meteor.publish 'activeTrips', (filter) ->
 
 Meteor.publish 'userContacts', ->
   da [ 'data-publish' ], 'Publish user contacts'
-  Meteor.users.find {}, fields: 'profile': true
+  cursor = Meteor.users.find {}, fields:
+    'profile': 1
+    'services.google.picture': 1
+    'services.facebook.id': 1
 
 Meteor.publish 'ownTrips', ->
   if !@userId

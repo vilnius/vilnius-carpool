@@ -1,7 +1,24 @@
+{ ParallelQueue } = require 'meteor/spastai:flow-controll'
+
 class CarpoolService
+  preInitQueue = new ParallelQueue(@);
+
   stopRadiusFromOrig = 1000 * 180 / (3.14 * 6371 * 1000)
   stopDistanceFromRoute = 500 * 180 / (3.14 * 6371 * 1000)
   locRadiusFilter = 1000 * 180 / (3.14 * 6371 * 1000)
+
+  constructor: (@params) ->
+    googleServices.afterInit ()=>
+      preInitQueue.start()
+
+  resolveLocation: preInitQueue.wrap (loc, address, cb) ->
+    #console.log("Resolve location", coords, address);
+    if undefined == loc
+      return null
+    latlng = googleServices.toLatLng(loc)
+    carpoolService.clarifyPlace latlng, address, (error, newCoords, newAddress) ->
+      #console.log(address, "resolved", newAddress)
+      cb newAddress
 
   formAddress: (place)->
     if place.address_components

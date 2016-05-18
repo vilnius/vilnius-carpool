@@ -18,6 +18,7 @@ Package.onUse(function(api) {
   api.use('react');
   api.use('momentjs:moment','client');
 
+  api.use(['accounts-google', 'accounts-facebook']);
   api.use('kadira:flow-router');
 
   api.use("spastai:carpool-service");

@@ -7,6 +7,8 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
+  api.use('ecmascript');
+
   api.use(['underscore', 'coffeescript'], ['server', 'client']);
   api.use(["mongo", "minimongo"]);
 
@@ -25,7 +27,7 @@ Package.onUse(function(api) {
   api.addFiles('server/publish.coffee', "server");
 
   api.addFiles('client/Progress.coffee');
-  api.addFiles('client/CarpoolServiceClient.coffee');
+  api.addFiles('client/CarpoolServiceClient.coffee', 'client');
 });
 
 

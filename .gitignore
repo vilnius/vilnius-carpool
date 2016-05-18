@@ -3,5 +3,6 @@ build/
 src/server/installService.coffee
 src/server/installServiceStg.coffee
 src/tests/cucumber/node_modules
+src/packages/google-client
 src/config.push.json
 src/settings.json
