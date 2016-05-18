@@ -155,7 +155,7 @@ export default class TripForm extends React.Component {
               label="Driver"
             />
             <RadioButton
-              value="passenger"
+              value="rider"
               label="Passenger"
             />
           </RadioButtonGroup>

@@ -114,10 +114,10 @@ var securedRoutes = FlowRouter.group({
   prefix: '/m/your',
   name: 'your',
   triggersEnter: [function(context, redirect) {
-    //console.log('Security check');
-    if(undefined == Meteor.user()) {
-      redirect("/login")
-    }
+    // console.log('Security check', userSubs.ready());
+    // if(undefined == Meteor.user()) {
+    //   redirect("/login")
+    // }
   }]
 });
 
