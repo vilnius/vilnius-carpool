@@ -8,11 +8,9 @@ module.exports = ()->
   turns then into location and saves the trip using carpoolService
   ###
   @Given /^Assure "([^"]*)" trip:$/, (user, table)->
-    client.url(url.resolve(process.env.ROOT_URL, "/logout"));
-    client.waitForExist "[data-cucumber='screen-name']"
     @TestHelper.urlLogin("/loginUsername", user);
     #d "Table", table.hashes()
-    client.timeoutsAsyncScript(10000);
+    client.timeoutsAsyncScript(15000);
     for trip in table.hashes()
       # Trip stops calculation is time consuming
       result = client.executeAsync (trip, done) ->
@@ -57,7 +55,6 @@ module.exports = ()->
 
   @Then /^I see "([^"]*)" in "([^"]*)"$/, (element, path)->
     link = process.env.ROOT_URL + path;
-    d "Link to create evaluation #{link}"
     client.url(link);
     client.waitForExist(element);
 

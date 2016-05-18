@@ -7,7 +7,7 @@ export default class NotLoggedInLanding extends React.Component {
     const width = window.innerWidth // TODO take from props?
     const height = window.innerHeight // TODO take from props?
     return (
-      <div style={{
+      <div data-cucumber="login-screen" style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
