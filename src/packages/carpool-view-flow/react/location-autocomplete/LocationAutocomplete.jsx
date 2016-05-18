@@ -27,6 +27,7 @@ const getLocationSuggestions = (inputVal, callback) => {
         radius: 30000
       }, function(suggestions, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
+          console.log(suggestions);
           callback(suggestions);
         } else {
           return callback([]);
@@ -74,7 +75,7 @@ export default class LocationAutocomplete extends React.Component {
           <div style={{marginLeft: 10}}>
             <BackButton />
           </div>
-          <TextField hintText="Search for places, addresses, stops, etc."
+          <TextField hintText="Search for places, addresses, stops, etc." autoFocus={true}
             hintStyle={{color: '#eee', fontSize: 12}} style={{marginLeft: 20, width: window.innerWidth - 75}}
             onChange={this.inputChanged.bind(this)} inputStyle={{color: 'white'}}
           />
