@@ -10,13 +10,22 @@ import SearchIcon from 'material-ui/lib/svg-icons/action/search';
 import RepeatingDays from '../components/ReccuringDays'
 import { config } from '../config'
 
-export default RideOffers = createContainer(({filterOwn = "all", role = "driver"}) => {
+export default RideOffers = createContainer(({filterOwn = "all", role = "driver", aLoc, bLoc}) => {
   const progress = new Progress();
+  // Some magic here to remove undefined values
+  query = {
+    role: role,
+    fromLoc: aLoc,
+    toLoc: bLoc
+  }
+  Object.keys(query).forEach((key)=>{query[key] || delete query[key]});
+
+  console.log("Filter query:", query, aLoc)
   if("your" == filterOwn) {
-    trips = carpoolService.pullOwnTrips({role:role}, progress.setProgress.bind(progress, 'ownTrips'));
+    trips = carpoolService.pullOwnTrips(query, progress.setProgress.bind(progress, 'ownTrips'));
     //if(100 == progress.getProgress()) { console.log(`Own ${role} trips:`, trips);}
   } else {
-    trips = carpoolService.pullActiveTrips({role:role}, progress.setProgress.bind(progress, 'activeTrips'));
+    trips = carpoolService.pullActiveTrips(query, progress.setProgress.bind(progress, 'activeTrips'));
     //if(100 == progress.getProgress()) { console.log(`All ${role} trips:`, trips);}
   }
 

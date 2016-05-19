@@ -1,6 +1,7 @@
 import React from 'react'
 import FloatingActionButton from 'material-ui/lib/floating-action-button'
 import ContentAdd from 'material-ui/lib/svg-icons/content/add'
+import {FlowHelpers} from '../../flowHelpers'
 
 export default class newRideButton extends React.Component {
   render () {
@@ -10,7 +11,7 @@ export default class newRideButton extends React.Component {
           right: 12,
           bottom: 75,
         }}
-        onClick={() => flowControllerHelper.goToView('NewRide')}
+        onClick={() => FlowHelpers.goExtendedQuery('NewRide')}
       >
         <ContentAdd />
       </FloatingActionButton>

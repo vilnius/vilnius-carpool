@@ -28,6 +28,7 @@ carpool-view-flow@0.0.1
 check@1.1.2
 coffeescript@1.0.15
 cosmos:browserify@0.5.1
+crosswalk@1.6.0
 cucumber-fixtures@1.0.0
 ddp@1.2.3
 ddp-client@1.2.3

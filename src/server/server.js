@@ -204,4 +204,4 @@ Meteor.onConnection(function(connection){
 });
 */
 
-d("Tmh Server started. Version 0.1.11-mui.SNAPSHOT-160517.1 on "+Meteor.settings.public.environment);
+d("Tmh Server started. Version 0.1.11-mui.SNAPSHOT-160518.7 on "+Meteor.settings.public.environment);

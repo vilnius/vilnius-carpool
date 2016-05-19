@@ -7,7 +7,7 @@ Meteor.publish 'oneTrip', (filter) ->
   Trips.find filter
 
 Meteor.publish 'activeTrips', (filter) ->
-  query = {}
+  query = _(filter).omit("fromLoc", "toLoc");
   if filter.fromLoc?
     query['stops.loc'] =
       $near: filter.fromLoc
@@ -26,6 +26,7 @@ Meteor.publish 'activeTrips', (filter) ->
     cursor = Trips.find(refinedQuery)
   else
     da [ 'trip-publish' ], 'Publish activeTrips:', query
+    d 'Publish activeTrips count:', trips.count();
     trips
 
 Meteor.publish 'userContacts', ->
