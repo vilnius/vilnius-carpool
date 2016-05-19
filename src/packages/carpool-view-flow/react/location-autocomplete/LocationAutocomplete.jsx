@@ -27,7 +27,14 @@ const getLocationSuggestions = (inputVal, callback) => {
         radius: 30000
       }, function(suggestions, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
-          console.log(suggestions);
+        // {
+        //   description: "Paplaujos gatvė 3, Vilnius, Lietuva",
+        //   id: "e658de75dc81451810db943c011acc28a7bc43c3",
+        //   matched_substrings: Array[2],
+        //   place_id: "ChIJJ1mrBjGU3UYRtmRv2aANbUM",
+        //   terms: [{value: "Paplaujos gatvė"}, ...  "3", "Vilnius", "Lietuva"]
+        //   reference: "CnRmAAAAIlCdKcgZ0xCnFTDaa2s11HNJ-ufv_YW6h1ZRg1Ent1…lxbAlg_7aONSzEeyNRbhoUmEVdwCxqrx5UQ9vDy7hIzG67tIE" …
+        // }
           callback(suggestions);
         } else {
           return callback([]);
@@ -37,6 +44,7 @@ const getLocationSuggestions = (inputVal, callback) => {
     callback([]);
   }
 }
+
 
 export default class LocationAutocomplete extends React.Component {
   constructor (props) {

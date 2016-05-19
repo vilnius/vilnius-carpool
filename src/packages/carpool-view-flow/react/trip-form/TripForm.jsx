@@ -111,6 +111,11 @@ export default class TripForm extends React.Component {
     })
   }
 
+  handleChange(event) {
+    console.log(event.target.value);
+    this.setState({to: event.target.value});
+  }
+
   submitForm () {
     let trip = {
       fromAddress: this.state.from,
@@ -145,8 +150,9 @@ export default class TripForm extends React.Component {
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
 
           <TextField id="trip-fromAddress" floatingLabelText={__('labelFrom')} value={this.state.from}
-            onChange={(component, value)=>{this.setState({from:value})} } />
-          <TextField id="trip-toAddress" floatingLabelText={__('labelTo')} value={this.state.to} />
+            onChange={(event)=>{ this.setState({from: event.target.value}) }} />
+          <TextField id="trip-toAddress" floatingLabelText={__('labelTo')} value={this.state.to}
+            onChange={(event)=>{ this.setState({to: event.target.value}) }} />
 
           <DatePicker hintText={__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
           <TimePicker hintText={__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />

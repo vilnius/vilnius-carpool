@@ -14,7 +14,6 @@ const Wrapper = React.createClass({
     }
   },
 
-
   render () {
     return this.props.children
   }
