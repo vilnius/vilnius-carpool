@@ -4,6 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import Paper from 'material-ui/lib/paper'
 import Avatar from 'material-ui/lib/avatar'
 import FlatButton from 'material-ui/lib/flat-button'
+import Loader from '../components/Loader'
 
 import { getUserPicture } from '../api/UserPicture.coffee'
 
@@ -13,8 +14,8 @@ class NotificationCard extends React.Component {
     //console.log("Show notification", notification);
     if (100 != progress.getProgress()) {
       return (
-        <section style={{height: "100%"}}>
-          Loading...
+        <section style={{height: "100%", marginTop: 25}}>
+          <Loader size={0.4} />
         </section>
       );
     } else {

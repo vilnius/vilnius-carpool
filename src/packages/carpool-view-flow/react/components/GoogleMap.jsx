@@ -2,6 +2,7 @@ import {GoogleMapLoader, GoogleMap, Marker, Polyline} from "react-google-maps";
 import { createContainer } from 'meteor/react-meteor-data';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { default as _ } from "lodash";
+import Loader from './Loader'
 
 
 export default class ReactMap extends React.Component {
@@ -49,8 +50,8 @@ export default class ReactMap extends React.Component {
     const googleReady = this.state.googleReady
     if (false == googleReady) {
       return (
-        <section style={{height: "100%"}}>
-          Loading...
+        <section style={{height: "100%", marginTop: 25}}>
+          <Loader />
         </section>
       );
     } else

@@ -8,6 +8,7 @@ import ReccuringDays from './ReccuringDays'
 
 import { getUserName } from 'meteor/carpool-view'
 import { getUserPicture } from '../api/UserPicture.coffee'
+import Loader from './Loader'
 
 function getRandomBool() {
   return Math.random() < 0.5
@@ -18,8 +19,8 @@ export default class RidesList extends React.Component {
     const { progress, trips} = this.props;
     if (100 != progress.getProgress()) {
       return (
-        <section style={{height: "100%"}}>
-          Loading...
+        <section style={{height: "100%", marginTop: 25}}>
+          <Loader />
         </section>
       );
     } else {
