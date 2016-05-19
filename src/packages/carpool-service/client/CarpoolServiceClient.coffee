@@ -11,6 +11,9 @@ class CarpoolService
     googleServices.afterInit ()=>
       preInitQueue.start()
 
+  encodePoints: preInitQueue.wrap (loc, cb) ->
+    cb(googleServices.encodePoints(loc));
+
   resolveLocation: preInitQueue.wrap (loc, address, cb) ->
     #console.log("Resolve location", coords, address);
     if undefined == loc
@@ -118,7 +121,7 @@ class CarpoolService
       owner: $ne: Meteor.userId()
       time: $gte: fromTime
     ).value();
-    d "Active trips", query
+    #d "Active trips", query
     trips = Trips.find(query, sort: time: -1)
     trips.fetch()
 

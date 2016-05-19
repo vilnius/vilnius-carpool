@@ -28,6 +28,19 @@ instead of caching these router scope variables stores some variables
 let aLoc, bLoc; // these variables travel through query parameters also
 let addresses = {};
 
+FlowRouter.route('/', {
+  triggersEnter: [function(context, redirect) {
+    if(undefined == Meteor.user()) {
+      redirect("/login")
+    } else {
+      redirect('/m/all/offers');
+    }
+  }],
+  action: function(params, queryParams) {
+  }
+});
+
+
 FlowRouter.route('/rideRequest/:id', {
   name: "RideRequest",
   action: function(params, queryParams) {
@@ -168,13 +181,13 @@ FlowRouter.route('/m/all/requests', {
 FlowRouter.route('/m/all/offers', {
     name: "RideOffers",
     action: function(params, queryParams) {
-      //console.log("Routing to - root", params.ownTrips === "your");
       if(queryParams.aLoc) {
         aLoc = googleServices.decodePoints(queryParams.aLoc)[0];
       }
       if(queryParams.bLoc) {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
+      //console.log("Offers route", params, queryParams, "and aLoc:", aLoc);
 
       // by coincidence aLoc, bLoc and addresses are stored as global variables...
       mount(LandingLayout, {
@@ -185,17 +198,4 @@ FlowRouter.route('/m/all/offers', {
         extras: [<NewRideButton key={'NewRideButton'} />],
       });
     }
-});
-
-FlowRouter.route('/', {
-  triggersEnter: [function(context, redirect) {
-    console.log("Route user", Meteor.user())
-    if(undefined == Meteor.user()) {
-      redirect("/login")
-    } else {
-      redirect('/m/all/offers');
-    }
-  }],
-  action: function(params, queryParams) {
-  }
 });

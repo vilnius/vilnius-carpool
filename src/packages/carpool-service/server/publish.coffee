@@ -26,7 +26,7 @@ Meteor.publish 'activeTrips', (filter) ->
     cursor = Trips.find(refinedQuery)
   else
     da [ 'trip-publish' ], 'Publish activeTrips:', query
-    d 'Publish activeTrips count:', trips.count();
+    #d 'Publish activeTrips count:', trips.count();
     trips
 
 Meteor.publish 'userContacts', ->
