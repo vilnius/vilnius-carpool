@@ -187,7 +187,7 @@ FlowRouter.route('/m/all/offers', {
       if(queryParams.bLoc) {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
-      //console.log("Offers route", params, queryParams, "and aLoc:", aLoc);
+      console.log("Offers route", params, queryParams, "and aLoc:", aLoc);
 
       // by coincidence aLoc, bLoc and addresses are stored as global variables...
       mount(LandingLayout, {
