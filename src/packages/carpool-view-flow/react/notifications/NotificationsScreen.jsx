@@ -2,6 +2,7 @@ import React from 'react'
 import { createContainer } from 'meteor/react-meteor-data';
 import wrapScreen from '../layout/wrapScreen'
 import NotificationCard from './NotificationCard'
+import Loader from '../components/Loader'
 
 
 // const notifications = [{
@@ -18,8 +19,8 @@ export default class Notifications extends React.Component {
     const { progress, notifications } = this.props;
     if (100 != progress.getProgress()) {
       return (
-        <section style={{height: "100%"}}>
-          Loading...
+        <section style={{height: "100%", marginTop: 25}}>
+          <Loader />
         </section>
       );
     } else {

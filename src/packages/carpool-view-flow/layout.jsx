@@ -1,7 +1,8 @@
 import React from 'react'
 import { muiTheme } from './react/config'
 import ThemeManager from 'material-ui/lib/styles/theme-manager'
-import { createContainer } from 'meteor/react-meteor-data';
+import { createContainer } from 'meteor/react-meteor-data'
+import Loader from './react/components/Loader'
 
 const Wrapper = React.createClass({
   getInitialState () {
@@ -84,8 +85,8 @@ export const PlainLayout = createContainer(({topMenu, content}) => {
   return {isLoading, topMenu, content};
 }, ({isLoading, topMenu, content}) => {
   if(isLoading) return (
-    <section style={{height: "100%"}}>
-      Loading...
+    <section style={{height: "100%", marginTop: 25}}>
+      <Loader />
     </section>
   )
   else return (

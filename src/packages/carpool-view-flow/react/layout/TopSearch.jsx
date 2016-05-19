@@ -23,6 +23,9 @@ const getStyles = (width) => ({
   searchValue: {
     fontSize: 12,
     marginLeft: 5,
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
   },
 })
 
