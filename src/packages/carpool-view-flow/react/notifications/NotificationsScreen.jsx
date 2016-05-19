@@ -30,7 +30,7 @@ export default class Notifications extends React.Component {
           alignItems: 'center',
         }}>
           {notifications.map((notification, i) => (
-            <NotificationCard key={i} notification={notification} width={this.props.width} />
+            <NotificationCard key={i} notification={notification} width={window.innerWidth} />
           ))}
         </div>
       )

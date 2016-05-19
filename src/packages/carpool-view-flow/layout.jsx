@@ -3,6 +3,26 @@ import { muiTheme } from './react/config'
 import ThemeManager from 'material-ui/lib/styles/theme-manager'
 
 const Wrapper = React.createClass({
+  getInitialState () {
+    const resizeListener = () => {
+      this.setState({
+        ww: window.innerWidth,
+        wh: window.innerHeight
+      })
+    }
+
+    window.addEventListener('resize', resizeListener)
+
+    return {
+      ww: window.innerWidth,
+      wh: window.innerHeight,
+      resizeListener,
+    }
+  },
+
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.state.resizeListener)
+  },
 
   childContextTypes: {
     muiTheme: React.PropTypes.object,

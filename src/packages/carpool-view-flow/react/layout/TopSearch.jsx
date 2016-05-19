@@ -5,12 +5,12 @@ import { config } from '../config'
 import { FlowHelpers } from '../../flowHelpers'
 import { googleServices } from 'meteor/spastai:google-client';
 
-const styles = {
+const getStyles = (width) => ({
   searchField: {
     padding: 5,
     margin: '5px auto',
     background: config.colors.lightBlue,
-    width: window.innerWidth * 0.8,
+    width: width * 0.8,
     height: 24,
     display: 'flex',
     flexDirection: 'row',
@@ -24,7 +24,7 @@ const styles = {
     fontSize: 12,
     marginLeft: 5,
   },
-}
+})
 
 export default class TopSearch extends React.Component {
 
@@ -46,6 +46,7 @@ export default class TopSearch extends React.Component {
   }
 
   render () {
+    const styles = getStyles(window.innerWidth)
     return (
       <Paper
         style={{

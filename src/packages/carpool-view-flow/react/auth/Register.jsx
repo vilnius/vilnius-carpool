@@ -37,7 +37,7 @@ export default class RegisterBase extends React.Component {
         />
         <div style={{marginTop: 25}}>
           <RaisedButton secondary label="Register" onClick={this.register.bind(this)} />
-          <RaisedButton secondary label="Switch to login" onClick={() => muiControllerHelper.goToView('MuiLogin')} style={{marginLeft: 25}}/>
+          <RaisedButton secondary label="Switch to login" onClick={() => flowControllerHelper.goToView('LoginUsername')} style={{marginLeft: 25}}/>
         </div>
       </div>
     )
