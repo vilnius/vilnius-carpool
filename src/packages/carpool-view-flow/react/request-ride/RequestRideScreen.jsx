@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import wrapScreen from '../layout/wrapScreen'
 import RideInfo from '../components/RideInfo'
 import { getUserPicture } from '../api/UserPicture.coffee'
+import Loader from '../components/Loader'
 
 
 export default class RequestRide extends React.Component {
@@ -20,8 +21,8 @@ export default class RequestRide extends React.Component {
 
     if (100 != progress.getProgress()) {
       return (
-        <section style={{height: "100%"}}>
-          Loading...
+        <section style={{height: "100%", marginTop: 25}}>
+          <Loader />
         </section>
       );
     } else {

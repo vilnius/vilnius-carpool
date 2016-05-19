@@ -6,9 +6,12 @@ import NotificationsIcon from 'material-ui/lib/svg-icons/social/notifications'
 import CarIcon from 'material-ui/lib/svg-icons/maps/directions-car'
 import RequestsIcon from 'material-ui/lib/svg-icons/action/feedback'
 import PersonIcon from 'material-ui/lib/svg-icons/social/person'
+import { config } from '../config'
 
 export default class BottomTabs extends React.Component {
   render () {
+    const notificationsAmount = this.props.notificationsAmount || Math.floor(Math.random() * 4)
+    // const { notificationsAmount } = this.props
     return (
       <Paper style={{
         position: 'fixed',
@@ -18,7 +21,7 @@ export default class BottomTabs extends React.Component {
         zIndex: 1,
         color: 'white'
       }}>
-        <Tabs style={{height: 64}} inkBarStyle={{display: 'none'}} value={this.props.selectedTabIndex}>
+        <Tabs style={{height: 60}} inkBarStyle={{display: 'none'}} value={this.props.selectedTabIndex}>
           <Tab
             style={{fontSize: 10, background: '#212121'}}
             icon={<RequestsIcon className="tabs-icon" />}
@@ -43,7 +46,16 @@ export default class BottomTabs extends React.Component {
           <Tab
             style={{fontSize: 10, background: '#212121'}}
             icon={<NotificationsIcon className="tabs-icon" />}
-            label="Notifications"
+            label={
+              <div style={{position: 'relative'}}>
+                Notifications
+                {notificationsAmount ? (
+                  <div style={{position: 'absolute', left: window.innerWidth / 8 - 9, top: -32, borderRadius: '50%', background: config.colors.highlight, width: 14, height: 14, lineHeight: '15px'}}>
+                    <div style={{marginLeft: -1}}>{notificationsAmount}</div>
+                  </div>
+                ) : null}
+              </div>
+            }
             onClick={() => {flowControllerHelper.goToView('Notifications')}}
             value={3}
           />

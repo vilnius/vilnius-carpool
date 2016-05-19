@@ -8,6 +8,7 @@ import { config, muiTheme } from '../config'
 import RaisedButton from 'material-ui/lib/raised-button';
 import wrapScreen from '../layout/wrapScreen'
 import RideInfo from '../components/RideInfo'
+import Loader from '../components/Loader'
 
 class ConfirmRide extends React.Component {
 
@@ -18,8 +19,8 @@ class ConfirmRide extends React.Component {
 
     if (100 != progress.getProgress()) {
       return (
-        <section style={{height: "100%"}}>
-          Loading...
+        <section style={{height: "100%", marginTop: 25}}>
+          <Loader />
         </section>
       );
     } else {
