@@ -6,7 +6,10 @@ export default class NotLoggedInLanding extends React.Component {
   render () {
     const width = window.innerWidth // TODO take from props?
     const height = window.innerHeight // TODO take from props?
-    return (
+    if(Meteor.user()) {
+      FlowRouter.go("/m/all/offers");
+      return null;
+    } else return (
       <div data-cucumber="login-screen" style={{
         display: 'flex',
         flexDirection: 'column',
