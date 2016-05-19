@@ -6,6 +6,7 @@ import { config, muiTheme } from '../config'
 import AutoComplete from 'material-ui/lib/auto-complete';
 import { TextField, DatePicker, TimePicker, RaisedButton, Snackbar, RadioButtonGroup, RadioButton } from 'material-ui'
 import Colors from 'material-ui/lib/styles/colors';
+import LocationIcon from 'material-ui/lib/svg-icons/action/room'
 
 import { googleServices } from 'meteor/spastai:google-client';
 
@@ -58,6 +59,7 @@ export default class TripForm extends React.Component {
 
   componentWillMount() {
     carpoolService.resolveLocation(this.props.from, this.props.fromAddress, (address) => {
+      console.log(this.props.from, this.props.fromAddress, "resolved", address)
       this.setState({from: address});
     })
     carpoolService.resolveLocation(this.props.to, this.props.toAddress, (address) => {
@@ -109,6 +111,11 @@ export default class TripForm extends React.Component {
     })
   }
 
+  handleChange(event) {
+    console.log(event.target.value);
+    this.setState({to: event.target.value});
+  }
+
   submitForm () {
     let trip = {
       fromAddress: this.state.from,
@@ -122,7 +129,7 @@ export default class TripForm extends React.Component {
         da(["trip-crud"], "Submission error:", error)
       } else {
         da(["trip-crud"], "Submited trip", routedTrip)
-        flowControllerHelper.goToView('MyTrips', {tripType: "drives"});
+        flowControllerHelper.goToView('MyTrips', {tripType: "driver" === trip.role ? "drives" : "rides"});
       }
     });
     da(["trip-crud"], "Submitting - change button state", trip)
@@ -130,23 +137,23 @@ export default class TripForm extends React.Component {
 
   render() {
     const topBarHeight = 45
+
+    const leftColWidth = 80
+
     //TAPi18n.__('labelFrom'); // dummy call to load __ functions -doesn't help
     return (
       <div style={{color: config.colors.textColor}}>
         <div style={{
           marginTop: topBarHeight
         }}>
+
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
-          <AutoComplete id="trip-fromAddress" floatingLabelText={__('labelFrom')} className="mui-input"
-            dataSource={this.state.fromSuggestions} filter={() => true}
-            onUpdateInput={this.fromInputUpdate.bind(this)} onNewRequest={this.fromInputSelect.bind(this)}
-            errorText={this.state.locationReceived ? null : 'Trying to receive current location'}
-            errorStyle={{color: Colors.orange500}} searchText={this.state.from}
-          />
-          <AutoComplete id="trip-toAddress" floatingLabelText={__('labelTo')} className="mui-input" dataSource={this.state.toSuggestions}
-            onUpdateInput={this.toInputUpdate.bind(this)} onNewRequest={this.toInputSelect.bind(this)}
-            filter={() => true} searchText={this.state.to}
-          />
+
+          <TextField id="trip-fromAddress" floatingLabelText={__('labelFrom')} value={this.state.from}
+            onChange={(event)=>{ this.setState({from: event.target.value}) }} />
+          <TextField id="trip-toAddress" floatingLabelText={__('labelTo')} value={this.state.to}
+            onChange={(event)=>{ this.setState({to: event.target.value}) }} />
+
           <DatePicker hintText={__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
           <TimePicker hintText={__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />
           <RadioButtonGroup name="driver" valueSelected={this.state.role} style={{marginTop: 20, marginBottom: 20}} onChange={this.muiValueChanged.bind(this, 'role')}>
@@ -159,8 +166,10 @@ export default class TripForm extends React.Component {
               label="Passenger"
             />
           </RadioButtonGroup>
-          <RaisedButton label={'Submit'} className="saveTrip" secondary={true} onClick={this.submitForm.bind(this)} />
-          <RaisedButton label={'Cancel'} secondary={true} onClick={() => FlowRouter.go("RideOffers")} />
+          <div style={{display: 'flex', flexDirection: 'row', marginTop: 15 }}>
+            <RaisedButton label={'Submit'} className="saveTrip" primary={true} onClick={this.submitForm.bind(this)} />
+            <RaisedButton label={'Cancel'} secondary={true} onClick={() => FlowRouter.go("RideOffers")} />
+          </div>
           <Snackbar
             open={this.state.locationDetectionError}
             message="Failed to detect your location, please enter it manually."

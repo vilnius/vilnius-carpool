@@ -1,6 +1,7 @@
 import React from 'react'
 import { muiTheme } from './react/config'
 import ThemeManager from 'material-ui/lib/styles/theme-manager'
+import { createContainer } from 'meteor/react-meteor-data';
 
 const Wrapper = React.createClass({
 
@@ -13,7 +14,6 @@ const Wrapper = React.createClass({
       muiTheme: ThemeManager.getMuiTheme(muiTheme),
     }
   },
-
 
   render () {
     return this.props.children
@@ -57,7 +57,18 @@ export const NotificationLayout = ({topMenu, content, bottomMenu, extras}) => (
 );
 
 
-export const PlainLayout = ({topMenu, content}) => (
+// This layout makes sure that at least users subscribtion is loadded
+// TODO apply this only for login
+export const PlainLayout = createContainer(({topMenu, content}) => {
+  isLoading = !userSubs.ready();
+  return {isLoading, topMenu, content};
+}, ({isLoading, topMenu, content}) => {
+  if(isLoading) return (
+    <section style={{height: "100%"}}>
+      Loading...
+    </section>
+  )
+  else return (
     <Wrapper>
       <div>
         <header>
@@ -68,4 +79,4 @@ export const PlainLayout = ({topMenu, content}) => (
         </main>
       </div>
     </Wrapper>
-);
+)});;

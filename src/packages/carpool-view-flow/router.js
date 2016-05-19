@@ -180,7 +180,7 @@ FlowRouter.route('/m/all/offers', {
       mount(LandingLayout, {
         topMenu: <TopMenu title="Ride offers" hasTopTabs background="blue" />,
         topSearch: <TopSearch from={aLoc} to={bLoc} fromAddress={addresses.aLoc} toAddress={addresses.bLoc} />,
-        content: <RideOffersScreen />,
+        content: <RideOffersScreen aLoc={aLoc} bLoc={bLoc} />,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
         extras: [<NewRideButton key={'NewRideButton'} />],
       });
