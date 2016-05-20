@@ -30,10 +30,10 @@ export default RideOffers = createContainer(({filterOwn = "all", role = "driver"
   //console.log("Filter query:", query, aLoc)
   if("your" == filterOwn) {
     trips = carpoolService.pullOwnTrips(query, progress.setProgress.bind(progress, 'ownTrips'));
-    //if(100 == progress.getProgress()) { console.log(`Own ${role} trips:`, trips);}
+    if(100 == progress.getProgress()) { console.log(`Own ${role} trips:`, trips);}
   } else {
     trips = carpoolService.pullActiveTrips(query, progress.setProgress.bind(progress, 'activeTrips'));
-    //if(100 == progress.getProgress()) { console.log(`All ${role} trips:`, trips);}
+    if(100 == progress.getProgress()) { console.log(`All ${role} trips:`, trips);}
   }
 
   return {

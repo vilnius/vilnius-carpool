@@ -17,6 +17,7 @@ module.exports = ()->
     #client.saveScreenshot('../build/screenshots/uc9-notifications.png')
     client.waitForExist "[data-cucumber='notification']"
     client.click "[data-cucumber='request']"
+    client.waitForExist "[data-cucumber='withdraw-request']"
 
   @Then /^user "([^"]*)" gets notification and confirms request on MUI$/, (username)->
     @TestHelper.urlLogin("/loginUsername", username);

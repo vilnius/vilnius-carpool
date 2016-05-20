@@ -23,11 +23,16 @@ Package.onUse(function(api) {
   api.addFiles('server/publishAdmin.coffee', "server");
   api.addFiles('server/admin.coffee', "server");
 
+  api.addFiles('client/i18n/helper.js', "client");
+  api.addFiles('client/AdminLogin_i18n.coffee', "client");
+
   api.addFiles('client/CarpoolAdminClient.coffee', "client");
   api.addFiles('client/AdminController.coffee', "client");
   api.addFiles(['client/AdminLanding.html', 'client/AdminLanding.coffee'], "client");
   api.addFiles(['client/StopsAdmin.html', 'client/StopsAdmin.coffee'], "client");
   api.addFiles(['client/NeldRowsTable.html', 'client/NeldRowsTable.coffee'], "client");
+
+  api.addFiles(['client/AdminLogin.html', 'client/AdminLogin.coffee'], "client");
 
   api.addFiles(['client/UsersAdmin.html', 'client/UsersAdmin.coffee'], "client");
   api.addFiles(['client/TripsAdmin.html', 'client/TripsAdmin.coffee'], "client");

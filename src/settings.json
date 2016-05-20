@@ -3,6 +3,11 @@
     "environment": "dev"
   },
 
+  "admin": {
+    "username":"admin@tiktai.lt",
+    "password":"aaa"
+  },
+
   "push": {
     "gcm": {
       "apiKey": "AIzaSyDjg-wX4AMaczReA_CNcDuFp-rSIvej260",

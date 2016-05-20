@@ -6,6 +6,7 @@ import Avatar from 'material-ui/lib/avatar'
 import FlatButton from 'material-ui/lib/flat-button'
 import Loader from '../components/Loader'
 
+import {d, da} from 'meteor/spastai:logw'
 import { getUserPicture } from '../api/UserPicture.coffee'
 
 class NotificationCard extends React.Component {
@@ -19,9 +20,12 @@ class NotificationCard extends React.Component {
         </section>
       );
     } else {
+      if(!!trip) {console.warn("NotificationCard got empty trip"); return null;}
       user = Meteor.users.findOne({_id: trip.owner});
       avatar = getUserPicture(user);
 
+      isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
+      //d("Trip requested", isRequested, trip);
       return (
         <Paper data-cucumber="notification" style={{
           width: this.props.width - 20,
@@ -49,14 +53,21 @@ class NotificationCard extends React.Component {
                   : ' Ride request'}
               </div>
               <div style={{fontSize: 10, marginTop: 5}}>{`From ${trip.fromAddress} to ${trip.toAddress}`}</div>
-              <div style={{fontSize: 10}}>{`For ${this.props.notification.date}`}</div>
+              <div style={{fontSize: 10}}>{moment(trip.time).format("lll")}</div>
+
               {this.props.notification.reason === 'matched' ? (
                 <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
-                  <FlatButton data-cucumber="request" label='Request a ride'
-                    secondary onClick={() => {
-                      carpoolService.requestRide(notification.trip)
-                      flowControllerHelper.goToView('RideRequest', {id: notification.trip})
-                    }} />
+                  { !!isRequested ? (
+                    <FlatButton data-cucumber="withdraw-request" label='Withdraw request'
+                      secondary onClick={() => {
+                        //carpoolService.requestRide(notification.trip)
+                      }} />
+                  ) : (
+                    <FlatButton data-cucumber="request" label='Request a ride'
+                      secondary onClick={() => {
+                        carpoolService.requestRide(notification.trip)
+                      }} />
+                  ) }
                   <FlatButton data-cucumber="review" label="Review" secondary
                     onClick={() => flowControllerHelper.goToView('RideRequest', {id: notification.trip})} />
                 </div>
@@ -98,7 +109,7 @@ NotificationCard.propTypes = {
 export default NotificationCardContainer = createContainer(({notification}) => {
   const cardProgress = new Progress();
   const trip = carpoolService.pullOneTrip({_id: notification.trip}, cardProgress.setProgress.bind(cardProgress, 'oneTrip'));
-  //console.log("NotificationCard progress", cardProgress.getProgress());
+  console.log("NotificationCard progress", cardProgress.getProgress(), "trip", trip);
   return {
     cardProgress,
     notifications,
