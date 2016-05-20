@@ -10,9 +10,9 @@ import { getUserPicture } from '../api/UserPicture.coffee'
 
 class NotificationCard extends React.Component {
   render () {
-    const { progress, notification, trip} = this.props;
+    const { cardProgress, notification, trip} = this.props;
     //console.log("Show notification", notification);
-    if (100 != progress.getProgress()) {
+    if (100 != cardProgress.getProgress()) {
       return (
         <section style={{height: "100%", marginTop: 25}}>
           <Loader size={0.4} />
@@ -82,7 +82,7 @@ class NotificationCard extends React.Component {
 }
 
 NotificationCard.propTypes = {
-  progress: React.PropTypes.object,
+  cardProgress: React.PropTypes.object,
   notification: React.PropTypes.object,
   trip: React.PropTypes.object,
 };
@@ -96,10 +96,11 @@ NotificationCard.propTypes = {
   handler, thus doesn't stop other cards.
 */
 export default NotificationCardContainer = createContainer(({notification}) => {
-  const progress = new Progress();
-  const trip = carpoolService.pullOneTrip({_id: notification.trip}, progress.setProgress.bind(progress, 'oneTrip'));
+  const cardProgress = new Progress();
+  const trip = carpoolService.pullOneTrip({_id: notification.trip}, cardProgress.setProgress.bind(cardProgress, 'oneTrip'));
+  //console.log("NotificationCard progress", cardProgress.getProgress());
   return {
-    progress,
+    cardProgress,
     notifications,
     trip
   };

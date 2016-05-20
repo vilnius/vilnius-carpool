@@ -1,4 +1,6 @@
 import React from 'react'
+import { createContainer } from 'meteor/react-meteor-data';
+
 import Paper from 'material-ui/lib/paper'
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
@@ -6,11 +8,12 @@ import NotificationsIcon from 'material-ui/lib/svg-icons/social/notifications'
 import CarIcon from 'material-ui/lib/svg-icons/maps/directions-car'
 import RequestsIcon from 'material-ui/lib/svg-icons/action/feedback'
 import PersonIcon from 'material-ui/lib/svg-icons/social/person'
+
 import { config } from '../config'
 
-export default class BottomTabs extends React.Component {
+class BottomTabs extends React.Component {
   render () {
-    const notificationsAmount = this.props.notificationsAmount || Math.floor(Math.random() * 4)
+    const notificationsAmount = this.props.notificationsAmount || 0
     // const { notificationsAmount } = this.props
     return (
       <Paper style={{
@@ -64,3 +67,28 @@ export default class BottomTabs extends React.Component {
     )
   }
 }
+
+BottomTabs.propTypes = {
+  notificationsAmount: React.PropTypes.number
+};
+
+export default BottomTabsContainer = createContainer(({}) => {
+  const progress = new Progress();
+
+  var handle = Meteor.subscribe('Notifications');
+  if(handle.ready()) {
+    //console.log("BottomTabsContainer handle ready")
+    progress.setProgress("notifications", 100);
+    var showHistory = false;
+    var query = {recievedAt: {$exists: showHistory}};
+    notificationsAmount = NotificationHistory.find(query).count();
+  } else {
+    //console.log("BottomTabsContainer progress 0")
+    progress.setProgress("notifications", 0);
+  }
+
+  //console.log("BottomTabsContainer notifications found", notificationsAmount)
+  return {
+    notificationsAmount
+  };
+}, BottomTabs);

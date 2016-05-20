@@ -4,6 +4,7 @@ Meteor.publish 'stops', ->
   Stops.find()
 
 Meteor.publish 'oneTrip', (filter) ->
+  da ['one-trip-publish'], "Publishing one trip", filter
   Trips.find filter
 
 Meteor.publish 'activeTrips', (filter) ->

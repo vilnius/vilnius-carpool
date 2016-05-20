@@ -42,7 +42,7 @@ export default RideOffers = createContainer(({filterOwn = "all", role = "driver"
   };
 }, RidesList);
 
-RideOffersScreen = wrapScreen(RideOffers, {
-  newRideButton: true,
-  title: 'Ride Offers',
-})
+// RideOffersScreen = wrapScreen(RideOffers, {
+//   newRideButton: true,
+//   title: 'Ride Offers',
+// })

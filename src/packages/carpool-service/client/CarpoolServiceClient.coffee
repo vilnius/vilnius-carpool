@@ -152,9 +152,10 @@ class CarpoolService
     #console.log "Subscribed", query
     if @oneTripsSub.ready()
       progress 100
-      #console.log "Ready", query
+      da ['one-trip-publish'], "oneTripsSub Ready", query
     else
       progress 0
+      da ['one-trip-publish'], "oneTripsSub Subscribed", query
       return null
     Trips.findOne query
 
