@@ -12,7 +12,7 @@ import { getUserPicture } from '../api/UserPicture.coffee'
 class NotificationCard extends React.Component {
   render () {
     const { cardProgress, notification, trip} = this.props;
-    //console.log("Show notification", notification);
+    //d("Show notification", this.props);
     if (100 != cardProgress.getProgress()) {
       return (
         <section style={{height: "100%", marginTop: 25}}>
@@ -20,11 +20,14 @@ class NotificationCard extends React.Component {
         </section>
       );
     } else {
-      if(!!trip) {console.warn("NotificationCard got empty trip"); return null;}
+      //d("Notification", trip);
+      if(undefined == trip) {console.warn("NotificationCard got empty trip"); return null;}
       user = Meteor.users.findOne({_id: trip.owner});
       avatar = getUserPicture(user);
 
       isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
+      // This is for a first request as MVP starts with one
+      isConfirmed = trip.requests[0] || "accept" === trip.requests[0].response;
       //d("Trip requested", isRequested, trip);
       return (
         <Paper data-cucumber="notification" style={{
@@ -39,52 +42,74 @@ class NotificationCard extends React.Component {
             <div style={{marginTop: 20, marginLeft: 12}}>
               <Avatar src={avatar} size={70} />
             </div>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: this.props.width - 100,
-              paddingLeft: 22,
-              paddingTop: 10,
-            }}>
-              <div>
-                {this.props.notification.name}
-                {this.props.notification.reason === 'matched'
-                  ? ' Trip matched'
-                  : ' Ride request'}
-              </div>
-              <div style={{fontSize: 10, marginTop: 5}}>{`From ${trip.fromAddress} to ${trip.toAddress}`}</div>
-              <div style={{fontSize: 10}}>{moment(trip.time).format("lll")}</div>
+              {(() => {
+                switch (this.props.notification.reason) {
+                  case "matched":   return (
+                  <div style={{display: 'flex', flexDirection: 'column', width: this.props.width - 100, paddingLeft: 22, paddingTop: 10, }}>
+                    <div>Trip matched</div>
+                    <div style={{fontSize: 10, marginTop: 5}}>{`From ${trip.fromAddress} to ${trip.toAddress}`}</div>
+                    <div style={{fontSize: 10}}>{moment(trip.time).format("lll")}</div>
 
-              {this.props.notification.reason === 'matched' ? (
-                <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
-                  { !!isRequested ? (
-                    <FlatButton data-cucumber="withdraw-request" label='Withdraw request'
-                      secondary onClick={() => {
-                        //carpoolService.requestRide(notification.trip)
-                      }} />
-                  ) : (
-                    <FlatButton data-cucumber="request" label='Request a ride'
-                      secondary onClick={() => {
-                        carpoolService.requestRide(notification.trip)
-                      }} />
-                  ) }
-                  <FlatButton data-cucumber="review" label="Review" secondary
-                    onClick={() => flowControllerHelper.goToView('RideRequest', {id: notification.trip})} />
-                </div>
-              ) : (
-                <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
-                  <FlatButton data-cucumber="confirm" label='Confirm a ride'
-                    secondary onClick={() => {
-                      console.log("Confirming", notification)
-                      // TODO acceptRequest: (invitationId, answer, callback) ->
-                      //carpoolService.requestRide(notification.trip)
-                      flowControllerHelper.goToView('RideConfirm', {id: notification.trip})
-                    }} />
-                  <FlatButton data-cucumber="review" label="Review" secondary
-                    onClick={() => flowControllerHelper.goToView('RideConfirm', {id: notification.trip})} />
-                </div>
-              )}
-            </div>
+                    <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
+                      { !!isRequested ? (
+                        <FlatButton data-cucumber="withdraw-request" label='Withdraw request'
+                          secondary onClick={() => {
+                            //carpoolService.requestRide(notification.trip)
+                          }} />
+                      ) : (
+                        <FlatButton data-cucumber="request" label='Request a ride'
+                          secondary onClick={() => {
+                            carpoolService.requestRide(notification.trip)
+                          }} />
+                      ) }
+                      <FlatButton data-cucumber="review" label="Review" secondary
+                        onClick={() => flowControllerHelper.goToView('RideRequest', {id: notification.trip})} />
+                    </div>
+                  </div>
+                  )
+
+                  case "request": return (
+                  <div style={{display: 'flex', flexDirection: 'column', width: this.props.width - 100, paddingLeft: 22, paddingTop: 10, }}>
+                    <div>Ride request</div>
+                    <div style={{fontSize: 10, marginTop: 5}}>{`From ${trip.fromAddress} to ${trip.toAddress}`}</div>
+                    <div style={{fontSize: 10}}>{moment(trip.time).format("lll")}</div>
+
+                    <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
+                    { !!isConfirmed ? (
+                      <FlatButton data-cucumber="withdraw-confirm" label='Withdraw confirmation'
+                        secondary onClick={() => {
+                          console.log("Withdraw confirm", notification)
+                        }} />
+                    ) : (
+                      <FlatButton data-cucumber="confirm" label='Confirm a ride'
+                        secondary onClick={() => {
+                          carpoolService.acceptRequest(notification.context, "accept", ()=>d("Acception result", arguments));
+                        }} />
+                    ) }
+                      <FlatButton data-cucumber="review" label="Review" secondary
+                        onClick={() => flowControllerHelper.goToView('RideConfirm', {id: notification.trip})} />
+                    </div>
+                  </div>
+                  )
+
+                  case "confirmation": return (
+                  <div style={{display: 'flex', flexDirection: 'column', width: this.props.width - 100, paddingLeft: 22, paddingTop: 10, }}>
+                    <div>Ride confirmation</div>
+                    <div style={{fontSize: 10, marginTop: 5}}>{`From ${trip.fromAddress} to ${trip.toAddress}`}</div>
+                    <div style={{fontSize: 10}}>{moment(trip.time).format("lll")}</div>
+
+                    <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
+                      <FlatButton data-cucumber="withdraw-confirmed" label='Withdraw request'
+                        secondary onClick={() => {
+                          console.log("Withdraw confirmed request", notification)
+                        }} />
+                      <FlatButton data-cucumber="review" label="Review" secondary
+                        onClick={() => flowControllerHelper.goToView('RideConfirm', {id: notification.trip})} />
+                    </div>
+                  </div>
+                  )
+                }
+              })()}
           </div>
         </Paper>
       )
@@ -109,7 +134,8 @@ NotificationCard.propTypes = {
 export default NotificationCardContainer = createContainer(({notification}) => {
   const cardProgress = new Progress();
   const trip = carpoolService.pullOneTrip({_id: notification.trip}, cardProgress.setProgress.bind(cardProgress, 'oneTrip'));
-  console.log("NotificationCard progress", cardProgress.getProgress(), "trip", trip);
+  //d("NotificationCard progress", cardProgress.getProgress(), "trip", trip);
+  //d("Notification", notification, trip)
   return {
     cardProgress,
     notifications,

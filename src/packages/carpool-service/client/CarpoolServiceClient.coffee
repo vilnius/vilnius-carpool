@@ -138,9 +138,12 @@ class CarpoolService
     now = new Date
     fromTime = new Date(now.getTime() - (1000 * 60 * 60 * 24))
     userId = Meteor.userId() or ''
-    query = _(filter).extend(
-      $or: [ { owner: userId } ]
-      time: $gte: fromTime)
+    query = _(filter).chain().omit("fromLoc", "toLoc").extend(
+      #$or: [ { owner: userId } ]
+      #owner: userId,
+      time: $gte: fromTime).value();
+
+    da ['own-trip-publish'], "Find own trips", query
     cursor = Trips.find(query)
     cursor.fetch()
 

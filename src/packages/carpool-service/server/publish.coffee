@@ -39,13 +39,13 @@ Meteor.publish 'userContacts', ->
 
 Meteor.publish 'ownTrips', ->
   if !@userId
-    da [ 'data-publish' ], 'Do not block subscribtions for not logged in users'
+    da [ 'trip-publish' ], 'Do not block subscribtions for not logged in users'
     @ready()
     return
   tripQuery = owner: @userId
-  da [ 'data-publish' ], 'Publishing ownTrips for: ' + @userId, tripQuery
+  da [ 'trip-publish' ], 'Publishing ownTrips for: ' + @userId, tripQuery
   result = Trips.find(tripQuery)
-  da [ 'data-publish' ], 'Found ownTrips :' + result.fetch().length
+  da [ 'trip-publish' ], 'Found ownTrips :' + result.fetch().length
   @ready()
   result
 

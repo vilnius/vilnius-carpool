@@ -39,11 +39,11 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
         | trip-fromAddress     | trip-toAddress          |
         | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius |
       And Clicked on ".saveTrip" to see "[data-cucumber='trips-list']"
-
-    @ignore
-    Scenario: Out of focus
       And I see my trip on MUI
         | fromAddress          | toAddress               | role   |
         | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius | rider  |
       Then User "ron@tiktai.lt" gets notification and sends request on MUI
       And user "dick@tiktai.lt" gets notification and confirms request on MUI
+
+    @ignore
+    Scenario: Out of focus

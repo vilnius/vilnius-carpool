@@ -5,6 +5,7 @@ userForm = [
     {field: "toAddress", type: 'text', label: "To Address", clazz: "form-control", group:"details"},
     {field: "fromLoc", type: 'text', label: "From loc", clazz: "form-control", group:"details"},
     {field: "toLoc", type: 'text', label: "From loc", clazz: "form-control", group:"details"},
+    {field: "role", type: 'text', label: "Role", clazz: "form-control", group:"details"},
 ]
 
 class @TripsAdminController extends AdminController
@@ -12,7 +13,7 @@ class @TripsAdminController extends AdminController
     [Meteor.subscribe("adminTrips")]
 
   data: ()=>
-    d("Forms subscribtion ready "+@ready())
+    #d("Forms subscribtion ready "+@ready())
     return unless @ready
     # Each collection item map to form
     forms = Trips.find().map (item)->

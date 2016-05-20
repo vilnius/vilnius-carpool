@@ -57,7 +57,7 @@ export default NotificationScreen = createContainer(({}) => {
     var query = {};
     var showHistory = false;
     query = {recievedAt: {$exists: showHistory}};
-    notifications = NotificationHistory.find(query).fetch();
+    notifications = NotificationHistory.find(query, {sort:{addedAt:-1}}).fetch();
   } else {
     //console.log("NotificationScreen progress 0")
     progress.setProgress("notifications", 0);

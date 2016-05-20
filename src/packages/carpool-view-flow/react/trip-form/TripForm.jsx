@@ -60,7 +60,7 @@ export default class TripForm extends React.Component {
   componentWillMount() {
     carpoolService.resolveLocation(this.props.from, this.props.fromAddress, (address) => {
       console.log(this.props.from, this.props.fromAddress, "resolved", address)
-      this.setState({from: address});
+      if("" === this.state.from) this.setState({from: address});
     })
     carpoolService.resolveLocation(this.props.to, this.props.toAddress, (address) => {
       this.setState({to: address});
