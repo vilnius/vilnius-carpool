@@ -1,5 +1,8 @@
 locRadiusFilter = 1000 * 180 / (3.14 * 6371 * 1000)
 
+Meteor.publish 'favorites', ->
+  Selections.find()
+
 Meteor.publish 'stops', ->
   Stops.find()
 

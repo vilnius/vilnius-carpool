@@ -22,6 +22,8 @@ import ConfirmRideScreen from './react/confirm-ride/ConfirmRideScreen'
 import NotificationsScreen from './react/notifications/NotificationsScreen'
 import LocationAutocomplete from './react/location-autocomplete/LocationAutocomplete'
 
+import {d, da} from 'meteor/spastai:logw'
+
 /* TODO Get rid of those variables
 instead of caching these router scope variables stores some variables
 */
@@ -111,10 +113,11 @@ FlowRouter.route('/locationAutocomplete/:screen/:field', {
   name: 'LocationAutocomplete',
   action: function(params, queryParams) {
     mount(PlainLayout, {
-      content: <LocationAutocomplete onSelect={(sugestion) => {
+      content: <LocationAutocomplete field={params.field} onSelect={(sugestion) => {
         location = googleServices.toLocation(sugestion.latlng);
         locStr = googleServices.encodePoints([location]);
         queryParams[params.field] = locStr;
+
         addresses[params.field] = sugestion.description;
         //console.log("Extending query", queryParams);
         FlowRouter.go(params.screen, {}, queryParams)

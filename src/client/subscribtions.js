@@ -30,3 +30,4 @@ Meteor.subscribe("groupMemberData");
 
 //Meteor.subscribe("streets");
 Meteor.subscribe("meanings");
+Meteor.subscribe("favorites");
