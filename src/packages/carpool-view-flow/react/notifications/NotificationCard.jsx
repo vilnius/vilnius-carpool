@@ -9,6 +9,20 @@ import Loader from '../components/Loader'
 import {d, da} from 'meteor/spastai:logw'
 import { getUserPicture } from '../api/UserPicture.coffee'
 
+//import {NotificationClient} from "meteor/carpool-notifications"
+
+class NotificationClient {
+  dismissAlert(id) {
+    NotificationHistory.update( { _id: id }, {$set: {'recievedAt': new Date()}})
+  }
+
+  isNew(notification) {
+    return undefined == notification.recievedAt;
+  }
+}
+
+notificationClient = new NotificationClient()
+
 class NotificationCard extends React.Component {
   render () {
     const { cardProgress, notification, trip} = this.props;
@@ -46,7 +60,7 @@ class NotificationCard extends React.Component {
                 switch (this.props.notification.reason) {
                   case "matched":   return (
                   <div style={{display: 'flex', flexDirection: 'column', width: this.props.width - 100, paddingLeft: 22, paddingTop: 10, }}>
-                    <div>Trip matched</div>
+                    <div style={{fontWeight: notificationClient.isNew(notification) ? "bold":"normal"}}>Trip matched</div>
                     <div style={{fontSize: 10, marginTop: 5}}>{`From ${trip.fromAddress} to ${trip.toAddress}`}</div>
                     <div style={{fontSize: 10}}>{moment(trip.time).format("lll")}</div>
 
@@ -54,12 +68,14 @@ class NotificationCard extends React.Component {
                       { !!isRequested ? (
                         <FlatButton data-cucumber="withdraw-request" label='Withdraw'
                           secondary onClick={() => {
+                            notificationClient.dismissAlert(notification._id)
                             //carpoolService.requestRide(notification.trip)
                           }} />
                       ) : (
                         <FlatButton data-cucumber="request" label='Request'
                           secondary onClick={() => {
                             carpoolService.requestRide(notification.trip)
+                            notificationClient.dismissAlert(notification._id)
                           }} />
                       ) }
                       <FlatButton data-cucumber="review" label="Review" secondary
@@ -70,7 +86,7 @@ class NotificationCard extends React.Component {
 
                   case "request": return (
                   <div style={{display: 'flex', flexDirection: 'column', width: this.props.width - 100, paddingLeft: 22, paddingTop: 10, }}>
-                    <div>Ride request</div>
+                    <div style={{fontWeight: notificationClient.isNew(notification) ? "bold":"normal"}}>Ride request</div>
                     <div style={{fontSize: 10, marginTop: 5}}>{`From ${trip.fromAddress} to ${trip.toAddress}`}</div>
                     <div style={{fontSize: 10}}>{moment(trip.time).format("lll")}</div>
 
@@ -79,22 +95,27 @@ class NotificationCard extends React.Component {
                       <FlatButton data-cucumber="withdraw-confirm" label='Withdraw'
                         secondary onClick={() => {
                           console.log("Withdraw confirm", notification)
+                          notificationClient.dismissAlert(notification._id)
                         }} />
                     ) : (
                       <FlatButton data-cucumber="confirm" label='Confirm'
                         secondary onClick={() => {
                           carpoolService.acceptRequest(notification.context, "accept", ()=>d("Acception result", arguments));
+                          notificationClient.dismissAlert(notification._id)
                         }} />
                     ) }
                       <FlatButton data-cucumber="review" label="Review" secondary
-                        onClick={() => flowControllerHelper.goToView('RideConfirm', {id: notification.trip})} />
+                        onClick={() => {
+                          flowControllerHelper.goToView('RideConfirm', {id: notification.trip})
+                          notificationClient.dismissAlert(notification._id)
+                        }} />
                     </div>
                   </div>
                   )
 
                   case "confirmation": return (
                   <div style={{display: 'flex', flexDirection: 'column', width: this.props.width - 100, paddingLeft: 22, paddingTop: 10, }}>
-                    <div>Ride confirmation</div>
+                    <div style={{fontWeight: notificationClient.isNew(notification) ? "bold":"normal"}}>Ride confirmation</div>
                     <div style={{fontSize: 10, marginTop: 5}}>{`From ${trip.fromAddress} to ${trip.toAddress}`}</div>
                     <div style={{fontSize: 10}}>{moment(trip.time).format("lll")}</div>
 
@@ -102,9 +123,13 @@ class NotificationCard extends React.Component {
                       <FlatButton data-cucumber="withdraw-confirmed" label='Withdraw'
                         secondary onClick={() => {
                           console.log("Withdraw confirmed request", notification)
+                          notificationClient.dismissAlert(notification._id)
                         }} />
                       <FlatButton data-cucumber="review" label="Review" secondary
-                        onClick={() => flowControllerHelper.goToView('RideConfirm', {id: notification.trip})} />
+                        onClick={() => {
+                          flowControllerHelper.goToView('RideConfirm', {id: notification.trip})
+                          notificationClient.dismissAlert(notification._id)
+                        }} />
                     </div>
                   </div>
                   )
