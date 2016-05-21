@@ -27,7 +27,7 @@ class NotificationCard extends React.Component {
 
       isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
       // This is for a first request as MVP starts with one
-      isConfirmed = trip.requests[0] || "accept" === trip.requests[0].response;
+      isConfirmed = trip.requests[0] && "accept" === trip.requests[0].response;
       //d("Trip requested", isRequested, trip);
       return (
         <Paper data-cucumber="notification" style={{
@@ -52,12 +52,12 @@ class NotificationCard extends React.Component {
 
                     <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
                       { !!isRequested ? (
-                        <FlatButton data-cucumber="withdraw-request" label='Withdraw request'
+                        <FlatButton data-cucumber="withdraw-request" label='Withdraw'
                           secondary onClick={() => {
                             //carpoolService.requestRide(notification.trip)
                           }} />
                       ) : (
-                        <FlatButton data-cucumber="request" label='Request a ride'
+                        <FlatButton data-cucumber="request" label='Request'
                           secondary onClick={() => {
                             carpoolService.requestRide(notification.trip)
                           }} />
@@ -76,12 +76,12 @@ class NotificationCard extends React.Component {
 
                     <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
                     { !!isConfirmed ? (
-                      <FlatButton data-cucumber="withdraw-confirm" label='Withdraw confirmation'
+                      <FlatButton data-cucumber="withdraw-confirm" label='Withdraw'
                         secondary onClick={() => {
                           console.log("Withdraw confirm", notification)
                         }} />
                     ) : (
-                      <FlatButton data-cucumber="confirm" label='Confirm a ride'
+                      <FlatButton data-cucumber="confirm" label='Confirm'
                         secondary onClick={() => {
                           carpoolService.acceptRequest(notification.context, "accept", ()=>d("Acception result", arguments));
                         }} />
@@ -99,7 +99,7 @@ class NotificationCard extends React.Component {
                     <div style={{fontSize: 10}}>{moment(trip.time).format("lll")}</div>
 
                     <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
-                      <FlatButton data-cucumber="withdraw-confirmed" label='Withdraw request'
+                      <FlatButton data-cucumber="withdraw-confirmed" label='Withdraw'
                         secondary onClick={() => {
                           console.log("Withdraw confirmed request", notification)
                         }} />
