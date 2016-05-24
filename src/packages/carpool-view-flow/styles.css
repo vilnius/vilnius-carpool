@@ -9,3 +9,157 @@ label {
 .tabs-icon {
   margin: 0px auto;
 }
+
+.timepicker {
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+.timepicker-bubble {
+    cursor: pointer;
+}
+
+.timepicker-bubble circle {
+    r: 15;
+
+    fill: #79c7ff;
+
+    opacity: 0.75;
+
+    -webkit-transition: fill 0.25s linear, opacity 0.25s linear;
+       -moz-transition: fill 0.25s linear, opacity 0.25s linear;
+         -o-transition: fill 0.25s linear, opacity 0.25s linear;
+            transition: fill 0.25s linear, opacity 0.25s linear;
+}
+
+.timepicker-bubble.small circle {
+    r: 0;
+
+    fill: none;
+
+    -webkit-transition: r 0.25s linear;
+       -moz-transition: r 0.25s linear;
+         -o-transition: r 0.25s linear;
+            transition: r 0.25s linear;
+}
+
+.timepicker-bubble.small.active circle {
+    r: 5;
+
+    -webkit-transition-delay: 0.25s;
+       -moz-transition-delay: 0.25s;
+         -o-transition-delay: 0.25s;
+            transition-delay: 0.25s;
+
+    -webkit-transition-duration: 0.1s;
+       -moz-transition-duration: 0.1s;
+         -o-transition-duration: 0.1s;
+            transition-duration: 0.1s;
+}
+
+.timepicker-bubble.small circle + circle {
+    r: 10;
+
+    fill: transparent;
+}
+
+.timepicker-bubble:hover circle,
+.timepicker-bubble.active circle {
+    opacity: 1;
+
+    fill: #3caeff;
+}
+
+.timepicker-bubble text {
+    fill: #ffffff;
+
+    font-family: monospace;
+
+    text-anchor:        middle;
+    alignment-baseline: middle;
+}
+
+.timepicker-hand {
+    opacity: 0.25;
+
+    stroke: #3caeff;
+    stroke-width: 5;
+    stroke-linecap: round;
+
+    -webkit-transition-duration: 0.25s;
+       -moz-transition-duration: 0.25s;
+         -o-transition-duration: 0.25s;
+            transition-duration: 0.25s;
+
+    -webkit-transition-timing-function: linear;
+       -moz-transition-timing-function: linear;
+         -o-transition-timing-function: linear;
+            transition-timing-function: linear;
+}
+
+.timepicker-visible,
+.timepicker-invisible {
+    -webkit-transform-origin: center;
+       -moz-transform-origin: center;
+        -ms-transform-origin: center;
+         -o-transform-origin: center;
+            transform-origin: center;
+
+    -webkit-transition: opacity 0.5s linear, visibility 0.5s linear, -webkit-transform 0.25s linear;
+            transition: opacity 0.5s linear, visibility 0.5s linear, -webkit-transform 0.25s linear;
+       -moz-transition: opacity 0.5s linear, transform 0.25s linear, visibility 0.5s linear, -moz-transform 0.25s linear;
+         -o-transition: opacity 0.5s linear, transform 0.25s linear, visibility 0.5s linear, -o-transform 0.25s linear;
+            transition: opacity 0.5s linear, transform 0.25s linear, visibility 0.5s linear;
+            transition: opacity 0.5s linear, transform 0.25s linear, visibility 0.5s linear, -webkit-transform 0.25s linear, -moz-transform 0.25s linear, -o-transform 0.25s linear;
+}
+
+.timepicker-invisible {
+    opacity: 0;
+
+    visibility: hidden;
+
+    -webkit-transform: scale(0.75);
+       -moz-transform: scale(0.75);
+        -ms-transform: scale(0.75);
+         -o-transform: scale(0.75);
+            transform: scale(0.75);
+}
+
+.timepicker-visible {
+    opacity: 1;
+
+    visibility: visible;
+
+    -webkit-transform: scale(1);
+       -moz-transform: scale(1);
+        -ms-transform: scale(1);
+         -o-transform: scale(1);
+            transform: scale(1);
+}
+
+.timepicker-info {
+    color: #bac0c5;
+
+    margin: 0;
+
+    font-size:    2em;
+    line-height:  1em;
+    font-weight: bold;
+
+    text-align: center;
+}
+
+.timepicker-info-digits {
+    cursor: pointer;
+
+    -webkit-transition: color 0.25s linear;
+       -moz-transition: color 0.25s linear;
+         -o-transition: color 0.25s linear;
+            transition: color 0.25s linear;
+}
+
+.timepicker-info-digits.active {
+    color: #3caeff;
+}
