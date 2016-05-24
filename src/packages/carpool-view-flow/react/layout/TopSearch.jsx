@@ -3,7 +3,9 @@ import Paper from 'material-ui/lib/paper'
 import ExpandableSearch from '../components/ExpandableSearch'
 import { config } from '../config'
 import { FlowHelpers } from '../../flowHelpers'
-import { googleServices } from 'meteor/spastai:google-client';
+import { googleServices } from 'meteor/spastai:google-client'
+import DateTimePicker from '../components/DateTimePicker'
+import moment from 'moment'
 
 const getStyles = (width) => ({
   searchField: {
@@ -37,6 +39,9 @@ export default class TopSearch extends React.Component {
     this.state = {
       fromAddress : '...',
       toAddress: '...',
+      pickerOpen: false,
+      isDepartureDate: false,
+      date: moment(),
     }
   }
 
@@ -92,10 +97,11 @@ export default class TopSearch extends React.Component {
           <div style={styles.searchHint}>to</div>
           <div style={styles.searchValue}>{this.props.toAddress ? this.props.toAddress : this.state.toAddress}</div>
         </div>
-        <div style={styles.searchField} onClick={() => {alert('Modal should be here')}}>
-          <div style={styles.searchHint}>arrive by</div>
-          <div style={styles.searchValue}>test</div>
+        <div style={styles.searchField} onClick={() => {this.refs.picker.openDateTimePicker(this.state.isDepartureDate, this.state.date)}}>
+          <div style={styles.searchHint}>{this.state.isDepartureDate ? 'depart at' : 'arrive by'}</div>
+          <div style={styles.searchValue}>{this.state.date ? this.state.date.format('ddd, MMM D, k:mm') : null}</div>
         </div>
+        <DateTimePicker ref="picker" onDateSelected={({date, isDepartureDate}) => this.setState({date, isDepartureDate})} />
       </Paper>
     )
   }

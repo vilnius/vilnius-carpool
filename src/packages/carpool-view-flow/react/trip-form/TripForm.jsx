@@ -2,11 +2,13 @@ import wrapScreen from '../layout/wrapScreen'
 //import { TAPi18n} from 'meteor/tap:i18n';
 import {__} from 'meteor/carpool-i18n'
 import { config, muiTheme } from '../config'
+import DateTimePicker from '../components/DateTimePicker'
 
 import AutoComplete from 'material-ui/lib/auto-complete';
-import { TextField, DatePicker, TimePicker, RaisedButton, Snackbar, RadioButtonGroup, RadioButton } from 'material-ui'
+import { TextField, DatePicker, TimePicker, RaisedButton, FlatButton, Snackbar, RadioButtonGroup, RadioButton } from 'material-ui'
 import Colors from 'material-ui/lib/styles/colors';
 import LocationIcon from 'material-ui/lib/svg-icons/action/room'
+import moment from 'moment'
 
 import { googleServices } from 'meteor/spastai:google-client';
 
@@ -49,8 +51,8 @@ export default class TripForm extends React.Component {
       to: '',
       fromSuggestions: [],
       toSuggestions: [],
-      date: new Date(),
-      time: new Date(),
+      date: moment(),
+      isDepartureDate: false,
       role: 'driver',
       locationReceived: false,
       locationDetectionError: false,
@@ -111,6 +113,10 @@ export default class TripForm extends React.Component {
     })
   }
 
+  openDateTimePicker () {
+    this.refs.picker.openDateTimePicker(this.state.isDepartureDate, this.state.date)
+  }
+
   handleChange(event) {
     console.log(event.target.value);
     this.setState({to: event.target.value});
@@ -121,7 +127,6 @@ export default class TripForm extends React.Component {
       fromAddress: this.state.from,
       toAddress: this.state.to,
       date: this.state.date,
-      time: this.state.time,
       role: this.state.role,
     }
     carpoolService.saveTrip(trip, function(error, routedTrip){
@@ -154,8 +159,14 @@ export default class TripForm extends React.Component {
           <TextField id="trip-toAddress" floatingLabelText={__('labelTo')} value={this.state.to}
             onChange={(event)=>{ this.setState({to: event.target.value}) }} />
 
-          <DatePicker hintText={__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
-          <TimePicker hintText={__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />
+          {/*<DatePicker hintText={__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
+          <TimePicker hintText={__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />*/}
+          <div>
+            <b>{this.state.isDepartureDate ? 'Depart at:' : 'Arrive by:'}</b>
+            {' ' + this.state.date.format('ddd, MMM D, k:mm')}
+            <DateTimePicker ref="picker" onDateSelected={({date, isDepartureDate}) => this.setState({date, isDepartureDate})} />
+            <FlatButton label="Edit" secondary onClick={this.openDateTimePicker.bind(this)} />
+          </div>
           <RadioButtonGroup name="driver" valueSelected={this.state.role} style={{marginTop: 20, marginBottom: 20}} onChange={this.muiValueChanged.bind(this, 'role')}>
             <RadioButton
               value="driver"
