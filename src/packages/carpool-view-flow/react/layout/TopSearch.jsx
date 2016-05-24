@@ -33,19 +33,31 @@ export default class TopSearch extends React.Component {
 
   constructor(props) {
     super(props)
+    //console.log("Create TopSearch with", this.props);
     this.state = {
       fromAddress : '...',
       toAddress: '...',
     }
   }
 
-  componentWillMount() {
-    carpoolService.resolveLocation(this.props.from, this.props.fromAddress, (location) => {
+  updatedLocations(props) {
+    carpoolService.resolveLocation(props.from, props.fromAddress, (location) => {
+      //console.log(props.from, props.fromAddress, "resolved -", location)
       this.setState({fromAddress: location});
     })
-    carpoolService.resolveLocation(this.props.to, this.props.toAddress, (location) => {
+    carpoolService.resolveLocation(props.to, props.toAddress, (location) => {
       this.setState({toAddress: location});
     })
+  }
+
+  componentWillMount() {
+    //console.log("Will Mount TopSearch with", this.props);
+    this.updatedLocations(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    //console.log("Will Update TopSearch with", nextProps);
+    this.updatedLocations(nextProps);
   }
 
   render () {

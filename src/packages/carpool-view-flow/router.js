@@ -22,11 +22,26 @@ import ConfirmRideScreen from './react/confirm-ride/ConfirmRideScreen'
 import NotificationsScreen from './react/notifications/NotificationsScreen'
 import LocationAutocomplete from './react/location-autocomplete/LocationAutocomplete'
 
+import {d, da} from 'meteor/spastai:logw'
+
 /* TODO Get rid of those variables
 instead of caching these router scope variables stores some variables
 */
 let aLoc, bLoc; // these variables travel through query parameters also
 let addresses = {};
+
+FlowRouter.route('/', {
+  triggersEnter: [function(context, redirect) {
+    if(undefined == Meteor.user()) {
+      redirect("/login")
+    } else {
+      redirect('/m/all/offers');
+    }
+  }],
+  action: function(params, queryParams) {
+  }
+});
+
 
 FlowRouter.route('/rideRequest/:id', {
   name: "RideRequest",
@@ -98,10 +113,11 @@ FlowRouter.route('/locationAutocomplete/:screen/:field', {
   name: 'LocationAutocomplete',
   action: function(params, queryParams) {
     mount(PlainLayout, {
-      content: <LocationAutocomplete onSelect={(sugestion) => {
+      content: <LocationAutocomplete field={params.field} onSelect={(sugestion) => {
         location = googleServices.toLocation(sugestion.latlng);
         locStr = googleServices.encodePoints([location]);
         queryParams[params.field] = locStr;
+
         addresses[params.field] = sugestion.description;
         //console.log("Extending query", queryParams);
         FlowRouter.go(params.screen, {}, queryParams)
@@ -168,13 +184,13 @@ FlowRouter.route('/m/all/requests', {
 FlowRouter.route('/m/all/offers', {
     name: "RideOffers",
     action: function(params, queryParams) {
-      //console.log("Routing to - root", params.ownTrips === "your");
       if(queryParams.aLoc) {
         aLoc = googleServices.decodePoints(queryParams.aLoc)[0];
       }
       if(queryParams.bLoc) {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
+      console.log("Offers route", params, queryParams, "and aLoc:", aLoc);
 
       // by coincidence aLoc, bLoc and addresses are stored as global variables...
       mount(LandingLayout, {
@@ -185,17 +201,4 @@ FlowRouter.route('/m/all/offers', {
         extras: [<NewRideButton key={'NewRideButton'} />],
       });
     }
-});
-
-FlowRouter.route('/', {
-  triggersEnter: [function(context, redirect) {
-    console.log("Route user", Meteor.user())
-    if(undefined == Meteor.user()) {
-      redirect("/login")
-    } else {
-      redirect('/m/all/offers');
-    }
-  }],
-  action: function(params, queryParams) {
-  }
 });

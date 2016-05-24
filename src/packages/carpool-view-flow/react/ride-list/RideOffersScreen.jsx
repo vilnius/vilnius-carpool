@@ -9,24 +9,31 @@ import SearchIcon from 'material-ui/lib/svg-icons/action/search';
 // import HamburgerMenuButton from './components/HamburgerMenuButton'
 import RepeatingDays from '../components/ReccuringDays'
 import { config } from '../config'
+import {FlowHelpers} from '../../flowHelpers'
 
 export default RideOffers = createContainer(({filterOwn = "all", role = "driver", aLoc, bLoc}) => {
   const progress = new Progress();
-  // Some magic here to remove undefined values
+  //d("Reactivly get geoloc and set if aLoc is not set already");
+  if(undefined === aLoc && Session.get("geoIpLoc")) {
+    aLoc = Session.get("geoIpLoc");
+    carpoolService.encodePoints([aLoc], (location)=>
+      FlowHelpers.goExtendedQuery(FlowRouter.current().route.name, {}, {aLoc: location}));
+  }
   query = {
     role: role,
     fromLoc: aLoc,
     toLoc: bLoc
   }
+  // Some magic here to remove undefined values
   Object.keys(query).forEach((key)=>{query[key] || delete query[key]});
 
-  console.log("Filter query:", query, aLoc)
+  //console.log("Filter query:", query, aLoc)
   if("your" == filterOwn) {
     trips = carpoolService.pullOwnTrips(query, progress.setProgress.bind(progress, 'ownTrips'));
-    //if(100 == progress.getProgress()) { console.log(`Own ${role} trips:`, trips);}
+    if(100 == progress.getProgress()) { console.log(`Own ${role} trips:`, trips);}
   } else {
     trips = carpoolService.pullActiveTrips(query, progress.setProgress.bind(progress, 'activeTrips'));
-    //if(100 == progress.getProgress()) { console.log(`All ${role} trips:`, trips);}
+    if(100 == progress.getProgress()) { console.log(`All ${role} trips:`, trips);}
   }
 
   return {
@@ -35,7 +42,7 @@ export default RideOffers = createContainer(({filterOwn = "all", role = "driver"
   };
 }, RidesList);
 
-RideOffersScreen = wrapScreen(RideOffers, {
-  newRideButton: true,
-  title: 'Ride Offers',
-})
+// RideOffersScreen = wrapScreen(RideOffers, {
+//   newRideButton: true,
+//   title: 'Ride Offers',
+// })

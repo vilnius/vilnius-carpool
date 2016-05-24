@@ -11,6 +11,38 @@ class CarpoolService
     googleServices.afterInit ()=>
       preInitQueue.start()
 
+  saveSelection: (field, value) ->
+    if item = Selections.findOne {
+      user: Meteor.userId(),
+      field: field,
+      "value.description": value.description
+    }
+      Selections.update item._id, { $set:
+        time: new Date().getTime()
+      }
+    else
+      if value.latlng
+        value.loc = googleServices.toLocation(value.latlng)
+      Selections.insert
+        user: Meteor.userId(),
+        field: field,
+        value: value,
+        time: new Date().getTime()
+
+  favoriteSelections: (field) ->
+    Selections.find({
+      user: Meteor.userId(),
+      field: field
+    } , {
+      limit: 5
+    }).map (item)->
+      if item.value.loc?
+        item.value.latlng = googleServices.toLatLng(item.value.latlng);
+      return item.value
+
+  encodePoints: preInitQueue.wrap (loc, cb) ->
+    cb(googleServices.encodePoints(loc));
+
   resolveLocation: preInitQueue.wrap (loc, address, cb) ->
     #console.log("Resolve location", coords, address);
     if undefined == loc
@@ -32,6 +64,9 @@ class CarpoolService
     else
       #da ["trips-filter"], "Couldn't form address", place
       return ""
+
+  geocode: preInitQueue.wrap (query, cb)->
+    googleServices.getGeocoder().geocode(query, cb)
 
   clarifyPlace: (latlng, address, cb) ->
     query = {}
@@ -118,7 +153,7 @@ class CarpoolService
       owner: $ne: Meteor.userId()
       time: $gte: fromTime
     ).value();
-    d "Active trips", query
+    #d "Active trips", query
     trips = Trips.find(query, sort: time: -1)
     trips.fetch()
 
@@ -135,10 +170,13 @@ class CarpoolService
     now = new Date
     fromTime = new Date(now.getTime() - (1000 * 60 * 60 * 24))
     userId = Meteor.userId() or ''
-    query = _(filter).extend(
-      $or: [ { owner: userId } ]
-      time: $gte: fromTime)
-    cursor = Trips.find(query)
+    query = _(filter).chain().omit("fromLoc", "toLoc").extend(
+      #$or: [ { owner: userId } ]
+      #owner: userId,
+      time: $gte: fromTime).value();
+
+    da ['own-trip-publish'], "Find own trips", query
+    cursor = Trips.find(query, sort: time: -1)
     cursor.fetch()
 
   ###
@@ -149,9 +187,10 @@ class CarpoolService
     #console.log "Subscribed", query
     if @oneTripsSub.ready()
       progress 100
-      #console.log "Ready", query
+      da ['one-trip-publish'], "oneTripsSub Ready", query
     else
       progress 0
+      da ['one-trip-publish'], "oneTripsSub Subscribed", query
       return null
     Trips.findOne query
 
