@@ -18,7 +18,7 @@ googleServices.afterInit(function (){
   autocompleteService = new google.maps.places.AutocompleteService();
 })
 const getLocationSuggestions = (inputVal, callback) => {
-  console.log("Input val", inputVal, "")
+  //console.log("Input val", inputVal, "")
   if (inputVal == '') {
     callback([
       {description: 'Home'},

@@ -126,9 +126,10 @@ export default class TripForm extends React.Component {
     let trip = {
       fromAddress: this.state.from,
       toAddress: this.state.to,
-      date: this.state.date,
+      time: this.state.date.toDate(),
       role: this.state.role,
     }
+    da(["trip-crud"], "Submitting trip:", trip)
     carpoolService.saveTrip(trip, function(error, routedTrip){
       if (error) {
         da(["trip-crud"], "Submission error:", error)
