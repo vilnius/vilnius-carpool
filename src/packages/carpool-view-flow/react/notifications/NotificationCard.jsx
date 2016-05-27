@@ -29,7 +29,7 @@ class NotificationCard extends React.Component {
     //d("Show notification", this.props);
     if (100 != cardProgress.getProgress()) {
       return (
-        <section style={{height: "100%", marginTop: 25}}>
+        <section style={{height: "100%", marginTop: 25}} >
           <Loader size={0.4} />
         </section>
       );

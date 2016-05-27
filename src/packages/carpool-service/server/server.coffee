@@ -34,8 +34,11 @@ Meteor.methods
     if fromLoc
       stop = _(trip.stops).min (item) ->
         getDistance fromLoc, item.loc
+      da [ 'trip-request' ], 'Closest stop ' + tripId + ':', stop
+    else
+      da [ 'trip-request' ], 'Rider loc is not know - opt for point A'
+      stop = trip.fromLoc
 
-    da [ 'trip-request' ], 'Closest stop ' + tripId + ':', stop
     requestId = getRandomString('ABCDEFGHIKLMNOPQRSTUVWXY0123456789', 5)
     Trips.update { _id: tripId }, $addToSet: requests:
       asked: true
@@ -69,4 +72,4 @@ Meteor.methods
     ###
 
     Trips.update { 'requests.id': invitationId }, $set: 'requests.$.response': response
-    notificationService.notify 'confirmation', request.userId, trip, invitationId 
+    notificationService.notify 'confirmation', request.userId, trip, invitationId
