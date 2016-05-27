@@ -10,7 +10,7 @@ module.exports = ()->
   @Given /^Assure "([^"]*)" trip:$/, (user, table)->
     @TestHelper.urlLogin("/loginUsername", user);
     #d "Table", table.hashes()
-    client.timeoutsAsyncScript(10000);
+    client.timeoutsAsyncScript(15000);
     for trip in table.hashes()
       # Trip stops calculation is time consuming
       result = client.executeAsync (trip, done) ->
@@ -55,7 +55,6 @@ module.exports = ()->
 
   @Then /^I see "([^"]*)" in "([^"]*)"$/, (element, path)->
     link = process.env.ROOT_URL + path;
-    d "Link to create evaluation #{link}"
     client.url(link);
     client.waitForExist(element);
 
@@ -66,9 +65,14 @@ module.exports = ()->
       client.setValue("input[id=\"#{key}\"]", value);
       client.keys("Enter");
 
-  @When /Click on "([^]*)"/, (button)->
+  @When /^Click on "([^]*)"$/, (button)->
     d "Clicking #{button}"
     client.click button
+
+  @When /^Clicked on "([^]*)" to see "([^]*)"$/, (button, element)->
+    d "Clicking #{button}"
+    client.click button
+    client.waitForExist element, 10000;
 
   @When /^Type "([^]*)$"/, (text)->
     client.keys(text);

@@ -7,7 +7,7 @@ Background: Cleanup old trips
   Given Trips removed
   And Stops exists
 
-  @trip
+  @trip @ignore
   Scenario: Driver saves the trip passing the stop
     Given Login with "user1@tiktai.lt"
     And I see "#trip-toAddress" in "/"

@@ -42,7 +42,7 @@ Meteor.methods
       id: requestId
       userId: @userId
       stop: stop
-    notificationService.notify 'request', trip.owner, trip
+    notificationService.notify 'request', trip.owner, trip, requestId
 
   acceptRequest: (invitationId, response) ->
     request = undefined
@@ -69,4 +69,4 @@ Meteor.methods
     ###
 
     Trips.update { 'requests.id': invitationId }, $set: 'requests.$.response': response
-    notificationService.notify 'confirmation', request.userId, trip
+    notificationService.notify 'confirmation', request.userId, trip, invitationId 

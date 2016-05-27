@@ -7,6 +7,8 @@ import { config } from '../config'
 import ReccuringDays from './ReccuringDays'
 
 import { getUserName } from 'meteor/carpool-view'
+import { getUserPicture } from '../api/UserPicture.coffee'
+import Loader from './Loader'
 
 function getRandomBool() {
   return Math.random() < 0.5
@@ -17,8 +19,8 @@ export default class RidesList extends React.Component {
     const { progress, trips} = this.props;
     if (100 != progress.getProgress()) {
       return (
-        <section style={{height: "100%"}}>
-          Loading...
+        <section style={{height: "100%", marginTop: 25}}>
+          <Loader />
         </section>
       );
     } else {
@@ -27,7 +29,7 @@ export default class RidesList extends React.Component {
           {trips.map((ride) => {
             user = Meteor.users.findOne({_id: ride.owner});
             ride.ownerName = getUserName(user);
-            ride.ownerAvatar = user && user.profile && user.profile.avatar;
+            ride.ownerAvatar = getUserPicture(user);
 
             // >> Mocking
             ride.isReccuring = getRandomBool();

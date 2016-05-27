@@ -1,6 +1,6 @@
-// Accounts.config({
-//    loginExpirationInDays: 90
-// })
+Accounts.config({
+    loginExpirationInDays: 90
+});
 
 Meteor.methods({
 	inviteToGroup: function(group, member) {
@@ -204,4 +204,4 @@ Meteor.onConnection(function(connection){
 });
 */
 
-d("Tmh Server started. Version 0.1.10-mui.SNAPSHOT-160421.1 on "+Meteor.settings.public.environment);
+d("Tmh Server started. Version 0.1.11-mui.SNAPSHOT-160518.7 on "+Meteor.settings.public.environment);

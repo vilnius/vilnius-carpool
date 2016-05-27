@@ -10,7 +10,7 @@ class @NotificationService
       subject: "Asking to join the trip",
       text: emailText
 
-  notify: (reason, userId, doc, filterTrip)->
+  notify: (reason, userId, doc, context)->
     text = "Trip #{reason}: #{doc.fromAddress}-#{doc.toAddress}"
     da ["trips-matcher"], "Notify #{userId}: #{text}"
     last = NotificationHistory.findOne({}, sort: addedAt: -1)
@@ -21,7 +21,7 @@ class @NotificationService
       badge: badge
       addedAt: new Date
       trip: doc._id
-      filterTrip: filterTrip
+      context: context
       userId: userId
       reason: reason
     }, (error, result) ->
@@ -33,8 +33,8 @@ class @NotificationService
         payload:
           title: "Trip #{reason}"
           trip: doc._id
-          filterTrip: filterTrip
           historyId: result
+          context: context
           reason: reason
         query: userId: userId
 

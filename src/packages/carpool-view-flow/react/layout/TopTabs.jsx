@@ -2,6 +2,7 @@ import React from 'react';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
 import {FlowHelpers} from '../../flowHelpers'
+import Paper from 'material-ui/lib/paper'
 
 const styles = {
   headline: {
@@ -15,17 +16,17 @@ const styles = {
 export default class TopTabs extends React.Component {
   render () {
     return (
-      <div style={{
+      <Paper style={{
         position: 'fixed',
         top: 50,
         width: window.innerWidth,
         zIndex: 1,
       }}>
         <Tabs value={this.props.selectedTabIndex}  >
-          <Tab label="All" data-cucumber="all-trips" onClick={() => FlowHelpers.goExtendedPath({ ownTrips: 'all' })} value='0' />
-          <Tab label="Your" data-cucumber="your-trips" onClick={() => FlowHelpers.goExtendedPath({ ownTrips: 'your' })} value='1' />
+          <Tab label="Rides" data-cucumber="your-rides" onClick={() => FlowHelpers.goExtendedPath({ tripType: 'rides' })} value={0} />
+          <Tab label="Drives" data-cucumber="your-drives" onClick={() => FlowHelpers.goExtendedPath({ tripType: 'drives' })} value={1} />
         </Tabs>
-      </div>
+      </Paper>
     )
   }
 }

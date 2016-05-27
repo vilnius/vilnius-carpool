@@ -13,6 +13,11 @@ module.exports = ()->
 
     @TestHelper =
 
+      logout: ()->
+        client.url(url.resolve(process.env.ROOT_URL, "/logout"));
+        client.waitForExist "[data-cucumber='login-screen']"
+
+      # deprecated
       findLogout: ()->
         if client.isVisible(".navbar-toggle.collapsed")
           #d "Click menu toggle"
@@ -48,8 +53,7 @@ module.exports = ()->
         client.waitForVisible('.logout, .alert-error', 5000);
 
       urlLogin: (path, username, password)->
-        client.url(url.resolve(process.env.ROOT_URL, "/logout"));
-        client.waitForExist "[data-cucumber='screen-name']"
+        this.logout();
 
         client.url(url.resolve(process.env.ROOT_URL, path));
         client.waitForExist 'input[id="inputUsername"]'

@@ -1,13 +1,17 @@
 locRadiusFilter = 1000 * 180 / (3.14 * 6371 * 1000)
 
+Meteor.publish 'favorites', ->
+  Selections.find()
+
 Meteor.publish 'stops', ->
   Stops.find()
 
 Meteor.publish 'oneTrip', (filter) ->
+  da ['one-trip-publish'], "Publishing one trip", filter
   Trips.find filter
 
 Meteor.publish 'activeTrips', (filter) ->
-  query = {}
+  query = _(filter).omit("fromLoc", "toLoc");
   if filter.fromLoc?
     query['stops.loc'] =
       $near: filter.fromLoc
@@ -26,21 +30,25 @@ Meteor.publish 'activeTrips', (filter) ->
     cursor = Trips.find(refinedQuery)
   else
     da [ 'trip-publish' ], 'Publish activeTrips:', query
+    #d 'Publish activeTrips count:', trips.count();
     trips
 
 Meteor.publish 'userContacts', ->
   da [ 'data-publish' ], 'Publish user contacts'
-  Meteor.users.find {}, fields: 'profile': true
+  cursor = Meteor.users.find {}, fields:
+    'profile': 1
+    'services.google.picture': 1
+    'services.facebook.id': 1
 
 Meteor.publish 'ownTrips', ->
   if !@userId
-    da [ 'data-publish' ], 'Do not block subscribtions for not logged in users'
+    da [ 'trip-publish' ], 'Do not block subscribtions for not logged in users'
     @ready()
     return
   tripQuery = owner: @userId
-  da [ 'data-publish' ], 'Publishing ownTrips for: ' + @userId, tripQuery
+  da [ 'trip-publish' ], 'Publishing ownTrips for: ' + @userId, tripQuery
   result = Trips.find(tripQuery)
-  da [ 'data-publish' ], 'Found ownTrips :' + result.fetch().length
+  da [ 'trip-publish' ], 'Found ownTrips :' + result.fetch().length
   @ready()
   result
 

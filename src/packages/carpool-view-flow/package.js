@@ -18,12 +18,15 @@ Package.onUse(function(api) {
   api.use('react');
   api.use('momentjs:moment','client');
 
+  api.use(['accounts-google', 'accounts-facebook']);
   api.use('kadira:flow-router');
 
   api.use("spastai:carpool-service");
   api.use("spastai:google-client@0.0.12", 'client');
+  api.use('spastai:logw@0.0.4')
   api.use("carpool-i18n");
   api.use("carpool-view");
+
 
   api.addFiles([
     "i18n/en.i18n.js",
@@ -34,6 +37,7 @@ Package.onUse(function(api) {
   api.addFiles('components.js', 'client');
   api.addFiles('layout.jsx', 'client');
   api.mainModule('router.js', 'client');
+  api.addFiles('styles.css', 'client');
 });
 
 Package.onTest(function(api) {

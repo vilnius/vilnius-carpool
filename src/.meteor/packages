@@ -12,7 +12,6 @@ accounts-facebook
 email
 backbone
 standard-app-packages
-fbgraph
 underscore
 coffeescript
 user-panels
@@ -37,3 +36,4 @@ react-meteor-data
 carpool-view-flow
 carpool-i18n
 carpool-view
+crosswalk

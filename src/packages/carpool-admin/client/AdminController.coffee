@@ -7,8 +7,8 @@ class @AdminController extends RouteController
 
   onBeforeAction: (pause) ->
     @render('navbar', {to: 'navbar'});
-    #d "Check the user has admin role", ;
+    d "Check the user has admin role", Meteor.user();
     if _(Meteor.user()?.roles).contains('root')
       @render();
     else
-      @render 'CarpoolLogin'
+      @render 'AdminLogin'

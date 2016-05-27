@@ -8,11 +8,9 @@ import { config, muiTheme } from '../config'
 import RaisedButton from 'material-ui/lib/raised-button';
 import wrapScreen from '../layout/wrapScreen'
 import RideInfo from '../components/RideInfo'
-import { getUserPicture } from '../api/UserPicture.coffee'
 import Loader from '../components/Loader'
 
-
-export default class RequestRide extends React.Component {
+class ConfirmRide extends React.Component {
 
   render () {
     const topBarHeight = 45
@@ -26,18 +24,12 @@ export default class RequestRide extends React.Component {
         </section>
       );
     } else {
-      console.log("Trip", trip);
-      user = Meteor.users.findOne({_id: trip.owner});
-      trip.driverName = getUserName(user);
+      //console.log("Trip", trip);
+      trip.driverName = 'Vytautė';
       trip.driverAge = 26;
-      trip.driverPicture = getUserPicture(user);
-
-      trip.stops.push({
-        title: trip.toAddress
-      })
-
+      trip.driverPicture = 'http://lorempixel.com/200/200/people/9';
       isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
-      //console.log("Requested trip", isRequested);
+      console.log("Requested trip", isRequested);
       return (
         <div style={{color: config.colors.textColor}}>
           <div style={{
@@ -54,7 +46,7 @@ export default class RequestRide extends React.Component {
               textAlign: 'center',
             }}>
               <RaisedButton primary style={{width: window.innerWidth * 0.9, borderRadius: 5}}
-                label={isRequested ? "Withdraw request" : "Request ride"}
+                label={isRequested ? "Withdraw confirmation" : "Confirm ride"}
                 onClick={() => {alert('Modal with timechoice coming')}}
               />
             </div>
@@ -65,21 +57,21 @@ export default class RequestRide extends React.Component {
   }
 }
 
-RequestRide.propTypes = {
+ConfirmRide.propTypes = {
   progress: React.PropTypes.object,
   trip: React.PropTypes.object
 };
 
-export default RequestRideScreen = createContainer(({tripId}) => {
+export default ConfirmRideContainer = createContainer(({tripId}) => {
   const progress = new Progress();
   const trip = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
   return {
     progress,
     trip,
   };
-}, RequestRide);
+}, ConfirmRide);
 
-RequestRideWrap = wrapScreen(RequestRide, {
+ConfirmRideWrap = wrapScreen(ConfirmRide, {
   innerScreen: true,
-  title: 'Ride offer',
+  title: 'Ride confirmation',
 })

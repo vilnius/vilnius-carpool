@@ -1,7 +1,56 @@
+{ ParallelQueue } = require 'meteor/spastai:flow-controll'
+
 class CarpoolService
+  preInitQueue = new ParallelQueue(@);
+
   stopRadiusFromOrig = 1000 * 180 / (3.14 * 6371 * 1000)
   stopDistanceFromRoute = 500 * 180 / (3.14 * 6371 * 1000)
   locRadiusFilter = 1000 * 180 / (3.14 * 6371 * 1000)
+
+  constructor: (@params) ->
+    googleServices.afterInit ()=>
+      preInitQueue.start()
+
+  saveSelection: (field, value) ->
+    if item = Selections.findOne {
+      user: Meteor.userId(),
+      field: field,
+      "value.description": value.description
+    }
+      Selections.update item._id, { $set:
+        time: new Date().getTime()
+      }
+    else
+      if value.latlng
+        value.loc = googleServices.toLocation(value.latlng)
+      Selections.insert
+        user: Meteor.userId(),
+        field: field,
+        value: value,
+        time: new Date().getTime()
+
+  favoriteSelections: (field) ->
+    Selections.find({
+      user: Meteor.userId(),
+      field: field
+    } , {
+      limit: 5
+    }).map (item)->
+      if item.value.loc?
+        item.value.latlng = googleServices.toLatLng(item.value.latlng);
+      return item.value
+
+  encodePoints: preInitQueue.wrap (loc, cb) ->
+    cb(googleServices.encodePoints(loc));
+
+  resolveLocation: preInitQueue.wrap (loc, address, cb) ->
+    #console.log("Resolve location", coords, address);
+    if undefined == loc
+      return null
+    latlng = googleServices.toLatLng(loc)
+    carpoolService.clarifyPlace latlng, address, (error, newCoords, newAddress) ->
+      #console.log(address, "resolved", newAddress)
+      cb newAddress
 
   formAddress: (place)->
     if place.address_components
@@ -15,6 +64,9 @@ class CarpoolService
     else
       #da ["trips-filter"], "Couldn't form address", place
       return ""
+
+  geocode: preInitQueue.wrap (query, cb)->
+    googleServices.getGeocoder().geocode(query, cb)
 
   clarifyPlace: (latlng, address, cb) ->
     query = {}
@@ -40,12 +92,12 @@ class CarpoolService
       da(["trip-crud"], "Clarified A: #{trip.fromAddress}", latlng)
       trip.fromLoc = googleServices.toLocation(latlng)
       @clarifyPlace toLatLng, trip.toAddress, (err, latlng, address) =>
-          trip.toLoc = googleServices.toLocation(latlng)
-          @getTripPath trip, (err, route) ->
-            if err then return callback(err)
-            _(trip).extend route
-            Meteor.call 'saveTrip', trip, (error, result) ->
-              callback error, trip
+        trip.toLoc = googleServices.toLocation(latlng)
+        @getTripPath trip, (err, route) ->
+          if err then return callback(err)
+          _(trip).extend route
+          Meteor.call 'saveTrip', trip, (error, result) ->
+            callback error, trip
 
   ###
   Removes own trip
@@ -97,9 +149,11 @@ class CarpoolService
 
     now = new Date
     fromTime = new Date(now.getTime() - (1000 * 60 * 60 * 24 * 60))
-    query =
+    query = _(filter).chain().omit("fromLoc", "toLoc").extend(
       owner: $ne: Meteor.userId()
       time: $gte: fromTime
+    ).value();
+    #d "Active trips", query
     trips = Trips.find(query, sort: time: -1)
     trips.fetch()
 
@@ -116,10 +170,13 @@ class CarpoolService
     now = new Date
     fromTime = new Date(now.getTime() - (1000 * 60 * 60 * 24))
     userId = Meteor.userId() or ''
-    query = _(filter).extend(
-      $or: [ { owner: userId } ]
-      time: $gte: fromTime)
-    cursor = Trips.find(query)
+    query = _(filter).chain().omit("fromLoc", "toLoc").extend(
+      #$or: [ { owner: userId } ]
+      #owner: userId,
+      time: $gte: fromTime).value();
+
+    da ['own-trip-publish'], "Find own trips", query
+    cursor = Trips.find(query, sort: time: -1)
     cursor.fetch()
 
   ###
@@ -127,10 +184,13 @@ class CarpoolService
   ###
   pullOneTrip: (query, progress) ->
     @oneTripsSub = Meteor.subscribe('oneTrip', query)
+    #console.log "Subscribed", query
     if @oneTripsSub.ready()
       progress 100
+      da ['one-trip-publish'], "oneTripsSub Ready", query
     else
       progress 0
+      da ['one-trip-publish'], "oneTripsSub Subscribed", query
       return null
     Trips.findOne query
 

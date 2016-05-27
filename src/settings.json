@@ -3,6 +3,11 @@
     "environment": "dev"
   },
 
+  "admin": {
+    "username":"admin@tiktai.lt",
+    "password":"aaa"
+  },
+
   "push": {
     "gcm": {
       "apiKey": "AIzaSyDjg-wX4AMaczReA_CNcDuFp-rSIvej260",
@@ -13,5 +18,18 @@
     "sound": true,
     "alert": true,
     "vibrate": true
+  },
+
+  "oauth": {
+    "google":{
+      "service": "google",
+      "clientId": "665087134347-59f73k1grud1kveej7hgkueltll4j1a6.apps.googleusercontent.com",
+      "secret": "NPdHz6p9DwnUr7Rt6zQAtqHB"
+    },
+    "facebook":{
+      "service": "facebook",
+      "appId": "1725090057760815",
+      "secret": "e48c975f2b3e2b3cf69e14dc7840df52"
+    }
   }
 }

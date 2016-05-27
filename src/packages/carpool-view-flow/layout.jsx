@@ -1,8 +1,30 @@
 import React from 'react'
 import { muiTheme } from './react/config'
 import ThemeManager from 'material-ui/lib/styles/theme-manager'
+import { createContainer } from 'meteor/react-meteor-data'
+import Loader from './react/components/Loader'
 
 const Wrapper = React.createClass({
+  getInitialState () {
+    const resizeListener = () => {
+      this.setState({
+        ww: window.innerWidth,
+        wh: window.innerHeight
+      })
+    }
+
+    window.addEventListener('resize', resizeListener)
+
+    return {
+      ww: window.innerWidth,
+      wh: window.innerHeight,
+      resizeListener,
+    }
+  },
+
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.state.resizeListener)
+  },
 
   childContextTypes: {
     muiTheme: React.PropTypes.object,
@@ -14,13 +36,12 @@ const Wrapper = React.createClass({
     }
   },
 
-
   render () {
     return this.props.children
   }
 })
 
-export const LandingLayout = ({topMenu, topFilter, content, bottomMenu, extras}) => (
+export const LandingLayout = ({topMenu, topFilter, topSearch, content, bottomMenu, extras}) => (
     <Wrapper>
       <div>
         <header>
@@ -28,7 +49,8 @@ export const LandingLayout = ({topMenu, topFilter, content, bottomMenu, extras})
         </header>
         <main>
           {topFilter}
-          <div style={{marginTop: topFilter ? 100 : 50, paddingBottom: bottomMenu ? 52 : 0}}>{content}</div>
+          {topSearch}
+          <div style={{marginTop: topFilter ? 100 : (topSearch ? 165 : 50), paddingBottom: bottomMenu ? 52 : 0}}>{content}</div>
         </main>
         <bottom>
           {bottomMenu}
@@ -56,7 +78,18 @@ export const NotificationLayout = ({topMenu, content, bottomMenu, extras}) => (
 );
 
 
-export const PlainLayout = ({topMenu, content}) => (
+// This layout makes sure that at least users subscribtion is loadded
+// TODO apply this only for login
+export const PlainLayout = createContainer(({topMenu, content}) => {
+  isLoading = !userSubs.ready();
+  return {isLoading, topMenu, content};
+}, ({isLoading, topMenu, content}) => {
+  if(isLoading) return (
+    <section style={{height: "100%", marginTop: 25}}>
+      <Loader />
+    </section>
+  )
+  else return (
     <Wrapper>
       <div>
         <header>
@@ -67,4 +100,4 @@ export const PlainLayout = ({topMenu, content}) => (
         </main>
       </div>
     </Wrapper>
-);
+)});;
