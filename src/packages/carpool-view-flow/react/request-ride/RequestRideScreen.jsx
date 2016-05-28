@@ -2,10 +2,12 @@ import React from 'react'
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { _ } from 'meteor/underscore';
+import {d, da} from 'meteor/spastai:logw'
 
 import GoogleMap from '../components/GoogleMap'
 import { config, muiTheme } from '../config'
 import RaisedButton from 'material-ui/lib/raised-button';
+import Snackbar from 'material-ui/lib/snackbar';
 import wrapScreen from '../layout/wrapScreen'
 import RideInfo from '../components/RideInfo'
 import { getUserPicture } from '../api/UserPicture.coffee'
@@ -13,6 +15,29 @@ import Loader from '../components/Loader'
 
 
 export default class RequestRide extends React.Component {
+
+  constructor(props) {
+      super(props);
+      this.state = {
+        snackbarOpen: false,
+        snackbarText: ''
+      };
+  }
+
+  handleRequestClose() {
+    //d("Close snackbar")
+    this.setState({
+      snackbarOpen: false,
+    });
+  }
+
+  showSnackbar(message) {
+    //d("Showing snack message", message)
+    this.setState({
+      snackbarText: message,
+      snackbarOpen: true
+    });
+  };
 
   render () {
     const topBarHeight = 45
@@ -32,10 +57,6 @@ export default class RequestRide extends React.Component {
       trip.driverAge = 26;
       trip.driverPicture = getUserPicture(user);
 
-      trip.stops.push({
-        title: trip.toAddress
-      })
-
       isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
       //console.log("Requested trip", isRequested);
       return (
@@ -48,14 +69,30 @@ export default class RequestRide extends React.Component {
             <GoogleMap trip={trip} />
           </div>
           <div style={{display: 'flex', flexDirection: 'column'}}>
-            <RideInfo ride={trip} width={this.props.width} />
+            <RideInfo ride={trip} width={window.innerWidth} />
             <div style={{
               marginTop: 18,
               textAlign: 'center',
             }}>
-              <RaisedButton primary style={{width: window.innerWidth * 0.9, borderRadius: 5}}
-                label={isRequested ? "Withdraw request" : "Request ride"}
-                onClick={() => {alert('Modal with timechoice coming')}}
+              { !!isRequested ? (
+                <RaisedButton primary style={{width: window.innerWidth * 0.9, borderRadius: 5}}
+                  data-cucumber="withdraw-request" label='Withdraw'
+                  secondary onClick={() => {
+                    this.showSnackbar("Trip request withdrawn");
+                  }} />
+              ) : (
+                <RaisedButton primary style={{width: window.innerWidth * 0.9, borderRadius: 5}}
+                  data-cucumber="request" label='Request'
+                  secondary onClick={() => {
+                    carpoolService.requestRide(trip._id);
+                    this.showSnackbar("The trip was requested");
+                  }} />
+              ) }
+              <Snackbar
+                open={this.state.snackbarOpen}
+                message={this.state.snackbarText}
+                autoHideDuration={4000}
+                onRequestClose={() => this.handleRequestClose()}
               />
             </div>
           </div>

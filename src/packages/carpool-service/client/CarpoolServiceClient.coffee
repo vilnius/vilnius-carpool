@@ -110,6 +110,7 @@ class CarpoolService
   Sends request for trip owner
   ###
   requestRide: (_id, fromLoc, callback) ->
+    da [ 'trip-request' ], "Sending request to #{_id}"
     Meteor.call 'requestRide', _id, fromLoc, (error, result) ->
       callback?(error, result)
 
@@ -230,7 +231,7 @@ class CarpoolService
       polyline = new (google.maps.Polyline)(path: points)
       stops = Stops.find({}).fetch()
       stopOnRoute = [ {
-        _id: trip._id + '-a'
+        _id: "stop-a"
         loc: trip.fromLoc
         title: trip.fromAddress
       } ]
