@@ -25,14 +25,14 @@ export default class RequestRide extends React.Component {
   }
 
   handleRequestClose() {
-    d("Close snackbar")
+    //d("Close snackbar")
     this.setState({
       snackbarOpen: false,
     });
   }
 
   showSnackbar(message) {
-    d("Showing snack message", message)
+    //d("Showing snack message", message)
     this.setState({
       snackbarText: message,
       snackbarOpen: true

@@ -25,7 +25,7 @@ notificationClient = new NotificationClient()
 
 class NotificationCard extends React.Component {
   render () {
-    const { cardProgress, notification, trip} = this.props;
+    const { cardProgress, notification, trip, snack} = this.props;
     //d("Show notification", this.props);
     if (100 != cardProgress.getProgress()) {
       return (
@@ -70,12 +70,14 @@ class NotificationCard extends React.Component {
                           secondary onClick={() => {
                             notificationClient.dismissAlert(notification._id)
                             //carpoolService.requestRide(notification.trip)
+                            snack("Request withdrawn");
                           }} />
                       ) : (
                         <FlatButton data-cucumber="request" label='Request'
                           secondary onClick={() => {
                             carpoolService.requestRide(notification.trip)
                             notificationClient.dismissAlert(notification._id)
+                            snack("Ride requested");
                           }} />
                       ) }
                       <FlatButton data-cucumber="review" label="Review" secondary
@@ -99,12 +101,14 @@ class NotificationCard extends React.Component {
                         secondary onClick={() => {
                           console.log("Withdraw confirm", notification)
                           notificationClient.dismissAlert(notification._id)
+                          snack("Confirmation withdrawn");
                         }} />
                     ) : (
                       <FlatButton data-cucumber="confirm" label='Confirm'
                         secondary onClick={() => {
                           carpoolService.acceptRequest(notification.context, "accept", ()=>d("Acception result", arguments));
-                          notificationClient.dismissAlert(notification._id)
+                          notificationClient.dismissAlert(notification._id),
+                          snack("Request confirmed");
                         }} />
                     ) }
                       <FlatButton data-cucumber="review" label="Review" secondary
@@ -127,6 +131,7 @@ class NotificationCard extends React.Component {
                         secondary onClick={() => {
                           console.log("Withdraw confirmed request", notification)
                           notificationClient.dismissAlert(notification._id)
+                          snack("Confirmed request withdrawn");
                         }} />
                       <FlatButton data-cucumber="review" label="Review" secondary
                         onClick={() => {
@@ -149,6 +154,7 @@ NotificationCard.propTypes = {
   cardProgress: React.PropTypes.object,
   notification: React.PropTypes.object,
   trip: React.PropTypes.object,
+  snack: React.PropTypes.func,
 };
 
 /*
@@ -159,7 +165,7 @@ NotificationCard.propTypes = {
   However each NotificationCardContainer is running different object computation, so it has own subscribtion
   handler, thus doesn't stop other cards.
 */
-export default NotificationCardContainer = createContainer(({notification}) => {
+export default NotificationCardContainer = createContainer(({notification, snack}) => {
   const cardProgress = new Progress();
   const trip = carpoolService.pullOneTrip({_id: notification.trip}, cardProgress.setProgress.bind(cardProgress, 'oneTrip'));
   //d("NotificationCard progress", cardProgress.getProgress(), "trip", trip);
@@ -167,6 +173,7 @@ export default NotificationCardContainer = createContainer(({notification}) => {
   return {
     cardProgress,
     notifications,
-    trip
+    trip,
+    snack
   };
 }, NotificationCard);
