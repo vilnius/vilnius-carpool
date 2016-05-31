@@ -1,3 +1,5 @@
+// TODO deprecated - should move to your-tips/YourDriveScreen
+
 export const name = 'carpool-view-flow';
 
 import React from 'react';
@@ -19,6 +21,7 @@ import RideOffersScreen from './react/ride-list/RideOffersScreen'
 import TripFormScreen from './react/trip-form/TripForm'
 import RequestRideScreen from './react/request-ride/RequestRideScreen'
 import ConfirmRideScreen from './react/confirm-ride/ConfirmRideScreen'
+import YourDriveScreen from './react/your-trip/YourDriveScreen'
 import NotificationsScreen from './react/notifications/NotificationsScreen'
 import LocationAutocomplete from './react/location-autocomplete/LocationAutocomplete'
 
@@ -53,6 +56,7 @@ FlowRouter.route('/rideRequest/:id', {
   }
 });
 
+// Deprecated - move to YourDrive
 FlowRouter.route('/rideConfirm/:id', {
   name: "RideConfirm",
   action: function(params, queryParams) {
@@ -62,7 +66,6 @@ FlowRouter.route('/rideConfirm/:id', {
     });
   }
 });
-
 
 FlowRouter.route('/login', {
     name: "Login",
@@ -155,6 +158,27 @@ securedRoutes.route('/newRide', {
     }
 });
 
+securedRoutes.route('/drive/:id', {
+  name: "YourDrive",
+  action: function(params, queryParams) {
+    mount(PlainLayout, {
+      topMenu: <TopMenu title="Your drive" innerScreen />,
+    content: <YourDriveScreen tripId={params.id}/>,
+    });
+  }
+});
+
+securedRoutes.route('/ride/:id', {
+  name: "YourRide",
+  action: function(params, queryParams) {
+    mount(PlainLayout, {
+      topMenu: <TopMenu title="Your ride" innerScreen />,
+    content: <YourDriveScreen tripId={params.id}/>,
+    });
+  }
+});
+
+
 securedRoutes.route('/:tripType?', {
   name: "MyTrips",
   action: function(params, queryParams) {
@@ -167,6 +191,7 @@ securedRoutes.route('/:tripType?', {
     });
   }
 });
+
 
 FlowRouter.route('/m/all/requests', {
   name: "RideRequests",

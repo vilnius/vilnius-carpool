@@ -18,10 +18,12 @@ loadGoogle = (cb)->
 Tinytest.addAsync "CarpooService - getTripPath ", (test, done) ->
   # url = window.location.origin+"/download/product-images.html"
   loadGoogle ()->
-    googleServices.init();
+    googleServices.init({key: "asas"});
     trip =
       toLoc : [25.26246500000002, 54.6779097]
       fromLoc : [25.305228100000022,54.6877209]
+      bTime: new Date()
+
     carpoolService.getTripPath trip, (err, route)->
       console.log "Got result:", route
       done();

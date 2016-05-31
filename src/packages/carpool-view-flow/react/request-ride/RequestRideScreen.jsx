@@ -51,7 +51,7 @@ export default class RequestRide extends React.Component {
         </section>
       );
     } else {
-      console.log("Trip", trip);
+      //console.log("Trip", trip);
       user = Meteor.users.findOne({_id: trip.owner});
       trip.driverName = getUserName(user);
       trip.driverAge = 26;

@@ -35,8 +35,8 @@ export default class RidesList extends React.Component {
             ride.isReccuring = getRandomBool();
             ride.reccuringDays = [getRandomBool(), getRandomBool(), getRandomBool(),
               getRandomBool(), getRandomBool(), getRandomBool(), getRandomBool()];
-            ride.fromTime = '8:35';
-            ride.toTime = '9:15';
+            ride.fromTime = moment(ride.aTime).format('H:mm');
+            ride.toTime = moment(ride.bTime).format('H:mm');
             ride.toTimeApproximate = true;
             // << Mocking
             return (

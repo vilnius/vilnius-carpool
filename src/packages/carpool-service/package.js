@@ -13,10 +13,11 @@ Package.onUse(function(api) {
   api.use(["mongo", "minimongo"]);
 
   api.use("matb33:collection-hooks");
+  api.use('momentjs:moment','client');
 
   api.use('spastai:logw@0.0.4')
   api.use("spastai:flow-controll@0.0.2");
-  api.use(['spastai:google-client@0.0.10'], 'client');
+  api.use(['spastai:google-client@0.0.14'], 'client');
 
   api.use('carpool-notifications')
 

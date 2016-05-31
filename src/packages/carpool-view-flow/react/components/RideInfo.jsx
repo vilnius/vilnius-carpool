@@ -64,6 +64,7 @@ export default class RideInfo extends React.Component {
             }}>
             </div>
               <div key={trip._id+"-a"} style={rideInfoLineWrap}  >
+                {moment(trip.aTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
                   <div style={{...circleStyle, borderColor: 'green' }}></div>
                     {trip.fromAddress}
@@ -71,6 +72,7 @@ export default class RideInfo extends React.Component {
               </div>
               {stops}
               <div key={trip._id+"-b"} style={rideInfoLineWrap}  >
+                {moment(trip.bTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
                   <div style={{...circleStyle, borderColor: 'red' }}></div>
                     {trip.toAddress}

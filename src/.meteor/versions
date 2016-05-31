@@ -109,7 +109,7 @@ spacebars@1.0.9
 spacebars-compiler@1.0.9
 spastai:carpool-service@0.0.20
 spastai:flow-controll@0.0.9
-spastai:google-client@0.0.12
+spastai:google-client@0.0.14
 spastai:logw@0.0.4
 spiderable@1.0.11
 srp@1.0.6

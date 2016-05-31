@@ -1,4 +1,5 @@
 { ParallelQueue } = require 'meteor/spastai:flow-controll'
+moment = require 'moment'
 
 class CarpoolService
   preInitQueue = new ParallelQueue(@);
@@ -96,7 +97,11 @@ class CarpoolService
         @getTripPath trip, (err, route) ->
           if err then return callback(err)
           _(trip).extend route
+          # meanwhile only arrival time is accepted
+          da ["trip-crud"], "Arival time:", trip.bTime.getTime()
+          trip.aTime = moment(trip.bTime).subtract(route.duration, 'seconds').toDate();
           Meteor.call 'saveTrip', trip, (error, result) ->
+            trip._id  = result
             callback error, trip
 
   ###
@@ -243,6 +248,7 @@ class CarpoolService
         cb null,
           path: stopsRoute.overview_polyline
           stops: stopOnRoute
+          duration: stopsRoute.legs[0].duration.value
 
   routeTrip: (trip, args...)->
     if args.length > 1
@@ -257,11 +263,13 @@ class CarpoolService
     if trip.fromLoc and trip.toLoc
       request.origin = googleServices.toLatLng(trip.fromLoc)
       request.destination = googleServices.toLatLng(trip.toLoc)
+      request.transitOptions =
+        arrivalTime: trip.bTime
     else
       return cb?('No locations found for ' + trip.fromAddress + '-' + trip.toAddress)
 
     googleServices.getDirections().route request, (error, result) ->
-      encodedPoints = undefined
+      #d "Directions result", result
       if error
         return cb?(error)
       encodedPoints = result.routes[0].overview_polyline
