@@ -94,10 +94,10 @@
   border-radius: 50%;
 }
 .message-wrapper .text-wrapper {
-  padding: 10.66667px;
-  min-height: 42.66667px;
+  padding: 10px;
+  //min-height: 42px;
   width: 60%;
-  margin: 0 10.66667px;
+  margin: 0 10px;
   box-shadow: 0px 1px 0px 0px rgba(50, 50, 50, 0.3);
   border-radius: 2px;
   font-weight: 300;
@@ -114,7 +114,8 @@
 .message-wrapper.them .circle-wrapper, .message-wrapper.them .text-wrapper {
   background: #F44336;
   float: left;
-  color: #ffffff;
+  //color: #ffffff;
+  color: black
 }
 .message-wrapper.them .text-wrapper:before {
   border-width: 0 10px 10px 0;

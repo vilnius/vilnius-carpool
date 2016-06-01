@@ -18,11 +18,9 @@ Package.onUse(function(api) {
 
   api.use('react');
 
-
-  //api.addFiles('model.coffee');
-  api.addFiles('Chat.css');
-  api.mainModule('Chat.coffee');
-  //api.mainModule('ChatBox.coffee', 'client');
+  api.addFiles('model.coffee');
+  api.addFiles('publish.coffee', 'server');
+  api.mainModule('Chat.jsx', 'client');
 });
 
 Package.onTest(function(api) {

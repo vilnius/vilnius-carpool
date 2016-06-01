@@ -22,3 +22,5 @@ aspect.push "trip-request"
 #aspect.push "trips-drawing"
 #aspect.push "carpool-api"
 #aspect.push "trip-notifications"
+
+aspect.push "chat"

@@ -5,30 +5,23 @@ React = require 'react'
 List = React.createFactory require 'material-ui/lib/lists/list';
 ListItem = React.createFactory require 'material-ui/lib/lists/list-item';
 
-{h1, span} = React.DOM
+TextField = React.createFactory require('material-ui').TextField
+FloatingActionButton = React.createFactory require 'material-ui/lib/floating-action-button'
+ContentSend = React.createFactory require 'material-ui/lib/svg-icons/content/send'
+
 
 div = React.createFactory('div');
-textarea = React.createFactory('textarea');
 
-  # <div class="message-wrapper them">
-  #   <div class="circle-wrapper animated bounceIn"></div>
-  #   <div class="text-wrapper animated fadeIn">Hello there!</div>
-  # </div>
 class Chat extends React.Component
   render: ->
-    d "Rendering"
-    names = ["marius", "drius"]
-    return div {className:"chatWrapper"}, [
-      div {key: "inner", className: "inner"}, [
-        div {key: "content", className: "content"}, [
-          div {className: "message-wrapper them"}, [
-            div {className: "circle-wrapper animated bounceIn"}
-            div {className: "text-wrapper animated fadeIn"}, "Hello there!"
-          ]
+    names = ["marius", "darius"]
+    return div {}, [
+      List {key:"content"}, names.map @renderChatMessage
+      div {key: "bottom"}, [
+        TextField {key: "messageInput"}
+        FloatingActionButton {key: "button", mini: true, primary:true}, [
+            ContentSend {key: "sendIcon"}
         ]
-      ]
-      div {key: "bottom", className: "chatBottom"}, [
-        div {key: "send", className: "send"}
       ]
     ]
 

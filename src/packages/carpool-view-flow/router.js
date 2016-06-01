@@ -27,8 +27,7 @@ import YourDriveScreen from './react/your-trip/YourDriveScreen'
 import NotificationsScreen from './react/notifications/NotificationsScreen'
 import LocationAutocomplete from './react/location-autocomplete/LocationAutocomplete'
 
-import { Chat } from 'meteor/carpool-chat'
-
+import Chat from 'meteor/carpool-chat'
 
 /* TODO Get rid of those variables
 instead of caching these router scope variables stores some variables

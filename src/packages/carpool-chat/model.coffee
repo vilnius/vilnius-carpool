@@ -1,1 +1,1 @@
-exports.ChatHistory = new Mongo.Collection("chat");
+@ChatHistory = new Mongo.Collection("chat");
