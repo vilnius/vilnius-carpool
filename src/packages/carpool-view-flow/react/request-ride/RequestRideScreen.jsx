@@ -42,7 +42,7 @@ export default class RequestRide extends React.Component {
   render () {
     const topBarHeight = 45
     const mapHeight = 375
-    const {progress, trip } = this.props;
+    const {progress, trip, stops} = this.props;
 
     if (100 != progress.getProgress()) {
       return (
@@ -66,7 +66,7 @@ export default class RequestRide extends React.Component {
             height: mapHeight,
             marginTop: topBarHeight
           }}>
-            <GoogleMap trip={trip} />
+            <GoogleMap trip={trip} stops={stops} />
           </div>
           <div style={{display: 'flex', flexDirection: 'column'}}>
             <RideInfo ride={trip} width={window.innerWidth} />
@@ -107,16 +107,13 @@ RequestRide.propTypes = {
   trip: React.PropTypes.object
 };
 
-export default RequestRideScreen = createContainer(({tripId}) => {
+export default RequestRideContainer = createContainer(({tripId}) => {
   const progress = new Progress();
   const trip = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
+  const stops = carpoolService.pullStops(progress.setProgress.bind(progress, 'stops'));
   return {
     progress,
     trip,
+    stops,
   };
 }, RequestRide);
-
-RequestRideWrap = wrapScreen(RequestRide, {
-  innerScreen: true,
-  title: 'Ride offer',
-})

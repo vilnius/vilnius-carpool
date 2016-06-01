@@ -5,6 +5,8 @@ export const name = 'carpool-view-flow';
 import React from 'react';
 import {mount} from 'react-mounter';
 
+import {d, da} from 'meteor/spastai:logw'
+
 import {LandingLayout, PlainLayout, NotificationLayout} from './layout'
 import {FlowHelpers} from './flowHelpers'
 import BottomTabs from "./react/layout/BottomTabs"
@@ -25,7 +27,8 @@ import YourDriveScreen from './react/your-trip/YourDriveScreen'
 import NotificationsScreen from './react/notifications/NotificationsScreen'
 import LocationAutocomplete from './react/location-autocomplete/LocationAutocomplete'
 
-import {d, da} from 'meteor/spastai:logw'
+import { Chat } from 'meteor/carpool-chat'
+
 
 /* TODO Get rid of those variables
 instead of caching these router scope variables stores some variables
@@ -224,6 +227,16 @@ FlowRouter.route('/m/all/offers', {
         content: <RideOffersScreen aLoc={aLoc} bLoc={bLoc} />,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
         extras: [<NewRideButton key={'NewRideButton'} />],
+      });
+    }
+});
+
+FlowRouter.route('/chat', {
+    name: "Chat",
+    action: function(params, queryParams) {
+      //console.log("Routing to - new trip form", TripFormScreen);
+      mount(PlainLayout, {
+        content: <Chat />,
       });
     }
 });

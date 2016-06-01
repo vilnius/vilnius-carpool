@@ -200,9 +200,23 @@ class CarpoolService
       return null
     Trips.findOne query
 
+  pullStops: (progress) ->
+    @stopsSubs = Meteor.subscribe("stops");
+    if(@stopsSubs.ready())
+      progress 100
+    else
+      progress 0
+      return null
+    Stops.find().fetch()
+
+  getStops: ->
+    Stops.find().fetch()
+     
   pullTripForRiderPickup: (query, progress) ->
     trip = undefined
     trip = @pullOneTrip(query, mapView.setActionProgress.bind(this, 'oneTrip'))
+
+
 
   ###
   From TripBusinessLogic.getActiveTrips
@@ -274,8 +288,5 @@ class CarpoolService
         return cb?(error)
       encodedPoints = result.routes[0].overview_polyline
       cb & cb(null, result.routes[0])
-
-  getStops: ->
-    Stops.find().fetch()
 
 @carpoolService = new CarpoolService

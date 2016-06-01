@@ -1,15 +1,27 @@
 root = if (typeof global) is 'object' then global else window
 
+React = require 'react'
+{ createContainer } = require 'meteor/react-meteor-data';
+{d, da}  = require 'meteor/spastai:logw'
+
+{ ChatHistory } = require './model'
+
+
 r = React.DOM
 
-root.ChatBox = ReactMeteor.createClass
+{div, h1} = React.DOM
 
-  getMeteorState: ->
-    history: ChatHistory.find().fetch()
-    debug: Session.get('debug')
-    name: Session.get('name')
+#ChatBox = React.createClass
+class ChatBox extends React.Component
 
-  setMessage: (e) ->
+  constructor: (props)->
+    super props
+    #d "Creating container", props
+    @state =
+      debug: false
+      history: props.history
+
+  setMessage: (e) =>
     @setState {message: e.target.value}
 
   sendMessage: ->
@@ -31,34 +43,36 @@ root.ChatBox = ReactMeteor.createClass
         setTimeout @scrollToBottom, 1 # weird, shouldn't have to do this
 
   scrollToBottom: ->
-    pane = @refs.history.getDOMNode()
-    pane.scrollTop = pane.scrollHeight
+    #pane = @refs.history.getDOMNode()
+    #pane.scrollTop = pane.scrollHeight
 
   submitIfEnter: (e) ->
     if e.charCode is 13
       @sendMessage()
 
-  renderChatMessage: (message) ->
-    r.span {className: 'chat'}, [
+  renderChatMessage: (message, id) ->
+    d "Message rendering args", arguments
+    r.span {className: 'chat', key: "id1"}, [
       r.span {className: 'chat-author'}, message.name + ':'
       r.span {className: 'chat-message'}, message.message
     ]
 
   render: ->
+    d "Rendering", @state
     r.div {className: 'chatbox'}, [
       if @state.debug
         r.pre {className: 'data-preview'},
           r.code {}, JSON.stringify(@state, null, '  ')
 
-      r.div {
-        ref: 'history'
-        className: 'history'
-      }, [
-        @renderChatMessage {
-          name: 'System'
-          message: "Welcome, #{@state.name}!"
-        }
-      ].concat @state.history.map @renderChatMessage
+      # r.div {
+      #   ref: 'history'
+      #   className: 'history'
+      # }, [
+      #   @renderChatMessage {
+      #     name: 'System'
+      #     message: "Welcome, #{@state.name}!"
+      #   }, "welcome-id"
+      # ].concat @state.history.map @renderChatMessage
 
       r.div {className: 'controls'}, [
         r.input {
@@ -67,16 +81,30 @@ root.ChatBox = ReactMeteor.createClass
           onKeyPress: @submitIfEnter
           onChange: @setMessage
           value: @state.message
+          key: "1"
         }
         r.button {
+          key: "2"
           className: 'sendButton'
           onClick: @sendMessage
         }, 'Send'
       ]]
 
   componentDidMount: ->
-    @refs.chatInput.getDOMNode().focus()
+    #@refs.chatInput.getDOMNode().focus()
     @scrollToBottom()
 
   componentDidUpdate: ->
     @scrollToBottom()
+
+ChatBox.propTypes = {
+  history: React.PropTypes.array,
+};
+
+
+exports.Chat = createContainer (() ->
+  result =
+    history: ChatHistory.find().fetch()
+    debug: Session.get('debug')
+    name: Session.get('name')
+), ChatBox

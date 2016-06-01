@@ -14,10 +14,14 @@ Package.onUse(function(api) {
   api.versionsFrom('1.3');
   api.use('ecmascript');
   api.use(['underscore', 'coffeescript'], ['server', 'client']);
+  api.use(["mongo", "minimongo"]);
+
   api.use('react');
 
 
-  api.mainModule('carpool-chat.js');
+  //api.addFiles('model.coffee');
+  api.mainModule('Chat.coffee');
+  //api.mainModule('ChatBox.coffee', 'client');
 });
 
 Package.onTest(function(api) {

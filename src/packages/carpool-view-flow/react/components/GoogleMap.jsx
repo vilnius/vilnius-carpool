@@ -3,33 +3,49 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { default as _ } from "lodash";
 import Loader from './Loader'
+import {d, da} from 'meteor/spastai:logw'
 
 
 export default class ReactMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      markers: [{
-        position: {
-          lat: props.trip.fromLoc[1],
-          lng: props.trip.fromLoc[0]
-        },
-        key: `From`,
-        defaultAnimation: 2,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
-      },{
-       position: {
-         lat: props.trip.toLoc[1],
-         lng: props.trip.toLoc[0]
-       },
-       key: `To`,
-       defaultAnimation: 2,
-       icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-     }],
-     trip: props.trip,
-
-     googleReady: false,
+      markers: [],
+      trip: props.trip,
+      googleReady: false,
     }
+    this.state.markers.push({
+      position: {
+        lat: props.trip.fromLoc[1],
+        lng: props.trip.fromLoc[0]
+      },
+      key: `From`,
+      defaultAnimation: 2,
+      icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+    });
+    d("Props loaded:", props)
+    props.stops.map((stop, index) => {
+      this.state.markers.push({
+        position: {
+          lat: stop.loc[1],
+          lng: stop.loc[0]
+        },
+        key: stop._id,
+        defaultAnimation: 3,
+        icon: 'http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_white.png'
+      });
+    })
+
+    this.state.markers.push({
+     position: {
+       lat: props.trip.toLoc[1],
+       lng: props.trip.toLoc[0]
+     },
+     key: `To`,
+     defaultAnimation: 2,
+     icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+   });
+
     this.handleWindowResize = _.throttle(this.handleWindowResize, 500);
   }
 
@@ -55,6 +71,7 @@ export default class ReactMap extends React.Component {
         </section>
       );
     } else
+      {stops = this.props}
       trip = {
         path: google.maps.geometry.encoding.decodePath(this.state.trip.path),
         strokeOpacity: 0.5,
