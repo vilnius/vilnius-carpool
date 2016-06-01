@@ -20,6 +20,7 @@ Package.onUse(function(api) {
 
 
   //api.addFiles('model.coffee');
+  api.addFiles('Chat.css');
   api.mainModule('Chat.coffee');
   //api.mainModule('ChatBox.coffee', 'client');
 });
