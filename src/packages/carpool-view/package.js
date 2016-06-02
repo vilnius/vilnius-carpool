@@ -12,7 +12,9 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.3');
-  api.use('ecmascript');
+  api.use(['ecmascript', 'coffeescript']);
+
+  //api.addFiles('helper.coffee');
   api.mainModule('helper.js');
 });
 

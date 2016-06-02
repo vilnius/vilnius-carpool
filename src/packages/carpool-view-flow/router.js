@@ -230,12 +230,12 @@ FlowRouter.route('/m/all/offers', {
     }
 });
 
-FlowRouter.route('/chat', {
+securedRoutes.route('/chat/:cdUser', {
     name: "Chat",
     action: function(params, queryParams) {
       //console.log("Routing to - new trip form", TripFormScreen);
       mount(PlainLayout, {
-        content: <Chat />,
+        content: <Chat cdUserId={params.cdUser}/>,
       });
     }
 });

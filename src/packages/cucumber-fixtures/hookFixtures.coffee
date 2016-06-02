@@ -3,15 +3,19 @@ Meteor.methods
     console.log '---', "Cleanup users"
     Meteor.users.remove {}
 
+  removeUser: (email) ->
+    console.log '---', "Remove user"
+    Meteor.users.remove {"emails.address": email}
+
+
+  removeMessages: (email) ->
+    user = Meteor.users.findOne {"emails.address": email};
+    ChatHistory.remove({from: user._id});
+
   getUser: (email) ->
     user = Meteor.users.findOne {"emails.address": email};
     #console.log '---', "User found", user
     return user
-
-
-  removeUser: (email) ->
-    console.log '---', "Remove user"
-    Meteor.users.remove {"emails.address": email}
 
   assureUser: (opts, extra) ->
     #console.log("Assure users")

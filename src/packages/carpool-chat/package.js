@@ -27,5 +27,5 @@ Package.onTest(function(api) {
   api.use('ecmascript');
   api.use('tinytest');
   api.use('carpool-chat');
-  api.mainModule('carpool-chat-tests.js');
+  //api.mainModule('carpool-chat-tests.js');
 });
