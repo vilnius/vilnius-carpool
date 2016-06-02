@@ -12,6 +12,9 @@ class CarpoolService
     googleServices.afterInit ()=>
       preInitQueue.start()
 
+  sendMessage: (to, message)->
+    Meteor.call("sendMessage", Meteor.userId(), to, message)
+
   saveSelection: (field, value) ->
     if item = Selections.findOne {
       user: Meteor.userId(),

@@ -10,9 +10,8 @@ class @NotificationService
       subject: "Asking to join the trip",
       text: emailText
 
-  notify: (reason, userId, doc, context)->
-    text = "Trip #{reason}: #{doc.fromAddress}-#{doc.toAddress}"
-    da ["trips-matcher"], "Notify #{userId}: #{text}"
+  notify: (reason, text, userId, context)->
+    da ["notifications"], "Notify #{userId}: #{text}"
     last = NotificationHistory.findOne({}, sort: addedAt: -1)
     badge = 1
     if last != null
@@ -20,7 +19,32 @@ class @NotificationService
     NotificationHistory.insert {
       badge: badge
       addedAt: new Date
-      trip: doc._id
+      context: context
+      userId: userId
+      reason: reason
+    }, (error, result) ->
+      Push.send
+        from: 'push'
+        title: 'Carpool'
+        text: text
+        badge: badge
+        payload:
+          historyId: result
+          context: context
+          reason: reason
+        query: userId: userId
+
+  notifyAboutTrip: (reason, userId, trip, context)->
+    text = "Trip #{reason}: #{trip.fromAddress}-#{trip.toAddress}"
+    da ["notifications"], "Notify #{userId}: #{text}"
+    last = NotificationHistory.findOne({}, sort: addedAt: -1)
+    badge = 1
+    if last != null
+      badge = last?.badge + 1
+    NotificationHistory.insert {
+      badge: badge
+      addedAt: new Date
+      trip: trip._id
       context: context
       userId: userId
       reason: reason
@@ -32,7 +56,7 @@ class @NotificationService
         badge: badge
         payload:
           title: "Trip #{reason}"
-          trip: doc._id
+          trip: trip._id
           historyId: result
           context: context
           reason: reason

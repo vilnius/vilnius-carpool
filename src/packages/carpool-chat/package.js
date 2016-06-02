@@ -18,6 +18,8 @@ Package.onUse(function(api) {
 
   api.use('react');
 
+  api.use("spastai:carpool-service");
+
   api.addFiles('model.coffee');
   api.addFiles('publish.coffee', 'server');
   api.mainModule('Chat.jsx', 'client');

@@ -26,12 +26,7 @@ class Chat extends React.Component {
     var {message} = this.state
     if("" !== message ) {
     }
-    //d("Sending", message)
-    ChatHistory.insert({
-      message: this.state.message,
-      to: this.props.cdUser._id,
-      from: this.props.cgUser._id
-    });
+    carpoolService.sendMessage(this.props.cdUser._id, this.state.message);
     this.setState({message:""});
   }
 

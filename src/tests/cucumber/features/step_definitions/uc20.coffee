@@ -13,8 +13,7 @@ module.exports = ()->
     #d "Navigate to #{cdUser} chat /m/your/chat/", called
     client.url(url.resolve(process.env.ROOT_URL, "/m/your/chat/#{called._id}"));
     client.waitForExist("[data-cucumber='chat-input']")
-
-    d "Enter text #{message} for #{cdUser}"
+    #d "Enter text #{message} for #{cdUser}"
     client.setValue("input[id='chatInput']", message)
     client.keys("Enter");
 

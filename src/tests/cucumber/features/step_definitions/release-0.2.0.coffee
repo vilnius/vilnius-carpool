@@ -34,3 +34,9 @@ module.exports = ()->
     client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
     client.waitForExist "[data-cucumber='review-confirmed']"
     client.click "[data-cucumber='review-confirmed']"
+    client.waitForExist "[data-cucumber='chat']"
+    client.click "[data-cucumber='chat']"
+    client.waitForExist("[data-cucumber='chat-input']")
+    #d "Enter text #{message} for #{cdUser}"
+    client.setValue("input[id='chatInput']", text)
+    client.keys("Enter");

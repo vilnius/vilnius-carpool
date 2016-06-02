@@ -19,6 +19,19 @@ getDistance = (p1, p2) ->
   d = R * c
 
 Meteor.methods
+
+  sendMessage: (from, to, message)->
+    messageId = ChatHistory.insert({
+      message: message,
+      to: to,
+      from: from
+    });
+    notificationService.notify "message", "New message", to, {
+      from: from,
+      messageId: messageId,
+      text: message
+    }
+
   removeTrip: (id) ->
     notificationService.removeTripNotifications id
     Trips.remove
@@ -45,7 +58,7 @@ Meteor.methods
       id: requestId
       userId: @userId
       stop: stop
-    notificationService.notify 'request', trip.owner, trip, requestId
+    notificationService.notifyAboutTrip 'request', trip.owner, trip, requestId
 
   acceptRequest: (invitationId, response) ->
     request = undefined
@@ -72,4 +85,4 @@ Meteor.methods
     ###
 
     Trips.update { 'requests.id': invitationId }, $set: 'requests.$.response': response
-    notificationService.notify 'confirmation', request.userId, trip, invitationId
+    notificationService.notifyAboutTrip 'confirmation', request.userId, trip, invitationId

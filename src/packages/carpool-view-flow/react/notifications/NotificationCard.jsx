@@ -35,14 +35,20 @@ class NotificationCard extends React.Component {
       );
     } else {
       //d("Notification", trip);
-      if(undefined == trip) {console.warn("NotificationCard got empty trip"); return null;}
-      user = Meteor.users.findOne({_id: trip.owner});
-      avatar = getUserPicture(user);
+      if(undefined != trip) {
+        user = Meteor.users.findOne({_id: trip.owner});
+        avatar = getUserPicture(user);
 
-      isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
-      // This is for a first request as MVP starts with one
-      isConfirmed = trip.requests[0] && "accept" === trip.requests[0].response;
-      //d("Trip requested", isRequested, trip);
+        isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
+        // This is for a first request as MVP starts with one
+        isConfirmed = trip.requests[0] && "accept" === trip.requests[0].response;
+        //d("Trip requested", isRequested, trip);
+      } else if("message" === notification.reason) {
+        d("Message recevied", notification)
+      } else {
+        console.warn("Not known notification type");
+        return;
+      }
       return (
         <Paper data-cucumber="notification" style={{
           width: this.props.width - 20,
@@ -141,6 +147,22 @@ class NotificationCard extends React.Component {
                     </div>
                   </div>
                   )
+
+                  case "message": return (
+                  <div style={{display: 'flex', flexDirection: 'column', width: this.props.width - 100, paddingLeft: 22, paddingTop: 10, }}>
+                    <div style={{fontWeight: notificationClient.isNew(notification) ? "bold":"normal"}}>New message</div>
+                    <div style={{fontSize: 10, marginTop: 5}}>{notification.context.text}</div>
+
+                    <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
+                      <FlatButton data-cucumber="view-message" label="View" secondary
+                        onClick={() => {
+                          flowControllerHelper.goToView('Chat', {cdUser: notification.context.from})
+                          notificationClient.dismissAlert(notification._id)
+                        }} />
+                    </div>
+                  </div>
+                  )
+
                 }
               })()}
           </div>
@@ -167,7 +189,9 @@ NotificationCard.propTypes = {
 */
 export default NotificationCardContainer = createContainer(({notification, snack}) => {
   const cardProgress = new Progress();
-  const trip = carpoolService.pullOneTrip({_id: notification.trip}, cardProgress.setProgress.bind(cardProgress, 'oneTrip'));
+  if("matched" === notification.reason || "request" === notification.reason || "confirmation" === notification.reason) {
+    trip = carpoolService.pullOneTrip({_id: notification.trip}, cardProgress.setProgress.bind(cardProgress, 'oneTrip'));
+  }
   //d("NotificationCard progress", cardProgress.getProgress(), "trip", trip);
   //d("Notification", notification, trip)
   return {
