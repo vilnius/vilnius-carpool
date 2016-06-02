@@ -8,9 +8,6 @@ import ContentSend from 'material-ui/lib/svg-icons/content/send'
 import {d, da} from 'meteor/spastai:logw'
 import { getUserName, getUserPicture } from 'meteor/carpool-view'
 
-d("Imports getUserPicture", getUserPicture);
-d("Imports getUserName", getUserName);
-
 class Chat extends React.Component {
 
   constructor(props) {
@@ -62,6 +59,7 @@ class Chat extends React.Component {
     cdName = getUserName(cdUser)
     cgAvatar = getUserPicture(cgUser);
     cdAvatar = getUserPicture(cdUser);
+
     return (
       <div>
         <List data-cucumber="chat-input" >
@@ -83,7 +81,6 @@ class Chat extends React.Component {
                   <Divider inset={true} />
                 </div>
               )
-
             }
         })}
         </List>

@@ -26,6 +26,11 @@ module.exports = ()->
   @Then /^user "([^"]*)" gets notification and confirms request on MUI$/, (username)->
     @TestHelper.urlLogin("/loginUsername", username);
     client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
-
     client.waitForExist "[data-cucumber='notification']"
     client.click "[data-cucumber='confirm']"
+
+  @Then /^user "([^"]*)" gets confirmation and sends message "([^"]*)"$/, (username, text)->
+    @TestHelper.urlLogin("/loginUsername", username);
+    client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
+    client.waitForExist "[data-cucumber='review-confirmed']"
+    client.click "[data-cucumber='review-confirmed']"

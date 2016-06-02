@@ -32,6 +32,18 @@ const circleStyle = {
 }
 
 export default class RideInfo extends React.Component {
+
+  constructor(props) {
+    super(props)
+
+    this.gotoChat = this.gotoChat.bind(this);
+  }
+
+  gotoChat() {
+    d("Open chat window", this.props.ride.owner);
+    FlowRouter.go("Chat", {cdUser: this.props.ride.owner});
+  }
+
   render () {
     //d("Showing stops", this.props.ride.stops)
     trip = this.props.ride;
@@ -67,7 +79,7 @@ export default class RideInfo extends React.Component {
                 {moment(trip.aTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
                   <div style={{...circleStyle, borderColor: 'green' }}></div>
-                    {trip.fromAddress}
+                  {trip.fromAddress}
                 </div>
               </div>
               {stops}
@@ -75,7 +87,7 @@ export default class RideInfo extends React.Component {
                 {moment(trip.bTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
                   <div style={{...circleStyle, borderColor: 'red' }}></div>
-                    {trip.toAddress}
+                  {trip.toAddress}
                 </div>
               </div>
 
@@ -87,7 +99,7 @@ export default class RideInfo extends React.Component {
         <div style={{display: 'flex', flexDirection: 'column', width: this.props.width * 0.4, alignItems: 'center'}}>
           <Avatar src={this.props.ride.driverPicture} size={75} style={{marginTop: 16}} />
           <div style={{marginTop: 6}}>{this.props.ride.driverName + ', ' + this.props.ride.driverAge}</div>
-          <div style={{marginTop: 12}}><ChatIcon color={config.colors.main} /></div>
+          <div style={{marginTop: 12}}><ChatIcon color={config.colors.main} onClick={this.gotoChat}/></div>
         </div>
       </div>
     )

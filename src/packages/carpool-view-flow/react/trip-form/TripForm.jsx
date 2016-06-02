@@ -166,7 +166,6 @@ export default class TripForm extends React.Component {
 
   render() {
     const topBarHeight = 45
-
     const leftColWidth = 80
 
     //TAPi18n.__('labelFrom'); // dummy call to load __ functions -doesn't help

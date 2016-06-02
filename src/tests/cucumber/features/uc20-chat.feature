@@ -6,7 +6,6 @@ Feature: Send messages between users
   Background: Clean old messages
     Given Messages removed
 
-  @focus
   Scenario: Send message from rider
     Given Login through "/loginUsername" with "ron@tiktai.lt"
     When I send messsage "Hello" to "dick@tiktai.lt"

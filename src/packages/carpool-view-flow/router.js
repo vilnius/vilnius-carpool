@@ -235,6 +235,7 @@ securedRoutes.route('/chat/:cdUser', {
     action: function(params, queryParams) {
       //console.log("Routing to - new trip form", TripFormScreen);
       mount(PlainLayout, {
+        topMenu: <TopMenu title="Chat" innerScreen />,
         content: <Chat cdUserId={params.cdUser}/>,
       });
     }

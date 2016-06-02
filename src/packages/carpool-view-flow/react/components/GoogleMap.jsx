@@ -23,8 +23,8 @@ export default class ReactMap extends React.Component {
       defaultAnimation: 2,
       icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
     });
-    d("Props loaded:", props)
-    props.stops.map((stop, index) => {
+    const {stops = []} = props
+    stops.map((stop, index) => {
       this.state.markers.push({
         position: {
           lat: stop.loc[1],

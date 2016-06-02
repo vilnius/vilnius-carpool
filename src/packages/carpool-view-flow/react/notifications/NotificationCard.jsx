@@ -133,9 +133,9 @@ class NotificationCard extends React.Component {
                           notificationClient.dismissAlert(notification._id)
                           snack("Confirmed request withdrawn");
                         }} />
-                      <FlatButton data-cucumber="review" label="Review" secondary
+                      <FlatButton data-cucumber="review-confirmed" label="Review" secondary
                         onClick={() => {
-                          flowControllerHelper.goToView('RideConfirm', {id: notification.trip})
+                          flowControllerHelper.goToView('RideRequest', {id: notification.trip})
                           notificationClient.dismissAlert(notification._id)
                         }} />
                     </div>

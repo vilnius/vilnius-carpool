@@ -89,6 +89,7 @@ class CarpoolService
   saveTrip: (trip, callback) ->
     fromLatLng = if trip.fromLoc then googleServices.toLatLng(trip.fromLoc)
     toLatLng = if trip.toLoc then googleServices.toLatLng(trip.toLoc)
+    da(["trip-crud"], "Saving trip", trip)
     @clarifyPlace fromLatLng, trip.fromAddress, (err, latlng, address) =>
       da(["trip-crud"], "Clarified A: #{trip.fromAddress}", latlng)
       trip.fromLoc = googleServices.toLocation(latlng)
@@ -211,7 +212,7 @@ class CarpoolService
 
   getStops: ->
     Stops.find().fetch()
-     
+
   pullTripForRiderPickup: (query, progress) ->
     trip = undefined
     trip = @pullOneTrip(query, mapView.setActionProgress.bind(this, 'oneTrip'))

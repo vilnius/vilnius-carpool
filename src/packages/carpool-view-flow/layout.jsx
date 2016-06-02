@@ -84,6 +84,8 @@ export const PlainLayout = createContainer(({topMenu, content}) => {
   isLoading = !userSubs.ready();
   return {isLoading, topMenu, content};
 }, ({isLoading, topMenu, content}) => {
+  const topBarHeight = 45
+
   if(isLoading) return (
     <section style={{height: "100%", marginTop: 25}}>
       <Loader />
@@ -95,7 +97,7 @@ export const PlainLayout = createContainer(({topMenu, content}) => {
         <header>
           {topMenu}
         </header>
-        <main>
+        <main style={{marginTop: topBarHeight }}>
           {content}
         </main>
       </div>

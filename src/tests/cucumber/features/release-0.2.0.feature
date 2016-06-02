@@ -13,7 +13,7 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
       | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius | rider  |
       | Dzūkų 50, Vilnius    | Šeškinės g. 10, Vilnius | driver |
 
-    #@focus
+    @focus
     Scenario: Driver Dick enters the same route and rider Ron gets notification
       Given Login through "/loginUsername" with "dick@tiktai.lt"
       And I see "[data-cucumber='addTrip']" in "/m/all/offers"
@@ -26,6 +26,7 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
         | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius | rider  |
       Then User "ron@tiktai.lt" gets notification and sends request on MUI
       And user "dick@tiktai.lt" gets notification and confirms request on MUI
+      And user "ron@tiktai.lt" gets confirmation and sends message "My phone 61122333"
 
     @ignore
     Scenario: Out of focus
