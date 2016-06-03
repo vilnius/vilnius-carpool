@@ -191,7 +191,6 @@ FlowRouter.route('/m/all/offers', {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
       console.log("Offers route", params, queryParams, "and aLoc:", aLoc);
-
       // by coincidence aLoc, bLoc and addresses are stored as global variables...
       mount(LandingLayout, {
         topMenu: <TopMenu title="Ride offers" hasTopTabs background="blue" />,
