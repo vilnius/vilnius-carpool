@@ -3,6 +3,7 @@ import wrapScreen from '../layout/wrapScreen'
 import {__} from 'meteor/carpool-i18n'
 import { config, muiTheme } from '../config'
 import DateTimePicker from '../components/DateTimePicker'
+import RepeatingDaysSelector from '../components/RepeatingDaysSelector.jsx'
 
 import AutoComplete from 'material-ui/lib/auto-complete';
 import { TextField, DatePicker, TimePicker, RaisedButton, FlatButton, Snackbar, RadioButtonGroup, RadioButton } from 'material-ui'
@@ -11,6 +12,8 @@ import LocationIcon from 'material-ui/lib/svg-icons/action/room'
 import moment from 'moment'
 
 import { googleServices } from 'meteor/spastai:google-client';
+
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 // TODO: replace this with real function
 const detectLocation = (callback) => {
@@ -53,6 +56,8 @@ export default class TripForm extends React.Component {
       toSuggestions: [],
       date: moment(),
       isDepartureDate: false,
+      repeatingDays: [],
+      dontRepeat: true,
       role: 'driver',
       locationReceived: false,
       locationDetectionError: false,
@@ -141,6 +146,7 @@ export default class TripForm extends React.Component {
   }
 
   render() {
+    console.log(this.state.repeatingDays, this.state.dontRepeat)
     const topBarHeight = 45
 
     const leftColWidth = 80
@@ -161,11 +167,34 @@ export default class TripForm extends React.Component {
 
           {/*<DatePicker hintText={__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
           <TimePicker hintText={__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />*/}
-          <div>
+          <div style={{
+            maxWidth: window.innerWidth * 0.85
+          }}>
             <b>{this.state.isDepartureDate ? 'Depart at:' : 'Arrive by:'}</b>
             {' ' + this.state.date.format('ddd, MMM D, k:mm')}
-            <DateTimePicker ref="picker" onDateSelected={({date, isDepartureDate}) => this.setState({date, isDepartureDate})} />
             <FlatButton label="Edit" secondary onClick={this.openDateTimePicker.bind(this)} />
+            <DateTimePicker ref="picker" onDateSelected={({date, isDepartureDate}) => this.setState({date, isDepartureDate})} />
+          </div>
+          <div style={{
+            maxWidth: window.innerWidth * 0.85
+          }}>
+            <b>Repat on: </b>
+            {this.state.dontRepeat ? 'Don\'t repeat' :
+              (this.state.repeatingDays.length > 6 ? 'Everyday' :
+              this.state.repeatingDays.reduce((string, day, i) => {
+                if (i === 0) {
+                  return days[day]
+                } else {
+                  return string + ', ' + days[day]
+                }
+              }, ''))}
+            <FlatButton label="Edit" secondary onClick={() => this.refs.repeatingSelector.openRepeatingDaysSelector(this.state.repeatingDays, this.state.dontRepeat)} />
+            <RepeatingDaysSelector ref="repeatingSelector" onDaysSelected={(repeatingDays, dontRepeat) => {
+              this.setState({
+                repeatingDays,
+                dontRepeat
+              })
+            }} />
           </div>
           <RadioButtonGroup name="driver" valueSelected={this.state.role} style={{marginTop: 20, marginBottom: 20}} onChange={this.muiValueChanged.bind(this, 'role')}>
             <RadioButton
@@ -179,7 +208,7 @@ export default class TripForm extends React.Component {
           </RadioButtonGroup>
           <div style={{display: 'flex', flexDirection: 'row', marginTop: 15 }}>
             <RaisedButton label={'Submit'} className="saveTrip" primary={true} onClick={this.submitForm.bind(this)} />
-            <RaisedButton label={'Cancel'} secondary={true} onClick={() => FlowRouter.go("RideOffers")} />
+            <RaisedButton style={{marginLeft: 10}} label={'Cancel'} secondary={true} onClick={() => FlowRouter.go("RideOffers")} />
           </div>
           <Snackbar
             open={this.state.locationDetectionError}
