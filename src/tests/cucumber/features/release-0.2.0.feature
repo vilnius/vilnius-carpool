@@ -8,7 +8,7 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
     And Notifications for "ron@tiktai.lt" removed
     And Notifications for "dick@tiktai.lt" removed
     And Stops exists
-    And Assure "ron@tiktai.lt" trip:
+    And Assure "ron@tiktai.lt" trip:d
       | fromAddress          | toAddress               | role   |
       | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius | rider  |
       | Dzūkų 50, Vilnius    | Šeškinės g. 10, Vilnius | driver |
