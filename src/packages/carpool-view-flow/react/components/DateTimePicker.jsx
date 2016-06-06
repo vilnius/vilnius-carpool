@@ -1,5 +1,5 @@
 import React from 'react'
-import Timepicker from 'react-timepicker';
+import Timepicker from './timepicker.js';
 import Clock from 'material-ui/lib/time-picker/clock'
 import Dialog from './MuiDialog.jsx'
 import FlatButton from 'material-ui/lib/flat-button'

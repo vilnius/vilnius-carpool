@@ -15,8 +15,9 @@ import Loader from '../components/Loader'
 export default class RequestRide extends React.Component {
 
   render () {
-    const topBarHeight = 45
-    const mapHeight = 375
+    const topBarHeight = 50
+    const rideInfoHeight = 225
+    const mapHeight = this.props.height -topBarHeight - rideInfoHeight
     const {progress, trip } = this.props;
 
     if (100 != progress.getProgress()) {

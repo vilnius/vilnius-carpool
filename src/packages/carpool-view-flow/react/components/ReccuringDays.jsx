@@ -27,7 +27,7 @@ export default class RepeatingDays extends React.Component {
   render () {
     const dayLetters = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
     return (
-      <div style={{display: 'flex', flexDirection: 'row', fontFamily: config.font, justifyContent: 'flex-start', height: 14}}>
+      <div className="flex-row" style={{display: 'flex', flexDirection: 'row', fontFamily: config.font, justifyContent: 'flex-start', height: 14}}>
         {dayLetters.map((day, i) => (
           <div key={i} style={Object.assign({}, circleStyle, this.props.daysActive[i] ? filledCircleStyle : emptyCircleStyle)}>
             <div style={{marginTop: -1}}>{day}</div>
