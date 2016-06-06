@@ -1,7 +1,7 @@
 import React from 'react'
 import PersonIcon from 'material-ui/lib/svg-icons/social/person'
 import AboutIcon from 'material-ui/lib/svg-icons/action/help'
-import LeftNav from 'material-ui/lib/left-nav'
+import LeftNav from './left-nav.js'
 import Avatar from 'material-ui/lib/avatar'
 import BackButton from './BackButton'
 import MenuIcon from 'material-ui/lib/svg-icons/navigation/menu'
@@ -46,7 +46,6 @@ export default class TopMenu extends React.Component {
             background: this.props.background === 'blue' ? config.colors.main :
               (this.props.background === 'green' ? config.colors.green :
               (this.props.background ? this.props.background : config.colors.main)),
-            zIndex: 2,
             color: 'white',
             borderRadius: 0,
           }}

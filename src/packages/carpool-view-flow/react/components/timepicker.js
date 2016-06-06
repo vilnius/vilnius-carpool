@@ -287,6 +287,7 @@ Timepicker.Clock = React.createClass({
         return React.createElement(
             'svg',
             { width: size, height: size, onClick: this.onClickSvg },
+            React.createElement('circle', { cx: size / 2, cy: size / 2, r: size * 0.48, fill: 'rgba(0, 0, 0, 0.045)'}),
             React.createElement('line', { ref: 'hand1', className: 'timepicker-hand', x1: size / 2, y1: size / 2, x2: size / 2, y2: size / 2 }),
             React.createElement('line', { ref: 'hand2', className: 'timepicker-hand', x1: size / 2, y1: size / 2, x2: size / 2, y2: size / 2 }),
             React.createElement(
