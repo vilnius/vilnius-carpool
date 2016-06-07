@@ -21,6 +21,7 @@ import RequestRideScreen from './react/request-ride/RequestRideScreen'
 import ConfirmRideScreen from './react/confirm-ride/ConfirmRideScreen'
 import NotificationsScreen from './react/notifications/NotificationsScreen'
 import LocationAutocomplete from './react/location-autocomplete/LocationAutocomplete'
+import FeedbackScreen from './react/feedback/FeedbackScreen'
 
 import {d, da} from 'meteor/spastai:logw'
 
@@ -120,7 +121,9 @@ FlowRouter.route('/locationAutocomplete/:screen/:field', {
 
         addresses[params.field] = sugestion.description;
         //console.log("Extending query", queryParams);
-        FlowRouter.go(params.screen, {}, queryParams)
+        FlowRouter.withReplaceState(() => {
+          FlowRouter.go(params.screen, {}, queryParams)
+        })
       }}/>,
     });
   }
@@ -151,6 +154,16 @@ securedRoutes.route('/newRide', {
         topMenu: <TopMenu title="New Trip" innerScreen />,
         content: <TripFormScreen from={aLoc} to={bLoc}
           fromAddress={addresses.aLoc} toAddress={addresses.bLoc}/>,
+      });
+    }
+});
+
+securedRoutes.route('/feedback', {
+    name: "Feedback",
+    action: function(params, queryParams) {
+      mount(PlainLayout, {
+        topMenu: <TopMenu title="Feedback" innerScreen />,
+        content: <FeedbackScreen />,
       });
     }
 });

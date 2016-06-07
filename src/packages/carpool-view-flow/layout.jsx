@@ -3,6 +3,7 @@ import { muiTheme } from './react/config'
 import ThemeManager from 'material-ui/lib/styles/theme-manager'
 import { createContainer } from 'meteor/react-meteor-data'
 import Loader from './react/components/Loader'
+import FloatingFeedbackButton from './react/layout/FloatingFeedbackButton.jsx'
 
 const Wrapper = React.createClass({
   getInitialState () {
@@ -56,6 +57,7 @@ export const LandingLayout = ({topMenu, topFilter, topSearch, content, bottomMen
           {bottomMenu}
         </bottom>
         {extras}
+        <FloatingFeedbackButton />
       </div>
     </Wrapper>
 );
@@ -73,6 +75,7 @@ export const NotificationLayout = ({topMenu, content, bottomMenu, extras}) => (
           {bottomMenu}
         </bottom>
         {extras}
+        <FloatingFeedbackButton />
       </div>
     </Wrapper>
 );
