@@ -63,14 +63,14 @@ export default class RideInfo extends React.Component {
       )
     }
     return (
-      <div style={{display: 'flex', flexDirection: 'row'}}>
-        <div style={{width: this.props.width * 0.6}}>
+      <div style={{display: 'flex', flexDirection: 'row', fontSize: 13}}>
+        <div style={{width: this.props.width - 100}}>
           <div style={{display: 'flex', flexDirection: 'column', margin: 20, position: 'relative'}}>
             <div style={{
               position: 'absolute',
               width: 0,
-              height: 80,
-              left: 41,
+              height: 30,
+              left: 47,
               top: 10,
               borderLeft: '1px dotted #929292',
             }}>
@@ -79,7 +79,7 @@ export default class RideInfo extends React.Component {
                 {moment(trip.aTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
                   <div style={{...circleStyle, borderColor: 'green' }}></div>
-                  {trip.fromAddress}
+                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{trip.fromAddress}</div>
                 </div>
               </div>
               {stops}
@@ -87,7 +87,7 @@ export default class RideInfo extends React.Component {
                 {moment(trip.bTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
                   <div style={{...circleStyle, borderColor: 'red' }}></div>
-                  {trip.toAddress}
+                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{trip.toAddress}</div>
                 </div>
               </div>
 
@@ -96,9 +96,9 @@ export default class RideInfo extends React.Component {
             </div>
           </div>
         </div>
-        <div style={{display: 'flex', flexDirection: 'column', width: this.props.width * 0.4, alignItems: 'center'}}>
+        <div style={{display: 'flex', flexDirection: 'column', width: 100, alignItems: 'center'}}>
           <Avatar src={this.props.ride.driverPicture} size={75} style={{marginTop: 16}} />
-          <div style={{marginTop: 6}}>{this.props.ride.driverName + ', ' + this.props.ride.driverAge}</div>
+          <div style={{marginTop: 6, textAlign: 'center'}}>{this.props.ride.driverName + ', ' + this.props.ride.driverAge}</div>
           <div style={{marginTop: 12}}><ChatIcon data-cucumber="chat" color={config.colors.main} onClick={this.gotoChat}/></div>
         </div>
       </div>
