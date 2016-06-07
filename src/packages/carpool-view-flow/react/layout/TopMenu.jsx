@@ -50,6 +50,7 @@ export default class TopMenu extends React.Component {
               (this.props.background ? this.props.background : config.colors.main)),
             color: 'white',
             borderRadius: 0,
+            zIndex: 2,
           }}
           zDepth={this.props.hasTopTabs ? 0 : 1}
         >
