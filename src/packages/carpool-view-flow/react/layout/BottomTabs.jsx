@@ -67,7 +67,7 @@ class BottomTabs extends React.Component {
             style={{fontSize: 10, background: '#212121'}}
             icon={<PersonIcon className="tabs-icon" />}
             label="My Trips"
-            onClick={() => {flowControllerHelper.goToView('MyTrips')}}
+            onClick={() => {flowControllerHelper.goToView('YourTrips')}}
             value={2}
           />
           <Tab

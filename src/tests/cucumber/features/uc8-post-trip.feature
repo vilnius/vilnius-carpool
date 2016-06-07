@@ -7,7 +7,7 @@ Background: Cleanup old trips
   Given Trips removed
   And Stops exists
 
-  @trip
+  @trip @focus
   Scenario: Driver saves the trip passing the stop
     Given Login through "/loginUsername" with "dick@tiktai.lt"
     And I see "[data-cucumber='addTrip']" in "/m/all/offers"

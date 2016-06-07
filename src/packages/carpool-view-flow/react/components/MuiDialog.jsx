@@ -608,7 +608,7 @@ const Dialog = React.createClass({
   },
 
   renderLayer() {
-    console.log('Dialog')
+    //console.log('Dialog')
     return (
       <DialogInline {...this.props} />
     );

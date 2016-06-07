@@ -164,7 +164,7 @@ securedRoutes.route('/drive/:id', {
   name: "YourDrive",
   action: function(params, queryParams) {
     mount(PlainLayout, {
-      topMenu: <TopMenu title="Your drive" innerScreen />,
+      topMenu: <TopMenu title="Your drive" innerScreen returnScreen="YourDrives" />,
     content: <YourDriveScreen tripId={params.id}/>,
     });
   }
@@ -174,20 +174,33 @@ securedRoutes.route('/ride/:id', {
   name: "YourRide",
   action: function(params, queryParams) {
     mount(PlainLayout, {
-      topMenu: <TopMenu title="Your ride" innerScreen />,
+      topMenu: <TopMenu title="Your ride" innerScreen returnScreen="YourDrives" />,
     content: <YourDriveScreen tripId={params.id}/>,
     });
   }
 });
 
 
-securedRoutes.route('/:tripType?', {
-  name: "MyTrips",
+securedRoutes.route('/drives', {
+  name: "YourDrives",
   action: function(params, queryParams) {
     mount(LandingLayout, {
       topMenu: <TopMenu title="My Trips" hasTopTabs background="blue" />,
-      topFilter: <TopTabs selectedTabIndex={params.tripType === 'drives'? 1 : 0} />,
-      content: <RideOffersScreen filterOwn="your" role={'drives' === params.tripType ? "driver" : "rider" } />,
+      topFilter: <TopTabs selectedTabIndex={1} />,
+      content: <RideOffersScreen filterOwn="your" role="driver" />,
+      bottomMenu: <BottomTabs selectedTabIndex={2} />,
+      extras: [<NewRideButton key="NewRideButton" />],
+    });
+  }
+});
+
+securedRoutes.route('/rides', {
+  name: "YourRides",
+  action: function(params, queryParams) {
+    mount(LandingLayout, {
+      topMenu: <TopMenu title="My Trips" hasTopTabs background="blue" />,
+      topFilter: <TopTabs selectedTabIndex={0} />,
+      content: <RideOffersScreen filterOwn="your" role="rider" />,
       bottomMenu: <BottomTabs selectedTabIndex={2} />,
       extras: [<NewRideButton key="NewRideButton" />],
     });

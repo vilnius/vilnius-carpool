@@ -157,7 +157,7 @@ export default class TripForm extends React.Component {
         da(["trip-crud"], "Submission error:", error)
       } else {
         da(["trip-crud"], "Submited trip", routedTrip)
-        //flowControllerHelper.goToView('MyTrips', {tripType: "driver" === trip.role ? "drives" : "rides"});
+        //flowControllerHelper.goToView('YourTrips', {tripType: "driver" === trip.role ? "drives" : "rides"});
         if("driver" === trip.role) {
           //d("Routing to trip", routedTrip)
           flowControllerHelper.goToView('YourDrive', {id: routedTrip._id});
@@ -170,7 +170,7 @@ export default class TripForm extends React.Component {
   }
 
   render() {
-    console.log(this.state.repeatingDays, this.state.dontRepeat)
+    //console.log(this.state.repeatingDays, this.state.dontRepeat)
     const topBarHeight = 45
     const leftColWidth = 80
 

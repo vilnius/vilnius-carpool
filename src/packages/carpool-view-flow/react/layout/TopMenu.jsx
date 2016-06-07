@@ -7,6 +7,7 @@ import BackButton from './BackButton'
 import MenuIcon from 'material-ui/lib/svg-icons/navigation/menu'
 import NotificationsIcon from 'material-ui/lib/svg-icons/social/notifications'
 import PersonOutlineIcon from 'material-ui/lib/svg-icons/social/person-outline'
+import BackIcon from 'material-ui/lib/svg-icons/navigation/arrow-back'
 
 import Paper from 'material-ui/lib/paper'
 import FlatButton from 'material-ui/lib/flat-button'
@@ -34,6 +35,7 @@ export default class TopMenu extends React.Component {
     user = Meteor.user();
     //console.log("TopMenu user", user);
     avatar = user && user.profile && user.profile.avatar;
+    d("Return screen", this.props.returnScreen);
 
     return (
       <div>
@@ -61,7 +63,11 @@ export default class TopMenu extends React.Component {
               marginLeft: 12,
             }}>
               {this.props.innerScreen ? (
-                <BackButton />
+                this.props.returnScreen ? (
+                  <BackIcon color="white" onClick={() => FlowRouter.go(this.props.returnScreen)} />
+                ) : (
+                  <BackButton />
+                )
               ) : (
                 <MenuIcon color="white" onClick={() => this.setState({ menuOpen: true })} />
               )}
