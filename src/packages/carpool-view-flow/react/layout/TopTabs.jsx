@@ -23,8 +23,8 @@ export default class TopTabs extends React.Component {
         zIndex: 1,
       }}>
         <Tabs value={this.props.selectedTabIndex}  >
-          <Tab label="Rides" data-cucumber="your-rides" onClick={() => FlowHelpers.goExtendedPath({ tripType: 'rides' })} value={0} />
-          <Tab label="Drives" data-cucumber="your-drives" onClick={() => FlowHelpers.goExtendedPath({ tripType: 'drives' })} value={1} />
+          <Tab label="Rides" data-cucumber="your-rides" onClick={() => FlowHelpers.goExtendedQuery("YourRides", {})} value={0} />
+          <Tab label="Drives" data-cucumber="your-drives" onClick={() => FlowHelpers.goExtendedQuery("YourDrives", {})} value={1} />
         </Tabs>
       </Paper>
     )

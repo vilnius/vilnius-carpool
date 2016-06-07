@@ -1,12 +1,15 @@
 import React from 'react'
 import PersonIcon from 'material-ui/lib/svg-icons/social/person'
-import AboutIcon from 'material-ui/lib/svg-icons/action/help'
-import LeftNav from 'material-ui/lib/left-nav'
+import AboutIcon from 'material-ui/lib/svg-icons/action/info-outline'
+import FeedbackIcon from 'material-ui/lib/svg-icons/action/help-outline'
+import LeftNav from './left-nav.js'
 import Avatar from 'material-ui/lib/avatar'
 import BackButton from './BackButton'
 import MenuIcon from 'material-ui/lib/svg-icons/navigation/menu'
 import NotificationsIcon from 'material-ui/lib/svg-icons/social/notifications'
 import PersonOutlineIcon from 'material-ui/lib/svg-icons/social/person-outline'
+import BackIcon from 'material-ui/lib/svg-icons/navigation/arrow-back'
+import { FlowHelpers } from '../../flowHelpers'
 
 import Paper from 'material-ui/lib/paper'
 import FlatButton from 'material-ui/lib/flat-button'
@@ -34,6 +37,7 @@ export default class TopMenu extends React.Component {
     user = Meteor.user();
     //console.log("TopMenu user", user);
     avatar = user && user.profile && user.profile.avatar;
+    d("Return screen", this.props.returnScreen);
 
     return (
       <div>
@@ -46,9 +50,9 @@ export default class TopMenu extends React.Component {
             background: this.props.background === 'blue' ? config.colors.main :
               (this.props.background === 'green' ? config.colors.green :
               (this.props.background ? this.props.background : config.colors.main)),
-            zIndex: 2,
             color: 'white',
             borderRadius: 0,
+            zIndex: 2,
           }}
           zDepth={this.props.hasTopTabs ? 0 : 1}
         >
@@ -62,7 +66,11 @@ export default class TopMenu extends React.Component {
               marginLeft: 12,
             }}>
               {this.props.innerScreen ? (
-                <BackButton />
+                this.props.returnScreen ? (
+                  <BackIcon color="white" onClick={() => FlowRouter.go(this.props.returnScreen)} />
+                ) : (
+                  <BackButton />
+                )
               ) : (
                 <MenuIcon color="white" onClick={() => this.setState({ menuOpen: true })} />
               )}
@@ -118,6 +126,10 @@ export default class TopMenu extends React.Component {
             <div style={{width: '100%'}}>
               <FlatButton style={{width: '100%', textAlign: 'left'}} label="About" icon={<AboutIcon />}
                 onClick={() => muiControllerHelper.goToView('About')}/>
+            </div>
+            <div style={{width: '100%'}}>
+              <FlatButton style={{width: '100%', textAlign: 'left'}} label="Leave feedback" icon={<FeedbackIcon />}
+                onClick={() => FlowRouter.go('Feedback')}/>
             </div>
           </div>
         </LeftNav>

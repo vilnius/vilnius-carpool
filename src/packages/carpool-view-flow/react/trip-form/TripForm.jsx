@@ -5,6 +5,8 @@ import { config, muiTheme } from '../config'
 import DateTimePicker from '../components/DateTimePicker'
 import RepeatingDaysSelector from '../components/RepeatingDaysSelector.jsx'
 
+import { FlowHelpers } from '../../flowHelpers'
+
 import AutoComplete from 'material-ui/lib/auto-complete';
 import { TextField, DatePicker, TimePicker, RaisedButton, FlatButton, Snackbar, RadioButtonGroup, RadioButton } from 'material-ui'
 import Colors from 'material-ui/lib/styles/colors';
@@ -61,7 +63,9 @@ export default class TripForm extends React.Component {
       role: 'driver',
       locationReceived: false,
       locationDetectionError: false,
-      snackbarOpen: false
+      snackbarOpen: false,
+      errorSnackbarMessage: '',
+      errorSnackbarOpen: false,
     }
   }
 
@@ -94,6 +98,20 @@ export default class TripForm extends React.Component {
     });
   };
 
+  showErrorSnackbar(message) {
+    d("Showing error message", message)
+    this.setState({
+      errorSnackbarMessage: message,
+      errorSnackbarOpen: true
+    });
+  };
+
+  closeErrorSnackbar() {
+    //d("Close snackbar")
+    this.setState({
+      errorSnackbarOpen: false,
+    });
+  }
 
   valueChanged(valueName, e) {
     this.setState({[valueName]: e.target.value})
@@ -152,12 +170,13 @@ export default class TripForm extends React.Component {
     }
     da(["trip-crud"], "Submitting trip:", trip)
     this.showSnackbar();
-    carpoolService.saveTrip(trip, function(error, routedTrip){
+    carpoolService.saveTrip(trip, (error, routedTrip) => {
       if (error) {
         da(["trip-crud"], "Submission error:", error)
+        this.showErrorSnackbar("Can't save trip. Please refine from/to addresses");
       } else {
         da(["trip-crud"], "Submited trip", routedTrip)
-        //flowControllerHelper.goToView('MyTrips', {tripType: "driver" === trip.role ? "drives" : "rides"});
+        //flowControllerHelper.goToView('YourTrips', {tripType: "driver" === trip.role ? "drives" : "rides"});
         if("driver" === trip.role) {
           //d("Routing to trip", routedTrip)
           flowControllerHelper.goToView('YourDrive', {id: routedTrip._id});
@@ -169,8 +188,21 @@ export default class TripForm extends React.Component {
     da(["trip-crud"], "Submitting - change button state", trip)
   }
 
+  locationInputClicked (locationType, e) {
+    if (locationType === 'from') {
+      FlowRouter.withReplaceState(() => {
+        FlowHelpers.goExtendedQuery('LocationAutocomplete', {screen: "NewRide", field:"aLoc"})
+      })
+    } else {
+      FlowRouter.withReplaceState(() => {
+        FlowHelpers.goExtendedQuery('LocationAutocomplete', {screen: "NewRide", field:"bLoc"})
+      })
+    }
+    console.log('Clicked on ', locationType)
+  }
+
   render() {
-    console.log(this.state.repeatingDays, this.state.dontRepeat)
+    //console.log(this.state.repeatingDays, this.state.dontRepeat)
     const topBarHeight = 45
     const leftColWidth = 80
 
@@ -184,9 +216,13 @@ export default class TripForm extends React.Component {
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
 
           <TextField id="trip-fromAddress" floatingLabelText={__('labelFrom')} value={this.state.from}
-            onChange={(event)=>{ this.setState({from: event.target.value}) }} />
+            onChange={(event)=>{ this.setState({from: event.target.value}) }}
+            onClick={this.locationInputClicked.bind(this, 'from')}
+          />
           <TextField id="trip-toAddress" floatingLabelText={__('labelTo')} value={this.state.to}
-            onChange={(event)=>{ this.setState({to: event.target.value}) }} />
+            onChange={(event)=>{ this.setState({to: event.target.value}) }}
+            onClick={this.locationInputClicked.bind(this, 'to')}
+          />
 
           {/*<DatePicker hintText={__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
           <TimePicker hintText={__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />*/}
@@ -244,6 +280,12 @@ export default class TripForm extends React.Component {
             message="Saving your trip"
             autoHideDuration={4000}
             onRequestClose={() => this.handleRequestClose()}
+          />
+          <Snackbar
+            open={this.state.errorSnackbarOpen}
+            message={this.state.errorSnackbarMessage}
+            autoHideDuration={4000}
+            onRequestClose={() => this.closeErrorSnackbar()}
           />
 
         </div>

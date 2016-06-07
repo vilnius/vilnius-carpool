@@ -12,6 +12,30 @@ import PersonIcon from 'material-ui/lib/svg-icons/social/person'
 import { config } from '../config'
 
 class BottomTabs extends React.Component {
+
+  constructor (props) {
+    super(props)
+
+    const resizeListener = () => {
+      this.setState({
+        ww: window.innerWidth,
+        wh: window.innerHeight
+      })
+    }
+
+    window.addEventListener('resize', resizeListener)
+
+    this.state = {
+      ww: window.innerWidth,
+      wh: window.innerHeight,
+      resizeListener,
+    }
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.state.resizeListener)
+  }
+
   render () {
     const notificationsAmount = this.props.notificationsAmount || 0
     // const { notificationsAmount } = this.props
@@ -43,7 +67,7 @@ class BottomTabs extends React.Component {
             style={{fontSize: 10, background: '#212121'}}
             icon={<PersonIcon className="tabs-icon" />}
             label="My Trips"
-            onClick={() => {flowControllerHelper.goToView('MyTrips')}}
+            onClick={() => {flowControllerHelper.goToView('YourRides')}}
             value={2}
           />
           <Tab

@@ -26,6 +26,7 @@ import ConfirmRideScreen from './react/confirm-ride/ConfirmRideScreen'
 import YourDriveScreen from './react/your-trip/YourDriveScreen'
 import NotificationsScreen from './react/notifications/NotificationsScreen'
 import LocationAutocomplete from './react/location-autocomplete/LocationAutocomplete'
+import FeedbackScreen from './react/feedback/FeedbackScreen'
 
 import Chat from 'meteor/carpool-chat'
 
@@ -125,7 +126,9 @@ FlowRouter.route('/locationAutocomplete/:screen/:field', {
 
         addresses[params.field] = sugestion.description;
         //console.log("Extending query", queryParams);
-        FlowRouter.go(params.screen, {}, queryParams)
+        FlowRouter.withReplaceState(() => {
+          FlowRouter.go(params.screen, {}, queryParams)
+        })
       }}/>,
     });
   }
@@ -164,7 +167,7 @@ securedRoutes.route('/drive/:id', {
   name: "YourDrive",
   action: function(params, queryParams) {
     mount(PlainLayout, {
-      topMenu: <TopMenu title="Your drive" innerScreen />,
+      topMenu: <TopMenu title="Your drive" innerScreen returnScreen="YourDrives" />,
     content: <YourDriveScreen tripId={params.id}/>,
     });
   }
@@ -174,20 +177,42 @@ securedRoutes.route('/ride/:id', {
   name: "YourRide",
   action: function(params, queryParams) {
     mount(PlainLayout, {
-      topMenu: <TopMenu title="Your ride" innerScreen />,
+      topMenu: <TopMenu title="Your ride" innerScreen returnScreen="YourDrives" />,
     content: <YourDriveScreen tripId={params.id}/>,
     });
   }
 });
 
+securedRoutes.route('/feedback', {
+    name: "Feedback",
+    action: function(params, queryParams) {
+      mount(PlainLayout, {
+        topMenu: <TopMenu title="Feedback" innerScreen />,
+        content: <FeedbackScreen />,
+      });
+    }
+});
 
-securedRoutes.route('/:tripType?', {
-  name: "MyTrips",
+securedRoutes.route('/drives', {
+  name: "YourDrives",
   action: function(params, queryParams) {
     mount(LandingLayout, {
       topMenu: <TopMenu title="My Trips" hasTopTabs background="blue" />,
-      topFilter: <TopTabs selectedTabIndex={params.tripType === 'drives'? 1 : 0} />,
-      content: <RideOffersScreen filterOwn="your" role={'drives' === params.tripType ? "driver" : "rider" } />,
+      topFilter: <TopTabs selectedTabIndex={1} />,
+      content: <RideOffersScreen filterOwn="your" role="driver" />,
+      bottomMenu: <BottomTabs selectedTabIndex={2} />,
+      extras: [<NewRideButton key="NewRideButton" />],
+    });
+  }
+});
+
+securedRoutes.route('/rides', {
+  name: "YourRides",
+  action: function(params, queryParams) {
+    mount(LandingLayout, {
+      topMenu: <TopMenu title="My Trips" hasTopTabs background="blue" />,
+      topFilter: <TopTabs selectedTabIndex={0} />,
+      content: <RideOffersScreen filterOwn="your" role="rider" />,
       bottomMenu: <BottomTabs selectedTabIndex={2} />,
       extras: [<NewRideButton key="NewRideButton" />],
     });
