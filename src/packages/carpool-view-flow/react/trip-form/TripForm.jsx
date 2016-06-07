@@ -61,7 +61,9 @@ export default class TripForm extends React.Component {
       role: 'driver',
       locationReceived: false,
       locationDetectionError: false,
-      snackbarOpen: false
+      snackbarOpen: false,
+      errorSnackbarMessage: '',
+      errorSnackbarOpen: false,
     }
   }
 
@@ -94,6 +96,20 @@ export default class TripForm extends React.Component {
     });
   };
 
+  showErrorSnackbar(message) {
+    d("Showing error message", message)
+    this.setState({
+      errorSnackbarMessage: message,
+      errorSnackbarOpen: true
+    });
+  };
+
+  closeErrorSnackbar() {
+    //d("Close snackbar")
+    this.setState({
+      errorSnackbarOpen: false,
+    });
+  }
 
   valueChanged(valueName, e) {
     this.setState({[valueName]: e.target.value})
@@ -152,9 +168,10 @@ export default class TripForm extends React.Component {
     }
     da(["trip-crud"], "Submitting trip:", trip)
     this.showSnackbar();
-    carpoolService.saveTrip(trip, function(error, routedTrip){
+    carpoolService.saveTrip(trip, (error, routedTrip) => {
       if (error) {
         da(["trip-crud"], "Submission error:", error)
+        this.showErrorSnackbar("Can't save trip. Please refine from/to addresses");
       } else {
         da(["trip-crud"], "Submited trip", routedTrip)
         //flowControllerHelper.goToView('YourTrips', {tripType: "driver" === trip.role ? "drives" : "rides"});
@@ -244,6 +261,12 @@ export default class TripForm extends React.Component {
             message="Saving your trip"
             autoHideDuration={4000}
             onRequestClose={() => this.handleRequestClose()}
+          />
+          <Snackbar
+            open={this.state.errorSnackbarOpen}
+            message={this.state.errorSnackbarMessage}
+            autoHideDuration={4000}
+            onRequestClose={() => this.closeErrorSnackbar()}
           />
 
         </div>

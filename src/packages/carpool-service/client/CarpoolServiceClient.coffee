@@ -95,8 +95,10 @@ class CarpoolService
     da(["trip-crud"], "Saving trip", trip)
     @clarifyPlace fromLatLng, trip.fromAddress, (err, latlng, address) =>
       da(["trip-crud"], "Clarified A: #{trip.fromAddress}", latlng)
+      return callback "Can't clarify A" unless latlng
       trip.fromLoc = googleServices.toLocation(latlng)
       @clarifyPlace toLatLng, trip.toAddress, (err, latlng, address) =>
+        return callback "Can't clarify B" unless latlng
         trip.toLoc = googleServices.toLocation(latlng)
         @getTripPath trip, (err, route) ->
           if err then return callback(err)
