@@ -63,6 +63,7 @@ export default class TripForm extends React.Component {
       role: 'driver',
       locationReceived: false,
       locationDetectionError: false,
+      snackbarOpen: false
     }
   }
 
@@ -81,6 +82,20 @@ export default class TripForm extends React.Component {
       locationDetectionError: false,
     })
   }
+
+  handleRequestClose() {
+    //d("Close snackbar")
+    this.setState({
+      snackbarOpen: false,
+    });
+  }
+
+  showSnackbar() {
+    this.setState({
+      snackbarOpen: true
+    });
+  };
+
 
   valueChanged(valueName, e) {
     this.setState({[valueName]: e.target.value})
@@ -133,15 +148,24 @@ export default class TripForm extends React.Component {
     let trip = {
       fromAddress: this.state.from,
       toAddress: this.state.to,
-      date: this.state.date,
+      time: this.state.date.toDate(),  // TODO move to bTime
+      bTime: this.state.date.toDate(),
       role: this.state.role,
     }
+    da(["trip-crud"], "Submitting trip:", trip)
+    this.showSnackbar();
     carpoolService.saveTrip(trip, function(error, routedTrip){
       if (error) {
         da(["trip-crud"], "Submission error:", error)
       } else {
         da(["trip-crud"], "Submited trip", routedTrip)
-        flowControllerHelper.goToView('MyTrips', {tripType: "driver" === trip.role ? "drives" : "rides"});
+        //flowControllerHelper.goToView('MyTrips', {tripType: "driver" === trip.role ? "drives" : "rides"});
+        if("driver" === trip.role) {
+          //d("Routing to trip", routedTrip)
+          flowControllerHelper.goToView('YourDrive', {id: routedTrip._id});
+        } else {
+          flowControllerHelper.goToView('YourRide', {id: routedTrip._id});
+        }
       }
     });
     da(["trip-crud"], "Submitting - change button state", trip)
@@ -163,7 +187,6 @@ export default class TripForm extends React.Component {
   render() {
     console.log(this.state.repeatingDays, this.state.dontRepeat)
     const topBarHeight = 45
-
     const leftColWidth = 80
 
     //TAPi18n.__('labelFrom'); // dummy call to load __ functions -doesn't help
@@ -235,6 +258,13 @@ export default class TripForm extends React.Component {
             autoHideDuration={3500}
             onRequestClose={this.locationDetectionSnackbarClose.bind(this)}
           />
+          <Snackbar
+            open={this.state.snackbarOpen}
+            message="Saving your trip"
+            autoHideDuration={4000}
+            onRequestClose={() => this.handleRequestClose()}
+          />
+
         </div>
       </div>
     </div>

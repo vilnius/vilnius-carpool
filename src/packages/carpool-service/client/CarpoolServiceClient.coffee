@@ -1,4 +1,5 @@
 { ParallelQueue } = require 'meteor/spastai:flow-controll'
+moment = require 'moment'
 
 class CarpoolService
   preInitQueue = new ParallelQueue(@);
@@ -10,6 +11,9 @@ class CarpoolService
   constructor: (@params) ->
     googleServices.afterInit ()=>
       preInitQueue.start()
+
+  sendMessage: (to, message)->
+    Meteor.call("sendMessage", Meteor.userId(), to, message)
 
   saveSelection: (field, value) ->
     if item = Selections.findOne {
@@ -88,6 +92,7 @@ class CarpoolService
   saveTrip: (trip, callback) ->
     fromLatLng = if trip.fromLoc then googleServices.toLatLng(trip.fromLoc)
     toLatLng = if trip.toLoc then googleServices.toLatLng(trip.toLoc)
+    da(["trip-crud"], "Saving trip", trip)
     @clarifyPlace fromLatLng, trip.fromAddress, (err, latlng, address) =>
       da(["trip-crud"], "Clarified A: #{trip.fromAddress}", latlng)
       trip.fromLoc = googleServices.toLocation(latlng)
@@ -96,7 +101,11 @@ class CarpoolService
         @getTripPath trip, (err, route) ->
           if err then return callback(err)
           _(trip).extend route
+          # meanwhile only arrival time is accepted
+          da ["trip-crud"], "Arival time:", trip.bTime.getTime()
+          trip.aTime = moment(trip.bTime).subtract(route.duration, 'seconds').toDate();
           Meteor.call 'saveTrip', trip, (error, result) ->
+            trip._id  = result
             callback error, trip
 
   ###
@@ -110,6 +119,7 @@ class CarpoolService
   Sends request for trip owner
   ###
   requestRide: (_id, fromLoc, callback) ->
+    da [ 'trip-request' ], "Sending request to #{_id}"
     Meteor.call 'requestRide', _id, fromLoc, (error, result) ->
       callback?(error, result)
 
@@ -194,9 +204,23 @@ class CarpoolService
       return null
     Trips.findOne query
 
+  pullStops: (progress) ->
+    @stopsSubs = Meteor.subscribe("stops");
+    if(@stopsSubs.ready())
+      progress 100
+    else
+      progress 0
+      return null
+    Stops.find().fetch()
+
+  getStops: ->
+    Stops.find().fetch()
+
   pullTripForRiderPickup: (query, progress) ->
     trip = undefined
     trip = @pullOneTrip(query, mapView.setActionProgress.bind(this, 'oneTrip'))
+
+
 
   ###
   From TripBusinessLogic.getActiveTrips
@@ -230,7 +254,7 @@ class CarpoolService
       polyline = new (google.maps.Polyline)(path: points)
       stops = Stops.find({}).fetch()
       stopOnRoute = [ {
-        _id: trip._id + '-a'
+        _id: "stop-a"
         loc: trip.fromLoc
         title: trip.fromAddress
       } ]
@@ -242,6 +266,7 @@ class CarpoolService
         cb null,
           path: stopsRoute.overview_polyline
           stops: stopOnRoute
+          duration: stopsRoute.legs[0].duration.value
 
   routeTrip: (trip, args...)->
     if args.length > 1
@@ -256,17 +281,16 @@ class CarpoolService
     if trip.fromLoc and trip.toLoc
       request.origin = googleServices.toLatLng(trip.fromLoc)
       request.destination = googleServices.toLatLng(trip.toLoc)
+      request.transitOptions =
+        arrivalTime: trip.bTime
     else
       return cb?('No locations found for ' + trip.fromAddress + '-' + trip.toAddress)
 
     googleServices.getDirections().route request, (error, result) ->
-      encodedPoints = undefined
+      #d "Directions result", result
       if error
         return cb?(error)
       encodedPoints = result.routes[0].overview_polyline
       cb & cb(null, result.routes[0])
-
-  getStops: ->
-    Stops.find().fetch()
 
 @carpoolService = new CarpoolService

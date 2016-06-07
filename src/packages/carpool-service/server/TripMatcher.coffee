@@ -43,7 +43,7 @@ class @TripsMatcher
     results = []
     for trip in trips
       userId = trip.owner
-      results.push notificationService.notify('matched', userId, doc, trip)
+      results.push notificationService.notifyAboutTrip('matched', userId, doc, trip)
     results
 
   stop: ->

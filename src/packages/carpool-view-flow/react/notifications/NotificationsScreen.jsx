@@ -3,6 +3,8 @@ import { createContainer } from 'meteor/react-meteor-data';
 import wrapScreen from '../layout/wrapScreen'
 import NotificationCard from './NotificationCard'
 import Loader from '../components/Loader'
+import Snackbar from 'material-ui/lib/snackbar';
+
 
 
 // const notifications = [{
@@ -15,9 +17,34 @@ import Loader from '../components/Loader'
 // }]
 
 export default class Notifications extends React.Component {
+
+  constructor(props) {
+      super(props);
+      this.state = {
+        snackbarOpen: false,
+        snackbarText: ''
+      };
+  }
+
+  handleRequestClose() {
+    //d("Close snackbar")
+    this.setState({
+      snackbarOpen: false,
+    });
+  }
+
+  showSnackbar(message) {
+    //d("Showing snack message", message)
+    this.setState({
+      snackbarText: message,
+      snackbarOpen: true
+    });
+  };
+
   render () {
     const { progress, notifications } = this.props;
     //console.log("NotificationScreen progress", progress.getProgress())
+    //d("NotificationScreen props", this.props)
     if (100 != progress.getProgress()) {
       //console.log("Show loader");
       return (
@@ -34,8 +61,15 @@ export default class Notifications extends React.Component {
           alignItems: 'center',
         }}>
           {notifications.map((notification, i) => (
-            <NotificationCard key={i} notification={notification} width={window.innerWidth} />
+            <NotificationCard key={i} notification={notification} width={window.innerWidth}
+              snack={this.showSnackbar.bind(this)} />
           ))}
+          <Snackbar
+            open={this.state.snackbarOpen}
+            message={this.state.snackbarText}
+            autoHideDuration={4000}
+            onRequestClose={() => this.handleRequestClose()}
+          />
         </div>
       )
     }
@@ -47,7 +81,7 @@ Notifications.propTypes = {
   notifications: React.PropTypes.array,
 };
 
-export default NotificationScreen = createContainer(({}) => {
+export default NotificationScreen = createContainer(() => {
   const progress = new Progress();
 
   var handle = Meteor.subscribe('Notifications');
@@ -66,6 +100,6 @@ export default NotificationScreen = createContainer(({}) => {
 
   return {
     progress,
-    notifications
+    notifications,
   };
 }, Notifications);
