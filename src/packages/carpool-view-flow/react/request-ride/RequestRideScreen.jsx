@@ -17,7 +17,8 @@ export default class RequestRide extends React.Component {
   render () {
     const topBarHeight = 50
     const rideInfoHeight = 225
-    const mapHeight = this.props.height -topBarHeight - rideInfoHeight
+    const mapHeight = window.innerHeight - topBarHeight - rideInfoHeight
+    console.log(topBarHeight, rideInfoHeight, mapHeight)
     const {progress, trip } = this.props;
 
     if (100 != progress.getProgress()) {
