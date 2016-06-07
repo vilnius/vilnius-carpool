@@ -13,7 +13,7 @@ class CarpoolService
       preInitQueue.start()
 
   saveFeedback: (message)->
-    Feedback.insert({text:message});
+    Feedback.insert({text:message, userId: Meteor.userId()});
 
   sendMessage: (to, message)->
     Meteor.call("sendMessage", Meteor.userId(), to, message)
