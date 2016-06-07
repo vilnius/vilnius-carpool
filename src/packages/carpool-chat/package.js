@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'carpool-view',
+  name: 'carpool-chat',
   version: '0.0.1',
   // Brief, one-line summary of the package.
   summary: '',
@@ -12,15 +12,22 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.3');
-  api.use(['ecmascript', 'coffeescript']);
+  api.use('ecmascript');
+  api.use(['underscore', 'coffeescript'], ['server', 'client']);
+  api.use(["mongo", "minimongo"]);
 
-  //api.addFiles('helper.coffee');
-  api.mainModule('helper.js');
+  api.use('react');
+
+  api.use("spastai:carpool-service");
+
+  api.addFiles('model.coffee');
+  api.addFiles('publish.coffee', 'server');
+  api.mainModule('Chat.jsx', 'client');
 });
 
 Package.onTest(function(api) {
   api.use('ecmascript');
   api.use('tinytest');
-  api.use('carpool-view');
-  api.mainModule('carpool-view-tests.js');
+  api.use('carpool-chat');
+  //api.mainModule('carpool-chat-tests.js');
 });

@@ -15,6 +15,7 @@ module.exports = ()->
       # Trip stops calculation is time consuming
       result = client.executeAsync (trip, done) ->
           trip.time = new Date()
+          trip.bTime = new Date()
           #d "Trips:", carpoolService.getOwnTrips();
           carpoolService.clarifyPlace null, trip.fromAddress, (err, fromLoc)->
             carpoolService.clarifyPlace null, trip.toAddress, (err, toLoc)->

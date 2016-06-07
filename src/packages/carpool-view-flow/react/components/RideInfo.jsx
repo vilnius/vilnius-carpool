@@ -3,6 +3,7 @@ import RecurringDays from './ReccuringDays'
 import Avatar from 'material-ui/lib/avatar';
 import ChatIcon from 'material-ui/lib/svg-icons/communication/chat'
 import { config } from '../config'
+import {d, da} from 'meteor/spastai:logw'
 
 const destinationTitleStyle = {
   // borderLeft: '1px dotted black',
@@ -31,7 +32,36 @@ const circleStyle = {
 }
 
 export default class RideInfo extends React.Component {
+
+  constructor(props) {
+    super(props)
+
+    this.gotoChat = this.gotoChat.bind(this);
+  }
+
+  gotoChat() {
+    d("Open chat window", this.props.ride.owner);
+    FlowRouter.go("Chat", {cdUser: this.props.ride.owner});
+  }
+
   render () {
+    //d("Showing stops", this.props.ride.stops)
+    trip = this.props.ride;
+    //d("Props", this.props)
+    stops = [];
+    for(var i=1; i< trip.stops.length; i++) {
+      routePoint = trip.stops[i];
+      stops.push(
+        <div key={routePoint._id} style={rideInfoLineWrap}  >
+          <div>{routePoint.time}</div>
+          <div style={destinationTitleStyle}>
+            <div style={{...circleStyle,
+              borderColor: 'gray' }}></div>
+              {routePoint.title}
+          </div>
+        </div>
+      )
+    }
     return (
       <div style={{display: 'flex', flexDirection: 'row'}}>
         <div style={{width: this.props.width * 0.6}}>
@@ -45,18 +75,22 @@ export default class RideInfo extends React.Component {
               borderLeft: '1px dotted #929292',
             }}>
             </div>
-              {this.props.ride.stops.map((routePoint) => (
-                <div style={rideInfoLineWrap} key={routePoint._id} >
-                  <div>{routePoint.time}</div>
-                  <div style={destinationTitleStyle}>
-                    <div style={{...circleStyle,
-                      borderColor: routePoint.pickupPoint ? 'green' :
-                                   routePoint.dropoffPoint ? 'red' : 'gray'
-                    }}></div>
-                      {routePoint.title}
-                  </div>
+              <div key={trip._id+"-a"} style={rideInfoLineWrap}  >
+                {moment(trip.aTime).format('H:mm')}
+                <div style={destinationTitleStyle}>
+                  <div style={{...circleStyle, borderColor: 'green' }}></div>
+                  {trip.fromAddress}
                 </div>
-              ))}
+              </div>
+              {stops}
+              <div key={trip._id+"-b"} style={rideInfoLineWrap}  >
+                {moment(trip.bTime).format('H:mm')}
+                <div style={destinationTitleStyle}>
+                  <div style={{...circleStyle, borderColor: 'red' }}></div>
+                  {trip.toAddress}
+                </div>
+              </div>
+
             <div style={{display: 'flex', flexDirection: 'row', marginTop: 8}}>
               <RecurringDays daysActive={[false, true, true, false, true, false, false]}/>
             </div>
@@ -65,7 +99,7 @@ export default class RideInfo extends React.Component {
         <div style={{display: 'flex', flexDirection: 'column', width: this.props.width * 0.4, alignItems: 'center'}}>
           <Avatar src={this.props.ride.driverPicture} size={75} style={{marginTop: 16}} />
           <div style={{marginTop: 6}}>{this.props.ride.driverName + ', ' + this.props.ride.driverAge}</div>
-          <div style={{marginTop: 12}}><ChatIcon color={config.colors.main} /></div>
+          <div style={{marginTop: 12}}><ChatIcon data-cucumber="chat" color={config.colors.main} onClick={this.gotoChat}/></div>
         </div>
       </div>
     )

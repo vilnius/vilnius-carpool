@@ -25,24 +25,30 @@ notificationClient = new NotificationClient()
 
 class NotificationCard extends React.Component {
   render () {
-    const { cardProgress, notification, trip} = this.props;
+    const { cardProgress, notification, trip, snack} = this.props;
     //d("Show notification", this.props);
     if (100 != cardProgress.getProgress()) {
       return (
-        <section style={{height: "100%", marginTop: 25}}>
+        <section style={{height: "100%", marginTop: 25}} >
           <Loader size={0.4} />
         </section>
       );
     } else {
       //d("Notification", trip);
-      if(undefined == trip) {console.warn("NotificationCard got empty trip"); return null;}
-      user = Meteor.users.findOne({_id: trip.owner});
-      avatar = getUserPicture(user);
+      if(undefined != trip) {
+        user = Meteor.users.findOne({_id: trip.owner});
+        avatar = getUserPicture(user);
 
-      isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
-      // This is for a first request as MVP starts with one
-      isConfirmed = trip.requests[0] && "accept" === trip.requests[0].response;
-      //d("Trip requested", isRequested, trip);
+        isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
+        // This is for a first request as MVP starts with one
+        isConfirmed = trip.requests[0] && "accept" === trip.requests[0].response;
+        //d("Trip requested", isRequested, trip);
+      } else if("message" === notification.reason) {
+        d("Message recevied", notification)
+      } else {
+        console.warn("Not known notification type");
+        return;
+      }
       return (
         <Paper data-cucumber="notification" style={{
           width: this.props.width - 20,
@@ -70,12 +76,14 @@ class NotificationCard extends React.Component {
                           secondary onClick={() => {
                             notificationClient.dismissAlert(notification._id)
                             //carpoolService.requestRide(notification.trip)
+                            snack("Request withdrawn");
                           }} />
                       ) : (
                         <FlatButton data-cucumber="request" label='Request'
                           secondary onClick={() => {
                             carpoolService.requestRide(notification.trip)
                             notificationClient.dismissAlert(notification._id)
+                            snack("Ride requested");
                           }} />
                       ) }
                       <FlatButton data-cucumber="review" label="Review" secondary
@@ -99,12 +107,14 @@ class NotificationCard extends React.Component {
                         secondary onClick={() => {
                           console.log("Withdraw confirm", notification)
                           notificationClient.dismissAlert(notification._id)
+                          snack("Confirmation withdrawn");
                         }} />
                     ) : (
                       <FlatButton data-cucumber="confirm" label='Confirm'
                         secondary onClick={() => {
                           carpoolService.acceptRequest(notification.context, "accept", ()=>d("Acception result", arguments));
-                          notificationClient.dismissAlert(notification._id)
+                          notificationClient.dismissAlert(notification._id),
+                          snack("Request confirmed");
                         }} />
                     ) }
                       <FlatButton data-cucumber="review" label="Review" secondary
@@ -127,15 +137,32 @@ class NotificationCard extends React.Component {
                         secondary onClick={() => {
                           console.log("Withdraw confirmed request", notification)
                           notificationClient.dismissAlert(notification._id)
+                          snack("Confirmed request withdrawn");
                         }} />
-                      <FlatButton data-cucumber="review" label="Review" secondary
+                      <FlatButton data-cucumber="review-confirmed" label="Review" secondary
                         onClick={() => {
-                          flowControllerHelper.goToView('RideConfirm', {id: notification.trip})
+                          flowControllerHelper.goToView('RideRequest', {id: notification.trip})
                           notificationClient.dismissAlert(notification._id)
                         }} />
                     </div>
                   </div>
                   )
+
+                  case "message": return (
+                  <div style={{display: 'flex', flexDirection: 'column', width: this.props.width - 100, paddingLeft: 22, paddingTop: 10, }}>
+                    <div style={{fontWeight: notificationClient.isNew(notification) ? "bold":"normal"}}>New message</div>
+                    <div style={{fontSize: 10, marginTop: 5}}>{notification.context.text}</div>
+
+                    <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
+                      <FlatButton data-cucumber="view-message" label="View" secondary
+                        onClick={() => {
+                          flowControllerHelper.goToView('Chat', {cdUser: notification.context.from})
+                          notificationClient.dismissAlert(notification._id)
+                        }} />
+                    </div>
+                  </div>
+                  )
+
                 }
               })()}
           </div>
@@ -149,6 +176,7 @@ NotificationCard.propTypes = {
   cardProgress: React.PropTypes.object,
   notification: React.PropTypes.object,
   trip: React.PropTypes.object,
+  snack: React.PropTypes.func,
 };
 
 /*
@@ -159,14 +187,17 @@ NotificationCard.propTypes = {
   However each NotificationCardContainer is running different object computation, so it has own subscribtion
   handler, thus doesn't stop other cards.
 */
-export default NotificationCardContainer = createContainer(({notification}) => {
+export default NotificationCardContainer = createContainer(({notification, snack}) => {
   const cardProgress = new Progress();
-  const trip = carpoolService.pullOneTrip({_id: notification.trip}, cardProgress.setProgress.bind(cardProgress, 'oneTrip'));
+  if("matched" === notification.reason || "request" === notification.reason || "confirmation" === notification.reason) {
+    trip = carpoolService.pullOneTrip({_id: notification.trip}, cardProgress.setProgress.bind(cardProgress, 'oneTrip'));
+  }
   //d("NotificationCard progress", cardProgress.getProgress(), "trip", trip);
   //d("Notification", notification, trip)
   return {
     cardProgress,
     notifications,
-    trip
+    trip,
+    snack
   };
 }, NotificationCard);

@@ -26,6 +26,7 @@ Package.onUse(function(api) {
   api.use('spastai:logw@0.0.4')
   api.use("carpool-i18n");
   api.use("carpool-view");
+  api.use("carpool-chat");
 
 
   api.addFiles([
