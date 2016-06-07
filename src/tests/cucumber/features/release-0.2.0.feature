@@ -8,12 +8,12 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
     And Notifications for "ron@tiktai.lt" removed
     And Notifications for "dick@tiktai.lt" removed
     And Stops exists
-    And Assure "ron@tiktai.lt" trip:d
+    And Assure "ron@tiktai.lt" trip:
       | fromAddress          | toAddress               | role   |
       | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius | rider  |
       | Dzūkų 50, Vilnius    | Šeškinės g. 10, Vilnius | driver |
 
-    #@focus
+    @focus
     Scenario: Driver Dick enters the same route and rider Ron gets notification
       Given Login through "/loginUsername" with "dick@tiktai.lt"
       And I see "[data-cucumber='addTrip']" in "/m/all/offers"

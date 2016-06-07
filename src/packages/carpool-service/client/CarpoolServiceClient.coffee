@@ -12,6 +12,9 @@ class CarpoolService
     googleServices.afterInit ()=>
       preInitQueue.start()
 
+  saveFeedback: (message)->
+    Feedback.insert({text:message});
+
   sendMessage: (to, message)->
     Meteor.call("sendMessage", Meteor.userId(), to, message)
 

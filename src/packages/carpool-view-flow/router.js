@@ -26,6 +26,7 @@ import ConfirmRideScreen from './react/confirm-ride/ConfirmRideScreen'
 import YourDriveScreen from './react/your-trip/YourDriveScreen'
 import NotificationsScreen from './react/notifications/NotificationsScreen'
 import LocationAutocomplete from './react/location-autocomplete/LocationAutocomplete'
+import FeedbackScreen from './react/feedback/FeedbackScreen'
 
 import Chat from 'meteor/carpool-chat'
 
@@ -125,7 +126,9 @@ FlowRouter.route('/locationAutocomplete/:screen/:field', {
 
         addresses[params.field] = sugestion.description;
         //console.log("Extending query", queryParams);
-        FlowRouter.go(params.screen, {}, queryParams)
+        FlowRouter.withReplaceState(() => {
+          FlowRouter.go(params.screen, {}, queryParams)
+        })
       }}/>,
     });
   }
@@ -180,6 +183,15 @@ securedRoutes.route('/ride/:id', {
   }
 });
 
+securedRoutes.route('/feedback', {
+    name: "Feedback",
+    action: function(params, queryParams) {
+      mount(PlainLayout, {
+        topMenu: <TopMenu title="Feedback" innerScreen />,
+        content: <FeedbackScreen />,
+      });
+    }
+});
 
 securedRoutes.route('/drives', {
   name: "YourDrives",

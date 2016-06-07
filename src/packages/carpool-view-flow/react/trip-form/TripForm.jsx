@@ -5,6 +5,8 @@ import { config, muiTheme } from '../config'
 import DateTimePicker from '../components/DateTimePicker'
 import RepeatingDaysSelector from '../components/RepeatingDaysSelector.jsx'
 
+import { FlowHelpers } from '../../flowHelpers'
+
 import AutoComplete from 'material-ui/lib/auto-complete';
 import { TextField, DatePicker, TimePicker, RaisedButton, FlatButton, Snackbar, RadioButtonGroup, RadioButton } from 'material-ui'
 import Colors from 'material-ui/lib/styles/colors';
@@ -186,6 +188,19 @@ export default class TripForm extends React.Component {
     da(["trip-crud"], "Submitting - change button state", trip)
   }
 
+  locationInputClicked (locationType, e) {
+    if (locationType === 'from') {
+      FlowRouter.withReplaceState(() => {
+        FlowHelpers.goExtendedQuery('LocationAutocomplete', {screen: "NewRide", field:"aLoc"})
+      })
+    } else {
+      FlowRouter.withReplaceState(() => {
+        FlowHelpers.goExtendedQuery('LocationAutocomplete', {screen: "NewRide", field:"bLoc"})
+      })
+    }
+    console.log('Clicked on ', locationType)
+  }
+
   render() {
     //console.log(this.state.repeatingDays, this.state.dontRepeat)
     const topBarHeight = 45
@@ -201,9 +216,13 @@ export default class TripForm extends React.Component {
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
 
           <TextField id="trip-fromAddress" floatingLabelText={__('labelFrom')} value={this.state.from}
-            onChange={(event)=>{ this.setState({from: event.target.value}) }} />
+            onChange={(event)=>{ this.setState({from: event.target.value}) }}
+            onClick={this.locationInputClicked.bind(this, 'from')}
+          />
           <TextField id="trip-toAddress" floatingLabelText={__('labelTo')} value={this.state.to}
-            onChange={(event)=>{ this.setState({to: event.target.value}) }} />
+            onChange={(event)=>{ this.setState({to: event.target.value}) }}
+            onClick={this.locationInputClicked.bind(this, 'to')}
+          />
 
           {/*<DatePicker hintText={__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
           <TimePicker hintText={__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />*/}

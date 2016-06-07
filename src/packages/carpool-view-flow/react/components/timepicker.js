@@ -369,6 +369,7 @@ Timepicker.Clock = React.createClass({
             onClick     = this.onClickMinute(minute);
             onMouseMove = this.onMouseMoveMinute(minute);
 
+            const r = minute % 5 === 0 ? 15 : 0
             bubbles.push(React.createElement(
                 'g',
                 {
@@ -379,7 +380,7 @@ Timepicker.Clock = React.createClass({
                     onClick:     onClick,
                     onMouseMove: onMouseMove
                 },
-                React.createElement('circle', { cx: x, cy: y }),
+                React.createElement('circle', { cx: x, cy: y, fill: '#79c7ff', r: r }),
                 minute % 5 === 0 ? React.createElement(
                     'text',
                     { x: x, y: y },
