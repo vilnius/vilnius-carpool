@@ -13,7 +13,8 @@ export default class FeedbackScreen extends React.Component {
   }
 
   submitFeeback () {
-    alert('Your feedback should have been sent')
+    //d('Your feedback should have been sent', this.state.feedbackText)
+    carpoolService.saveFeedback(this.state.feedbackText)
     FlowRouter.go('RideOffers')
   }
 

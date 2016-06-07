@@ -16,6 +16,7 @@ import PersonIcon from 'material-ui/lib/svg-icons/social/person'
 import AboutIcon from 'material-ui/lib/svg-icons/action/help'
 
 import { config } from '../config'
+import {d, da} from 'meteor/spastai:logw'
 
 export default class MobileLayout extends React.Component {
 
@@ -38,14 +39,13 @@ export default class MobileLayout extends React.Component {
             background: config.colors.main,
             zIndex: 1,
             color: 'white'
-          }}
-        >
+          }} >
           <div style={{
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
             height: '100%',
-          }}>
+          }} >
             <div style ={{
               marginLeft: 12,
             }}>
