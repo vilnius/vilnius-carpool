@@ -64,7 +64,7 @@ class CarpoolService
       address = [
         place.address_components[0]?.short_name or ""
         place.address_components[1]?.short_name or ""
-        place.address_components[2]?.short_name or ""
+      #  place.address_components[2]?.short_name or ""
       ].join(" ")
       #da ["trips-filter"], "Formed address #{address} from:", place
       return address
