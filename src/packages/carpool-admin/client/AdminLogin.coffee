@@ -4,7 +4,8 @@ Template.AdminLogin.events
     password = template.find("#inputPassword").value
     Meteor.loginWithPassword user, password, (error) ->
       if error
-        #d "Log in " + user + "  error: " + error.reason
+        d "Log in " + user + "  error: " + error.reason
         Session.set "loginError", error.reason
       else
+        d "Admin login success"
         Session.set "loginError", ""

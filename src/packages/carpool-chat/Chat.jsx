@@ -130,7 +130,7 @@ Chat.propTypes = {
 };
 
 export default ChatContainer = createContainer(({cdUserId}) => {
-  var handle = Meteor.subscribe("Chat");
+  var handle = Meteor.subscribe("Chat", cdUserId);
   history = ChatHistory.find().fetch();
   cdUser = Meteor.users.findOne(cdUserId)
   cgUser = Meteor.user();
