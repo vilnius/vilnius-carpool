@@ -11,7 +11,9 @@ Package.onUse(function(api) {
   api.use('templating','client');
   api.use('reactive-var','client');
 
-  api.use('iron:router','client');
+  api.use('kadira:flow-router');
+  api.use('kadira:blaze-layout');
+  //api.use('arillo:flow-router-helpers', 'client');
 
   api.use("spastai:flow-controll@0.0.2", ["client", "server"]);
   api.use("dry:forms-frame@0.1.5");
@@ -27,16 +29,15 @@ Package.onUse(function(api) {
   api.addFiles('client/AdminLogin_i18n.coffee', "client");
 
   api.addFiles('client/CarpoolAdminClient.coffee', "client");
-  api.addFiles('client/AdminController.coffee', "client");
+  // api.addFiles('client/AdminController.coffee', "client");
   api.addFiles(['client/AdminLanding.html', 'client/AdminLanding.coffee'], "client");
-  api.addFiles(['client/StopsAdmin.html', 'client/StopsAdmin.coffee'], "client");
-  api.addFiles(['client/NeldRowsTable.html', 'client/NeldRowsTable.coffee'], "client");
-
   api.addFiles(['client/AdminLogin.html', 'client/AdminLogin.coffee'], "client");
+  api.addFiles(['client/StopsAdmin.html', 'client/StopsAdmin.coffee'], "client");
+  // api.addFiles(['client/NeldRowsTable.html', 'client/NeldRowsTable.coffee'], "client");
+  // api.addFiles(['client/UsersAdmin.html', 'client/UsersAdmin.coffee'], "client");
+  // api.addFiles(['client/TripsAdmin.html', 'client/TripsAdmin.coffee'], "client");
 
-  api.addFiles(['client/UsersAdmin.html', 'client/UsersAdmin.coffee'], "client");
-  api.addFiles(['client/TripsAdmin.html', 'client/TripsAdmin.coffee'], "client");
-
+  api.addFiles(['client/layout.html', 'client/layout.coffee'], "client");
   api.addFiles(['client/mockNotFound.html'], "client");
 
   api.addFiles('client/routes.coffee', "client");
