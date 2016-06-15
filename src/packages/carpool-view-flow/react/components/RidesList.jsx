@@ -45,7 +45,7 @@ export default class RidesList extends React.Component {
                 rightAvatar={
                   <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', top: 4, height: '100%'}}>
                     <Avatar src={ride.ownerAvatar} size={50} />
-                    <span style={{fontSize: 11, marginTop: 5, color: config.colors.textColor, fontWeight: 500}}>{ride.ownerName}</span>
+                    <span style={{fontSize: 11, marginTop: 5, color: config.colors.textColor, fontWeight: 500}}>{ride.ownerName.split(' ')[0]}</span>
                   </div>
                 }
               >
