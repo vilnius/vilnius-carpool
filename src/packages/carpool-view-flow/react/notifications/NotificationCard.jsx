@@ -122,6 +122,10 @@ class NotificationCard extends React.Component {
                           flowControllerHelper.goToView('RideConfirm', {id: notification.trip})
                           notificationClient.dismissAlert(notification._id)
                         }} />
+                        <FlatButton data-cucumber="chat" label="Chat" secondary
+                          onClick={() => {
+                            FlowRouter.go("Chat", {cdUser: this.props.notification.userId});
+                          }} />
                     </div>
                   </div>
                   )
@@ -143,6 +147,10 @@ class NotificationCard extends React.Component {
                         onClick={() => {
                           flowControllerHelper.goToView('RideRequest', {id: notification.trip})
                           notificationClient.dismissAlert(notification._id)
+                        }} />
+                      <FlatButton data-cucumber="review-chat" label="Chat" secondary
+                        onClick={() => {
+                          FlowRouter.go("Chat", {cdUser: this.props.notification.userId});
                         }} />
                     </div>
                   </div>
