@@ -22,7 +22,6 @@ spastai:google-client
 spastai:flow-controll
 cucumber-fixtures
 spastai:carpool-service
-carpool-admin
 spastai:logw
 carpool-notifications
 
@@ -36,3 +35,4 @@ carpool-i18n
 carpool-view
 crosswalk
 carpool-chat
+carpool-admin

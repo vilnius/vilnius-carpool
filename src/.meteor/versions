@@ -65,6 +65,7 @@ iron:router@1.0.12
 iron:url@1.0.11
 jquery@1.11.6
 json@1.0.3
+kadira:blaze-layout@2.0.1
 kadira:flow-router@2.0.2
 launch-screen@1.0.8
 less@2.5.6

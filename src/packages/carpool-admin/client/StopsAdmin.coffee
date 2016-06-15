@@ -8,8 +8,9 @@ class StopsMap
   # Shows Google Map when all required libraries are ready and starts afterMapShown queue
   showMap: (id, cb)->
     mapElement = document.getElementById(id);
-    # This method is called after google services are initialized
+    d "This method is called after google services are initialized"
     googleServices.afterInit =>
+      d "Show admin stops map", mapElement
       myOptions =
         zoom: 12
         center: new (google.maps.LatLng)(54.67704, 25.25405)
@@ -49,16 +50,16 @@ class StopsMap
 ###
   Controller to load stops
 ###
-class @StopsAdminController extends AdminController
-  subscriptions: ()->
-    #d "Subscribing"
-    [Meteor.subscribe("adminUserContacts"), Meteor.subscribe("adminStops")]
+Template.StopsAdmin.onCreated ()->
+  @autorun ()=>
+    @subscribe "adminStops"
 
-  data: ()->
+Template.StopsAdmin.helpers
+  stops: ()->
     #d "Stops admin data"
     stops = Stops.find().fetch();
     stopsMap.displayStops stops
-    stops: stops;
+    return stops;
 
 ###
   Meteor templates for UI
