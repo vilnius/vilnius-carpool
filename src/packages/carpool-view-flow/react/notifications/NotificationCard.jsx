@@ -124,7 +124,7 @@ class NotificationCard extends React.Component {
                         }} />
                         <FlatButton data-cucumber="chat" label="Chat" secondary
                           onClick={() => {
-                            FlowRouter.go("Chat", {cdUser: this.props.notification.userId});
+                            FlowRouter.go("Chat", {cdUser: trip.owner});
                           }} />
                     </div>
                   </div>
@@ -150,7 +150,7 @@ class NotificationCard extends React.Component {
                         }} />
                       <FlatButton data-cucumber="review-chat" label="Chat" secondary
                         onClick={() => {
-                          FlowRouter.go("Chat", {cdUser: this.props.notification.userId});
+                          FlowRouter.go("Chat", {cdUser: trip.owner});
                         }} />
                     </div>
                   </div>
