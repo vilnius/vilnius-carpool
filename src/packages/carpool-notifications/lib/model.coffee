@@ -1,3 +1,3 @@
-#Push.debug = true;
+Push.debug = true;
 
 @NotificationHistory = new Mongo.Collection("NotificationHistory");
