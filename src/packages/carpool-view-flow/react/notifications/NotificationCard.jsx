@@ -44,7 +44,7 @@ class NotificationCard extends React.Component {
         isConfirmed = trip.requests[0] && "accept" === trip.requests[0].response;
         //d("Trip requested", isRequested, trip);
       } else if("message" === notification.reason) {
-        d("Message recevied", notification)
+        //d("Show notification card", notification)
       } else {
         console.warn("Not known notification type");
         return;

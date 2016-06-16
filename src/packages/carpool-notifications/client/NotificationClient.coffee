@@ -5,7 +5,7 @@ Meteor.startup ()->
     window.alert = navigator.notification?.alert
 
   Push.Configure Meteor.settings.public.push
-
+  d "Push configuration", Meteor.settings.public.push
 
   Push.addListener 'startup', (notification) ->
     da ["trip-notifications"], "Startup on notification:", notification

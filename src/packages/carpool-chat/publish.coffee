@@ -1,3 +1,3 @@
 Meteor.publish 'Chat', (cdUserId)->
-  ChatHistory.find({from: this.userId, to: cdUserId});
+  ChatHistory.find($or:[{from: this.userId, to: cdUserId},{from: cdUserId, to: this.userId}]);
   #ChatHistory.find({});

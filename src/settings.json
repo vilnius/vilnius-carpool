@@ -2,8 +2,8 @@
   "public": {
     "environment": "dev",
     "push": {
-      "gcm": {
-        "projectNumber": 665087134347
+      "android": {
+        "senderID": 665087134347
       },
       "badge": true,
       "sound": true,
@@ -19,7 +19,7 @@
 
   "push": {
     "gcm": {
-      "apiKey": "AIzaSyC4jEbNbglLxwxH7_gcmDMxWxwYOAPVVJM"
+      "apiKey": "AIzaSyCif-vuW7_4mS5qzwTmvQ0LkM4P6Laeb_Q"
     },
     "production": false
   },

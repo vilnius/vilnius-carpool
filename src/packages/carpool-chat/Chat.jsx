@@ -80,13 +80,13 @@ class Chat extends React.Component {
               lastMessageYour = true
               return (
                 <div key={item._id}>
+                  {displayAvatar ? null : (<Divider inset={true} />) }
                   <ListItem key={i}
                     leftAvatar={
                       displayAvatar ? <div />
                       : this.renderAvatar(cgAvatar, cgName)
                     }
                       primaryText={item.message} />
-                  <Divider inset={true} />
                 </div>
               )
             } else {
@@ -94,6 +94,7 @@ class Chat extends React.Component {
               lastMessageYour = false
               return (
                 <div key={item._id}>
+                  {displayAvatar ? null : (<Divider inset={true} />)}
                   <ListItem key={i}
                     rightAvatar={
                       displayAvatar ? <div />
@@ -104,7 +105,6 @@ class Chat extends React.Component {
                       textAlign: 'right',
                     }}
                   />
-                  <Divider inset={true} />
                 </div>
               )
             }
