@@ -46,9 +46,10 @@
     render () {
       //d("Showing stops", this.props.ride.stops)
       const {ride, drive} = this.props;
-      d("Props", this.props)
+      //d("RideInfo props", this.props)
       stops = [];
-      drive.stops.forEach((routePoint)=>{
+      for(var i=1; i < drive.stops.length; i++) {
+        routePoint = drive.stops[i];
         stops.push(
           <div key={routePoint._id} style={rideInfoLineWrap}  >
             <div>{routePoint.time}</div>
@@ -59,7 +60,7 @@
             </div>
           </div>
         )
-      })
+      }
 
       return (
         <div style={{display: 'flex', flexDirection: 'row', fontSize: 13}}>

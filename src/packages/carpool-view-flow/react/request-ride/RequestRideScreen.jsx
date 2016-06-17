@@ -67,7 +67,7 @@ export default class RequestRide extends React.Component {
             height: mapHeight,
             marginTop: topBarHeight
           }}>
-            <GoogleMap trip={drive} stops={stops} driveStops={drive.stops} />
+            <GoogleMap trip={drive} stops={stops} ride={ride} />
           </div>
           <div style={{display: 'flex', flexDirection: 'column'}}>
             <RideInfo drive={drive} ride={ride} width={window.innerWidth} />

@@ -258,6 +258,7 @@ class CarpoolService
       points = route.overview_path
       polyline = new (google.maps.Polyline)(path: points)
       stops = Stops.find({}).fetch()
+      #d "Stops to check", stops
       stopOnRoute = [ {
         _id: "stop-a"
         loc: trip.fromLoc
@@ -267,6 +268,7 @@ class CarpoolService
         stopLatLng = googleServices.toLatLng(stop.loc)
         if google.maps.geometry.poly.isLocationOnEdge(stopLatLng, polyline, stopDistanceFromRoute)
           stopOnRoute.push stop
+      #d "Found stops on route", stopOnRoute
       @routeTrip trip, (err, stopsRoute) ->
         cb null,
           path: stopsRoute.overview_polyline

@@ -1,9 +1,10 @@
-import wrapScreen from '../layout/wrapScreen'
+import { createContainer } from 'meteor/react-meteor-data';
 //import { TAPi18n} from 'meteor/tap:i18n';
 import {__} from 'meteor/carpool-i18n'
 import { config, muiTheme } from '../config'
 import DateTimePicker from '../components/DateTimePicker'
 import RepeatingDaysSelector from '../components/RepeatingDaysSelector.jsx'
+import Loader from '../components/Loader'
 
 import { FlowHelpers } from '../../flowHelpers'
 
@@ -47,7 +48,7 @@ const getLocationSuggestions = (inputVal, callback) => {
   }
 }
 
-export default class TripForm extends React.Component {
+class TripForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -204,93 +205,102 @@ export default class TripForm extends React.Component {
     //console.log(this.state.repeatingDays, this.state.dontRepeat)
     const topBarHeight = 45
     const leftColWidth = 80
+    const {progress, stops} = this.props;
 
     //TAPi18n.__('labelFrom'); // dummy call to load __ functions -doesn't help
-    return (
-      <div style={{color: config.colors.textColor}}>
-        <div style={{
-          marginTop: topBarHeight
-        }}>
-
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
-
-          <TextField id="trip-fromAddress" floatingLabelText={__('labelFrom')} value={this.state.from}
-            onChange={(event)=>{ this.setState({from: event.target.value}) }}
-            onClick={this.locationInputClicked.bind(this, 'from')}
-          />
-          <TextField id="trip-toAddress" floatingLabelText={__('labelTo')} value={this.state.to}
-            onChange={(event)=>{ this.setState({to: event.target.value}) }}
-            onClick={this.locationInputClicked.bind(this, 'to')}
-          />
-
-          {/*<DatePicker hintText={__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
-          <TimePicker hintText={__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />*/}
+    if (100 != progress.getProgress()) {
+      return (
+        <section style={{height: "100%", marginTop: 25}}>
+          <Loader />
+        </section>
+      );
+    } else {
+      return (
+        <div style={{color: config.colors.textColor}}>
           <div style={{
-            maxWidth: window.innerWidth * 0.85
+            marginTop: topBarHeight
           }}>
-            <b>{this.state.isDepartureDate ? 'Depart at:' : 'Arrive by:'}</b>
-            {' ' + this.state.date.format('ddd, MMM D, H:mm')}
-            <FlatButton label="Edit" secondary onClick={this.openDateTimePicker.bind(this)} />
-            <DateTimePicker ref="picker" onDateSelected={({date, isDepartureDate}) => this.setState({date, isDepartureDate})} />
-          </div>
-          <div style={{
-            maxWidth: window.innerWidth * 0.85
-          }}>
-            <b>Repat on: </b>
-            {this.state.dontRepeat ? 'Don\'t repeat' :
-              (this.state.repeatingDays.length > 6 ? 'Everyday' :
-              this.state.repeatingDays.reduce((string, day, i) => {
-                if (i === 0) {
-                  return days[day]
-                } else {
-                  return string + ', ' + days[day]
-                }
-              }, ''))}
-            <FlatButton label="Edit" secondary onClick={() => this.refs.repeatingSelector.openRepeatingDaysSelector(this.state.repeatingDays, this.state.dontRepeat)} />
-            <RepeatingDaysSelector ref="repeatingSelector" onDaysSelected={(repeatingDays, dontRepeat) => {
-              this.setState({
-                repeatingDays,
-                dontRepeat
-              })
-            }} />
-          </div>
-          <RadioButtonGroup name="driver" valueSelected={this.state.role} style={{marginTop: 20, marginBottom: 20}} onChange={this.muiValueChanged.bind(this, 'role')}>
-            <RadioButton
-              value="driver"
-              label="Driver"
-            />
-            <RadioButton
-              value="rider"
-              label="Passenger"
-            />
-          </RadioButtonGroup>
-          <div style={{display: 'flex', flexDirection: 'row', marginTop: 15 }}>
-            <RaisedButton label={'Submit'} className="saveTrip" primary={true} onClick={this.submitForm.bind(this)} />
-            <RaisedButton style={{marginLeft: 10}} label={'Cancel'} secondary={true} onClick={() => FlowRouter.go("RideOffers")} />
-          </div>
-          <Snackbar
-            open={this.state.locationDetectionError}
-            message="Failed to detect your location, please enter it manually."
-            autoHideDuration={3500}
-            onRequestClose={this.locationDetectionSnackbarClose.bind(this)}
-          />
-          <Snackbar
-            open={this.state.snackbarOpen}
-            message="Saving your trip"
-            autoHideDuration={4000}
-            onRequestClose={() => this.handleRequestClose()}
-          />
-          <Snackbar
-            open={this.state.errorSnackbarOpen}
-            message={this.state.errorSnackbarMessage}
-            autoHideDuration={4000}
-            onRequestClose={() => this.closeErrorSnackbar()}
-          />
 
+          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
+
+            <TextField id="trip-fromAddress" floatingLabelText={__('labelFrom')} value={this.state.from}
+              onChange={(event)=>{ this.setState({from: event.target.value}) }}
+              onClick={this.locationInputClicked.bind(this, 'from')}
+            />
+            <TextField id="trip-toAddress" floatingLabelText={__('labelTo')} value={this.state.to}
+              onChange={(event)=>{ this.setState({to: event.target.value}) }}
+              onClick={this.locationInputClicked.bind(this, 'to')}
+            />
+
+            {/*<DatePicker hintText={__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
+            <TimePicker hintText={__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />*/}
+            <div style={{
+              maxWidth: window.innerWidth * 0.85
+            }}>
+              <b>{this.state.isDepartureDate ? 'Depart at:' : 'Arrive by:'}</b>
+              {' ' + this.state.date.format('ddd, MMM D, H:mm')}
+              <FlatButton label="Edit" secondary onClick={this.openDateTimePicker.bind(this)} />
+              <DateTimePicker ref="picker" onDateSelected={({date, isDepartureDate}) => this.setState({date, isDepartureDate})} />
+            </div>
+            <div style={{
+              maxWidth: window.innerWidth * 0.85
+            }}>
+              <b>Repat on: </b>
+              {this.state.dontRepeat ? 'Don\'t repeat' :
+                (this.state.repeatingDays.length > 6 ? 'Everyday' :
+                this.state.repeatingDays.reduce((string, day, i) => {
+                  if (i === 0) {
+                    return days[day]
+                  } else {
+                    return string + ', ' + days[day]
+                  }
+                }, ''))}
+              <FlatButton label="Edit" secondary onClick={() => this.refs.repeatingSelector.openRepeatingDaysSelector(this.state.repeatingDays, this.state.dontRepeat)} />
+              <RepeatingDaysSelector ref="repeatingSelector" onDaysSelected={(repeatingDays, dontRepeat) => {
+                this.setState({
+                  repeatingDays,
+                  dontRepeat
+                })
+              }} />
+            </div>
+            <RadioButtonGroup name="driver" valueSelected={this.state.role} style={{marginTop: 20, marginBottom: 20}} onChange={this.muiValueChanged.bind(this, 'role')}>
+              <RadioButton
+                value="driver"
+                label="Driver"
+              />
+              <RadioButton
+                value="rider"
+                label="Passenger"
+              />
+            </RadioButtonGroup>
+            <div style={{display: 'flex', flexDirection: 'row', marginTop: 15 }}>
+              <RaisedButton label={'Submit'} className="saveTrip" primary={true} onClick={this.submitForm.bind(this)} />
+              <RaisedButton style={{marginLeft: 10}} label={'Cancel'} secondary={true} onClick={() => FlowRouter.go("RideOffers")} />
+            </div>
+            <Snackbar
+              open={this.state.locationDetectionError}
+              message="Failed to detect your location, please enter it manually."
+              autoHideDuration={3500}
+              onRequestClose={this.locationDetectionSnackbarClose.bind(this)}
+            />
+            <Snackbar
+              open={this.state.snackbarOpen}
+              message="Saving your trip"
+              autoHideDuration={4000}
+              onRequestClose={() => this.handleRequestClose()}
+            />
+            <Snackbar
+              open={this.state.errorSnackbarOpen}
+              message={this.state.errorSnackbarMessage}
+              autoHideDuration={4000}
+              onRequestClose={() => this.closeErrorSnackbar()}
+            />
+
+          </div>
         </div>
       </div>
-    </div>
-    )
+      )
+    }
   }
 }
 
@@ -316,8 +326,14 @@ var styles = {
     width: 100,
   },
 }
-
-TripFormScreen = wrapScreen(TripForm, {
-  innerScreen: false,
-  title: 'New Ride Request',
-})
+/*
+ This required as stops should be loaded in order saving trip would find them
+*/
+export default TripFormContainer = createContainer(({}) => {
+  const progress = new Progress();
+  const stops = carpoolService.pullStops(progress.setProgress.bind(progress, 'stops'));
+  return {
+    progress,
+    stops
+  }
+}, TripForm);
