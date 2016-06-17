@@ -50,13 +50,13 @@ const getLocationSuggestions = (inputVal, callback) => {
 export default class TripForm extends React.Component {
   constructor(props) {
     super(props)
-    const currDate = new Date()
+    d("bTime", props.bTime)
     this.state = {
       from: '',
       to: '',
       fromSuggestions: [],
       toSuggestions: [],
-      date: moment(),
+      date: props.bTime || moment(),
       isDepartureDate: false,
       repeatingDays: [],
       dontRepeat: true,
@@ -71,7 +71,7 @@ export default class TripForm extends React.Component {
 
   componentWillMount() {
     carpoolService.resolveLocation(this.props.from, this.props.fromAddress, (address) => {
-      console.log(this.props.from, this.props.fromAddress, "resolved", address)
+      //console.log(this.props.from, this.props.fromAddress, "resolved", address)
       if("" === this.state.from) this.setState({from: address});
     })
     carpoolService.resolveLocation(this.props.to, this.props.toAddress, (address) => {
@@ -99,7 +99,7 @@ export default class TripForm extends React.Component {
   };
 
   showErrorSnackbar(message) {
-    d("Showing error message", message)
+    //d("Showing error message", message)
     this.setState({
       errorSnackbarMessage: message,
       errorSnackbarOpen: true
@@ -230,7 +230,7 @@ export default class TripForm extends React.Component {
             maxWidth: window.innerWidth * 0.85
           }}>
             <b>{this.state.isDepartureDate ? 'Depart at:' : 'Arrive by:'}</b>
-            {' ' + this.state.date.format('ddd, MMM D, k:mm')}
+            {' ' + this.state.date.format('ddd, MMM D, H:mm')}
             <FlatButton label="Edit" secondary onClick={this.openDateTimePicker.bind(this)} />
             <DateTimePicker ref="picker" onDateSelected={({date, isDepartureDate}) => this.setState({date, isDepartureDate})} />
           </div>

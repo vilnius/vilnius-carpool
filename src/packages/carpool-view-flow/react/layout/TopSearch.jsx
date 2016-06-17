@@ -35,13 +35,13 @@ export default class TopSearch extends React.Component {
 
   constructor(props) {
     super(props)
-    //console.log("Create TopSearch with", this.props);
+    //console.log("Create TopSearch with", props);
     this.state = {
       fromAddress : '...',
       toAddress: '...',
       pickerOpen: false,
       isDepartureDate: false,
-      date: moment(),
+      date: props.bTime || moment(),
     }
   }
 
@@ -99,9 +99,12 @@ export default class TopSearch extends React.Component {
         </div>
         <div style={styles.searchField} onClick={() => {this.refs.picker.openDateTimePicker(this.state.isDepartureDate, this.state.date)}}>
           <div style={styles.searchHint}>{this.state.isDepartureDate ? 'depart at' : 'arrive by'}</div>
-          <div style={styles.searchValue}>{this.state.date ? this.state.date.format('ddd, MMM D, k:mm') : null}</div>
+          <div style={styles.searchValue}>{this.state.date ? this.state.date.format('ddd, MMM D, H:mm') : null}</div>
         </div>
-        <DateTimePicker ref="picker" onDateSelected={({date, isDepartureDate}) => this.setState({date, isDepartureDate})} />
+        <DateTimePicker ref="picker" onDateSelected={({date, isDepartureDate}) => {
+            FlowHelpers.goExtendedQuery(null, {}, {bTime: date.format("YYYYMMDDTHHmm")});
+            this.setState({date, isDepartureDate})
+        }} />
       </Paper>
     )
   }

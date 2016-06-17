@@ -155,14 +155,16 @@ securedRoutes.route('/newRide', {
       if(queryParams.bLoc) {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
+      //d("bTime", moment(queryParams.bTime), queryParams.bTime)
       mount(PlainLayout, {
         topMenu: <TopMenu title="New Trip" innerScreen />,
         content: <TripFormScreen from={aLoc} to={bLoc}
-          fromAddress={addresses.aLoc} toAddress={addresses.bLoc}/>,
+          fromAddress={addresses.aLoc} toAddress={addresses.bLoc}
+          bTime={moment(queryParams.bTime, "YYYYMMDDTHHmm", true)}/>,
       });
     }
 });
- 
+
 securedRoutes.route('/drive/:id', {
  name: "YourDrive",
  action: function(params, queryParams) {
@@ -178,7 +180,7 @@ securedRoutes.route('/ride/:id', {
  action: function(params, queryParams) {
    mount(PlainLayout, {
      topMenu: <TopMenu title="Your ride" innerScreen returnScreen="YourDrives" />,
-   content: <YourDriveScreen tripId={params.id}/>,
+     content: <YourDriveScreen tripId={params.id}/>,
    });
  }
 });
@@ -242,11 +244,12 @@ FlowRouter.route('/m/all/offers', {
       if(queryParams.bLoc) {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
-      console.log("Offers route", params, queryParams, "and aLoc:", aLoc);
+      //console.log("Offers route", params, queryParams, "and aLoc:", aLoc);
       // by coincidence aLoc, bLoc and addresses are stored as global variables...
       mount(LandingLayout, {
         topMenu: <TopMenu title="Ride offers" hasTopTabs background="blue" />,
-        topSearch: <TopSearch from={aLoc} to={bLoc} fromAddress={addresses.aLoc} toAddress={addresses.bLoc} />,
+        topSearch: <TopSearch from={aLoc} to={bLoc} fromAddress={addresses.aLoc} toAddress={addresses.bLoc}
+                      bTime={moment(queryParams.bTime, "YYYYMMDDTHHmm", true)} />,
         content: <RideOffersScreen aLoc={aLoc} bLoc={bLoc} />,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
         extras: [<NewRideButton key={'NewRideButton'} />],
