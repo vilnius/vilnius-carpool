@@ -36,19 +36,20 @@ class NotificationCard extends React.Component {
     } else {
       //d("Notification", trip);
       if(undefined != trip) {
-        user = Meteor.users.findOne({_id: trip.owner});
-        avatar = getUserPicture(user);
-
+        fromUser = trip.owner
         isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
         // This is for a first request as MVP starts with one
         isConfirmed = trip.requests[0] && "accept" === trip.requests[0].response;
         //d("Trip requested", isRequested, trip);
       } else if("message" === notification.reason) {
-        //d("Show notification card", notification)
+        d("Show notification card", notification)
+        fromUser = notification.context.from
       } else {
         console.warn("Not known notification type");
         return;
       }
+      user = Meteor.users.findOne({_id: fromUser});
+      avatar = getUserPicture(user);
       return (
         <Paper data-cucumber="notification" style={{
           width: this.props.width - 20,
@@ -170,7 +171,6 @@ class NotificationCard extends React.Component {
                     </div>
                   </div>
                   )
-
                 }
               })()}
           </div>
