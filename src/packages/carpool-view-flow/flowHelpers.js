@@ -22,7 +22,7 @@ let goExtendedPath = (params) => {
 
 let goExtendedQuery = (path, addedParams, addedQuery) => {
   let {route: {name : currentPath}, params, queryParams} = FlowRouter.current()
-  console.log("Query", currentPath, queryParams, "adding", addedQuery);
+  //console.log("Query", currentPath, queryParams, "adding", addedQuery);
   return FlowRouter.go(path || currentPath, _(params).extend(addedParams), _(queryParams).extend(addedQuery));
 }
 

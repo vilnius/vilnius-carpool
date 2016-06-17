@@ -48,13 +48,13 @@ FlowRouter.route('/', {
   }
 });
 
-
+// Isn't this deprecated as RideConfirm?
 FlowRouter.route('/rideRequest/:id', {
   name: "RideRequest",
   action: function(params, queryParams) {
     mount(PlainLayout, {
       topMenu: <TopMenu title="Ride requests" innerScreen />,
-      content: <RequestRideScreen tripId={params.id}/>,
+      content: <RequestRideScreen tripId={params.id} rideId={queryParams.ride} />,
     });
   }
 });
@@ -83,8 +83,8 @@ FlowRouter.route('/login', {
 FlowRouter.route('/logout', {
     name: "Logout",
     action: function(params, queryParams) {
-      Meteor.logout();
-      FlowRouter.go("/")
+      Meteor.logout(()=> FlowRouter.go("Login"));
+
     }
 });
 
@@ -148,30 +148,30 @@ var securedRoutes = FlowRouter.group({
 securedRoutes.route('/newRide', {
     name: "NewRide",
     action: function(params, queryParams) {
-      console.log("Fetching from/to from query", queryParams, "and variables", addresses);
+      //console.log("Fetching from/to from query", queryParams, "and variables", addresses);
       if(queryParams.aLoc) {
         aLoc = googleServices.decodePoints(queryParams.aLoc)[0];
       }
       if(queryParams.bLoc) {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
+      bTime = queryParams.bTime ? moment(queryParams.bTime, "YYYYMMDDTHHmm", true) : moment();
       //d("bTime", moment(queryParams.bTime), queryParams.bTime)
       mount(PlainLayout, {
         topMenu: <TopMenu title="New Trip" innerScreen />,
         content: <TripFormScreen from={aLoc} to={bLoc}
-          fromAddress={addresses.aLoc} toAddress={addresses.bLoc}
-          bTime={moment(queryParams.bTime, "YYYYMMDDTHHmm", true)}/>,
+          fromAddress={addresses.aLoc} toAddress={addresses.bLoc} bTime={bTime}/>,
       });
     }
 });
 
 securedRoutes.route('/drive/:id', {
- name: "YourDrive",
- action: function(params, queryParams) {
-   mount(PlainLayout, {
-     topMenu: <TopMenu title="Your drive" innerScreen returnScreen="YourDrives" />,
-   content: <YourDriveScreen tripId={params.id}/>,
-   });
+  name: "YourDrive",
+  action: function(params, queryParams) {
+    mount(PlainLayout, {
+      topMenu: <TopMenu title="Your drive" innerScreen returnScreen="YourDrives" />,
+      content: <YourDriveScreen tripId={params.id}/>,
+    });
  }
 });
 
@@ -244,12 +244,13 @@ FlowRouter.route('/m/all/offers', {
       if(queryParams.bLoc) {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
+      bTime = queryParams.bTime ? moment(queryParams.bTime, "YYYYMMDDTHHmm", true) : moment();
       //console.log("Offers route", params, queryParams, "and aLoc:", aLoc);
       // by coincidence aLoc, bLoc and addresses are stored as global variables...
       mount(LandingLayout, {
         topMenu: <TopMenu title="Ride offers" hasTopTabs background="blue" />,
         topSearch: <TopSearch from={aLoc} to={bLoc} fromAddress={addresses.aLoc} toAddress={addresses.bLoc}
-                      bTime={moment(queryParams.bTime, "YYYYMMDDTHHmm", true)} />,
+                      bTime={bTime} />,
         content: <RideOffersScreen aLoc={aLoc} bLoc={bLoc} />,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
         extras: [<NewRideButton key={'NewRideButton'} />],

@@ -3,6 +3,9 @@ url = require('url');
 
 module.exports = ()->
 
+  ###
+  Main flow
+  ###
   @Then /^I see my trip on MUI$/, (table)->
     client.url(url.resolve(process.env.ROOT_URL, "/m/your/drives"));
     client.waitForExist "[data-cucumber='trips-list']"
@@ -40,3 +43,14 @@ module.exports = ()->
     #d "Enter text #{message} for #{cdUser}"
     client.setValue("input[id='chatInput']", text)
     client.keys("Enter");
+
+  ###
+  Variations
+  ###
+  @Then /^User "([^"]*)" gets notification and reviews drive$/, (username)->
+    #client.saveScreenshot('../build/screenshots/uc9-driverTrip.png')
+    @TestHelper.urlLogin("/loginUsername", username);
+    client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
+    #client.saveScreenshot('../build/screenshots/uc9-notifications.png')
+    client.waitForExist "[data-cucumber='notification']"
+    client.click "[data-cucumber='review-request']"

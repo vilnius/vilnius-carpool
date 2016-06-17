@@ -44,7 +44,7 @@ class YourDrive extends React.Component {
             <GoogleMap trip={trip} />
           </div>
           <div style={{display: 'flex', flexDirection: 'column'}}>
-            <RideInfo ride={trip} width={this.props.width} />
+            <RideInfo drive={trip} width={this.props.width} />
             <div style={{
               marginTop: 18,
               textAlign: 'center',

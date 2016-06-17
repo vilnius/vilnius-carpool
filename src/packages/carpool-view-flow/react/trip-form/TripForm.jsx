@@ -50,7 +50,6 @@ const getLocationSuggestions = (inputVal, callback) => {
 export default class TripForm extends React.Component {
   constructor(props) {
     super(props)
-    d("bTime", props.bTime)
     this.state = {
       from: '',
       to: '',
