@@ -30,20 +30,21 @@ export default class RepeatingDaysSelector extends React.Component {
       open: false,
     })
     if (this.props.onDaysSelected) {
-      this.props.onDaysSelected(this.state.repeatingDays, this.state.dontRepeat)
+      this.props.onDaysSelected(this.state.repeatingDays, this.state.dontRepeat || this.state.repeatingDays.length === 0)
     }
   }
 
-  toggleDay (dayNum, e, isChecked, c) {
+  toggleDay (dayNum) {
     const di = this.state.repeatingDays.indexOf(dayNum)
-    if (isChecked && di === -1) {
+    const isChecked = di !== -1
+    if (!isChecked) {
       const repeatingDays = this.state.repeatingDays
       repeatingDays.push(dayNum)
       this.setState({
         repeatingDays,
         dontRepeat: false,
       })
-    } else if (!isChecked && di !== -1) {
+    } else if (isChecked) {
       const repeatingDays = this.state.repeatingDays
       repeatingDays.splice(di, 1)
       this.setState({
@@ -55,7 +56,7 @@ export default class RepeatingDaysSelector extends React.Component {
 
   toggleDontRepeat (e, checked) {
     this.setState({
-      dontRepeat: checked,
+      dontRepeat: !this.state.dontRepeat,
     })
   }
 
@@ -74,36 +75,52 @@ export default class RepeatingDaysSelector extends React.Component {
           flexDirection: 'column',
         }}>
           {days.map((d, i) => (
-            <div key={i} style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingTop: 10,
-              paddingLeft: 20,
-              paddingRight: 5,
-            }}>
+            <div key={i}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingTop: 5,
+                paddingBottom: 5,
+                paddingLeft: 20,
+                paddingRight: 5,
+                cursor: 'pointer',
+                alignItems: 'center',
+                transition: 'background-color 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
+                background: this.state.repeatingDays.indexOf(i) !== -1 && !this.state.dontRepeat
+                  ? 'rgba(0, 141, 208, 0.15)'
+                  : 'none'
+              }}
+            onClick={this.toggleDay.bind(this, i)}
+            >
               <div>
                 {d}
               </div>
               <div>
-                <Checkbox checked={this.state.repeatingDays.indexOf(i) !== -1 && !this.state.dontRepeat} onCheck={this.toggleDay.bind(this, i)} />
+                <Checkbox checked={this.state.repeatingDays.indexOf(i) !== -1 && !this.state.dontRepeat} />
               </div>
             </div>
           ))}
           <Divider style={{marginTop: 11}} />
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingTop: 10,
-            paddingLeft: 20,
-            paddingRight: 5,
-          }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingTop: 5,
+              paddingBottom: 5,
+              alignItems: 'center',
+              paddingLeft: 20,
+              paddingRight: 5,
+              cursor: 'pointer',
+            }}
+            onClick={this.toggleDontRepeat.bind(this)}
+          >
             <div>
               Don't repeat
             </div>
             <div>
-              <Checkbox checked={this.state.dontRepeat} onCheck={this.toggleDontRepeat.bind(this)} />
+              <Checkbox checked={this.state.dontRepeat} />
             </div>
           </div>
         </div>
