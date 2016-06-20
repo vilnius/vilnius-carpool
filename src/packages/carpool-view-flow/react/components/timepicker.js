@@ -425,7 +425,7 @@ Timepicker.Clock = React.createClass({
           // 24hr clock
           this.setState({
             mode: Timepicker.MINUTES,
-            hours: hours24,
+            hours: hours24 % 24,
             even: this.state.even,
           }, function () {
               this.onChange()
@@ -434,7 +434,7 @@ Timepicker.Clock = React.createClass({
           // 12hr clock
           this.setState({
             mode: Timepicker.MINUTES,
-            hours: hours12,
+            hours: hours12 % 12,
             even: this.state.even,
           }, function () {
               this.onChange()
@@ -444,7 +444,7 @@ Timepicker.Clock = React.createClass({
         // Minutes.selection
         const minutes = Math.round(((((angle / Math.PI) + 1) * 30) + 45) % 60)
         this.setState({
-          minutes: minutes,
+          minutes: minutes % 60,
           even: !this.state.even,
         }, function () {
           this.onChange()
