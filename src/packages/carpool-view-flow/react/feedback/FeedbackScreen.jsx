@@ -30,13 +30,13 @@ export default class FeedbackScreen extends React.Component {
           onChange={(e) => {this.setState({feedbackText: e.target.value})}}
           hintText="Enter your feedback here"
           style={{
-            width: window.innerWidth * 0.85,
+            width: this.props.width * 0.85,
           }}
           multiLine
         />
         <RaisedButton primary label="Submit feedback"
           onClick={this.submitFeeback.bind(this)}
-          style={{width: window.innerWidth * 0.85, marginTop: 5}}
+          style={{width: this.props.width * 0.85, marginTop: 5}}
         />
       </div>
     )

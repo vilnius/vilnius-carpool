@@ -16,7 +16,7 @@ function getRandomBool() {
 
 export default class RidesList extends React.Component {
   render () {
-    const { progress, trips} = this.props;
+    const { progress, trips } = this.props;
     if (100 != progress.getProgress()) {
       return (
         <section style={{height: "100%", marginTop: 25}}>
@@ -25,7 +25,7 @@ export default class RidesList extends React.Component {
       );
     } else {
       return (
-        <List data-cucumber="trips-list" style={{marginTop: -4}}>
+        <List data-cucumber="trips-list">
           {trips.map((ride) => {
             user = Meteor.users.findOne({_id: ride.owner});
             ride.ownerName = getUserName(user);

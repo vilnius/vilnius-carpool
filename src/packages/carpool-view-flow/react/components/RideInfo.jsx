@@ -79,7 +79,7 @@ export default class RideInfo extends React.Component {
                 {moment(trip.aTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
                   <div style={{...circleStyle, borderColor: 'green' }}></div>
-                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{trip.fromAddress}</div>
+                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: this.props.width - 185}}>{trip.fromAddress}</div>
                 </div>
               </div>
               {stops}
@@ -87,7 +87,7 @@ export default class RideInfo extends React.Component {
                 {moment(trip.bTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
                   <div style={{...circleStyle, borderColor: 'red' }}></div>
-                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{trip.toAddress}</div>
+                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: this.props.width - 185}}>{trip.toAddress}</div>
                 </div>
               </div>
 
@@ -97,7 +97,7 @@ export default class RideInfo extends React.Component {
           </div>
         </div>
         <div style={{display: 'flex', flexDirection: 'column', width: 100, alignItems: 'center'}}>
-          <Avatar src={this.props.ride.driverPicture} size={75} style={{marginTop: 16}} />
+          <Avatar src={this.props.ride.driverPicture} size={70} style={{marginTop: 16}} />
           <div style={{marginTop: 6, textAlign: 'center'}}>{this.props.ride.driverName.split(' ')[0] + ', ' + this.props.ride.driverAge}</div>
           <div style={{marginTop: 12}}><ChatIcon data-cucumber="chat" color={config.colors.main} onClick={this.gotoChat}/></div>
         </div>

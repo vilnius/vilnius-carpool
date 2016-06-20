@@ -1,4 +1,3 @@
-import wrapScreen from '../layout/wrapScreen'
 //import { TAPi18n} from 'meteor/tap:i18n';
 import {__} from 'meteor/carpool-i18n'
 import { config, muiTheme } from '../config'
@@ -227,7 +226,7 @@ export default class TripForm extends React.Component {
           {/*<DatePicker hintText={__('labelDate')} style={{marginTop: 20}} value={this.state.date} onChange={this.muiValueChanged.bind(this, 'date')} />
           <TimePicker hintText={__('labelTime')} style={{marginTop: 20}} format='24hr' value={this.state.time} onChange={this.muiValueChanged.bind(this, 'time')} />*/}
           <div style={{
-            maxWidth: window.innerWidth * 0.85
+            maxWidth: this.props.width * 0.85
           }}>
             <b>{this.state.isDepartureDate ? 'Depart at:' : 'Arrive by:'}</b>
             {' ' + this.state.date.format('ddd, MMM D, k:mm')}
@@ -235,7 +234,7 @@ export default class TripForm extends React.Component {
             <DateTimePicker ref="picker" onDateSelected={({date, isDepartureDate}) => this.setState({date, isDepartureDate})} />
           </div>
           <div style={{
-            maxWidth: window.innerWidth * 0.85
+            maxWidth: this.props.width * 0.85
           }}>
             <b>Repat on: </b>
             {this.state.dontRepeat ? 'Don\'t repeat' :
@@ -317,8 +316,3 @@ var styles = {
     width: 100,
   },
 }
-
-TripFormScreen = wrapScreen(TripForm, {
-  innerScreen: false,
-  title: 'New Ride Request',
-})

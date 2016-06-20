@@ -1,7 +1,5 @@
 import React from 'react'
 import { createContainer } from 'meteor/react-meteor-data';
-
-import wrapScreen from '../layout/wrapScreen'
 import RidesList from '../components/RidesList'
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import ContentAdd from 'material-ui/lib/svg-icons/content/add';
@@ -41,8 +39,3 @@ export default RideOffers = createContainer(({filterOwn = "all", role = "driver"
     trips
   };
 }, RidesList);
-
-// RideOffersScreen = wrapScreen(RideOffers, {
-//   newRideButton: true,
-//   title: 'Ride Offers',
-// })

@@ -1,6 +1,5 @@
 import React from 'react'
 import { createContainer } from 'meteor/react-meteor-data';
-import wrapScreen from '../layout/wrapScreen'
 import NotificationCard from './NotificationCard'
 import Loader from '../components/Loader'
 import Snackbar from 'material-ui/lib/snackbar';
@@ -59,9 +58,11 @@ export default class Notifications extends React.Component {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          paddingTop: 8, // Like material-ui List
+          paddingBottom: 8,
         }}>
           {notifications.map((notification, i) => (
-            <NotificationCard key={i} notification={notification} width={window.innerWidth}
+            <NotificationCard key={i} notification={notification} width={this.props.width}
               snack={this.showSnackbar.bind(this)} />
           ))}
           <Snackbar

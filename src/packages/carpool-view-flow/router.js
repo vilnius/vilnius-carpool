@@ -7,7 +7,7 @@ import {mount} from 'react-mounter';
 
 import {d, da} from 'meteor/spastai:logw'
 
-import {LandingLayout, PlainLayout, NotificationLayout} from './layout'
+import { MainLayout, SecureLayout } from './layout'
 import {FlowHelpers} from './flowHelpers'
 import BottomTabs from "./react/layout/BottomTabs"
 import NewRideButton from './react/layout/NewRideButton'
@@ -52,7 +52,7 @@ FlowRouter.route('/', {
 FlowRouter.route('/rideRequest/:id', {
   name: "RideRequest",
   action: function(params, queryParams) {
-    mount(PlainLayout, {
+    mount(MainLayout, {
       topMenu: <TopMenu title="Ride requests" innerScreen />,
       content: <RequestRideScreen tripId={params.id}/>,
     });
@@ -63,7 +63,7 @@ FlowRouter.route('/rideRequest/:id', {
 FlowRouter.route('/rideConfirm/:id', {
   name: "RideConfirm",
   action: function(params, queryParams) {
-    mount(PlainLayout, {
+    mount(MainLayout, {
       topMenu: <TopMenu title="Ride confirmation" innerScreen />,
       content: <ConfirmRideScreen tripId={params.id}/>,
     });
@@ -74,7 +74,7 @@ FlowRouter.route('/login', {
     name: "Login",
     action: function(params, queryParams) {
       //console.log("Routing to - new trip form", TripFormScreen);
-      mount(PlainLayout, {
+      mount(MainLayout, {
         content: <LoginScreen />,
       });
     }
@@ -92,7 +92,7 @@ FlowRouter.route('/loginUsername', {
     name: "LoginUsername",
     action: function(params, queryParams) {
       //console.log("Routing to - new trip form", TripFormScreen);
-      mount(PlainLayout, {
+      mount(MainLayout, {
         content: <LoginUsernameScreen />,
       });
     }
@@ -102,10 +102,11 @@ FlowRouter.route('/notifications', {
     name: "Notifications",
     action: function(params, queryParams) {
       //console.log("Routing to - new trip form", TripFormScreen);
-      mount(NotificationLayout, {
+      mount(MainLayout, {
         topMenu: <TopMenu title="Notifications" />,
         content: <NotificationsScreen />,
         bottomMenu: <BottomTabs selectedTabIndex={3} />,
+        renderFeedbackButton: true,
       });
     }
 });
@@ -118,7 +119,7 @@ Important to note that other query params are preserved
 FlowRouter.route('/locationAutocomplete/:screen/:field', {
   name: 'LocationAutocomplete',
   action: function(params, queryParams) {
-    mount(PlainLayout, {
+    mount(MainLayout, {
       content: <LocationAutocomplete field={params.field} onSelect={(sugestion) => {
         location = googleServices.toLocation(sugestion.latlng);
         locStr = googleServices.encodePoints([location]);
@@ -155,20 +156,20 @@ securedRoutes.route('/newRide', {
       if(queryParams.bLoc) {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
-      mount(PlainLayout, {
+      mount(SecureLayout, {
         topMenu: <TopMenu title="New Trip" innerScreen />,
         content: <TripFormScreen from={aLoc} to={bLoc}
           fromAddress={addresses.aLoc} toAddress={addresses.bLoc}/>,
       });
     }
 });
- 
+
 securedRoutes.route('/drive/:id', {
  name: "YourDrive",
  action: function(params, queryParams) {
-   mount(PlainLayout, {
+   mount(SecureLayout, {
      topMenu: <TopMenu title="Your drive" innerScreen returnScreen="YourDrives" />,
-   content: <YourDriveScreen tripId={params.id}/>,
+     content: <YourDriveScreen tripId={params.id}/>,
    });
  }
 });
@@ -176,9 +177,9 @@ securedRoutes.route('/drive/:id', {
 securedRoutes.route('/ride/:id', {
  name: "YourRide",
  action: function(params, queryParams) {
-   mount(PlainLayout, {
+   mount(SecureLayout, {
      topMenu: <TopMenu title="Your ride" innerScreen returnScreen="YourDrives" />,
-   content: <YourDriveScreen tripId={params.id}/>,
+     content: <YourDriveScreen tripId={params.id}/>,
    });
  }
 });
@@ -186,7 +187,7 @@ securedRoutes.route('/ride/:id', {
 securedRoutes.route('/feedback', {
    name: "Feedback",
    action: function(params, queryParams) {
-     mount(PlainLayout, {
+     mount(SecureLayout, {
        topMenu: <TopMenu title="Feedback" innerScreen />,
        content: <FeedbackScreen />,
      });
@@ -196,25 +197,27 @@ securedRoutes.route('/feedback', {
 securedRoutes.route('/drives', {
  name: "YourDrives",
  action: function(params, queryParams) {
-   mount(LandingLayout, {
-     topMenu: <TopMenu title="My Trips" hasTopTabs background="blue" />,
+   mount(SecureLayout, {
+     topMenu: <TopMenu title="My Trips" noShadow background="blue" />,
      topFilter: <TopTabs selectedTabIndex={1} />,
      content: <RideOffersScreen filterOwn="your" role="driver" />,
      bottomMenu: <BottomTabs selectedTabIndex={2} />,
-     extras: [<NewRideButton key="NewRideButton" />],
-   });
+     renderNewTripButton: true,
+     renderFeedbackButton: true,
+   })
  }
 });
 
 securedRoutes.route('/rides', {
  name: "YourRides",
  action: function(params, queryParams) {
-   mount(LandingLayout, {
-     topMenu: <TopMenu title="My Trips" hasTopTabs background="blue" />,
+   mount(SecureLayout, {
+     topMenu: <TopMenu title="My Trips" noShadow background="blue" />,
      topFilter: <TopTabs selectedTabIndex={0} />,
      content: <RideOffersScreen filterOwn="your" role="rider" />,
      bottomMenu: <BottomTabs selectedTabIndex={2} />,
-     extras: [<NewRideButton key="NewRideButton" />],
+     renderNewTripButton: true,
+     renderFeedbackButton: true,
    });
  }
 });
@@ -223,11 +226,12 @@ securedRoutes.route('/rides', {
 FlowRouter.route('/m/all/requests', {
   name: "RideRequests",
   action: function(params, queryParams) {
-    mount(LandingLayout, {
+    mount(MainLayout, {
       topMenu: <TopMenu title="Ride requests" background="green" />,
       content: <RideOffersScreen role="rider"/>,
       bottomMenu: <BottomTabs selectedTabIndex={0} />,
-      extras: [<NewRideButton key={'NewRideButton'} />],
+      renderNewTripButton: true,
+      renderFeedbackButton: true,
     });
   }
 });
@@ -244,12 +248,13 @@ FlowRouter.route('/m/all/offers', {
       }
       console.log("Offers route", params, queryParams, "and aLoc:", aLoc);
       // by coincidence aLoc, bLoc and addresses are stored as global variables...
-      mount(LandingLayout, {
-        topMenu: <TopMenu title="Ride offers" hasTopTabs background="blue" />,
+      mount(MainLayout, {
+        topMenu: <TopMenu title="Ride offers" noShadow background="blue" />,
         topSearch: <TopSearch from={aLoc} to={bLoc} fromAddress={addresses.aLoc} toAddress={addresses.bLoc} />,
         content: <RideOffersScreen aLoc={aLoc} bLoc={bLoc} />,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
-        extras: [<NewRideButton key={'NewRideButton'} />],
+        renderNewTripButton: true,
+        renderFeedbackButton: true,
       });
     }
 });
@@ -258,7 +263,7 @@ securedRoutes.route('/chat/:cdUser', {
     name: "Chat",
     action: function(params, queryParams) {
       //console.log("Routing to - new trip form", TripFormScreen);
-      mount(PlainLayout, {
+      mount(SecureLayout, {
         topMenu: <TopMenu title="Chat" innerScreen />,
         content: <Chat cdUserId={params.cdUser}/>,
       });

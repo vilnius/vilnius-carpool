@@ -8,7 +8,6 @@ import GoogleMap from '../components/GoogleMap'
 import { config, muiTheme } from '../config'
 import RaisedButton from 'material-ui/lib/raised-button';
 import Snackbar from 'material-ui/lib/snackbar';
-import wrapScreen from '../layout/wrapScreen'
 import RideInfo from '../components/RideInfo'
 import { getUserPicture } from '../api/UserPicture.coffee'
 import Loader from '../components/Loader'
@@ -40,9 +39,8 @@ export default class RequestRide extends React.Component {
   };
 
   render () {
-    const topBarHeight = 50
-    const rideInfoHeight = 250
-    const mapHeight = window.innerHeight - topBarHeight - rideInfoHeight
+    const rideInfoHeight = 215
+    const mapHeight = this.props.height - rideInfoHeight
     const {progress, trip, stops} = this.props;
 
     if (100 != progress.getProgress()) {
@@ -63,26 +61,25 @@ export default class RequestRide extends React.Component {
       return (
         <div style={{color: config.colors.textColor}}>
           <div style={{
-            width: window.innerWidth,
+            width: this.props.width,
             height: mapHeight,
-            marginTop: topBarHeight
           }}>
             <GoogleMap trip={trip} stops={stops} />
           </div>
           <div style={{display: 'flex', flexDirection: 'column'}}>
-            <RideInfo ride={trip} width={window.innerWidth} />
+            <RideInfo ride={trip} width={this.props.width} />
             <div style={{
               marginTop: 18,
               textAlign: 'center',
             }}>
               { !!isRequested ? (
-                <RaisedButton primary style={{width: window.innerWidth * 0.9, borderRadius: 5}}
+                <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
                   data-cucumber="withdraw-request" label='Withdraw'
                   secondary onClick={() => {
                     this.showSnackbar("Trip request withdrawn");
                   }} />
               ) : (
-                <RaisedButton primary style={{width: window.innerWidth * 0.9, borderRadius: 5}}
+                <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
                   data-cucumber="request" label='Request'
                   secondary onClick={() => {
                     carpoolService.requestRide(trip._id);

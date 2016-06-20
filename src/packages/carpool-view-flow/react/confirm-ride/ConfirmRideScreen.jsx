@@ -6,7 +6,6 @@ import { _ } from 'meteor/underscore';
 import GoogleMap from '../components/GoogleMap'
 import { config, muiTheme } from '../config'
 import RaisedButton from 'material-ui/lib/raised-button';
-import wrapScreen from '../layout/wrapScreen'
 import RideInfo from '../components/RideInfo'
 import Loader from '../components/Loader'
 
@@ -70,8 +69,3 @@ export default ConfirmRideContainer = createContainer(({tripId}) => {
     trip,
   };
 }, ConfirmRide);
-
-ConfirmRideWrap = wrapScreen(ConfirmRide, {
-  innerScreen: true,
-  title: 'Ride confirmation',
-})
