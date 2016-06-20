@@ -114,7 +114,7 @@ export default class TopMenu extends React.Component {
             </div>
             { this.state.loggedIn ? (
             <div style={{marginTop: 2, width: '100%'}}>
-              <FlatButton style={{width: '100%', textAlign: 'left'}} label={`Logout ${getUserName(Meteor.user())}`} icon={<PersonOutlineIcon />}
+              <FlatButton style={{width: '100%', textAlign: 'left'}} label={`Logout ${getUserName(Meteor.user()).split(' ')[0]}`} icon={<PersonOutlineIcon />}
                 onClick={() => this.doLogout()} />
             </div>
             ) : (

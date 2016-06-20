@@ -89,20 +89,24 @@ export const PlainLayout = createContainer(({topMenu, content}) => {
 }, ({isLoading, topMenu, content}) => {
   const topBarHeight = 45
 
-  if(isLoading) return (
-    <section style={{height: "100%", marginTop: 25}}>
-      <Loader />
-    </section>
-  )
-  else return (
-    <Wrapper>
-      <div>
-        <header>
-          {topMenu}
-        </header>
-        <main style={{marginTop: topBarHeight }}>
-          {content}
-        </main>
-      </div>
-    </Wrapper>
-)});;
+  if(isLoading) {
+    return (
+      <section style={{height: "100%", marginTop: 25}}>
+        <Loader />
+      </section>
+    )
+  } else {
+    return (
+      <Wrapper>
+        <div>
+          <header>
+            {topMenu}
+          </header>
+          <main style={{marginTop: topBarHeight }}>
+            {content}
+          </main>
+        </div>
+      </Wrapper>
+    )
+  }
+});
