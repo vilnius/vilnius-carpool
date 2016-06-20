@@ -9,7 +9,7 @@ import NotifiactionsNoneIcon from 'material-ui/lib/svg-icons/social/notification
 
 export default class DesktopLayout extends React.Component {
   render () {
-    d("Return screen", this.props.returnScreen);    
+    //d("Return screen", this.props.returnScreen);    
     return (
       <div>
         <AppBar

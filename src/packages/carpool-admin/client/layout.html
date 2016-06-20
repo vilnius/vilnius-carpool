@@ -1,0 +1,11 @@
+<template name="adminLayout">
+  {{#if Template.subscriptionsReady}}
+    {{#if isAdmin}}
+      {{>Template.dynamic template=content}}
+    {{else}}
+      {{>AdminLogin}}
+    {{/if}}
+  {{else}}
+    Loading...
+  {{/if}}
+</template>

@@ -92,7 +92,7 @@ export default class RideInfo extends React.Component {
               </div>
 
             <div style={{display: 'flex', flexDirection: 'row', marginTop: 8}}>
-              <RecurringDays daysActive={[false, true, true, false, true, false, false]}/>
+              {moment(trip.time).format("lll")}
             </div>
           </div>
         </div>

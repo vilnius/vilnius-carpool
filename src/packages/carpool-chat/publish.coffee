@@ -1,3 +1,3 @@
-Meteor.publish 'Chat', ->
-  #ChatHistory.find({userId: this.userId});
-  ChatHistory.find({});
+Meteor.publish 'Chat', (cdUserId)->
+  ChatHistory.find({from: this.userId, to: cdUserId});
+  #ChatHistory.find({});
