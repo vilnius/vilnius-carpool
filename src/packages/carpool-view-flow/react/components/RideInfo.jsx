@@ -97,7 +97,7 @@ export default class RideInfo extends React.Component {
           </div>
         </div>
         <div style={{display: 'flex', flexDirection: 'column', width: 100, alignItems: 'center'}}>
-          <Avatar src={this.props.ride.driverPicture} size={75} style={{marginTop: 16}} />
+          <Avatar src={this.props.ride.driverPicture} size={70} style={{marginTop: 16}} />
           <div style={{marginTop: 6, textAlign: 'center'}}>{this.props.ride.driverName.split(' ')[0] + ', ' + this.props.ride.driverAge}</div>
           <div style={{marginTop: 12}}><ChatIcon data-cucumber="chat" color={config.colors.main} onClick={this.gotoChat}/></div>
         </div>

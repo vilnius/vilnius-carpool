@@ -59,6 +59,8 @@ export default class Notifications extends React.Component {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          paddingTop: 8, // Like material-ui List
+          paddingBottom: 8,
         }}>
           {notifications.map((notification, i) => (
             <NotificationCard key={i} notification={notification} width={window.innerWidth}

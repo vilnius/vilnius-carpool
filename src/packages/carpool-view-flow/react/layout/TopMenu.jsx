@@ -11,7 +11,6 @@ import PersonOutlineIcon from 'material-ui/lib/svg-icons/social/person-outline'
 import BackIcon from 'material-ui/lib/svg-icons/navigation/arrow-back'
 import { FlowHelpers } from '../../flowHelpers'
 
-import Paper from 'material-ui/lib/paper'
 import FlatButton from 'material-ui/lib/flat-button'
 import { config } from '../config'
 
@@ -41,20 +40,20 @@ export default class TopMenu extends React.Component {
 
     return (
       <div>
-        <Paper
+        <div
           style={{
-            position: 'fixed',
+            // position: 'fixed',
             top: 0,
-            height: 50,
-            width: window.innerWidth,
+            height: this.props.height,
+            width: this.props.width,
             background: this.props.background === 'blue' ? config.colors.main :
               (this.props.background === 'green' ? config.colors.green :
               (this.props.background ? this.props.background : config.colors.main)),
             color: 'white',
             borderRadius: 0,
-            zIndex: 2,
+            // zIndex: 2,
           }}
-          zDepth={this.props.hasTopTabs ? 0 : 1}
+          zDepth={this.props.noShadow ? 0 : 1}
         >
           <div style={{
             display: 'flex',
@@ -82,7 +81,7 @@ export default class TopMenu extends React.Component {
               {this.props.title}
             </div>
           </div>
-        </Paper>
+        </div>
         <LeftNav
           open={this.state.menuOpen}
           onRequestChange={(menuOpen) => this.setState({ menuOpen })}
@@ -99,8 +98,8 @@ export default class TopMenu extends React.Component {
               paddingBottom: 10
             }}>
               <Avatar src={avatar} size={60} style={{marginLeft: 10}} />
-              <div style={{marginLeft: 17, marginTop: 3}}>
-                Name
+              <div style={{width: 74, marginTop: 3, textAlign: 'center'}}>
+                {getUserName(Meteor.user()).split(' ')[0]}
               </div>
             </div>
             <div style={{marginTop: 2, width: '100%'}}>

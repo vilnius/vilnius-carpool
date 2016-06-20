@@ -12,7 +12,6 @@ import PersonIcon from 'material-ui/lib/svg-icons/social/person'
 import { config } from '../config'
 
 class BottomTabs extends React.Component {
-
   constructor (props) {
     super(props)
 
@@ -43,8 +42,8 @@ class BottomTabs extends React.Component {
       <Paper style={{
         position: 'fixed',
         bottom: 0,
-        height: 64,
-        width: window.innerWidth,
+        height: this.props.height,
+        width: this.props.width,
         zIndex: 1,
         color: 'white'
       }}>

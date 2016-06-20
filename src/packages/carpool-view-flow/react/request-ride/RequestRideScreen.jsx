@@ -40,9 +40,8 @@ export default class RequestRide extends React.Component {
   };
 
   render () {
-    const topBarHeight = 50
-    const rideInfoHeight = 250
-    const mapHeight = window.innerHeight - topBarHeight - rideInfoHeight
+    const rideInfoHeight = 215
+    const mapHeight = this.props.height - rideInfoHeight
     const {progress, trip, stops} = this.props;
 
     if (100 != progress.getProgress()) {
@@ -63,9 +62,8 @@ export default class RequestRide extends React.Component {
       return (
         <div style={{color: config.colors.textColor}}>
           <div style={{
-            width: window.innerWidth,
+            width: this.props.width,
             height: mapHeight,
-            marginTop: topBarHeight
           }}>
             <GoogleMap trip={trip} stops={stops} />
           </div>
