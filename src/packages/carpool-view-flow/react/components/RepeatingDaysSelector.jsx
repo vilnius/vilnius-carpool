@@ -74,7 +74,7 @@ export default class RepeatingDaysSelector extends React.Component {
           flexDirection: 'column',
         }}>
           {days.map((d, i) => (
-            <div style={{
+            <div key={i} style={{
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
