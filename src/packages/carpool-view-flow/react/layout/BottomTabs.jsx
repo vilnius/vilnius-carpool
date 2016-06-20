@@ -12,36 +12,13 @@ import PersonIcon from 'material-ui/lib/svg-icons/social/person'
 import { config } from '../config'
 
 class BottomTabs extends React.Component {
-  constructor (props) {
-    super(props)
-
-    const resizeListener = () => {
-      this.setState({
-        ww: window.innerWidth,
-        wh: window.innerHeight
-      })
-    }
-
-    window.addEventListener('resize', resizeListener)
-
-    this.state = {
-      ww: window.innerWidth,
-      wh: window.innerHeight,
-      resizeListener,
-    }
-  }
-
-  componentWillUnmount () {
-    window.removeEventListener('resize', this.state.resizeListener)
-  }
-
   render () {
     const notificationsAmount = this.props.notificationsAmount || 0
     // const { notificationsAmount } = this.props
     return (
       <Paper style={{
         position: 'fixed',
-        bottom: 0,
+        bottom: this.props.isMobile ? 0 : 28,
         height: this.props.height,
         width: this.props.width,
         zIndex: 1,
@@ -76,7 +53,7 @@ class BottomTabs extends React.Component {
               <div style={{position: 'relative'}}>
                 Notifications
                 {notificationsAmount ? (
-                  <div style={{position: 'absolute', left: window.innerWidth / 8 - 9, top: -32, borderRadius: '50%', background: config.colors.highlight, width: 14, height: 14, lineHeight: '15px'}}>
+                  <div style={{position: 'absolute', left: this.props.width / 8 - 9, top: -32, borderRadius: '50%', background: config.colors.highlight, width: 14, height: 14, lineHeight: '15px'}}>
                     <div style={{marginLeft: -1}}>{notificationsAmount}</div>
                   </div>
                 ) : null}

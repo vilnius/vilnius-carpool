@@ -102,7 +102,7 @@ export default class LocationAutocomplete extends React.Component {
             <BackButton />
           </div>
           <TextField hintText="Search for places, addresses, stops, etc." autoFocus={true}
-            hintStyle={{color: '#eee', fontSize: 12}} style={{marginLeft: 20, width: window.innerWidth - 75}}
+            hintStyle={{color: '#eee', fontSize: 12}} style={{marginLeft: 20, width: this.props.width - 75}}
             onChange={this.inputChanged.bind(this)} inputStyle={{color: 'white'}}
           />
         </Paper>

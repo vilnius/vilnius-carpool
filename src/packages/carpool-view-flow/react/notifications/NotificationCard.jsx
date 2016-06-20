@@ -52,7 +52,6 @@ class NotificationCard extends React.Component {
       return (
         <Paper data-cucumber="notification" style={{
           width: this.props.width - 20,
-          height: 110,
           margin: 5,
         }}>
           <div style={{
@@ -122,10 +121,13 @@ class NotificationCard extends React.Component {
                           flowControllerHelper.goToView('RideConfirm', {id: notification.trip})
                           notificationClient.dismissAlert(notification._id)
                         }} />
-                        <FlatButton data-cucumber="chat" label="Chat" secondary
-                          onClick={() => {
-                            FlowRouter.go("Chat", {cdUser: this.props.notification.userId});
-                          }} />
+                    </div>
+                    <div>
+                      <FlatButton data-cucumber="chat" label="Chat" secondary
+                        onClick={() => {
+                          FlowRouter.go("Chat", {cdUser: this.props.notification.userId});
+                        }}
+                      />
                     </div>
                   </div>
                   )
@@ -148,10 +150,13 @@ class NotificationCard extends React.Component {
                           flowControllerHelper.goToView('RideRequest', {id: notification.trip})
                           notificationClient.dismissAlert(notification._id)
                         }} />
+                    </div>
+                    <div>
                       <FlatButton data-cucumber="review-chat" label="Chat" secondary
                         onClick={() => {
                           FlowRouter.go("Chat", {cdUser: this.props.notification.userId});
-                        }} />
+                        }}
+                      />
                     </div>
                   </div>
                   )

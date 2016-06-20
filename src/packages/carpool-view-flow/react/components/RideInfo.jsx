@@ -79,7 +79,7 @@ export default class RideInfo extends React.Component {
                 {moment(trip.aTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
                   <div style={{...circleStyle, borderColor: 'green' }}></div>
-                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{trip.fromAddress}</div>
+                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: this.props.width - 185}}>{trip.fromAddress}</div>
                 </div>
               </div>
               {stops}
@@ -87,7 +87,7 @@ export default class RideInfo extends React.Component {
                 {moment(trip.bTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
                   <div style={{...circleStyle, borderColor: 'red' }}></div>
-                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{trip.toAddress}</div>
+                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: this.props.width - 185}}>{trip.toAddress}</div>
                 </div>
               </div>
 

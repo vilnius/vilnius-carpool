@@ -17,28 +17,30 @@ export class MainLayout extends React.Component {
       this.setState({
         ww: ww,
         wh: wh,
-        appWidth: Math.min(ww, 1300),
+        appWidth: ww > 1024 ? 900 : ww,
         appHeight: wh,
-        isMobile: ww < 1300,
+        isMobile: ww <= 1024,
       })
     }
 
     window.addEventListener('resize', resizeListener)
+    window.addEventListener('orientationchange', resizeListener)
 
     const ww = window.innerWidth
     const wh = window.innerHeight
     this.state = {
       ww: window.innerWidth,
       wh: window.innerHeight,
-      appWidth: Math.min(ww, 1300),
-      appHeight: wh,
-      isMobile: ww < 1300,
+      appWidth: ww > 1024 ? 900 : ww,
+      appHeight: ww <= 1024 ? wh : wh - 30,
+      isMobile: ww <= 1024,
       resizeListener,
     }
   }
 
   componentWillUnmount () {
     window.removeEventListener('resize', this.state.resizeListener)
+    window.removeEventListener('orientationchange', this.state.resizeListener)
   }
 
   getChildContext () {
@@ -51,7 +53,7 @@ export class MainLayout extends React.Component {
     return !element ? null :
       React.cloneElement(element, {
         width: this.state.appWidth,
-        height: this.state.appHeight,
+        isMobile: this.state.isMobile,
         ...extraParams,
       })
   }
@@ -61,7 +63,9 @@ export class MainLayout extends React.Component {
     const topSearchHeight = this.props.topSearch ? 115 : 0
     const topFilterHeight = this.props.topFilter ? 48 : 0 // Looks bad if not 48 at the moment
     const bottomMenuHeight = this.props.bottomMenu ? 64 : 0
-    const contentHeight = this.state.wh - (topMenuHeight + topSearchHeight + topFilterHeight + bottomMenuHeight)
+    const contentHeight = this.state.appHeight - (topMenuHeight + topSearchHeight + topFilterHeight + bottomMenuHeight)
+
+    const iconSideOffset = (this.state.ww - this.state.appWidth) / 2
 
     return (
       <div>
@@ -82,14 +86,28 @@ export class MainLayout extends React.Component {
             {this.renderElement(this.props.bottomMenu, { height: bottomMenuHeight })}
           </bottom>
         ) : null}
-        {this.props.renderNewTripButton ? <FloatingNewRideButton /> : null}
-        {this.props.renderFeedbackButton ? <FloatingFeedbackButton /> : null}
+        {this.props.renderNewTripButton ? <FloatingNewRideButton isMobile={this.state.isMobile} sideOffset={iconSideOffset} /> : null}
+        {this.props.renderFeedbackButton ? <FloatingFeedbackButton isMobile={this.state.isMobile} sideOffset={iconSideOffset} /> : null}
       </div>
     )
   }
 
   render () {
-    return this.renderMobile()
+    if (this.state.isMobile) {
+      return this.renderMobile()
+    }
+
+    return (
+      <Paper
+        style={{
+          width:this.state.appWidth,
+          height: this.state.appHeight,
+          margin: '10px auto',
+        }}
+      >
+        {this.renderMobile()}
+      </Paper>
+    )
     // Needs to render <= 1024, >1024, >1280
   }
 }

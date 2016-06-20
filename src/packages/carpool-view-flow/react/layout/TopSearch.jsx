@@ -65,7 +65,7 @@ export default class TopSearch extends React.Component {
   }
 
   render () {
-    const styles = getStyles(window.innerWidth)
+    const styles = getStyles(this.props.width)
     return (
       <div
         style={{
