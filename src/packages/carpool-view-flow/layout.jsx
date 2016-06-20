@@ -124,84 +124,17 @@ MainLayout.propTypes = {
   content: React.PropTypes.element.isRequired,
 }
 
-
-// const Wrapper = React.createClass({
-//   getInitialState () {
-//     const resizeListener = () => {
-//       this.setState({
-//         ww: window.innerWidth,
-//         wh: window.innerHeight
-//       })
-//     }
-//
-//     window.addEventListener('resize', resizeListener)
-//
-//     return {
-//       ww: window.innerWidth,
-//       wh: window.innerHeight,
-//       resizeListener,
-//     }
-//   },
-//
-//   componentWillUnmount () {
-//     window.removeEventListener('resize', this.state.resizeListener)
-//   },
-//
-//   childContextTypes: {
-//     muiTheme: React.PropTypes.object,
-//     appWidth: React.PropTypes.number,
-//     appHeight: React.PropTypes.number,
-//     isMobile: React.PropTypes.bool,
-//   },
-//
-//   getChildContext () {
-//     return {
-//       muiTheme: ThemeManager.getMuiTheme(muiTheme),
-//       appWidth: this.state.ww > 1300 ? 1300 : this.state.ww,
-//       appHeight: this.state.wh,
-//       isMobile: this.state.ww <= 1300,
-//     }
-//   },
-//
-//   render () {
-//     return this.state.ww <= 1300 ? this.props.children : (
-//       <Paper style={{
-//         width: 1300,
-//         padding: 20,
-//         margin: '0px auto',
-//       }}>
-//         {this.props.children}
-//       </Paper>
-//     )
-//   }
-// })
-//
-// // This layout makes sure that at least users subscribtion is loadded
-// // TODO apply this only for login
-// export const PlainLayout = createContainer(({topMenu, content}) => {
-//   isLoading = !userSubs.ready();
-//   return {isLoading, topMenu, content};
-// }, ({isLoading, topMenu, content}) => {
-//   const topBarHeight = 45
-//
-//   if(isLoading) {
-//     return (
-//       <section style={{height: "100%", marginTop: 25}}>
-//         <Loader />
-//       </section>
-//     )
-//   } else {
-//     return (
-//       <Wrapper>
-//         <div>
-//           <header>
-//             {topMenu}
-//           </header>
-//           <main style={{marginTop: topBarHeight }}>
-//             {content}
-//           </main>
-//         </div>
-//       </Wrapper>
-//     )
-//   }
-// });
+export const SecureLayout = createContainer((props) => {
+  isLoading = !userSubs.ready();
+  return {isLoading, props};
+}, ({isLoading, props}) => {
+  if (isLoading) {
+    return (
+      <section style={{height: "100%", marginTop: 25}}>
+        <Loader />
+      </section>
+    )
+  } else {
+    return <MainLayout {...props} />
+  }
+})

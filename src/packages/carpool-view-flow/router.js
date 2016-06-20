@@ -7,7 +7,7 @@ import {mount} from 'react-mounter';
 
 import {d, da} from 'meteor/spastai:logw'
 
-import { MainLayout } from './layout'
+import { MainLayout, SecureLayout } from './layout'
 import {FlowHelpers} from './flowHelpers'
 import BottomTabs from "./react/layout/BottomTabs"
 import NewRideButton from './react/layout/NewRideButton'
@@ -156,7 +156,7 @@ securedRoutes.route('/newRide', {
       if(queryParams.bLoc) {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
-      mount(MainLayout, {
+      mount(SecureLayout, {
         topMenu: <TopMenu title="New Trip" innerScreen />,
         content: <TripFormScreen from={aLoc} to={bLoc}
           fromAddress={addresses.aLoc} toAddress={addresses.bLoc}/>,
@@ -167,7 +167,7 @@ securedRoutes.route('/newRide', {
 securedRoutes.route('/drive/:id', {
  name: "YourDrive",
  action: function(params, queryParams) {
-   mount(MainLayout, {
+   mount(SecureLayout, {
      topMenu: <TopMenu title="Your drive" innerScreen returnScreen="YourDrives" />,
      content: <YourDriveScreen tripId={params.id}/>,
    });
@@ -177,7 +177,7 @@ securedRoutes.route('/drive/:id', {
 securedRoutes.route('/ride/:id', {
  name: "YourRide",
  action: function(params, queryParams) {
-   mount(MainLayout, {
+   mount(SecureLayout, {
      topMenu: <TopMenu title="Your ride" innerScreen returnScreen="YourDrives" />,
      content: <YourDriveScreen tripId={params.id}/>,
    });
@@ -187,7 +187,7 @@ securedRoutes.route('/ride/:id', {
 securedRoutes.route('/feedback', {
    name: "Feedback",
    action: function(params, queryParams) {
-     mount(MainLayout, {
+     mount(SecureLayout, {
        topMenu: <TopMenu title="Feedback" innerScreen />,
        content: <FeedbackScreen />,
      });
@@ -197,7 +197,7 @@ securedRoutes.route('/feedback', {
 securedRoutes.route('/drives', {
  name: "YourDrives",
  action: function(params, queryParams) {
-   mount(MainLayout, {
+   mount(SecureLayout, {
      topMenu: <TopMenu title="My Trips" noShadow background="blue" />,
      topFilter: <TopTabs selectedTabIndex={1} />,
      content: <RideOffersScreen filterOwn="your" role="driver" />,
@@ -211,7 +211,7 @@ securedRoutes.route('/drives', {
 securedRoutes.route('/rides', {
  name: "YourRides",
  action: function(params, queryParams) {
-   mount(MainLayout, {
+   mount(SecureLayout, {
      topMenu: <TopMenu title="My Trips" noShadow background="blue" />,
      topFilter: <TopTabs selectedTabIndex={0} />,
      content: <RideOffersScreen filterOwn="your" role="rider" />,
@@ -263,7 +263,7 @@ securedRoutes.route('/chat/:cdUser', {
     name: "Chat",
     action: function(params, queryParams) {
       //console.log("Routing to - new trip form", TripFormScreen);
-      mount(MainLayout, {
+      mount(SecureLayout, {
         topMenu: <TopMenu title="Chat" innerScreen />,
         content: <Chat cdUserId={params.cdUser}/>,
       });
