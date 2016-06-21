@@ -170,9 +170,9 @@ class CarpoolService
       owner: $ne: Meteor.userId()
       time: $gte: fromTime
     ).value();
-    d "Active trips", query
-    trips = Trips.find(query, sort: time: -1)
-    trips.fetch()
+    trips = Trips.find(query, sort: time: -1).fetch()
+    d "Active trips", query, trips
+    trips
 
   ###
   New version of getOwnTrips - reactive method to subscribe and find own Trips
