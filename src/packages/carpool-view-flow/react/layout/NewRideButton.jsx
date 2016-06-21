@@ -8,8 +8,8 @@ export default class newRideButton extends React.Component {
     return (
       <FloatingActionButton data-cucumber="addTrip" primary style={{
           position: 'fixed',
-          right: 12,
-          bottom: 75,
+          right: this.props.sideOffset + 12,
+          bottom: this.props.isMobile ? 75 : 100,
         }}
         onClick={() => FlowHelpers.goExtendedQuery('NewRide')}
       >

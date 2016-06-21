@@ -1,5 +1,4 @@
 import React from 'react'
-import wrapScreen from '../layout/wrapScreen'
 
 import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
@@ -59,8 +58,3 @@ export default class Login extends React.Component {
     )
   }
 }
-
-LoginWrap = wrapScreen(Login, {
-  innerScreen: true,
-  title: 'Login with username',
-})

@@ -1,5 +1,4 @@
 import React from 'react'
-import Paper from 'material-ui/lib/paper'
 import ExpandableSearch from '../components/ExpandableSearch'
 import { config } from '../config'
 import { FlowHelpers } from '../../flowHelpers'
@@ -66,13 +65,13 @@ export default class TopSearch extends React.Component {
   }
 
   render () {
-    const styles = getStyles(window.innerWidth)
+    const styles = getStyles(this.props.width)
     return (
-      <Paper
+      <div
         style={{
-          position: 'fixed',
-          top: 50,
-          width: window.innerWidth,
+          // position: 'fixed',
+          // top: this.props.topOffset,
+          width: this.props.width,
           background: this.props.background === 'blue' ? config.colors.main :
             (this.props.background === 'green' ? config.colors.green :
             (this.props.background ? this.props.background : config.colors.main)),
@@ -84,10 +83,10 @@ export default class TopSearch extends React.Component {
           paddingBottom: 10,
           display: 'flex',
           flexDirection: 'column',
-          zIndex: 1,
-          height: 115,
+          // zIndex: 1,
+          height: this.props.height,
         }}
-        zDepth={this.props.hasTopTabs ? 0 : 1}
+        zDepth={this.props.noShadow ? 0 : 1}
       >
         <div style={styles.searchField} onClick={() => {FlowHelpers.goExtendedQuery('LocationAutocomplete', {screen: "RideOffers", field:"aLoc"})}}>
           <div style={styles.searchHint}>from</div>
@@ -105,7 +104,7 @@ export default class TopSearch extends React.Component {
             FlowHelpers.goExtendedQuery(null, {}, {bTime: date.format("YYYYMMDDTHHmm")});
             this.setState({date, isDepartureDate})
         }} />
-      </Paper>
+      </div>
     )
   }
 }
