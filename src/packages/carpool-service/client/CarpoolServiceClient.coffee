@@ -171,7 +171,7 @@ class CarpoolService
       time: $gte: fromTime
     ).value();
     trips = Trips.find(query, sort: time: -1).fetch()
-    d "Active trips", query, trips
+    console.log "Active trips", query, trips
     trips
 
   ###
