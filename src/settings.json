@@ -9,7 +9,8 @@
       "sound": true,
       "alert": true,
       "vibrate": true
-    }
+    },
+    "tripsHistoryPeriod":1800000
   },
 
   "admin": {

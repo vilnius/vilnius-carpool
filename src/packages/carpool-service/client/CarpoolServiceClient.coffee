@@ -1,7 +1,7 @@
 { ParallelQueue } = require 'meteor/spastai:flow-controll'
 moment = require 'moment'
 
-tripsHistoryPeriod = Meteor.settings.public.tripsHistoryPeriod || 1000 * 60 * 60 * 24 * 60 
+tripsHistoryPeriod = Meteor.settings.public.tripsHistoryPeriod || 1000 * 60 * 60 * 24 * 60
 
 class CarpoolService
   preInitQueue = new ParallelQueue(@);
@@ -170,7 +170,7 @@ class CarpoolService
       owner: $ne: Meteor.userId()
       time: $gte: fromTime
     ).value();
-    #d "Active trips", query
+    d "Active trips", query
     trips = Trips.find(query, sort: time: -1)
     trips.fetch()
 
