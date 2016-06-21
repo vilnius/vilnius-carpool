@@ -1,6 +1,8 @@
 { ParallelQueue } = require 'meteor/spastai:flow-controll'
 moment = require 'moment'
 
+tripsHistoryPeriod = Meteor.settings.public.tripsHistoryPeriod || 1000 * 60 * 60 * 24 * 60 
+
 class CarpoolService
   preInitQueue = new ParallelQueue(@);
 
@@ -163,7 +165,7 @@ class CarpoolService
       return []
 
     now = new Date
-    fromTime = new Date(now.getTime() - (1000 * 60 * 60 * 24 * 60))
+    fromTime = new Date(now.getTime() - (tripsHistoryPeriod))
     query = _(filter).chain().omit("fromLoc", "toLoc").extend(
       owner: $ne: Meteor.userId()
       time: $gte: fromTime
