@@ -1,5 +1,6 @@
 import React from 'react'
 import { createContainer } from 'meteor/react-meteor-data';
+import { _ } from 'meteor/underscore';
 
 import TextField from 'material-ui/lib/text-field'
 import List from 'material-ui/lib/lists/list';
@@ -31,6 +32,18 @@ const getLocationSuggestions = (inputVal, callback) => {
         radius: 30000
       }, function(suggestions, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
+          result = _(suggestions).map( (item)=> {
+            //d("Terms length", item.terms.length)
+            if(1 < item.terms.length) {
+              //d("Concat address", item)
+              item.terms.pop();
+              const address = _(item.terms).pluck("value").join(", ");
+              return {description: address}
+            } else {
+              //d("Pass description", item)
+              return {description: item.description}
+            }
+          });
         // {
         //   description: "Paplaujos gatvė 3, Vilnius, Lietuva",
         //   id: "e658de75dc81451810db943c011acc28a7bc43c3",
@@ -39,7 +52,7 @@ const getLocationSuggestions = (inputVal, callback) => {
         //   terms: [{value: "Paplaujos gatvė"}, ...  "3", "Vilnius", "Lietuva"]
         //   reference: "CnRmAAAAIlCdKcgZ0xCnFTDaa2s11HNJ-ufv_YW6h1ZRg1Ent1…lxbAlg_7aONSzEeyNRbhoUmEVdwCxqrx5UQ9vDy7hIzG67tIE" …
         // }
-          callback(suggestions);
+          callback(result);
         } else {
           return callback([]);
         }
@@ -89,7 +102,7 @@ export default class LocationAutocomplete extends React.Component {
             <BackButton />
           </div>
           <TextField hintText="Search for places, addresses, stops, etc." autoFocus={true}
-            hintStyle={{color: '#eee', fontSize: 12}} style={{marginLeft: 20, width: window.innerWidth - 75}}
+            hintStyle={{color: '#eee', fontSize: 12}} style={{marginLeft: 20, width: this.props.width - 75}}
             onChange={this.inputChanged.bind(this)} inputStyle={{color: 'white'}}
           />
         </Paper>

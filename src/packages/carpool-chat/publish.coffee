@@ -1,3 +1,3 @@
-Meteor.publish 'Chat', ->
-  #ChatHistory.find({userId: this.userId});
-  ChatHistory.find({});
+Meteor.publish 'Chat', (cdUserId)->
+  ChatHistory.find($or:[{from: this.userId, to: cdUserId},{from: cdUserId, to: this.userId}]);
+  #ChatHistory.find({});

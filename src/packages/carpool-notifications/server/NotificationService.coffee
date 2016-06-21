@@ -1,3 +1,6 @@
+Meteor.startup ()->
+  Push.Configure Meteor.settings.push
+
 class @NotificationService
   notifyRequestRide: (trip)->
     user = Meteor.user();

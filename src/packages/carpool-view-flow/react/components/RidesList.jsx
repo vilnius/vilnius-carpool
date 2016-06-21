@@ -16,7 +16,7 @@ function getRandomBool() {
 
 export default class RidesList extends React.Component {
   render () {
-    const { progress, trips} = this.props;
+    const { progress, trips } = this.props;
     if (100 != progress.getProgress()) {
       return (
         <section style={{height: "100%", marginTop: 25}}>
@@ -25,7 +25,7 @@ export default class RidesList extends React.Component {
       );
     } else {
       return (
-        <List data-cucumber="trips-list" style={{marginTop: -4}}>
+        <List data-cucumber="trips-list">
           {trips.map((ride) => {
             user = Meteor.users.findOne({_id: ride.owner});
             ride.ownerName = getUserName(user);
@@ -45,7 +45,7 @@ export default class RidesList extends React.Component {
                 rightAvatar={
                   <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', top: 4, height: '100%'}}>
                     <Avatar src={ride.ownerAvatar} size={50} />
-                    <span style={{fontSize: 11, marginTop: 5, color: config.colors.textColor, fontWeight: 500}}>{ride.ownerName}</span>
+                    <span style={{fontSize: 11, marginTop: 5, color: config.colors.textColor, fontWeight: 500}}>{ride.ownerName.split(' ')[0]}</span>
                   </div>
                 }
               >

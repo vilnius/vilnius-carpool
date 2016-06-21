@@ -1,6 +1,15 @@
 {
   "public": {
-    "environment": "dev"
+    "environment": "dev",
+    "push": {
+      "android": {
+        "senderID": 665087134347
+      },
+      "badge": true,
+      "sound": true,
+      "alert": true,
+      "vibrate": true
+    }
   },
 
   "admin": {
@@ -10,14 +19,9 @@
 
   "push": {
     "gcm": {
-      "apiKey": "AIzaSyDjg-wX4AMaczReA_CNcDuFp-rSIvej260",
-      "projectNumber": 270486855279
+      "apiKey": "AIzaSyCif-vuW7_4mS5qzwTmvQ0LkM4P6Laeb_Q"
     },
-    "production": false,
-    "badge": true,
-    "sound": true,
-    "alert": true,
-    "vibrate": true
+    "production": false
   },
 
   "oauth": {

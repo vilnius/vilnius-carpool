@@ -54,7 +54,6 @@ module.exports = ()->
 
       urlLogin: (path, username, password)->
         this.logout();
-
         client.url(url.resolve(process.env.ROOT_URL, path));
         client.waitForExist 'input[id="inputUsername"]'
         client.setValue('input[id="inputUsername"]', username);

@@ -36,23 +36,23 @@ class NotificationCard extends React.Component {
     } else {
       //d("Notification", trip);
       if(undefined != trip) {
-        user = Meteor.users.findOne({_id: trip.owner});
-        avatar = getUserPicture(user);
-
+        fromUser = trip.owner
         isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
         // This is for a first request as MVP starts with one
         isConfirmed = trip.requests[0] && "accept" === trip.requests[0].response;
         //d("Trip requested", isRequested, trip);
       } else if("message" === notification.reason) {
-        d("Message recevied", notification)
+        d("Show notification card", notification)
+        fromUser = notification.context.from
       } else {
         console.warn("Not known notification type");
         return;
       }
+      user = Meteor.users.findOne({_id: fromUser});
+      avatar = getUserPicture(user);
       return (
         <Paper data-cucumber="notification" style={{
           width: this.props.width - 20,
-          height: 110,
           margin: 5,
         }}>
           <div style={{
@@ -86,9 +86,10 @@ class NotificationCard extends React.Component {
                             snack("Ride requested");
                           }} />
                       ) }
-                      <FlatButton data-cucumber="review" label="Review" secondary
+                      <FlatButton data-cucumber="review-request" label="Review" secondary
                         onClick={() => {
-                          flowControllerHelper.goToView('RideRequest', {id: notification.trip})
+                          d("Goto to rideRequest", notification);
+                          flowControllerHelper.goToView('RideRequest', {id: notification.trip}, {ride: notification.context._id})
                           notificationClient.dismissAlert(notification._id)
                         }} />
                     </div>
@@ -123,6 +124,12 @@ class NotificationCard extends React.Component {
                           notificationClient.dismissAlert(notification._id)
                         }} />
                     </div>
+                    <div>
+                      <FlatButton data-cucumber="chat" label="Chat" secondary
+                        onClick={() => {
+                          FlowRouter.go("Chat", {cdUser: trip.owner});
+                        }} />
+                    </div>
                   </div>
                   )
 
@@ -145,6 +152,12 @@ class NotificationCard extends React.Component {
                           notificationClient.dismissAlert(notification._id)
                         }} />
                     </div>
+                    <div>
+                      <FlatButton data-cucumber="review-chat" label="Chat" secondary
+                        onClick={() => {
+                          FlowRouter.go("Chat", {cdUser: trip.owner});
+                        }} />
+                    </div>
                   </div>
                   )
 
@@ -162,7 +175,6 @@ class NotificationCard extends React.Component {
                     </div>
                   </div>
                   )
-
                 }
               })()}
           </div>

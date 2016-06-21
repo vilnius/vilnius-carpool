@@ -6,7 +6,6 @@ import { _ } from 'meteor/underscore';
 import GoogleMap from '../components/GoogleMap'
 import { config, muiTheme } from '../config'
 import RaisedButton from 'material-ui/lib/raised-button';
-import wrapScreen from '../layout/wrapScreen'
 import RideInfo from '../components/RideInfo'
 import Loader from '../components/Loader'
 import { getUserPicture } from '../api/UserPicture.coffee'
@@ -44,7 +43,7 @@ class YourDrive extends React.Component {
             <GoogleMap trip={trip} />
           </div>
           <div style={{display: 'flex', flexDirection: 'column'}}>
-            <RideInfo ride={trip} width={this.props.width} />
+            <RideInfo drive={trip} width={this.props.width} />
             <div style={{
               marginTop: 18,
               textAlign: 'center',

@@ -47,33 +47,64 @@ class Chat extends React.Component {
     }
   }
 
+  renderAvatar (avatarSrc, name) {
+    return (
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <Avatar src={avatarSrc} size={32} />
+        <div style={{fontSize: 13}}>{name.split(' ')[0]}</div>
+      </div>
+    )
+  }
+
   render() {
     //da(["chat"], "Render got", this.props.history)
     const { history, cgUser, cdUser } = this.props;
     //da(["chat"],"Chat with", cdUser);
-    cdName = getUserName(cdUser)
-    cgAvatar = getUserPicture(cgUser);
-    cdAvatar = getUserPicture(cdUser);
-
+    const cdName = getUserName(cdUser)
+    const cgName = getUserName(cgUser)
+    const cgAvatar = getUserPicture(cgUser);
+    const cdAvatar = getUserPicture(cdUser);
+    let lastMessageYour = undefined
     return (
       <div>
         <List data-cucumber="chat-input" >
           {history.map((item, i)=>{
             //d("Check if message from is calling user", item)
             if(cgUser._id == item.from) {
+              const displayAvatar = lastMessageYour === true
+              lastMessageYour = true
               return (
-                <div>
-                  <ListItem key={i} leftAvatar={<Avatar src={cgAvatar} />}
+                <div key={item._id}>
+                  {displayAvatar ? null : (<Divider inset={true} />) }
+                  <ListItem key={i}
+                    leftAvatar={
+                      displayAvatar ? <div />
+                      : this.renderAvatar(cgAvatar, cgName)
+                    }
                       primaryText={item.message} />
-                  <Divider inset={true} />
                 </div>
               )
             } else {
+              const displayAvatar = lastMessageYour === false
+              lastMessageYour = false
               return (
-                <div>
-                  <ListItem key={i} rightAvatar={<Avatar src={cdAvatar} />}
-                      primaryText={item.message} />
-                  <Divider inset={true} />
+                <div key={item._id}>
+                  {displayAvatar ? null : (<Divider inset={true} />)}
+                  <ListItem key={i}
+                    rightAvatar={
+                      displayAvatar ? <div />
+                      : this.renderAvatar(cdAvatar, cdName)
+                    }
+                    primaryText={item.message}
+                    style={{
+                      textAlign: 'right',
+                    }}
+                  />
                 </div>
               )
             }
@@ -99,7 +130,7 @@ Chat.propTypes = {
 };
 
 export default ChatContainer = createContainer(({cdUserId}) => {
-  var handle = Meteor.subscribe("Chat");
+  var handle = Meteor.subscribe("Chat", cdUserId);
   history = ChatHistory.find().fetch();
   cdUser = Meteor.users.findOne(cdUserId)
   cgUser = Meteor.user();

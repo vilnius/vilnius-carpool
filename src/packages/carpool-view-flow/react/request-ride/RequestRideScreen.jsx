@@ -8,7 +8,6 @@ import GoogleMap from '../components/GoogleMap'
 import { config, muiTheme } from '../config'
 import RaisedButton from 'material-ui/lib/raised-button';
 import Snackbar from 'material-ui/lib/snackbar';
-import wrapScreen from '../layout/wrapScreen'
 import RideInfo from '../components/RideInfo'
 import { getUserPicture } from '../api/UserPicture.coffee'
 import Loader from '../components/Loader'
@@ -40,10 +39,9 @@ export default class RequestRide extends React.Component {
   };
 
   render () {
-    const topBarHeight = 50
-    const rideInfoHeight = 250
-    const mapHeight = window.innerHeight - topBarHeight - rideInfoHeight
-    const {progress, trip, stops} = this.props;
+    const rideInfoHeight = 215
+    const mapHeight = this.props.height - rideInfoHeight
+    const {progress, drive, ride, stops} = this.props;
 
     if (100 != progress.getProgress()) {
       return (
@@ -53,40 +51,39 @@ export default class RequestRide extends React.Component {
       );
     } else {
       //console.log("Trip", trip);
-      user = Meteor.users.findOne({_id: trip.owner});
-      trip.driverName = getUserName(user);
-      trip.driverAge = 26;
-      trip.driverPicture = getUserPicture(user);
+      user = Meteor.users.findOne({_id: drive.owner});
+      drive.driverName = getUserName(user);
+      drive.driverAge = 26;
+      drive.driverPicture = getUserPicture(user);
 
-      isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
-      //console.log("Requested trip", isRequested);
+      isRequested = _(drive.requests).findWhere({userId: Meteor.userId()});
+      //console.log("Requested drive", isRequested);
       return (
         <div style={{color: config.colors.textColor}}>
           <div style={{
-            width: window.innerWidth,
+            width: this.props.width,
             height: mapHeight,
-            marginTop: topBarHeight
           }}>
-            <GoogleMap trip={trip} stops={stops} />
+            <GoogleMap trip={drive} stops={stops} ride={ride} />
           </div>
           <div style={{display: 'flex', flexDirection: 'column'}}>
-            <RideInfo ride={trip} width={window.innerWidth} />
+            <RideInfo drive={drive} ride={ride} width={this.props.width} />
             <div style={{
               marginTop: 18,
               textAlign: 'center',
             }}>
               { !!isRequested ? (
-                <RaisedButton primary style={{width: window.innerWidth * 0.9, borderRadius: 5}}
+                <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
                   data-cucumber="withdraw-request" label='Withdraw'
                   secondary onClick={() => {
                     this.showSnackbar("Trip request withdrawn");
                   }} />
               ) : (
-                <RaisedButton primary style={{width: window.innerWidth * 0.9, borderRadius: 5}}
+                <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
                   data-cucumber="request" label='Request'
                   secondary onClick={() => {
-                    carpoolService.requestRide(trip._id);
-                    this.showSnackbar("The trip was requested");
+                    carpoolService.requestRide(drive._id);
+                    this.showSnackbar("The drive was requested");
                   }} />
               ) }
               <Snackbar
@@ -108,13 +105,15 @@ RequestRide.propTypes = {
   trip: React.PropTypes.object
 };
 
-export default RequestRideContainer = createContainer(({tripId}) => {
+export default RequestRideContainer = createContainer(({tripId, rideId}) => {
   const progress = new Progress();
-  const trip = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
+  const drive = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
+  const ride = rideId ? carpoolService.pullOneTrip({_id: rideId}, progress.setProgress.bind(progress, 'ride')) : null;
   const stops = carpoolService.pullStops(progress.setProgress.bind(progress, 'stops'));
   return {
     progress,
-    trip,
+    drive,
+    ride,
     stops,
   };
 }, RequestRide);

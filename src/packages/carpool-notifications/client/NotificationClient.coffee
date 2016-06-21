@@ -4,9 +4,12 @@ Meteor.startup ()->
     #d "Setting alter:", navigator
     window.alert = navigator.notification?.alert
 
+  Push.Configure Meteor.settings.public.push
+  #d "Push configuration", Meteor.settings.public.push
+
   Push.addListener 'startup', (notification) ->
     da ["trip-notifications"], "Startup on notification:", notification
-    controllerHelper.showNotifiedView(notification.payload);
+    flowControllerHelper.showNotifiedView(notification.payload);
 
   Push.addListener 'alert', (notification)->
     da ["trip-notifications"], "Notification while open:", notification

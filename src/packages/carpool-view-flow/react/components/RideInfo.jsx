@@ -35,33 +35,33 @@ export default class RideInfo extends React.Component {
 
   constructor(props) {
     super(props)
-
     this.gotoChat = this.gotoChat.bind(this);
   }
 
   gotoChat() {
-    d("Open chat window", this.props.ride.owner);
-    FlowRouter.go("Chat", {cdUser: this.props.ride.owner});
+    d("Open chat window", this.props);
+    FlowRouter.go("Chat", {cdUser: this.props.drive.owner});
   }
 
   render () {
     //d("Showing stops", this.props.ride.stops)
-    trip = this.props.ride;
-    //d("Props", this.props)
+    const {ride, drive} = this.props;
+    //d("RideInfo props", this.props)
     stops = [];
-    for(var i=1; i< trip.stops.length; i++) {
-      routePoint = trip.stops[i];
+    for(var i=1; i < drive.stops.length; i++) {
+      routePoint = drive.stops[i];
       stops.push(
         <div key={routePoint._id} style={rideInfoLineWrap}  >
           <div>{routePoint.time}</div>
           <div style={destinationTitleStyle}>
             <div style={{...circleStyle,
-              borderColor: 'gray' }}></div>
+              borderColor: 'yellow' }}></div>
               {routePoint.title}
           </div>
         </div>
       )
     }
+
     return (
       <div style={{display: 'flex', flexDirection: 'row', fontSize: 13}}>
         <div style={{width: this.props.width - 100}}>
@@ -75,30 +75,48 @@ export default class RideInfo extends React.Component {
               borderLeft: '1px dotted #929292',
             }}>
             </div>
-              <div key={trip._id+"-a"} style={rideInfoLineWrap}  >
-                {moment(trip.aTime).format('H:mm')}
+              {ride ? (
+                <div key={ride._id+"-ra"} style={rideInfoLineWrap}  >
+                  {moment(ride.aTime).format('H:mm')}
+                  <div style={destinationTitleStyle}>
+                    <div style={{...circleStyle, borderColor: 'grey' }}></div>
+                    <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{ride.fromAddress}</div>
+                  </div>
+                </div>
+              ) : null}
+              <div key={drive._id+"-a"} style={rideInfoLineWrap}  >
+                {moment(drive.aTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
-                  <div style={{...circleStyle, borderColor: 'green' }}></div>
-                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{trip.fromAddress}</div>
+                  <div style={{...circleStyle, borderColor: 'red' }}></div>
+                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{drive.fromAddress}</div>
                 </div>
               </div>
               {stops}
-              <div key={trip._id+"-b"} style={rideInfoLineWrap}  >
-                {moment(trip.bTime).format('H:mm')}
+              <div key={drive._id+"-b"} style={rideInfoLineWrap}  >
+                {moment(drive.bTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
-                  <div style={{...circleStyle, borderColor: 'red' }}></div>
-                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{trip.toAddress}</div>
+                  <div style={{...circleStyle, borderColor: 'green' }}></div>
+                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{drive.toAddress}</div>
                 </div>
               </div>
+              {ride ? (
+                <div key={ride._id+"-rb"} style={rideInfoLineWrap}  >
+                  {moment(ride.bTime).format('H:mm')}
+                  <div style={destinationTitleStyle}>
+                    <div style={{...circleStyle, borderColor: 'grey' }}></div>
+                    <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{ride.toAddress}</div>
+                  </div>
+                </div>
+              ) : null}
 
             <div style={{display: 'flex', flexDirection: 'row', marginTop: 8}}>
-              <RecurringDays daysActive={[false, true, true, false, true, false, false]}/>
+              {moment(trip.time).format("lll")}
             </div>
           </div>
         </div>
         <div style={{display: 'flex', flexDirection: 'column', width: 100, alignItems: 'center'}}>
-          <Avatar src={this.props.ride.driverPicture} size={75} style={{marginTop: 16}} />
-          <div style={{marginTop: 6, textAlign: 'center'}}>{this.props.ride.driverName + ', ' + this.props.ride.driverAge}</div>
+          <Avatar src={this.props.drive.driverPicture} size={75} style={{marginTop: 16}} />
+          <div style={{marginTop: 6, textAlign: 'center'}}>{this.props.drive.driverName.split(' ')[0] + ', ' + this.props.drive.driverAge}</div>
           <div style={{marginTop: 12}}><ChatIcon data-cucumber="chat" color={config.colors.main} onClick={this.gotoChat}/></div>
         </div>
       </div>
