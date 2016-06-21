@@ -39,8 +39,8 @@ export default class RideInfo extends React.Component {
   }
 
   gotoChat() {
-    //d("Open chat window", this.props.ride.owner);
-    FlowRouter.go("Chat", {cdUser: this.props.ride.owner});
+    d("Open chat window", this.props);
+    FlowRouter.go("Chat", {cdUser: this.props.drive.owner});
   }
 
   render () {
