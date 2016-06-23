@@ -171,8 +171,8 @@ class CarpoolService
       time: $gte: fromTime
     ).value();
     trips = Trips.find(query, sort: time: -1).fetch()
-    console.log "Active trips", query, trips
-    trips
+    #console.log "Active trips", query, trips
+    #trips
 
   ###
   New version of getOwnTrips - reactive method to subscribe and find own Trips

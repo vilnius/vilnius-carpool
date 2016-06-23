@@ -33,7 +33,8 @@ Package.onUse(function(api) {
   api.addFiles(['client/AdminLanding.html', 'client/AdminLanding.coffee'], "client");
   api.addFiles(['client/AdminLogin.html', 'client/AdminLogin.coffee'], "client");
   api.addFiles(['client/StopsAdmin.html', 'client/StopsAdmin.coffee'], "client");
-  // api.addFiles(['client/NeldRowsTable.html', 'client/NeldRowsTable.coffee'], "client");
+  api.addFiles(['client/FeedbackAdmin.html', 'client/FeedbackAdmin.coffee'], "client");
+  api.addFiles(['client/NeldRowsTable.html', 'client/NeldRowsTable.coffee'], "client");
   // api.addFiles(['client/UsersAdmin.html', 'client/UsersAdmin.coffee'], "client");
   // api.addFiles(['client/TripsAdmin.html', 'client/TripsAdmin.coffee'], "client");
 

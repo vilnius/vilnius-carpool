@@ -1,0 +1,14 @@
+<template name="fieldUsername">
+  {{>fieldText}}
+</template>
+
+<template name="valueUsername">
+  <a href="#{{value}}">{{displayNameById value}}</a>
+</template>
+
+<template name="FeedbackAdmin">
+  <a href="{{pathFor 'AdminLanding'}}" class="btn">back to main menu</a>
+  <h3>View feedback</h3>
+  {{> NeldRowsTable forms=forms form=form}}
+  <a href="{{pathFor 'AdminLanding'}}" class="btn">back to main menu</a>
+</template>
