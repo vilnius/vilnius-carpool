@@ -166,8 +166,12 @@ class TripForm extends React.Component {
       toAddress: this.state.to,
       time: this.state.date.toDate(),  // TODO move to bTime
       bTime: this.state.date.toDate(),
-      role: this.state.role,
+      role: this.state.role
     }
+    if(false == this.state.dontRepeat) {
+      trip.repeat = this.state.repeatingDays;      
+    }
+
     da(["trip-crud"], "Submitting trip:", trip)
     this.showSnackbar();
     carpoolService.saveTrip(trip, (error, routedTrip) => {

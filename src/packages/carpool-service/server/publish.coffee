@@ -10,17 +10,21 @@ Meteor.publish 'oneTrip', (filter) ->
   da ['one-trip-publish'], "Publishing one trip", filter
   Trips.find filter
 
-Meteor.publish 'activeTrips', (filter) ->
+###
+  This version turns recurrent trips into normal with next upcoming time.
+  TODO Warning: if anything except B location change - this will not be noticed for client
+###
+Meteor.publish 'activeTrips', (filter = {}) ->
   query = _(filter).omit("fromLoc", "toLoc");
   if filter.fromLoc?
     query['stops.loc'] =
       $near: filter.fromLoc
       $maxDistance: locRadiusFilter
   da [ 'trip-publish' ], 'Publish activeTrips by stops.loc:', query
-  trips = Trips.find(query, fields: requests: 0)
+  cursor = Trips.find(query, fields: requests: 0)
 
   if filter.toLoc?
-    ids = _(trips.fetch()).pluck('_id')
+    ids = _(cursor.fetch()).pluck('_id')
     refinedQuery =
       _id: $in: ids
       toLoc:
@@ -28,10 +32,22 @@ Meteor.publish 'activeTrips', (filter) ->
         $maxDistance: locRadiusFilter
     da [ 'trip-publish' ], 'Publish refined activeTrips:', refinedQuery
     cursor = Trips.find(refinedQuery)
-  else
-    da [ 'trip-publish' ], 'Publish activeTrips:', query
-    #d 'Publish activeTrips count:', trips.count();
-    trips
+
+  handle = cursor.observe
+    added: (document)=>
+      nextDate(document)
+      @added "trips", document._id, document
+    changed: (newDocument, oldDocument)=>
+      nextDate(document)
+      @changed "trips", oldDocument._id, newDocument
+    removed: (oldDocument)=>
+      @removed "trips", oldDocument._id
+
+  @onStop ()->
+    d "Stop activeTrips handle"
+    handle.stop();
+
+  @ready();
 
 Meteor.publish 'userContacts', ->
   da [ 'data-publish' ], 'Publish user contacts'

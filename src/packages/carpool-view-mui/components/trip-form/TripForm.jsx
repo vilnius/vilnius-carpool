@@ -6,16 +6,6 @@ import { TextField, DatePicker, TimePicker, RaisedButton, Snackbar, RadioButtonG
 import Colors from 'material-ui/lib/styles/colors';
 
 
-// TODO: replace this with real function
-
-const detectLocation = (callback) => {
-  setTimeout(() => {
-    const detectedLocation = 'Konstitucijos pr. 3'
-    const error = Math.random() > 0.5 ? null : 'Random error for testing'
-    callback(error, detectedLocation)
-  }, 1500)
-}
-
 var service = null;
 googleServices.afterInit(function (){
   service = new google.maps.places.AutocompleteService();
@@ -52,22 +42,6 @@ class TripFormBase extends React.Component {
       locationReceived: false,
       locationDetectionError: false,
     }
-
-    /*
-    detectLocation((err, location) => {
-      if (err != null) {
-        this.setState({
-          locationReceived: true,
-          locationDetectionError: true,
-        })
-      } else {
-        this.setState({
-          locationReceived: true,
-          from: location,
-        })
-      }
-    })
-    */
   }
 
   locationDetectionSnackbarClose() {
