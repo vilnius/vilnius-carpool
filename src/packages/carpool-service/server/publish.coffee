@@ -57,8 +57,8 @@ Meteor.publish 'activeTrips', (filter = {}) ->
       @removed "trips", oldDocument._id
 
   @onStop ()->
-    d "Stop activeTrips handle"
     handle.stop();
+    d "Stoped activeTrips handle"
 
   @ready();
 

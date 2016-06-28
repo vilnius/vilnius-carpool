@@ -51,8 +51,8 @@ module.exports = ()->
 
   @Then /^I see "([^"]*)"$/, (element)->
     d "Wait for exist #{element}"
-    client.waitForExist element, 10000;
-    d "Found #{element}"
+    client.waitForVisible element, 10000;
+    d "Visible #{element}"
 
   @Then /^I see "([^"]*)" in "([^"]*)"$/, (element, path)->
     link = process.env.ROOT_URL + path;

@@ -24,6 +24,14 @@ module.exports = ()->
     expect(client.getText(element)).toEqual(table.hashes()[0].from)
     expect(client.getText(".activeTripTo")).toEqual(table.hashes()[0].to)
 
+  @Then /^Element is gone "([^"]*)"$/, (element)->
+    client.waitForVisible(element, 5000, true)
+
+  @When /^Select "([^"]*)" value "([^"]*)"$/, (element, value)->
+    client.selectByValue(selector,value);
+
+
+
   @Then /^I see the stop "([^"]*)" on the route$/, (stopTitle)->
     element = ".stopsOnRoute"
     client.waitForExist(element);

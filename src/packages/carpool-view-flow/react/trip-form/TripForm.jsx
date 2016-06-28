@@ -169,7 +169,7 @@ class TripForm extends React.Component {
       role: this.state.role
     }
     if(false == this.state.dontRepeat) {
-      trip.repeat = this.state.repeatingDays;      
+      trip.repeat = this.state.repeatingDays;
     }
 
     da(["trip-crud"], "Submitting trip:", trip)
@@ -259,7 +259,7 @@ class TripForm extends React.Component {
                   return string + ', ' + days[day]
                 }
               }, ''))}
-            <FlatButton label="Edit" secondary onClick={() => this.refs.repeatingSelector.openRepeatingDaysSelector(this.state.repeatingDays, this.state.dontRepeat)} />
+            <FlatButton label="Edit" data-cucumber="recurrent-date" secondary onClick={() => this.refs.repeatingSelector.openRepeatingDaysSelector(this.state.repeatingDays, this.state.dontRepeat)} />
             <RepeatingDaysSelector ref="repeatingSelector" onDaysSelected={(repeatingDays, dontRepeat) => {
               this.setState({
                 repeatingDays,
