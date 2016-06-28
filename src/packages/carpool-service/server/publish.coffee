@@ -13,6 +13,8 @@ Meteor.publish 'oneTrip', (filter) ->
 ###
   This version turns recurrent trips into normal with next upcoming time.
   TODO Warning: if anything except B location change - this will not be noticed for client
+  TODO Implement test case: trip is created and shown by query, then change it
+  TODO fix this with https://www.npmjs.com/package/geolib
 ###
 Meteor.publish 'activeTrips', (filter = {}) ->
   query = _(filter).omit("fromLoc", "toLoc");

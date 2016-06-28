@@ -8,6 +8,7 @@
     # TODO check if this bTime or aTime
     nextDay = moment().day(weekDay);
     time = moment(trip.bTime);
+    # time.set({year:nextDay.year(), dayOfYear: nextDay.dayOfYear();
     time.year(nextDay.year());
     time.dayOfYear(nextDay.dayOfYear());
     trip.bTime = time.toDate();

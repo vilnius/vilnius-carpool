@@ -49,8 +49,9 @@ Package.onTest(function(api) {
 
   api.use('spastai:carpool-service');
 
-  api.addFiles('tests/fixture-loadClient.coffee', "client");
   api.addAssets('tests/recurrent-trip.json', "server");
+  api.addAssets('tests/trip.json', "server");
+  api.addFiles('tests/fixture-loadClient.coffee', "client");
   api.addFiles('tests/CarpoolServiceClientTest.coffee', "client");
   api.addFiles('tests/RecurrentTripTests.coffee');
 });

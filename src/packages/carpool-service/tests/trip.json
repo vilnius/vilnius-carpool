@@ -1,0 +1,18 @@
+{
+  "_id": "8vWi8sHeyqMovQNxy",
+  "fromAddress": "Palangos g., 1, Vilnius",
+  "toAddress": "Tilto gatvė, 2, Vilnius",
+  "role": "driver",
+  "fromLoc": [25.27771200000007, 54.6827329],
+  "toLoc": [25.28589020000004, 54.6864499],
+  "path": "yfwlIq`hyCE}BEUCm@Aa@Cu@MiBj@O[sB_BeKQqBMiDwCmDuAaB_AwAY}@_Ak@eDcB]hB",
+  "stops": [{
+    "_id": "stop-a",
+    "loc": [25.27771200000007, 54.6827329],
+    "title": "Palangos g., 1, Vilnius"
+  }],
+  "duration": 556,
+  "owner": "wRuK4fqnd2G5xuMwz",
+  "requests": [],
+  "status": "scheduled"
+}
