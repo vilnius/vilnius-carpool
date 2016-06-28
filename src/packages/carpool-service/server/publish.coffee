@@ -1,4 +1,6 @@
 locRadiusFilter = 1000 * 180 / (3.14 * 6371 * 1000)
+timeInterval = 15
+
 
 Meteor.publish 'favorites', ->
   Selections.find()
@@ -17,7 +19,16 @@ Meteor.publish 'oneTrip', (filter) ->
   TODO fix this with https://www.npmjs.com/package/geolib
 ###
 Meteor.publish 'activeTrips', (filter = {}) ->
-  query = _(filter).omit("fromLoc", "toLoc");
+  query = _(filter).omit("fromLoc", "toLoc", "bTime");
+  if filter.bTime?
+    bTime = moment(filter.bTime)
+    query['$or'] = [
+      {repeat: bTime.day()},
+      bTime:
+        $gte: bTime.subtract(timeInterval, "m").toDate()
+        $lt: bTime.clone().add(2*timeInterval, "m").toDate()
+    ]
+    d "activeTrips filter query", filter['$or']
   if filter.fromLoc?
     query['stops.loc'] =
       $near: filter.fromLoc

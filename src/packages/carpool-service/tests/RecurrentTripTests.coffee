@@ -12,6 +12,8 @@ moment = require 'moment'
    Test preparation
 ###
 if Meteor.isServer
+  aspect.push "trip-publish"
+  
   matcher = new TripsMatcher();
 
   Stops._ensureIndex({"loc": "2d" });
@@ -63,13 +65,26 @@ if Meteor.isClient
     #d "Read active trips"
     subscription = Meteor.subscribe 'activeTrips',
       onReady: ()->
-        actualTrip = Trips.findOne();
-        monday = moment().day(1);
-        d "Expect actual trip to have next monday: #{monday.format('ll')}", actualTrip
+        trips = Trips.find().fetch();
+        test.length(trips, 2, "Should match all trips");
+        test.isTrue(moment(trip.bTime).isSame("2016-06-29T13:00:00")) for trip in trips
+        #d "Expect actual trip to have next monday: #{monday.format('ll')}", actualTrip
         subscription.stop();
         done();
-      onStop: ()->
-        #d "Stop subscribtion"
+
+  Tinytest.addAsync "Recurrent - Filter by date", (test, done) ->
+    #d "Read active trips"
+    subscription = Meteor.subscribe 'activeTrips', {
+      role: "driver"
+      bTime: moment("2016-06-29T13:00:00").toDate() # Monday
+      },
+      onReady: ()->
+        trips = Trips.find().fetch();
+        test.length(trips, 2, "Should match all trips");
+        test.isTrue(moment(trip.bTime).isSame("2016-06-29T13:00:00")) for trip in trips
+        #d "Expect actual trip to have next monday: #{monday.format('ll')}", actualTrip
+        subscription.stop();
+        done();
 
   # TODO create geo tests: (match by A or match by stops) and match by B
 

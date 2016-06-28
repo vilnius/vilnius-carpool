@@ -21,8 +21,7 @@ class @TripsMatcher
           $gte: bTime.subtract(timeInterval, "m").toDate()
           $lt: bTime.clone().add(2*timeInterval, "m").toDate()
         ]
-
-    d "Trip matching query", query['$or']
+    #d "Trip notification matching query", query['$or']
     if trip.fromLoc?
       # Find the trips with matching A points
       startsQuery = _.extend({ fromLoc:
