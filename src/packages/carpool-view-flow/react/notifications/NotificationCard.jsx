@@ -92,7 +92,7 @@ class NotificationCard extends React.Component {
                         <FlatButton data-cucumber="review-request" label="Review" secondary
                           onClick={() => {
                             d("Goto to rideRequest", notification);
-                            flowControllerHelper.goToView('RideRequest', {id: notification.trip}, {ride: notification.context._id})
+                            flowControllerHelper.goToView('YourRide', {id: notification.trip}, {ride: notification.context._id})
                             notificationClient.dismissAlert(notification._id)
                           }} />
                       </div>
@@ -122,7 +122,7 @@ class NotificationCard extends React.Component {
                       ) }
                         <FlatButton data-cucumber="review" label="Review" secondary
                           onClick={() => {
-                            flowControllerHelper.goToView('RideConfirm', {id: notification.trip})
+                            flowControllerHelper.goToView('YourDrive', {id: notification.trip})
                             notificationClient.dismissAlert(notification._id)
                           }} />
                       </div>
@@ -149,7 +149,7 @@ class NotificationCard extends React.Component {
                           }} />
                         <FlatButton data-cucumber="review-confirmed" label="Review" secondary
                           onClick={() => {
-                            flowControllerHelper.goToView('RideRequest', {id: notification.trip})
+                            flowControllerHelper.goToView('YourRide', {id: notification.trip})
                             notificationClient.dismissAlert(notification._id)
                           }} />
                       </div>

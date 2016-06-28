@@ -47,6 +47,14 @@ module.exports = ()->
   ###
   Variations
   ###
+  @Then /^User "([^"]*)" gets notification and reviews ride$/, (username)->
+    #client.saveScreenshot('../build/screenshots/uc9-driverTrip.png')
+    @TestHelper.urlLogin("/loginUsername", username);
+    client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
+    #client.saveScreenshot('../build/screenshots/uc9-notifications.png')
+    client.waitForExist "[data-cucumber='notification']"
+    client.click "[data-cucumber='review-request']"
+
   @Then /^User "([^"]*)" gets notification and reviews drive$/, (username)->
     #client.saveScreenshot('../build/screenshots/uc9-driverTrip.png')
     @TestHelper.urlLogin("/loginUsername", username);

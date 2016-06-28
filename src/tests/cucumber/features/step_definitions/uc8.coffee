@@ -30,8 +30,6 @@ module.exports = ()->
   @When /^Select "([^"]*)" value "([^"]*)"$/, (element, value)->
     client.selectByValue(selector,value);
 
-
-
   @Then /^I see the stop "([^"]*)" on the route$/, (stopTitle)->
     element = ".stopsOnRoute"
     client.waitForExist(element);

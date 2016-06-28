@@ -37,7 +37,7 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
       And Clicked on ".saveTrip" to see saved trip
         | fromAddress          | toAddress               | role   |
         | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius | rider  |
-      Then User "ron@tiktai.lt" gets notification and reviews drive
+      Then User "ron@tiktai.lt" gets notification and reviews ride
 
 
     @ignore

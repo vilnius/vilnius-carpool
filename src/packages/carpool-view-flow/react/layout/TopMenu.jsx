@@ -34,7 +34,7 @@ export default class TopMenu extends React.Component {
 
   render () {
     user = Meteor.user();
-    //console.log("TopMenu user", user);
+    console.log("TopMenu user", user);
     avatar = user && user.profile && user.profile.avatar;
     //d("Return screen", this.props.returnScreen);
 
