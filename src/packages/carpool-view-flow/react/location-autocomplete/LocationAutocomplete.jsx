@@ -17,15 +17,21 @@ import { googleServices } from 'meteor/spastai:google-client';
 var autocompleteService = null;
 googleServices.afterInit(function (){
   autocompleteService = new google.maps.places.AutocompleteService();
+
 })
 const getLocationSuggestions = (inputVal, callback) => {
   //console.log("Input val", inputVal, "")
+  if(!autocompleteService) {
+    console.warn("No AutocompleteService");
+    return;
+  }
   if (inputVal == '') {
     callback([
       {description: 'Home'},
       {description: 'Work'},
     ])
-  } else if (autocompleteService && inputVal) {
+  } else if (inputVal) {
+    //d("Query", inputVal)
     autocompleteService.getQueryPredictions({
         input: inputVal,
         location: new google.maps.LatLng(54.67704, 25.25405),
@@ -54,6 +60,7 @@ const getLocationSuggestions = (inputVal, callback) => {
         // }
           callback(result);
         } else {
+          //d("Query prediction error", status);
           return callback([]);
         }
     });

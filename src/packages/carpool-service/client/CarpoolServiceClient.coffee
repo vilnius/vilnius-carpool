@@ -3,7 +3,7 @@ moment = require 'moment'
 
 tripsHistoryPeriod = Meteor.settings.public.tripsHistoryPeriod || 1000 * 60 * 60 * 24 * 60
 
-class CarpoolService
+class @CarpoolService
   preInitQueue = new ParallelQueue(@);
 
   stopRadiusFromOrig = 1000 * 180 / (3.14 * 6371 * 1000)
@@ -11,6 +11,7 @@ class CarpoolService
   locRadiusFilter = 1000 * 180 / (3.14 * 6371 * 1000)
 
   constructor: (@params) ->
+    googleServices.init {key: @params.key}
     googleServices.afterInit ()=>
       preInitQueue.start()
 
@@ -270,7 +271,7 @@ class CarpoolService
         stopLatLng = googleServices.toLatLng(stop.loc)
         if google.maps.geometry.poly.isLocationOnEdge(stopLatLng, polyline, stopDistanceFromRoute)
           stopOnRoute.push stop
-      #d "Found stops on route", stopOnRoute
+      d "Found stops on route", stopOnRoute
       @routeTrip trip, (err, stopsRoute) ->
         cb null,
           path: stopsRoute.overview_polyline
@@ -302,4 +303,4 @@ class CarpoolService
       encodedPoints = result.routes[0].overview_polyline
       cb & cb(null, result.routes[0])
 
-@carpoolService = new CarpoolService
+#@carpoolService = new CarpoolService

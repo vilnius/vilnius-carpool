@@ -7,9 +7,9 @@
 
 
 Meteor.startup(function () {
+	this.carpoolService = new CarpoolService({key: Meteor.settings.public.googleApi.key})
 	//console.log("Creating MapBridge");
 	//mapController = new MapBridge();
-  googleServices.init({key: ""});
 });
 
 

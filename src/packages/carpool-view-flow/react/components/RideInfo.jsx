@@ -110,7 +110,7 @@ export default class RideInfo extends React.Component {
               ) : null}
 
             <div style={{display: 'flex', flexDirection: 'row', marginTop: 8}}>
-              {moment(trip.time).format("lll")}
+              {moment(trip.bTime).format("lll")}
             </div>
           </div>
         </div>
