@@ -201,11 +201,12 @@ NotificationCard.propTypes = {
 */
 export default NotificationCardContainer = createContainer(({notification, snack}) => {
   const cardProgress = new Progress();
+  let trip = undefined;
   if("matched" === notification.reason || "request" === notification.reason || "confirmation" === notification.reason) {
     trip = carpoolService.pullOneTrip({_id: notification.trip}, cardProgress.setProgress.bind(cardProgress, 'oneTrip'));
   }
   //d("NotificationCard progress", cardProgress.getProgress(), "trip", trip);
-  d("Notification", trip)
+  //d("Notification trip", trip)
   return {
     cardProgress,
     notifications,

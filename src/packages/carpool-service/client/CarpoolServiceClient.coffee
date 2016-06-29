@@ -7,7 +7,7 @@ class @CarpoolService
   preInitQueue = new ParallelQueue(@);
 
   stopRadiusFromOrig = 1000 * 180 / (3.14 * 6371 * 1000)
-  stopDistanceFromRoute = 500 * 180 / (3.14 * 6371 * 1000)
+  stopDistanceFromRoute = 450 * 180 / (20000 * 1000) # seems it counts double distance 
   locRadiusFilter = 1000 * 180 / (3.14 * 6371 * 1000)
 
   constructor: (@params) ->

@@ -18,7 +18,7 @@ Background: Cleanup old trips
     When I enter:
       | trip-fromAddress     | trip-toAddress          |
       | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius |
-    And Clicked on ".saveTrip" to see saved trip
+    And Clicked on ".saveTrip" to see saved drive
       | fromAddress          | toAddress               | role   |
       | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius | rider  |
     And I see the stops on the route:
@@ -48,7 +48,7 @@ Background: Cleanup old trips
       | trip-fromAddress     | trip-toAddress          |
       | 2 Traidenio. Vilnius | Muitinės g. 32, Vilnius |
     And Click on "[value='rider']"
-    And Clicked on ".saveTrip" to see saved trip
+    And Clicked on ".saveTrip" to see saved ride
       | fromAddress          | toAddress               | role   |
       | 2 Traidenio. Vilnius | Muitinės g. 32, Vilnius | rider  |
     Then User "dick@tiktai.lt" gets notification and reviews drive
@@ -63,7 +63,7 @@ Background: Cleanup old trips
     And I enter:
       | trip-fromAddress     | trip-toAddress          |
       | 1 Traidenio. Vilnius | Muitinės g. 33, Vilnius |
-    And Clicked on ".saveTrip" to see saved trip
+    And Clicked on ".saveTrip" to see saved drive
       | fromAddress          | toAddress               | role    |
       | 1 Traidenio. Vilnius | Muitinės g. 33, Vilnius | driver  |
     When Login through "/loginUsername" with "ron@tiktai.lt"
@@ -77,7 +77,7 @@ Background: Cleanup old trips
     And Click on "[data-cucumber='set-recurrent']"
     And Element is gone "[data-cucumber='set-recurrent']"
     And Click on "[value='rider']"
-    And Clicked on ".saveTrip" to see saved trip
+    And Clicked on ".saveTrip" to see saved ride
       | fromAddress          | toAddress               | role   |
       | 2 Traidenio. Vilnius | Muitinės g. 32, Vilnius | rider  |
     Then User "dick@tiktai.lt" gets notification and reviews drive
