@@ -54,6 +54,8 @@ class TripForm extends React.Component {
     this.state = {
       from: '',
       to: '',
+      fromLoc: props.from, // if something is coming form url
+      toLoc: props.to,
       fromSuggestions: [],
       toSuggestions: [],
       date: props.bTime || moment(),
@@ -67,11 +69,14 @@ class TripForm extends React.Component {
       errorSnackbarMessage: '',
       errorSnackbarOpen: false,
     }
+    //d("Init State:", this.state)
   }
 
+  // Some properties set to state async way
   componentWillMount() {
+    // resolve address string from loc
     carpoolService.resolveLocation(this.props.from, this.props.fromAddress, (address) => {
-      //console.log(this.props.from, this.props.fromAddress, "resolved", address)
+      d(this.props.from, this.props.fromAddress, "resolved", address)
       if("" === this.state.from) this.setState({from: address});
     })
     carpoolService.resolveLocation(this.props.to, this.props.toAddress, (address) => {
@@ -121,7 +126,9 @@ class TripForm extends React.Component {
     this.setState({[valueName]: value})
   }
 
+  // TODO is this used?
   fromInputUpdate (val) {
+    console.log("fromInputUpdate got", val);
     getLocationSuggestions(val, (suggestions) => this.setState({
       fromSuggestions: suggestions
     }))
@@ -133,6 +140,7 @@ class TripForm extends React.Component {
   fromInputSelect (val) {
     this.setState({
       from: val,
+      fromLoc: undefined // reset location received from url
     })
   }
 
@@ -166,7 +174,9 @@ class TripForm extends React.Component {
       toAddress: this.state.to,
       time: this.state.date.toDate(),  // TODO move to bTime
       bTime: this.state.date.toDate(),
-      role: this.state.role
+      role: this.state.role,
+      fromLoc: this.state.fromLoc,
+      toLoc: this.state.toLoc
     }
     if(false == this.state.dontRepeat) {
       trip.repeat = this.state.repeatingDays;

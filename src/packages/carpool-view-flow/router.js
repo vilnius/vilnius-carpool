@@ -5,7 +5,7 @@ export const name = 'carpool-view-flow';
 import React from 'react';
 import {mount} from 'react-mounter';
 
-import {d, da} from 'meteor/spastai:logw'
+import {da} from 'meteor/spastai:logw'
 
 import { MainLayout, SecureLayout } from './layout'
 import {FlowHelpers} from './flowHelpers'
@@ -29,6 +29,8 @@ import LocationAutocomplete from './react/location-autocomplete/LocationAutocomp
 import FeedbackScreen from './react/feedback/FeedbackScreen'
 
 import Chat from 'meteor/carpool-chat'
+
+d = console.log.bind(console)
 
 /* TODO Get rid of those variables
 instead of caching these router scope variables stores some variables
@@ -102,7 +104,7 @@ FlowRouter.route('/locationAutocomplete/:screen/:field', {
         location = googleServices.toLocation(sugestion.latlng);
         locStr = googleServices.encodePoints([location]);
         queryParams[params.field] = locStr;
-
+        //d("Autocomplete was selected and query is", queryParams, sugestion, 'location', location)
         addresses[params.field] = sugestion.description;
         //console.log("Extending query", queryParams);
         FlowRouter.withReplaceState(() => {
@@ -135,6 +137,7 @@ securedRoutes.route('/newRide', {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
       bTime = queryParams.bTime ? moment(queryParams.bTime, "YYYYMMDDTHHmm", true) : moment();
+      //d("Router fetched values of Loc", aLoc, bLoc)
       mount(SecureLayout, {
         topMenu: <TopMenu title="New Trip" innerScreen />,
         content: <TripFormScreen from={aLoc} to={bLoc}

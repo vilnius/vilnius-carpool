@@ -7,7 +7,7 @@ class @CarpoolService
   preInitQueue = new ParallelQueue(@);
 
   stopRadiusFromOrig = 1000 * 180 / (3.14 * 6371 * 1000)
-  stopDistanceFromRoute = 450 * 180 / (20000 * 1000) # seems it counts double distance 
+  stopDistanceFromRoute = 450 * 180 / (20000 * 1000) # seems it counts double distance
   locRadiusFilter = 1000 * 180 / (3.14 * 6371 * 1000)
 
   constructor: (@params) ->
@@ -47,7 +47,7 @@ class @CarpoolService
       limit: 5
     }).map (item)->
       if item.value.loc?
-        item.value.latlng = googleServices.toLatLng(item.value.latlng);
+        item.value.latlng = googleServices.toLatLng(item.value.loc);
       return item.value
 
   encodePoints: preInitQueue.wrap (loc, cb) ->
@@ -67,7 +67,7 @@ class @CarpoolService
       address = [
         place.address_components[0]?.short_name or ""
         place.address_components[1]?.short_name or ""
-      #  place.address_components[2]?.short_name or ""
+        #place.address_components[2]?.short_name or ""
       ].join(" ")
       #da ["trips-filter"], "Formed address #{address} from:", place
       return address

@@ -11,8 +11,10 @@ import BackButton from '../layout/BackButton'
 import Paper from 'material-ui/lib/paper'
 import { config } from '../config'
 
-import {d, da} from 'meteor/spastai:logw'
+import {da} from 'meteor/spastai:logw'
 import { googleServices } from 'meteor/spastai:google-client';
+
+d = console.log.bind(console)
 
 var autocompleteService = null;
 googleServices.afterInit(function (){
@@ -76,11 +78,12 @@ export default class LocationAutocomplete extends React.Component {
     this.state = {
       suggestions: this.props.suggestions || []
     }
+    //d("Favorites:", this.props.suggestions);
   }
 
   suggestionSelected(suggestion) {
-    //d("Selected text", suggestion)
     if(undefined == suggestion.latlng) {
+      //d("Selected text", suggestion)
       carpoolService.geocode({address:suggestion.description},  (error, result)=> {
         if (!error && result.length > 0) {
             suggestion.latlng = result[0].geometry.location;
@@ -89,6 +92,7 @@ export default class LocationAutocomplete extends React.Component {
         this.props.onSelect(suggestion);
       });
     } else {
+      //d("Selected geolocated text", suggestion)
       carpoolService.saveSelection(this.props.field, suggestion)
       this.props.onSelect(suggestion);
     }
