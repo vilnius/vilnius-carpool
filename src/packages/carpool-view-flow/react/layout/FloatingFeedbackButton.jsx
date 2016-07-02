@@ -8,7 +8,7 @@ export default class newRideButton extends React.Component {
       <FloatingActionButton mini data-cucumber="addTrip" secondary style={{
           position: 'fixed',
           left: this.props.sideOffset + 12,
-          bottom: this.props.isMobile ? 75 : 100,
+          bottom: this.props.bottomOffset + 75,
         }}
         onClick={() => FlowRouter.go('Feedback')}
       >

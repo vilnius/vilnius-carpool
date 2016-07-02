@@ -27,6 +27,9 @@ import YourDriveScreen from './react/your-trip/YourDriveScreen'
 import NotificationsScreen from './react/notifications/NotificationsScreen'
 import LocationAutocomplete from './react/location-autocomplete/LocationAutocomplete'
 import FeedbackScreen from './react/feedback/FeedbackScreen'
+import About from './react/about/AboutScreen.jsx'
+import Profile from './react/profile/ProfileScreen.jsx'
+import NotificationSettings from './react/notification-settings/NotificationSettingsScreen.jsx'
 
 import Chat from 'meteor/carpool-chat'
 
@@ -48,7 +51,37 @@ FlowRouter.route('/', {
   }
 });
 
-// Isn't this deprecated as RideConfirm?
+FlowRouter.route('/about', {
+  name: 'About',
+  action: function(params, queryParams) {
+    mount(MainLayout, {
+      topMenu: <TopMenu title="About" innerScreen />,
+      content: <About />,
+    })
+  }
+});
+
+FlowRouter.route('/profile', {
+  name: 'Profile',
+  action: function(params, queryParams) {
+    mount(MainLayout, {
+      topMenu: <TopMenu title="Profile" innerScreen />,
+      content: <Profile />,
+    })
+  }
+});
+
+FlowRouter.route('/notificationSettings', {
+  name: 'NotificationSettings',
+  action: function(params, queryParams) {
+    mount(MainLayout, {
+      topMenu: <TopMenu title="Notification settings" innerScreen />,
+      content: <NotificationSettings />,
+    })
+  }
+});
+
+// TODO Isn't this deprecated as RideConfirm?
 FlowRouter.route('/rideRequest/:id', {
   name: "RideRequest",
   action: function(params, queryParams) {
