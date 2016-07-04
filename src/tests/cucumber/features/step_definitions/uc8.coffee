@@ -28,7 +28,7 @@ module.exports = ()->
     client.waitForVisible(element, 5000, true)
 
   @Then /^I see the stop "([^"]*)" on the route$/, (stopTitle)->
-    element = ".stopsOnRoute"
+    element = "[data-cucumber='stops-on-route']"
     client.waitForExist(element);
     expect(client.getText(element)).toEqual(stopTitle)
 

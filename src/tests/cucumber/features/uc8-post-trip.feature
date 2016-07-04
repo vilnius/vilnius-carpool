@@ -9,8 +9,7 @@ Background: Cleanup old trips
   And Notifications for "ron@tiktai.lt" removed
   And Notifications for "dick@tiktai.lt" removed
 
-
-  @trip
+  @trip  @focus
   Scenario: Driver saves the trip passing the stop
     Given Login through "/loginUsername" with "dick@tiktai.lt"
     And I see "[data-cucumber='addTrip']" in "/m/all/offers"
@@ -23,11 +22,10 @@ Background: Cleanup old trips
       | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius | rider  |
     And I see the stops on the route:
       | name                 |
-      | 54 Krivių g. Vilnius |
-      | Filaretu             |
       | Kauno                |
+      | Audejo               |
 
-  @recurrent @focus
+  @recurrent
   Scenario: Dick enters recurrent trip, Ron enters matching and gets notification
     Given Login through "/loginUsername" with "dick@tiktai.lt"
     And I see "[data-cucumber='addTrip']" in "/m/all/offers"
@@ -43,7 +41,7 @@ Background: Cleanup old trips
     When Login through "/loginUsername" with "ron@tiktai.lt"
     And I see "[data-cucumber='addTrip']" in "/m/all/offers"
     And Click on "[data-cucumber='addTrip']"
-    When I enter:
+    When I enter into "[data-cucumber='add-trip-form']":
       | trip-fromAddress     | trip-toAddress          |
       | 2 Traidenio. Vilnius | Muitinės g. 32, Vilnius |
     And Click on "[value='rider']"

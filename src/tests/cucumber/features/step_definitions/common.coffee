@@ -66,6 +66,14 @@ module.exports = ()->
       client.setValue("input[id=\"#{key}\"]", value);
       client.keys("Enter");
 
+  @When /^I enter into "([^]*)":$/, (element, messages)->
+    client.waitForVisible element, 10000;
+    #d "Enter", messages
+    for key, value of messages.hashes()[0]
+      d "Fill #{key}=#{value}"
+      client.setValue("input[id=\"#{key}\"]", value);
+      client.keys("Enter");
+
   @When /^Click on "([^]*)"$/, (button)->
     d "Clicking #{button}"
     client.click button
@@ -77,3 +85,18 @@ module.exports = ()->
 
   @When /^Type "([^]*)$"/, (text)->
     client.keys(text);
+
+
+  @Then /^I see the stops on the route:$/, (table)->
+    element = "[data-cucumber='stops-on-route']"
+    client.waitForExist(element);
+    stopsShown = client.getText("[data-cucumber='stops-on-route'] [data-cucumber='stop']");
+    for stop in table.hashes()
+      d "Check the stop #{stop.name}",
+      expect(stopsShown).toContain(stop.name);
+      #expect(_(stopsShown).contains(stop.name)).toBe(true);
+      #expect().toEqual(stopTitle)
+
+  @Given /^Notifications for "([^"]*)" removed$/, (user)->
+    #d "Remove old trips"
+    server.call "removeNotifications", user
