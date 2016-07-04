@@ -49,7 +49,7 @@ Meteor.publish 'activeTrips', (filter = {}) ->
   handle = cursor.observe
     added: (document)=>
       nextDate(document, moment(filter.bTime))
-      d "Added to subscribtion trip", document.bTime
+      #d "Added to subscribtion trip", document.bTime
       @added "trips", document._id, document
     changed: (newDocument, oldDocument)=>
       nextDate(document, moment(filter.bTime))
