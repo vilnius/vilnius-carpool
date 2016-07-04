@@ -52,6 +52,7 @@ export default class DateTimePicker extends React.Component {
 
   render () {
     const bonusWidth = (window.innerWidth - 320) / 4
+    const contentWidth = Math.min(768, 300 + 2 * bonusWidth)
     return (
       <Dialog
         open={this.state.open}
@@ -61,13 +62,13 @@ export default class DateTimePicker extends React.Component {
         ]}
         modal={true}
         contentStyle={{
-          width: 300 + 2 * bonusWidth,
+          width: contentWidth,
           padding: 0,
           transform: 'none',
         }}
       >
         <div style={{
-          width: 300 + 2 * bonusWidth,
+          width: contentWidth,
           display: 'flex',
           flexDirection: 'row',
           height: 30,

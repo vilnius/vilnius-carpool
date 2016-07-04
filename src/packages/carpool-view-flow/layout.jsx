@@ -6,21 +6,14 @@ import Loader from './react/components/Loader'
 import FloatingNewRideButton from './react/layout/NewRideButton'
 import FloatingFeedbackButton from './react/layout/FloatingFeedbackButton.jsx'
 import { Paper } from 'material-ui'
+import GoogleMap from './react/components/GoogleMap.jsx'
 
 export class MainLayout extends React.Component {
   constructor (props) {
     super(props)
 
     const resizeListener = () => {
-      const ww = window.innerWidth
-      const wh = window.innerHeight
-      this.setState({
-        ww: ww,
-        wh: wh,
-        appWidth: ww > 1024 ? 900 : ww,
-        appHeight: wh,
-        isMobile: ww <= 1024,
-      })
+      this.setState(this.calcAppSize())
     }
 
     window.addEventListener('resize', resizeListener)
@@ -29,12 +22,21 @@ export class MainLayout extends React.Component {
     const ww = window.innerWidth
     const wh = window.innerHeight
     this.state = {
-      ww: window.innerWidth,
-      wh: window.innerHeight,
-      appWidth: ww > 1024 ? 900 : ww,
-      appHeight: ww <= 1024 ? wh : wh - 30,
-      isMobile: ww <= 1024,
+      ...this.calcAppSize(),
       resizeListener,
+    }
+  }
+
+  calcAppSize () {
+    const ww = window.innerWidth;
+    const wh = window.innerHeight;
+
+    return {
+      ww,
+      wh,
+      appWidth: ww > 1024 ? Math.max(ww * 0.4, 550) : ww,
+      appHeight: ww <= 1024 ? wh : wh - 150,
+      isMobile: ww <= 1024,
     }
   }
 
@@ -58,14 +60,23 @@ export class MainLayout extends React.Component {
       })
   }
 
-  renderMobile () {
-    const topMenuHeight = this.props.topMenu ? 50 : 0
-    const topSearchHeight = this.props.topSearch ? 115 : 0
-    const topFilterHeight = this.props.topFilter ? 48 : 0 // Looks bad if not 48 at the moment
-    const bottomMenuHeight = this.props.bottomMenu ? 64 : 0
-    const contentHeight = this.state.appHeight - (topMenuHeight + topSearchHeight + topFilterHeight + bottomMenuHeight)
+  getTopMargin () {
+    return this.state.isMobile ? 0 : (this.state.wh - this.state.appHeight) * 0.35
+  }
 
-    const iconSideOffset = (this.state.ww - this.state.appWidth) / 2
+  renderMobile () {
+    const topMenuHeight = this.props.topMenu ? 50 : 0;
+    const topSearchHeight = this.props.topSearch ? 115 : 0;
+    const topFilterHeight = this.props.topFilter ? 48 : 0; // Looks bad if not 48 at the moment
+    const bottomMenuHeight = this.props.bottomMenu ? 64 : 0;
+    const contentHeight = this.state.appHeight - (topMenuHeight + topSearchHeight + topFilterHeight + bottomMenuHeight);
+
+    const topMargin = this.getTopMargin();
+
+    // const iconSideOffset = (this.state.ww - this.state.appWidth) / 2;
+    const leftIconSideOffset = this.state.isMobile ? 0 : 50;
+    const rightIconSideOffset = this.state.isMobile ? 0 : this.state.ww - this.state.appWidth - 50;
+    const bottomOffset = (this.state.wh - this.state.appHeight) + 8 - topMargin;
 
     return (
       <div>
@@ -83,11 +94,13 @@ export class MainLayout extends React.Component {
         </main>
         {this.props.bottomMenu ? (
           <bottom>
-            {this.renderElement(this.props.bottomMenu, { height: bottomMenuHeight })}
+            {this.renderElement(this.props.bottomMenu, { height: bottomMenuHeight, bottomOffset: bottomOffset })}
           </bottom>
         ) : null}
-        {this.props.renderNewTripButton ? <FloatingNewRideButton isMobile={this.state.isMobile} sideOffset={iconSideOffset} /> : null}
-        {this.props.renderFeedbackButton ? <FloatingFeedbackButton isMobile={this.state.isMobile} sideOffset={iconSideOffset} /> : null}
+        {this.props.renderNewTripButton ? <FloatingNewRideButton isMobile={this.state.isMobile}
+          sideOffset={rightIconSideOffset} bottomOffset={bottomOffset} /> : null}
+        {this.props.renderFeedbackButton ? <FloatingFeedbackButton isMobile={this.state.isMobile}
+          sideOffset={leftIconSideOffset} bottomOffset={bottomOffset} /> : null}
       </div>
     )
   }
@@ -97,16 +110,23 @@ export class MainLayout extends React.Component {
       return this.renderMobile()
     }
 
+    const topMargin = this.getTopMargin();
+
     return (
-      <Paper
-        style={{
-          width:this.state.appWidth,
-          height: this.state.appHeight,
-          margin: '10px auto',
-        }}
-      >
-        {this.renderMobile()}
-      </Paper>
+      <div>
+        <Paper
+          style={{
+            position: 'fixed',
+            width:this.state.appWidth,
+            height: this.state.appHeight,
+            top: topMargin,
+            left: 50,
+          }}
+        >
+          {this.renderMobile()}
+        </Paper>
+        {/*<GoogleMap width={this.state.ww} height={this.state.wh} />*/}
+      </div>
     )
     // Needs to render <= 1024, >1024, >1280
   }
