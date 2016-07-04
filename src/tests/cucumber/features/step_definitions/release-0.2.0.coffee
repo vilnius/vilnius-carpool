@@ -13,9 +13,13 @@ module.exports = ()->
     # client.click("[data-cucumber='your-trips']");
     expect(client.getText("[data-cucumber='trips-list'] div:nth-child(1) span div div div:nth-child(1) div:nth-child(1) span:nth-child(1)")).toEqual(table.hashes()[0].fromAddress)
 
-  @Then /^Clicked on "([^]*)" to see saved trip$/, (button, table)->
+  @Then /^Clicked on "([^]*)" to see saved drive$/, (button, table)->
     client.click button
     client.waitForExist "[data-cucumber='screen-your-drive']"
+
+  @Then /^Clicked on "([^]*)" to see saved ride$/, (button, table)->
+    client.click button
+    client.waitForExist "[data-cucumber='screen-your-ride']"
 
   @Then /^User "([^"]*)" gets notification and sends request on MUI$/, (username)->
     #client.saveScreenshot('../build/screenshots/uc9-driverTrip.png')
@@ -47,6 +51,14 @@ module.exports = ()->
   ###
   Variations
   ###
+  @Then /^User "([^"]*)" gets notification and reviews ride$/, (username)->
+    #client.saveScreenshot('../build/screenshots/uc9-driverTrip.png')
+    @TestHelper.urlLogin("/loginUsername", username);
+    client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
+    #client.saveScreenshot('../build/screenshots/uc9-notifications.png')
+    client.waitForExist "[data-cucumber='notification']"
+    client.click "[data-cucumber='review-request']"
+
   @Then /^User "([^"]*)" gets notification and reviews drive$/, (username)->
     #client.saveScreenshot('../build/screenshots/uc9-driverTrip.png')
     @TestHelper.urlLogin("/loginUsername", username);

@@ -38,7 +38,6 @@ export default class ReactMap extends React.Component {
       icon: '/img/white-stop.png'
     });
 
-
     this.state.markers.push({
       position: {
         lat: props.trip.fromLoc[1],
@@ -48,17 +47,6 @@ export default class ReactMap extends React.Component {
       defaultAnimation: 2,
       icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
     });
-
-    this.state.markers.push({
-      position: {
-        lat: props.trip.fromLoc[1],
-        lng: props.trip.fromLoc[0]
-      },
-      key: `From`,
-      defaultAnimation: 2,
-      icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
-    });
-
 
     const {stops = []} = props
     //d("Stops", driveStops);

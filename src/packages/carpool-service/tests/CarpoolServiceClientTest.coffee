@@ -1,4 +1,5 @@
 # console.log 'Tiny tests'
+carpoolService = new CarpoolService(Meteor.settings.public.googleApi.key)
 
 loadGoogle = (cb)->
   $.ajax
@@ -7,7 +8,7 @@ loadGoogle = (cb)->
     dataType: 'script'
     success: ->
       google.load "maps", "3",
-        other_params: "libraries=geometry,places",
+        other_params: "libraries=geometry,places&key=AIzaSyC4jEbNbglLxwxH7_gcmDMxWxwYOAPVVJM",
         callback: cb
       return
     error: (e) ->
@@ -18,7 +19,7 @@ loadGoogle = (cb)->
 Tinytest.addAsync "CarpooService - getTripPath ", (test, done) ->
   # url = window.location.origin+"/download/product-images.html"
   loadGoogle ()->
-    googleServices.init({key: "asas"});
+    googleServices.init({key: "AIzaSyC4jEbNbglLxwxH7_gcmDMxWxwYOAPVVJM"});
     trip =
       toLoc : [25.26246500000002, 54.6779097]
       fromLoc : [25.305228100000022,54.6877209]

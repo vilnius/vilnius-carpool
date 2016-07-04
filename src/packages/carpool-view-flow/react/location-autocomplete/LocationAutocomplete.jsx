@@ -11,21 +11,29 @@ import BackButton from '../layout/BackButton'
 import Paper from 'material-ui/lib/paper'
 import { config } from '../config'
 
-import {d, da} from 'meteor/spastai:logw'
+import {da} from 'meteor/spastai:logw'
 import { googleServices } from 'meteor/spastai:google-client';
+
+d = console.log.bind(console)
 
 var autocompleteService = null;
 googleServices.afterInit(function (){
   autocompleteService = new google.maps.places.AutocompleteService();
+
 })
 const getLocationSuggestions = (inputVal, callback) => {
   //console.log("Input val", inputVal, "")
+  if(!autocompleteService) {
+    console.warn("No AutocompleteService");
+    return;
+  }
   if (inputVal == '') {
     callback([
       {description: 'Home'},
       {description: 'Work'},
     ])
-  } else if (autocompleteService && inputVal) {
+  } else if (inputVal) {
+    //d("Query", inputVal)
     autocompleteService.getQueryPredictions({
         input: inputVal,
         location: new google.maps.LatLng(54.67704, 25.25405),
@@ -54,6 +62,7 @@ const getLocationSuggestions = (inputVal, callback) => {
         // }
           callback(result);
         } else {
+          //d("Query prediction error", status);
           return callback([]);
         }
     });
@@ -69,11 +78,12 @@ export default class LocationAutocomplete extends React.Component {
     this.state = {
       suggestions: this.props.suggestions || []
     }
+    //d("Favorites:", this.props.suggestions);
   }
 
   suggestionSelected(suggestion) {
-    //d("Selected text", suggestion)
     if(undefined == suggestion.latlng) {
+      //d("Selected text", suggestion)
       carpoolService.geocode({address:suggestion.description},  (error, result)=> {
         if (!error && result.length > 0) {
             suggestion.latlng = result[0].geometry.location;
@@ -82,6 +92,7 @@ export default class LocationAutocomplete extends React.Component {
         this.props.onSelect(suggestion);
       });
     } else {
+      //d("Selected geolocated text", suggestion)
       carpoolService.saveSelection(this.props.field, suggestion)
       this.props.onSelect(suggestion);
     }

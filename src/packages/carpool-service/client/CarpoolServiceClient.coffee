@@ -1,14 +1,17 @@
 { ParallelQueue } = require 'meteor/spastai:flow-controll'
 moment = require 'moment'
 
-class CarpoolService
+tripsHistoryPeriod = Meteor.settings.public.tripsHistoryPeriod || 1000 * 60 * 60 * 24 * 60
+
+class @CarpoolService
   preInitQueue = new ParallelQueue(@);
 
   stopRadiusFromOrig = 1000 * 180 / (3.14 * 6371 * 1000)
-  stopDistanceFromRoute = 500 * 180 / (3.14 * 6371 * 1000)
+  stopDistanceFromRoute = 450 * 180 / (20000 * 1000) # seems it counts double distance
   locRadiusFilter = 1000 * 180 / (3.14 * 6371 * 1000)
 
   constructor: (@params) ->
+    googleServices.init {key: @params.key}
     googleServices.afterInit ()=>
       preInitQueue.start()
 
@@ -44,7 +47,7 @@ class CarpoolService
       limit: 5
     }).map (item)->
       if item.value.loc?
-        item.value.latlng = googleServices.toLatLng(item.value.latlng);
+        item.value.latlng = googleServices.toLatLng(item.value.loc);
       return item.value
 
   encodePoints: preInitQueue.wrap (loc, cb) ->
@@ -64,7 +67,7 @@ class CarpoolService
       address = [
         place.address_components[0]?.short_name or ""
         place.address_components[1]?.short_name or ""
-      #  place.address_components[2]?.short_name or ""
+        #place.address_components[2]?.short_name or ""
       ].join(" ")
       #da ["trips-filter"], "Formed address #{address} from:", place
       return address
@@ -163,14 +166,14 @@ class CarpoolService
       return []
 
     now = new Date
-    fromTime = new Date(now.getTime() - (1000 * 60 * 60 * 24 * 60))
+    fromTime = new Date(now.getTime() - (tripsHistoryPeriod))
     query = _(filter).chain().omit("fromLoc", "toLoc").extend(
       owner: $ne: Meteor.userId()
       time: $gte: fromTime
     ).value();
-    #d "Active trips", query
-    trips = Trips.find(query, sort: time: -1)
-    trips.fetch()
+    trips = Trips.find(query, sort: time: -1).fetch()
+    #console.log "Active trips", query, trips
+    #trips
 
   ###
   New version of getOwnTrips - reactive method to subscribe and find own Trips
@@ -268,7 +271,7 @@ class CarpoolService
         stopLatLng = googleServices.toLatLng(stop.loc)
         if google.maps.geometry.poly.isLocationOnEdge(stopLatLng, polyline, stopDistanceFromRoute)
           stopOnRoute.push stop
-      #d "Found stops on route", stopOnRoute
+      d "Found stops on route", stopOnRoute
       @routeTrip trip, (err, stopsRoute) ->
         cb null,
           path: stopsRoute.overview_polyline
@@ -300,4 +303,4 @@ class CarpoolService
       encodedPoints = result.routes[0].overview_polyline
       cb & cb(null, result.routes[0])
 
-@carpoolService = new CarpoolService
+#@carpoolService = new CarpoolService

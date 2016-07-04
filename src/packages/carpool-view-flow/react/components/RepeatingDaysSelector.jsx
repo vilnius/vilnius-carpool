@@ -66,7 +66,7 @@ export default class RepeatingDaysSelector extends React.Component {
         open={this.state.open}
         actions={[
           <FlatButton key="cancel" label="Cancel" onClick={() => this.setState({open: false})} secondary />,
-          <FlatButton key="save" label="Done" onClick={this.done.bind(this)} secondary />
+          <FlatButton key="save" data-cucumber="set-recurrent" label="Done" onClick={this.done.bind(this)} secondary />
         ]}
         title="Select days"
       >
@@ -76,6 +76,7 @@ export default class RepeatingDaysSelector extends React.Component {
         }}>
           {days.map((d, i) => (
             <div key={i}
+              data-cucumber={'day-'+i}
               style={{
                 display: 'flex',
                 flexDirection: 'row',

@@ -5,7 +5,7 @@ export const name = 'carpool-view-flow';
 import React from 'react';
 import {mount} from 'react-mounter';
 
-import {d, da} from 'meteor/spastai:logw'
+import {da} from 'meteor/spastai:logw'
 
 import { MainLayout, SecureLayout } from './layout'
 import {FlowHelpers} from './flowHelpers'
@@ -21,8 +21,8 @@ import LoginScreen from './react/auth/Login'
 import LoginUsernameScreen from './react/auth/LoginUsername'
 import RideOffersScreen from './react/ride-list/RideOffersScreen'
 import TripFormScreen from './react/trip-form/TripForm'
-import RequestRideScreen from './react/request-ride/RequestRideScreen'
-import ConfirmRideScreen from './react/confirm-ride/ConfirmRideScreen'
+import RequestRideScreen from './react/your-trip/RequestRideScreen'
+import ConfirmRideScreen from './react/your-trip/ConfirmRideScreen'
 import YourDriveScreen from './react/your-trip/YourDriveScreen'
 import NotificationsScreen from './react/notifications/NotificationsScreen'
 import LocationAutocomplete from './react/location-autocomplete/LocationAutocomplete'
@@ -32,6 +32,8 @@ import Profile from './react/profile/ProfileScreen.jsx'
 import NotificationSettings from './react/notification-settings/NotificationSettingsScreen.jsx'
 
 import Chat from 'meteor/carpool-chat'
+
+d = console.log.bind(console)
 
 /* TODO Get rid of those variables
 instead of caching these router scope variables stores some variables
@@ -81,28 +83,6 @@ FlowRouter.route('/notificationSettings', {
   }
 });
 
-// TODO Isn't this deprecated as RideConfirm?
-FlowRouter.route('/rideRequest/:id', {
-  name: "RideRequest",
-  action: function(params, queryParams) {
-    mount(MainLayout, {
-      topMenu: <TopMenu title="Ride requests" innerScreen />,
-      content: <RequestRideScreen tripId={params.id} rideId={queryParams.ride} />,
-    });
-  }
-});
-
-// Deprecated - move to YourDrive
-FlowRouter.route('/rideConfirm/:id', {
-  name: "RideConfirm",
-  action: function(params, queryParams) {
-    mount(MainLayout, {
-      topMenu: <TopMenu title="Ride confirmation" innerScreen />,
-      content: <ConfirmRideScreen tripId={params.id}/>,
-    });
-  }
-});
-
 FlowRouter.route('/login', {
     name: "Login",
     action: function(params, queryParams) {
@@ -135,7 +115,7 @@ FlowRouter.route('/notifications', {
     name: "Notifications",
     action: function(params, queryParams) {
       //console.log("Routing to - new trip form", TripFormScreen);
-      mount(MainLayout, {
+      mount(SecureLayout, {
         topMenu: <TopMenu title="Notifications" />,
         content: <NotificationsScreen />,
         bottomMenu: <BottomTabs selectedTabIndex={3} />,
@@ -152,12 +132,12 @@ Important to note that other query params are preserved
 FlowRouter.route('/locationAutocomplete/:screen/:field', {
   name: 'LocationAutocomplete',
   action: function(params, queryParams) {
-    mount(MainLayout, {
+    mount(SecureLayout, {
       content: <LocationAutocomplete field={params.field} onSelect={(sugestion) => {
         location = googleServices.toLocation(sugestion.latlng);
         locStr = googleServices.encodePoints([location]);
         queryParams[params.field] = locStr;
-
+        //d("Autocomplete was selected and query is", queryParams, sugestion, 'location', location)
         addresses[params.field] = sugestion.description;
         //console.log("Extending query", queryParams);
         FlowRouter.withReplaceState(() => {
@@ -190,12 +170,24 @@ securedRoutes.route('/newRide', {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
       bTime = queryParams.bTime ? moment(queryParams.bTime, "YYYYMMDDTHHmm", true) : moment();
+      //d("Router fetched values of Loc", aLoc, bLoc)
       mount(SecureLayout, {
         topMenu: <TopMenu title="New Trip" innerScreen />,
         content: <TripFormScreen from={aLoc} to={bLoc}
           fromAddress={addresses.aLoc} toAddress={addresses.bLoc} bTime={bTime}/>,
       });
     }
+});
+
+// Deprecated - move to YourDrive
+FlowRouter.route('/rideConfirm/:id', {
+  name: "RideConfirm",
+  action: function(params, queryParams) {
+    mount(SecureLayout, {
+      topMenu: <TopMenu title="Ride confirmation" innerScreen />,
+      content: <ConfirmRideScreen tripId={params.id}/>,
+    });
+  }
 });
 
 securedRoutes.route('/drive/:id', {
@@ -213,7 +205,7 @@ securedRoutes.route('/ride/:id', {
  action: function(params, queryParams) {
    mount(SecureLayout, {
      topMenu: <TopMenu title="Your ride" innerScreen returnScreen="YourDrives" />,
-     content: <YourDriveScreen tripId={params.id}/>,
+     content: <RequestRideScreen tripId={params.id} rideId={queryParams.ride}/>,
    });
  }
 });
@@ -260,7 +252,7 @@ securedRoutes.route('/rides', {
 FlowRouter.route('/m/all/requests', {
   name: "RideRequests",
   action: function(params, queryParams) {
-    mount(MainLayout, {
+    mount(SecureLayout, {
       topMenu: <TopMenu title="Ride requests" background="green" />,
       content: <RideOffersScreen role="rider"/>,
       bottomMenu: <BottomTabs selectedTabIndex={0} />,
@@ -283,7 +275,7 @@ FlowRouter.route('/m/all/offers', {
       bTime = queryParams.bTime ? moment(queryParams.bTime, "YYYYMMDDTHHmm", true) : moment();
       //console.log("Offers route", params, queryParams, "and aLoc:", aLoc);
       // by coincidence aLoc, bLoc and addresses are stored as global variables...
-      mount(MainLayout, {
+      mount(SecureLayout, {
         topMenu: <TopMenu title="Ride offers" hasTopTabs background="blue" />,
         topSearch: <TopSearch from={aLoc} to={bLoc} fromAddress={addresses.aLoc} toAddress={addresses.bLoc}
                       bTime={bTime} />,
