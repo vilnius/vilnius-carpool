@@ -27,6 +27,7 @@ Background: Cleanup old trips
       | Filaretu             |
       | Kauno                |
 
+  @recurrent @focus
   Scenario: Dick enters recurrent trip, Ron enters matching and gets notification
     Given Login through "/loginUsername" with "dick@tiktai.lt"
     And I see "[data-cucumber='addTrip']" in "/m/all/offers"
@@ -34,11 +35,9 @@ Background: Cleanup old trips
     And I enter:
       | trip-fromAddress     | trip-toAddress          |
       | 1 Traidenio. Vilnius | Muitinės g. 33, Vilnius |
-    And Click on "[data-cucumber='recurrent-date']"
-    And Click on "[data-cucumber='day-1']"
-    And Click on "[data-cucumber='set-recurrent']"
+    And Set recurrent trips "0,1,4"
     And Element is gone "[data-cucumber='set-recurrent']"
-    And Clicked on ".saveTrip" to see saved trip
+    And Clicked on ".saveTrip" to see saved drive
       | fromAddress          | toAddress               | role    |
       | 1 Traidenio. Vilnius | Muitinės g. 33, Vilnius | driver  |
     When Login through "/loginUsername" with "ron@tiktai.lt"

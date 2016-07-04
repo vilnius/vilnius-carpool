@@ -49,6 +49,7 @@ Meteor.publish 'activeTrips', (filter = {}) ->
   handle = cursor.observe
     added: (document)=>
       nextDate(document)
+      d "Added to subscribtion trip", document
       @added "trips", document._id, document
     changed: (newDocument, oldDocument)=>
       nextDate(document)
@@ -58,7 +59,7 @@ Meteor.publish 'activeTrips', (filter = {}) ->
 
   @onStop ()->
     handle.stop();
-    d "Stoped activeTrips handle"
+    #d "Stoped activeTrips handle"
 
   @ready();
 

@@ -13,7 +13,7 @@ moment = require 'moment'
 ###
 if Meteor.isServer
   aspect.push "trip-publish"
-  
+
   matcher = new TripsMatcher();
 
   Stops._ensureIndex({"loc": "2d" });
@@ -36,6 +36,13 @@ if Meteor.isServer
     thatMonday = moment("2016-06-27T13:00:00") # Monday
     next = nextDate {repeat: [1,3,4], bTime: moment("2012-06-26T16:30:00")}, thatMonday
     #d "Next:", next
+
+  Tinytest.add "Recurrent - Next week", (test) ->
+    thatFriday = moment("2016-07-01T13:00:00") # Friday
+    next = nextDate {repeat: [1,3,4], bTime: moment("2012-06-26T16:30:00")}, thatFriday
+    d "Next:", next
+    test.isTrue moment(next).isSame("2016-07-04T16:30:00")
+
 
   Tinytest.addAsync "Recurrent - Notification for next date trip", (test, done) ->
     # Take the same trip

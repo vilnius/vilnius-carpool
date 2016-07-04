@@ -1,5 +1,5 @@
 # console.log 'Tiny tests'
-carpoolService = new CarpoolService()
+carpoolService = new CarpoolService(Meteor.settings.public.googleApi.key)
 
 loadGoogle = (cb)->
   $.ajax

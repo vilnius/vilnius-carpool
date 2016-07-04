@@ -27,9 +27,6 @@ module.exports = ()->
   @Then /^Element is gone "([^"]*)"$/, (element)->
     client.waitForVisible(element, 5000, true)
 
-  @When /^Select "([^"]*)" value "([^"]*)"$/, (element, value)->
-    client.selectByValue(selector,value);
-
   @Then /^I see the stop "([^"]*)" on the route$/, (stopTitle)->
     element = ".stopsOnRoute"
     client.waitForExist(element);
@@ -38,3 +35,11 @@ module.exports = ()->
   @Then /^The stop "([^"]*)" is marked$/, (stopTitle)->
     element = "[title='#{stopTitle}']"
     client.waitForExist(element);
+
+  @Then /^Set recurrent trips "([^"]*)"$/, (days)->
+    d "Set recurrent days", days
+    client.click "[data-cucumber='recurrent-date']"
+    # And Click on "[data-cucumber='day-1']"
+    for day in days.split(",")
+      client.click "[data-cucumber='day-#{day}']"
+    client.click "[data-cucumber='set-recurrent']"
