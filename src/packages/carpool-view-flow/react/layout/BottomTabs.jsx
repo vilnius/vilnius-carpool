@@ -18,7 +18,7 @@ class BottomTabs extends React.Component {
     return (
       <Paper style={{
         position: 'fixed',
-        bottom: this.props.isMobile ? 0 : 28,
+        bottom: this.props.bottomOffset,
         height: this.props.height,
         width: this.props.width,
         zIndex: 1,

@@ -32,6 +32,12 @@ export default class TopMenu extends React.Component {
     this.setState({loggedIn: false})
   }
 
+  closeMenu () {
+    this.setState({
+      menuOpen: false,
+    })
+  }
+
   render () {
     user = Meteor.user();
     //console.log("TopMenu user", user);
@@ -104,11 +110,17 @@ export default class TopMenu extends React.Component {
             </div>
             <div style={{marginTop: 2, width: '100%'}}>
               <FlatButton style={{width: '100%', textAlign: 'left'}} label="Profile" icon={<PersonIcon />}
-                onClick={() => muiControllerHelper.goToView('Profile')} />
+                onClick={() => {
+                  this.closeMenu()
+                  FlowRouter.go('Profile')
+                }} />
             </div>
             <div style={{width: '100%'}}>
               <FlatButton style={{width: '100%', textAlign: 'left'}} label="Notifications" icon={<NotificationsIcon />}
-                onClick={() => muiControllerHelper.goToView('NotificationSettings')}
+                onClick={() => {
+                  this.closeMenu();
+                  FlowRouter.go('NotificationSettings');
+                }}
               />
             </div>
             { this.state.loggedIn ? (
@@ -124,11 +136,17 @@ export default class TopMenu extends React.Component {
             )}
             <div style={{width: '100%'}}>
               <FlatButton style={{width: '100%', textAlign: 'left'}} label="About" icon={<AboutIcon />}
-                onClick={() => muiControllerHelper.goToView('About')}/>
+                onClick={() => {
+                  this.closeMenu();
+                  FlowRouter.go('About');
+                }}/>
             </div>
             <div style={{width: '100%'}}>
               <FlatButton style={{width: '100%', textAlign: 'left'}} label="Leave feedback" icon={<FeedbackIcon />}
-                onClick={() => FlowRouter.go('Feedback')}/>
+                onClick={() => {
+                  this.closeMenu();
+                  FlowRouter.go('Feedback');
+                }}/>
             </div>
           </div>
         </LeftNav>
