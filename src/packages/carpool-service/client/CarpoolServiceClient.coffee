@@ -7,7 +7,7 @@ class @CarpoolService
   preInitQueue = new ParallelQueue(@);
 
   stopRadiusFromOrig = 1000 * 180 / (3.14 * 6371 * 1000)
-  stopDistanceFromRoute = 450 * 180 / (20000 * 1000) # seems it counts double distance
+  stopDistanceFromRoute = 250 * 180 / (20000 * 1000) # seems it counts double distance
   locRadiusFilter = 1000 * 180 / (3.14 * 6371 * 1000)
 
   constructor: (@params) ->
@@ -54,7 +54,7 @@ class @CarpoolService
     cb(googleServices.encodePoints(loc));
 
   resolveLocation: preInitQueue.wrap (loc, address, cb) ->
-    #console.log("Resolve location", coords, address);
+    #console.log("Resolve location", loc, address);
     if undefined == loc
       return null
     latlng = googleServices.toLatLng(loc)
@@ -271,7 +271,7 @@ class @CarpoolService
         stopLatLng = googleServices.toLatLng(stop.loc)
         if google.maps.geometry.poly.isLocationOnEdge(stopLatLng, polyline, stopDistanceFromRoute)
           stopOnRoute.push stop
-      d "Found stops on route", stopOnRoute
+      #d "Found stops on route", stopOnRoute
       @routeTrip trip, (err, stopsRoute) ->
         cb null,
           path: stopsRoute.overview_polyline

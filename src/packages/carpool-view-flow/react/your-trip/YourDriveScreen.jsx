@@ -16,7 +16,7 @@ class YourDrive extends React.Component {
   render () {
     const topBarHeight = 45
     const mapHeight = 375
-    const {progress, trip } = this.props;
+    const {progress, drive, stops} = this.props;
 
     if (100 != progress.getProgress()) {
       return (
@@ -25,14 +25,14 @@ class YourDrive extends React.Component {
         </section>
       );
     } else {
-      //console.log("Trip", trip);
-      user = Meteor.users.findOne({_id: trip.owner});
-      trip.driverName = getUserName(user);
-      trip.driverAge = 26;
-      trip.driverPicture = getUserPicture(user);
+      //console.log("drive", drive);
+      user = Meteor.users.findOne({_id: drive.owner});
+      drive.driverName = getUserName(user);
+      drive.driverAge = 26;
+      drive.driverPicture = getUserPicture(user);
 
-      isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
-      //console.log("Requested trip", isRequested);
+      isRequested = _(drive.requests).findWhere({userId: Meteor.userId()});
+      //console.log("Requested drive", isRequested);
       return (
         <div data-cucumber="screen-your-drive" style={{color: config.colors.textColor}}>
           <div style={{
@@ -40,10 +40,10 @@ class YourDrive extends React.Component {
             height: mapHeight,
             marginTop: topBarHeight
           }}>
-            <GoogleMap trip={trip} />
+            <GoogleMap trip={drive} stops={stops} />
           </div>
           <div style={{display: 'flex', flexDirection: 'column'}}>
-            <RideInfo drive={trip} width={this.props.width} />
+            <RideInfo drive={drive} width={this.props.width} />
             <div style={{
               marginTop: 18,
               textAlign: 'center',
@@ -67,9 +67,12 @@ YourDrive.propTypes = {
 
 export default YourDriveContainer = createContainer(({tripId}) => {
   const progress = new Progress();
-  const trip = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
+  const drive = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
+  const stops = carpoolService.pullStops(progress.setProgress.bind(progress, 'stops'));
+
   return {
     progress,
-    trip,
+    drive,
+    stops
   };
 }, YourDrive);

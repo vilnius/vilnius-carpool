@@ -28,7 +28,7 @@ if Meteor.isServer
   trip.bTime = moment("2016-06-20T13:00:00").toDate() # Monday
   Trips.insert(trip);
   trip = JSON.parse(Assets.getText("tests/trip.json"));
-  trip.bTime = moment("2016-06-29T13:00:00").toDate() # Monday
+  trip.bTime = moment("2016-06-29T13:00:00").toDate() # Wednesday
   Trips.insert(trip);
 
 if Meteor.isServer
@@ -41,8 +41,7 @@ if Meteor.isServer
     thatFriday = moment("2016-07-01T13:00:00") # Friday
     next = nextDate {repeat: [1,3,4], bTime: moment("2012-06-26T16:30:00")}, thatFriday
     d "Next:", next
-    test.isTrue moment(next).isSame("2016-07-04T16:30:00")
-
+    test.isTrue moment(next).isSame("2016-07-04T16:30:00"), "But was #{next}"
 
   Tinytest.addAsync "Recurrent - Notification for next date trip", (test, done) ->
     # Take the same trip
@@ -70,11 +69,11 @@ if Meteor.isClient
 
   Tinytest.addAsync "Recurrent - Find should return next date", (test, done) ->
     #d "Read active trips"
-    subscription = Meteor.subscribe 'activeTrips',
+    subscription = Meteor.subscribe 'activeTrips', {bTime: moment("2016-06-29T13:00:00").toDate()},
       onReady: ()->
         trips = Trips.find().fetch();
         test.length(trips, 2, "Should match all trips");
-        test.isTrue(moment(trip.bTime).isSame("2016-06-29T13:00:00")) for trip in trips
+        test.isTrue(moment(trip.bTime).isSame("2016-06-29T13:00:00"), "And actual time is #{trip.bTime}") for trip in trips
         #d "Expect actual trip to have next monday: #{monday.format('ll')}", actualTrip
         subscription.stop();
         done();

@@ -17,7 +17,7 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
       Given Login through "/loginUsername" with "dick@tiktai.lt"
       And I see "[data-cucumber='addTrip']" in "/m/all/offers"
       And Click on "[data-cucumber='addTrip']"
-      When I enter:
+      When I enter into "[data-cucumber='add-trip-form']":
         | trip-fromAddress     | trip-toAddress          |
         | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius |
       And Clicked on ".saveTrip" to see saved drive
