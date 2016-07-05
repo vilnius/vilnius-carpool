@@ -4,9 +4,6 @@ url = require('url');
 
 module.exports = ()->
 
-  @Given /^Notifications for "([^"]*)" removed$/, (user)->
-    #d "Remove old trips"
-    server.call "removeNotifications", user
 
   @Then /^User "([^"]*)" gets notification and sends request$/, (username)->
     @TestHelper.login(username);

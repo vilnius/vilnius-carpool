@@ -230,7 +230,7 @@ class TripForm extends React.Component {
       );
     } else {
       return (
-        <div style={{color: config.colors.textColor}}>
+        <div style={{color: config.colors.textColor}} data-cucumber="add-trip-form">
           <div style={{
             marginTop: topBarHeight
           }}>

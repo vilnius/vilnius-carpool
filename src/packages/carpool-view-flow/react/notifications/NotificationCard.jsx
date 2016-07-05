@@ -91,7 +91,7 @@ class NotificationCard extends React.Component {
                         ) }
                         <FlatButton data-cucumber="review-request" label="Review" secondary
                           onClick={() => {
-                            d("Goto to rideRequest", notification);
+                            //d("Goto to rideRequest", notification);
                             flowControllerHelper.goToView('YourRide', {id: notification.trip}, {ride: notification.context._id})
                             notificationClient.dismissAlert(notification._id)
                           }} />

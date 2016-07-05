@@ -39,7 +39,7 @@ export default class RideInfo extends React.Component {
   }
 
   gotoChat() {
-    d("Open chat window", this.props);
+    //d("Open chat window", this.props);
     FlowRouter.go("Chat", {cdUser: this.props.drive.owner});
   }
 
@@ -51,9 +51,9 @@ export default class RideInfo extends React.Component {
     for(var i=1; i < drive.stops.length; i++) {
       routePoint = drive.stops[i];
       stops.push(
-        <div key={routePoint._id} style={rideInfoLineWrap}  >
+        <div key={routePoint._id} style={rideInfoLineWrap} data-cucumber="stops-on-route" >
           <div>{routePoint.time}</div>
-          <div style={destinationTitleStyle}>
+          <div style={destinationTitleStyle} data-cucumber="stop">
             <div style={{...circleStyle,
               borderColor: 'yellow' }}></div>
               {routePoint.title}
