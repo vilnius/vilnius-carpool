@@ -1,15 +1,17 @@
 import React from 'react'
-import PersonIcon from 'material-ui/lib/svg-icons/social/person'
-import AboutIcon from 'material-ui/lib/svg-icons/action/info-outline'
-import FeedbackIcon from 'material-ui/lib/svg-icons/action/help-outline'
 import LeftNav from './left-nav.js'
 import Avatar from 'material-ui/lib/avatar'
 import BackButton from './BackButton'
 import MenuIcon from 'material-ui/lib/svg-icons/navigation/menu'
 import NotificationsIcon from 'material-ui/lib/svg-icons/social/notifications'
 import PersonOutlineIcon from 'material-ui/lib/svg-icons/social/person-outline'
+import PersonIcon from 'material-ui/lib/svg-icons/social/person'
+import AboutIcon from 'material-ui/lib/svg-icons/action/info-outline'
+import FeedbackIcon from 'material-ui/lib/svg-icons/action/help-outline'
 import BackIcon from 'material-ui/lib/svg-icons/navigation/arrow-back'
 import { FlowHelpers } from '../../flowHelpers'
+import { IconButton } from 'material-ui';
+import LeftNavWrap from './LeftNav.jsx';
 
 import FlatButton from 'material-ui/lib/flat-button'
 import { config } from '../config'
@@ -23,19 +25,7 @@ export default class TopMenu extends React.Component {
     super(props)
     this.state = {
       menuOpen: false,
-      loggedIn: !!Meteor.user()
     }
-  }
-
-  doLogout() {
-    Meteor.logout();
-    this.setState({loggedIn: false})
-  }
-
-  closeMenu () {
-    this.setState({
-      menuOpen: false,
-    })
   }
 
   render () {
@@ -72,12 +62,16 @@ export default class TopMenu extends React.Component {
             }}>
               {this.props.innerScreen ? (
                 this.props.returnScreen ? (
-                  <BackIcon color="white" onClick={() => FlowRouter.go(this.props.returnScreen)} />
+                  <IconButton onClick={() => FlowRouter.go(this.props.returnScreen)}>
+                    <BackIcon color="white" />
+                  </IconButton>
                 ) : (
                   <BackButton />
                 )
               ) : (
-                <MenuIcon color="white" onClick={() => this.setState({ menuOpen: true })} />
+                <IconButton onClick={() => this.setState({ menuOpen: true })}>
+                  <MenuIcon color="white" />
+                </IconButton>
               )}
             </div>
             <div style={{
@@ -88,68 +82,10 @@ export default class TopMenu extends React.Component {
             </div>
           </div>
         </div>
-        <LeftNav
+        <LeftNavWrap
           open={this.state.menuOpen}
           onRequestChange={(menuOpen) => this.setState({ menuOpen })}
-          docked={false}
-        >
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}>
-            <div style={{
-              width: '100%',
-              background: 'lightblue',
-              paddingTop: 20,
-              paddingBottom: 10
-            }}>
-              <Avatar src={avatar} size={60} style={{marginLeft: 10}} />
-              <div style={{width: 74, marginTop: 3, textAlign: 'center'}}>
-                {getUserName(Meteor.user()).split(' ')[0]}
-              </div>
-            </div>
-            <div style={{marginTop: 2, width: '100%'}}>
-              <FlatButton style={{width: '100%', textAlign: 'left'}} label="Profile" icon={<PersonIcon />}
-                onClick={() => {
-                  this.closeMenu()
-                  FlowRouter.go('Profile')
-                }} />
-            </div>
-            <div style={{width: '100%'}}>
-              <FlatButton style={{width: '100%', textAlign: 'left'}} label="Notifications" icon={<NotificationsIcon />}
-                onClick={() => {
-                  this.closeMenu();
-                  FlowRouter.go('NotificationSettings');
-                }}
-              />
-            </div>
-            { this.state.loggedIn ? (
-            <div style={{marginTop: 2, width: '100%'}}>
-              <FlatButton style={{width: '100%', textAlign: 'left'}} label={`Logout ${getUserName(Meteor.user()).split(' ')[0]}`} icon={<PersonOutlineIcon />}
-                onClick={() => this.doLogout()} />
-            </div>
-            ) : (
-              <div style={{marginTop: 2, width: '100%'}}>
-                <FlatButton style={{width: '100%', textAlign: 'left'}} label="Login" icon={<PersonOutlineIcon />}
-                  onClick={() => flowControllerHelper.goToView('Login')} />
-              </div>
-            )}
-            <div style={{width: '100%'}}>
-              <FlatButton style={{width: '100%', textAlign: 'left'}} label="About" icon={<AboutIcon />}
-                onClick={() => {
-                  this.closeMenu();
-                  FlowRouter.go('About');
-                }}/>
-            </div>
-            <div style={{width: '100%'}}>
-              <FlatButton style={{width: '100%', textAlign: 'left'}} label="Leave feedback" icon={<FeedbackIcon />}
-                onClick={() => {
-                  this.closeMenu();
-                  FlowRouter.go('Feedback');
-                }}/>
-            </div>
-          </div>
-        </LeftNav>
+        />
       </div>
     )
   }
