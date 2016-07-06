@@ -149,7 +149,7 @@ class @CarpoolService
     fromTime = new Date(now.getTime() - (1000 * 60 * 60 * 24 * 60))
     filter =
       owner: $ne: Meteor.userId()
-      time: $gte: fromTime
+      bTime: $gte: fromTime
     Trips.find filter, sort: time: -1
 
   ###
@@ -169,11 +169,11 @@ class @CarpoolService
     fromTime = new Date(now.getTime() - (tripsHistoryPeriod))
     query = _(filter).chain().omit("fromLoc", "toLoc").extend(
       owner: $ne: Meteor.userId()
-      time: $gte: fromTime
+      bTime: $gte: fromTime
     ).value();
     trips = Trips.find(query, sort: time: -1).fetch()
-    #console.log "Active trips", query, trips
-    #trips
+    #console.log "Active trips filter in client", query, trips
+    trips
 
   ###
   New version of getOwnTrips - reactive method to subscribe and find own Trips

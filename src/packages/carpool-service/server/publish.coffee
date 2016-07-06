@@ -23,12 +23,12 @@ Meteor.publish 'activeTrips', (filter = {}) ->
   if filter.bTime?
     bTime = moment(filter.bTime)
     query['$or'] = [
-      {repeat: bTime.day()},
+      {repeat: bTime.isoWeekday()-1},
       bTime:
         $gte: bTime.subtract(timeInterval, "m").toDate()
         $lt: bTime.clone().add(2*timeInterval, "m").toDate()
     ]
-    d "activeTrips filter query", filter['$or']
+    da ['trip-publish' ], "activeTrips filter query", filter['$or']
   if filter.fromLoc?
     query['stops.loc'] =
       $near: filter.fromLoc
@@ -43,13 +43,13 @@ Meteor.publish 'activeTrips', (filter = {}) ->
       toLoc:
         $near: filter.toLoc
         $maxDistance: locRadiusFilter
-    da [ 'trip-publish' ], 'Publish refined activeTrips:', refinedQuery
+    da ['trip-publish'], 'Publish refined activeTrips:', refinedQuery
     cursor = Trips.find(refinedQuery)
 
   handle = cursor.observe
     added: (document)=>
       nextDate(document, moment(filter.bTime))
-      #d "Added to subscribtion trip", document.bTime
+      da ['trip-publish'], "Added to subscribtion trip #{document._id}", document.bTime
       @added "trips", document._id, document
     changed: (newDocument, oldDocument)=>
       nextDate(document, moment(filter.bTime))

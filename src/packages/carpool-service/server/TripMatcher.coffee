@@ -16,7 +16,7 @@ class @TripsMatcher
       _id: $ne: trip.owner
       role: if trip.role == 'driver' then 'rider' else 'driver'
       $or: [
-        {repeat: bTime.day()},
+        {repeat: bTime.isoWeekday()-1},
         bTime:
           $gte: bTime.subtract(timeInterval, "m").toDate()
           $lt: bTime.clone().add(2*timeInterval, "m").toDate()
