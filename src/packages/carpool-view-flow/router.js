@@ -7,6 +7,9 @@ import {mount} from 'react-mounter';
 
 import {da} from 'meteor/spastai:logw'
 
+import { Tracker } from 'meteor/tracker'
+import { Session } from 'meteor/session'
+
 import { MainLayout, SecureLayout } from './layout'
 import {FlowHelpers} from './flowHelpers'
 import BottomTabs from "./react/layout/BottomTabs"
@@ -38,6 +41,8 @@ d = console.log.bind(console)
 /* TODO Get rid of those variables
 instead of caching these router scope variables stores some variables
 */
+this.carpoolService = new CarpoolService({key: Meteor.settings.public.googleApi.key})
+
 let aLoc, bLoc; // these variables travel through query parameters also
 let addresses = {};
 
@@ -262,11 +267,39 @@ FlowRouter.route('/m/all/requests', {
   }
 });
 
+// Tracker.autorun(function () {
+//   d("Check aLoc", aLoc, Session.get("geoIpLoc"));
+//   if(undefined === aLoc && Session.get("geoIpLoc")) {
+//     aLoc = Session.get("geoIpLoc");
+//     if (FlowRouter.current().route) {
+//       let {route: {name : currentPath}} = FlowRouter.current()
+//       d("Use current user location to append "+currentPath, aLoc);
+//       carpoolService.encodePoints([aLoc], (location)=> {
+//         d("Updating url with goeIpLoc", location);
+//         FlowHelpers.goExtendedQuery(undefined, {}, {aLoc: location});
+//       });
+//     }
+//   }
+// });
+
 // This should be the last route as it takes optional parameter which could match all other routes
 FlowRouter.route('/m/all/offers', {
     name: "RideOffers",
     action: function(params, queryParams) {
-      if(queryParams.aLoc) {
+      d("RideOffers aLoc="+queryParams.aLoc+";")
+      if(undefined == queryParams.aLoc) {
+        carpoolService.currentLocation((err, aLoc)=> {
+          if(err) return console.warn("Error getting current location:", err);
+          let {route: {name : currentPath}, queryParams} = FlowRouter.current();
+          if(!queryParams.aLoc) {
+            //d("Use current user location to append ", aLoc);
+            carpoolService.encodePoints([aLoc], (location)=> {
+              //d("Updating url with goeIpLoc", location);
+              FlowHelpers.goExtendedQuery(undefined, {}, {aLoc: location});
+            });
+          }
+        });
+      } else {
         aLoc = googleServices.decodePoints(queryParams.aLoc)[0];
       }
       if(queryParams.bLoc) {

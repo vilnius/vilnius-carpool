@@ -31,7 +31,7 @@ export default class RidesList extends React.Component {
             user = Meteor.users.findOne({_id: ride.owner});
             ride.ownerName = getUserName(user);
             ride.ownerAvatar = getUserPicture(user);
-            d("Repeat ", ride.repeat);
+            //d("Repeat ", ride.repeat);
             ride.fromTime = moment(ride.aTime).format('H:mm');
             ride.toTime = moment(ride.bTime).format('H:mm');
             ride.toTimeApproximate = true;

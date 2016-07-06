@@ -50,6 +50,16 @@ class @CarpoolService
         item.value.latlng = googleServices.toLatLng(item.value.loc);
       return item.value
 
+  currentLocation: (cb)->
+    if "geolocation" of navigator
+      #d "Geolocation is available"
+      navigator.geolocation.getCurrentPosition (location) ->
+        cb null, [location.coords.longitude, location.coords.latitude]
+      , (positionError)->
+        cb positionError
+    else
+      cb "No geolocation found in browser navigator"
+
   encodePoints: preInitQueue.wrap (loc, cb) ->
     cb(googleServices.encodePoints(loc));
 

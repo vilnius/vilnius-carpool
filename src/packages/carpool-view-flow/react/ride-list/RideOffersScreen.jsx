@@ -8,15 +8,11 @@ import SearchIcon from 'material-ui/lib/svg-icons/action/search';
 import RepeatingDays from '../components/ReccuringDays'
 import { config } from '../config'
 import {FlowHelpers} from '../../flowHelpers'
+d = console.log.bind(console);
 
 export default RideOffers = createContainer(({filterOwn = "all", role = "driver", aLoc, bLoc}) => {
   const progress = new Progress();
   //d("Reactivly get geoloc and set if aLoc is not set already");
-  if(undefined === aLoc && Session.get("geoIpLoc")) {
-    aLoc = Session.get("geoIpLoc");
-    carpoolService.encodePoints([aLoc], (location)=>
-      FlowHelpers.goExtendedQuery(FlowRouter.current().route.name, {}, {aLoc: location}));
-  }
   query = {
     role: role,
     fromLoc: aLoc,
