@@ -8,6 +8,7 @@ import ChevronLeft from 'material-ui/lib/svg-icons/navigation/chevron-left'
 import ChevronRight from 'material-ui/lib/svg-icons/navigation/chevron-right'
 import moment from 'moment'
 import { config } from '../config'
+d = console.log.bind(console);
 
 export default class DateTimePicker extends React.Component {
   constructor (props) {
@@ -24,7 +25,7 @@ export default class DateTimePicker extends React.Component {
     this.setState({
       open: true,
       isDepartureDate,
-      date,
+      date: date || moment()
     })
   }
 
@@ -52,7 +53,7 @@ export default class DateTimePicker extends React.Component {
 
   render () {
     const bonusWidth = (window.innerWidth - 320) / 4
-    const contentWidth = Math.min(768, 300 + 2 * bonusWidth)
+    const contentWidth = Math.min(768, 300 + 2 * bonusWidth);
     return (
       <Dialog
         open={this.state.open}

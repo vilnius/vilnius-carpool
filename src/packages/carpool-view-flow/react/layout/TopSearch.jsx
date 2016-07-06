@@ -42,7 +42,7 @@ export default class TopSearch extends React.Component {
       toAddress: '...',
       pickerOpen: false,
       isDepartureDate: false,
-      date: props.bTime || moment(),
+      date: props.bTime
     }
   }
 
@@ -110,7 +110,8 @@ export default class TopSearch extends React.Component {
         </div>
         <div style={styles.searchField} onClick={() => {this.refs.picker.openDateTimePicker(this.state.isDepartureDate, this.state.date)}}>
           <div style={styles.searchHint}>{this.state.isDepartureDate ? 'depart at' : 'arrive by'}</div>
-          <div style={styles.searchValue}>{this.state.date ? this.state.date.format('ddd, MMM D, H:mm') : null}</div>
+          <div style={styles.searchValue}>{this.state.date ? this.state.date.format('ddd, MMM D, H:mm') : "..."}</div>
+          <ClearIcon color="#fafafa" style={{marginLeft: 'auto'}} onClick={this.clearLocation.bind(this, 'bTime', 'date')} />
         </div>
         <DateTimePicker ref="picker" onDateSelected={({date, isDepartureDate}) => {
             FlowHelpers.goExtendedQuery(null, {}, {bTime: date.format("YYYYMMDDTHHmm")});

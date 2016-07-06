@@ -5,7 +5,7 @@ import {FlowHelpers} from '../../flowHelpers'
 
 export default class newRideButton extends React.Component {
   render () {
-    console.log(this.props.isMobile);
+    //console.log(this.props.isMobile);
     return (
       <FloatingActionButton data-cucumber="addTrip" primary style={{
           position: 'fixed',

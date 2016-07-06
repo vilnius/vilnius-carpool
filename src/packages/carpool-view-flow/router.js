@@ -286,7 +286,7 @@ FlowRouter.route('/m/all/requests', {
 FlowRouter.route('/m/all/offers', {
     name: "RideOffers",
     action: function(params, queryParams) {
-      d("RideOffers aLoc="+queryParams.aLoc+";")
+      //d("RideOffers aLoc="+queryParams.aLoc+";")
       if(undefined == queryParams.aLoc) {
         carpoolService.currentLocation((err, aLoc)=> {
           if(err) return console.warn("Error getting current location:", err);
@@ -305,7 +305,7 @@ FlowRouter.route('/m/all/offers', {
       if(queryParams.bLoc) {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
-      bTime = queryParams.bTime ? moment(queryParams.bTime, "YYYYMMDDTHHmm", true) : moment();
+      bTime = queryParams.bTime ? moment(queryParams.bTime, "YYYYMMDDTHHmm", true) : undefined;
       //console.log("Offers route", params, queryParams, "and aLoc:", aLoc);
       // by coincidence aLoc, bLoc and addresses are stored as global variables...
       mount(SecureLayout, {
