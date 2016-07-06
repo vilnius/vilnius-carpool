@@ -68,8 +68,17 @@ export default class TopSearch extends React.Component {
 
   clearLocation (field, state, e) {
     clear = {};
-    clear[field] = "";
-    this.state[state] = '...';
+    if("aLoc" == field) {
+      // To prevent currentLocation overide
+      clear[field] = "";
+    } else {
+      clear[field] = undefined;
+    }
+    if("bTime" == field) {
+      this.state[state] = undefined;            
+    } else {
+      this.state[state] = '...';
+    }
     FlowHelpers.goExtendedQuery(undefined, {}, clear);
     e.stopPropagation();
   }

@@ -44,7 +44,6 @@ module.exports = ()->
     #d "Do login #{username}"
     @TestHelper.urlLogin(path, username)
 
-
   @Then /^I see "([^"]*)" text "([^"]*)"$/, (element, text)->
     client.waitForExist(element);
     expect(client.getText(element)).toEqual(text)

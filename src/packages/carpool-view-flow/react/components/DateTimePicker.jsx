@@ -54,6 +54,7 @@ export default class DateTimePicker extends React.Component {
   render () {
     const bonusWidth = (window.innerWidth - 320) / 4
     const contentWidth = Math.min(768, 300 + 2 * bonusWidth);
+    //d("bTime for DateTimePicker", this.state.date)
     return (
       <Dialog
         open={this.state.open}

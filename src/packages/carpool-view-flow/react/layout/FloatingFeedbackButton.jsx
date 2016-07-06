@@ -5,7 +5,7 @@ import FeedbackIcon from 'material-ui/lib/svg-icons/action/help-outline'
 export default class newRideButton extends React.Component {
   render () {
     return (
-      <FloatingActionButton mini data-cucumber="addTrip" secondary style={{
+      <FloatingActionButton mini data-cucumber="feedback" secondary style={{
           position: 'fixed',
           left: this.props.sideOffset + 12,
           bottom: this.props.bottomOffset + 75,

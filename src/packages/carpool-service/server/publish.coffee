@@ -20,6 +20,7 @@ Meteor.publish 'oneTrip', (filter) ->
 ###
 Meteor.publish 'activeTrips', (filter = {}) ->
   query = _(filter).omit("fromLoc", "toLoc", "bTime");
+  #da ['trip-publish' ], "Filter by date", filter.bTime
   if filter.bTime?
     bTime = moment(filter.bTime)
     query['$or'] = [

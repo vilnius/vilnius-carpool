@@ -10,14 +10,15 @@ import { config } from '../config'
 import {FlowHelpers} from '../../flowHelpers'
 d = console.log.bind(console);
 
-export default RideOffers = createContainer(({filterOwn = "all", role = "driver", aLoc, bLoc}) => {
+export default RideOffers = createContainer(({filterOwn = "all", role = "driver", aLoc, bLoc, bTime}) => {
   const progress = new Progress();
-  //d("Reactivly get geoloc and set if aLoc is not set already");
   query = {
     role: role,
     fromLoc: aLoc,
-    toLoc: bLoc
+    toLoc: bLoc,
+    bTime: bTime && bTime.toDate()
   }
+  //d("RideOffersList query", bTime);
   // Some magic here to remove undefined values
   Object.keys(query).forEach((key)=>{query[key] || delete query[key]});
 
