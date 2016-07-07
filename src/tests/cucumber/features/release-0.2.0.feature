@@ -13,6 +13,7 @@ Feature: uc9 Match-Request-Confirm-Pickup on MUI
       | 1 Paplaujos. Vilnius | Muitinės g. 35, Vilnius | rider  |
       | Dzūkų 50, Vilnius    | Šeškinės g. 10, Vilnius | driver |
 
+    
     Scenario: Match-request-confirm for Driver Dick and rider Ron
       Given Login through "/loginUsername" with "dick@tiktai.lt"
       And I see "[data-cucumber='addTrip']" in "/m/all/offers"

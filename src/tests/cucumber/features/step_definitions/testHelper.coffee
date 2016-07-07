@@ -44,6 +44,7 @@ module.exports = ()->
           client.click '.join_Login'
 
         #console.log("Login with #{username} / #{password}")
+        screenshot("uc2-login.png");
         client.waitForExist 'input[id="inputUsername"]'
         client.setValue('input[id="inputUsername"]', username);
         client.setValue('input[id="inputPassword"]', "aaa");

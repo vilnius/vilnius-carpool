@@ -12,6 +12,7 @@ module.exports = ()->
     server.call "assureStop", "Kauno", [25.268912762403488,54.671944985679346]
     server.call "assureStop", "Audejo", [25.3087453, 54.6785911]
 
+
   @Then /^I see my trip$/, (table)->
     element = ".myTripFrom"
     client.waitForExist(element, 5000);

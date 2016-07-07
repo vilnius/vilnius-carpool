@@ -1,7 +1,14 @@
 d = console.log.bind @, "---"
+@screenshots = "../build/screenshots/";
+screenShot = (name)->
+  d "Make screenshot #{name}"
+  client.saveScreenshot(screenshots+'uc3-assureTrips.png') if screenshots?
+
 
 module.exports = ()->
   url = require('url');
+  _ = require('underscore');
+
 #_ = require('underscore');
   ###
   For test preparation sophisticated function created which takes addresses
@@ -24,7 +31,7 @@ module.exports = ()->
               carpoolService.saveTrip trip, (err)->
                 if err then done err else done trip
         , trip
-    #client.saveScreenshot('../build/screenshots/uc3-assureTrips.png')
+    screenshot("uc3-assureTrips.png");
     #d "Result:",result
 
 
@@ -43,6 +50,27 @@ module.exports = ()->
   @When /^Login through "([^"]*)" with "([^"]*)"$/, (path, username)->
     #d "Do login #{username}"
     @TestHelper.urlLogin(path, username)
+
+  @When /^I add trip:$/, (table)->
+    row = table.hashes()[0]
+    # Navigate to
+    link = process.env.ROOT_URL + "/m/all/offers";
+    client.url(link);
+    client.waitForExist("[data-cucumber='addTrip']");
+    client.click "[data-cucumber='addTrip']"
+    client.waitForVisible "[data-cucumber='add-trip-form']", 10000;
+    #d "Enter", fields
+    fields = _(row).pick("trip-fromAddress", "trip-toAddress")
+    for key, value of fields
+      d "Fill #{key}=#{value}"
+      client.setValue("input[id=\"#{key}\"]", value);
+      client.keys("Enter");
+    # Check trip is created
+    client.click ".saveTrip"
+    client.waitForExist "[data-cucumber='screen-your-#{row.type}']"
+    client.waitForExist ".myTripFrom"
+    expect(client.getText(".myTripFrom")).toEqual(row.from)
+    expect(client.getText(".myTripTo")).toEqual(row.to)
 
   @Then /^I see "([^"]*)" text "([^"]*)"$/, (element, text)->
     client.waitForExist(element);
