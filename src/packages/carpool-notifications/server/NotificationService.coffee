@@ -1,5 +1,8 @@
 Meteor.startup ()->
-  Push.Configure Meteor.settings.push
+  if(Meteor.settings.push)
+    Push.Configure Meteor.settings.push
+  else
+    console.warn("Setup APN as described in https://github.com/vilnius/vilnius-carpool/wiki/Configuration-setup");
 
 class @NotificationService
   notifyRequestRide: (trip)->

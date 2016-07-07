@@ -41,6 +41,7 @@ d = console.log.bind(console)
 /* TODO Get rid of those variables
 instead of caching these router scope variables stores some variables
 */
+
 this.carpoolService = new CarpoolService({key: Meteor.settings.public.googleApi.key})
 
 let aLoc, bLoc; // these variables travel through query parameters also
@@ -286,7 +287,7 @@ FlowRouter.route('/m/all/requests', {
 FlowRouter.route('/m/all/offers', {
     name: "RideOffers",
     action: function(params, queryParams) {
-      //d("RideOffers aLoc="+queryParams.aLoc+";")
+      d("RideOffers aLoc="+queryParams.aLoc+";")
       if(undefined == queryParams.aLoc) {
         carpoolService.currentLocation((err, aLoc)=> {
           if(err) return console.warn("Error getting current location:", err);
