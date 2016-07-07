@@ -21,6 +21,7 @@ import TopSearch from './react/layout/TopSearch'
 import RidesList from './react/components/RidesList'
 
 import LoginScreen from './react/auth/Login'
+import RegisterScreen from './react/auth/Register'
 import LoginUsernameScreen from './react/auth/LoginUsername'
 import RideOffersScreen from './react/ride-list/RideOffersScreen'
 import TripFormScreen from './react/trip-form/TripForm'
@@ -99,14 +100,6 @@ FlowRouter.route('/login', {
     }
 });
 
-FlowRouter.route('/logout', {
-    name: "Logout",
-    action: function(params, queryParams) {
-      Meteor.logout(()=> FlowRouter.go("Login"));
-
-    }
-});
-
 FlowRouter.route('/loginUsername', {
     name: "LoginUsername",
     action: function(params, queryParams) {
@@ -114,6 +107,24 @@ FlowRouter.route('/loginUsername', {
       mount(MainLayout, {
         content: <LoginUsernameScreen />,
       });
+    }
+});
+
+FlowRouter.route('/register', {
+    name: "Register",
+    action: function(params, queryParams) {
+      //console.log("Routing to - new trip form", TripFormScreen);
+      mount(MainLayout, {
+        content: <RegisterScreen />,
+      });
+    }
+});
+
+FlowRouter.route('/logout', {
+    name: "Logout",
+    action: function(params, queryParams) {
+      Meteor.logout(()=> FlowRouter.go("Login"));
+
     }
 });
 
@@ -287,7 +298,7 @@ FlowRouter.route('/m/all/requests', {
 FlowRouter.route('/m/all/offers', {
     name: "RideOffers",
     action: function(params, queryParams) {
-      d("RideOffers aLoc="+queryParams.aLoc+";")
+      //d("RideOffers aLoc="+queryParams.aLoc+";")
       if(undefined == queryParams.aLoc) {
         carpoolService.currentLocation((err, aLoc)=> {
           if(err) return console.warn("Error getting current location:", err);
