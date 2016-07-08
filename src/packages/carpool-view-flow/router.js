@@ -42,8 +42,13 @@ d = console.log.bind(console)
 /* TODO Get rid of those variables
 instead of caching these router scope variables stores some variables
 */
+if(Meteor.settings.public.googleApi) {
+  this.carpoolService = new CarpoolService({key: Meteor.settings.public.googleApi.key})
+} else {
+  this.carpoolService = new CarpoolService({});
+  console.warn("Setup Google API key as described in https://github.com/vilnius/vilnius-carpool/wiki/Configuration-setup");
+}
 
-this.carpoolService = new CarpoolService({key: Meteor.settings.public.googleApi.key})
 
 let aLoc, bLoc; // these variables travel through query parameters also
 let addresses = {};

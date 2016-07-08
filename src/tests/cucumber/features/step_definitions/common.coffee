@@ -1,4 +1,5 @@
 d = console.log.bind @, "---"
+
 @screenshots = "../build/screenshots/";
 screenShot = (name)->
   d "Make screenshot #{name}"
@@ -48,8 +49,9 @@ module.exports = ()->
     @TestHelper.login(username)
 
   @When /^Login through "([^"]*)" with "([^"]*)"$/, (path, username)->
-    #d "Do login #{username}"
-    @TestHelper.urlLogin(path, username)
+    d "Do login #{username}"
+    @TestHelper.urlLogin(path, username);
+    screenshot("logged-in.png");
 
   @When /^I add trip:$/, (table)->
     row = table.hashes()[0]
