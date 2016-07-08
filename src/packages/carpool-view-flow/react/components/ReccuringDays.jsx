@@ -23,17 +23,17 @@ const emptyCircleStyle = {
   border: '1px solid ' + config.colors.main,
 }
 
-export default class RepeatingDays extends React.Component {
-  render () {
-    const dayLetters = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
-    return (
-      <div className="flex-row" style={{display: 'flex', flexDirection: 'row', fontFamily: config.font, justifyContent: 'flex-start', height: 14}}>
-        {dayLetters.map((day, i) => (
-          <div key={i} style={Object.assign({}, circleStyle, this.props.daysActive[i] ? filledCircleStyle : emptyCircleStyle)}>
-            <div style={{marginTop: -1}}>{day}</div>
-          </div>
-        ))}
-      </div>
-    )
-  }
+const RepeatingDays = ({ daysActive }) => {
+  const dayLetters = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+  return (
+    <div className="flex-row" style={{display: 'flex', flexDirection: 'row', fontFamily: config.font, justifyContent: 'flex-start', height: 14}}>
+      {dayLetters.map((day, i) => (
+        <div key={i} style={Object.assign({}, circleStyle, daysActive[i] ? filledCircleStyle : emptyCircleStyle)}>
+          <div style={{marginTop: -1}}>{day}</div>
+        </div>
+      ))}
+    </div>
+  );
 }
+
+export default RepeatingDays

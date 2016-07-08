@@ -81,6 +81,7 @@ export default class DateTimePicker extends React.Component {
               textAlign: 'center',
               borderBottom: `3px solid ${this.state.isDepartureDate ? 'rgba(0, 0, 0, 0.25)' : config.colors.main}`,
               color: this.state.isDepartureDate ? 'rgba(0, 0, 0, 0.25)' : config.colors.main,
+              cursor: 'pointer',
             }}
             onClick={() => {this.setState({isDepartureDate : false})}}
           >
@@ -91,6 +92,7 @@ export default class DateTimePicker extends React.Component {
               textAlign: 'center',
               borderBottom: `3px solid ${this.state.isDepartureDate ? config.colors.main : 'rgba(0, 0, 0, 0.25)'}`,
               color : this.state.isDepartureDate ? config.colors.main : 'rgba(0, 0, 0, 0.25)',
+              cursor: 'pointer',
             }}
             onClick={() => {this.setState({isDepartureDate : true})}}
           >
