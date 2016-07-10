@@ -23,12 +23,16 @@
     "warning": "^3.0.0"
   },
   "devDependencies": {
+    "chimp": "^0.26.0",
     "coffee-script": "^1.10.0",
-    "chimp": "^0.26.0"
+    "eslint": "^3.0.1",
+    "eslint-plugin-meteor": "^3.6.0",
+    "eslint-plugin-react": "^5.2.2"
   },
   "scripts": {
     "test": "node_modules/.bin/chimp --watch --compiler=coffee:coffee-script/register --ddp=http://localhost:3000 --path=tests/cucumber/features",
     "build": "meteor build --server=http://stg.arciau.lt ../build",
-    "testService": "meteor test-packages packages/carpool-service --settings settings.json"
+    "testService": "meteor test-packages packages/carpool-service --settings settings.json",
+    "lint": "eslint ."
   }
 }

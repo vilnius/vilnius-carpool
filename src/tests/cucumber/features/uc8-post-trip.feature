@@ -9,17 +9,12 @@ Background: Cleanup old trips
   And Notifications for "ron@tiktai.lt" removed
   And Notifications for "dick@tiktai.lt" removed
 
-  @trip  @focus
+  @trip
   Scenario: Driver saves the trip passing the stop
     Given Login through "/loginUsername" with "dick@tiktai.lt"
-    And I see "[data-cucumber='addTrip']" in "/m/all/offers"
-    And Click on "[data-cucumber='addTrip']"
-    When I enter into "[data-cucumber='add-trip-form']":
-      | trip-fromAddress     | trip-toAddress          |
-      | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius |
-    And Clicked on ".saveTrip" to see saved drive
-      | fromAddress          | toAddress               | role   |
-      | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius | rider  |
+    When I add trip:
+      | trip-fromAddress     | trip-toAddress          | type   |
+      | 3 Paplaujos. Vilnius | Muitinės g. 33, Vilnius | drive  |
     And I see the stops on the route:
       | name                 |
       | Kauno                |
