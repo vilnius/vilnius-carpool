@@ -2,7 +2,6 @@
 
 export const name = 'carpool-view-flow';
 
-import React from 'react';
 import {mount} from 'react-mounter';
 
 import {da} from 'meteor/spastai:logw'

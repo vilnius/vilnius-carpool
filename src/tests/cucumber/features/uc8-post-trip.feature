@@ -9,7 +9,7 @@ Background: Cleanup old trips
   And Notifications for "ron@tiktai.lt" removed
   And Notifications for "dick@tiktai.lt" removed
 
-  @trip @focus
+  @trip
   Scenario: Driver saves the trip passing the stop
     Given Login through "/loginUsername" with "dick@tiktai.lt"
     When I add trip:
