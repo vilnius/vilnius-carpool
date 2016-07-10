@@ -61,7 +61,7 @@ Background: Cleanup old trips
     When Login through "/loginUsername" with "ron@tiktai.lt"
     And I see "[data-cucumber='addTrip']" in "/m/all/offers"
     And Click on "[data-cucumber='addTrip']"
-    When I enter:
+    When I enter into "[data-cucumber='add-trip-form']":
       | trip-fromAddress     | trip-toAddress          |
       | 2 Traidenio. Vilnius | Muitinės g. 32, Vilnius |
     And Click on "[data-cucumber='recurrent-date']"
