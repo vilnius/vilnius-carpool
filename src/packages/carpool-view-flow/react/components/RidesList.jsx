@@ -9,6 +9,7 @@ import ReccuringDays from './ReccuringDays'
 import { getUserName } from 'meteor/carpool-view'
 import { getUserPicture } from '../api/UserPicture.coffee'
 import Loader from './Loader'
+d = console.log.bind(console);
 
 function getRandomBool() {
   return Math.random() < 0.5
@@ -30,11 +31,7 @@ export default class RidesList extends React.Component {
             user = Meteor.users.findOne({_id: ride.owner});
             ride.ownerName = getUserName(user);
             ride.ownerAvatar = getUserPicture(user);
-
-            // >> Mocking
-            ride.isReccuring = false;
-            ride.reccuringDays = [getRandomBool(), getRandomBool(), getRandomBool(),
-              getRandomBool(), getRandomBool(), getRandomBool(), getRandomBool()];
+            //d("Repeat ", ride.repeat);
             ride.fromTime = moment(ride.aTime).format('H:mm');
             ride.toTime = moment(ride.bTime).format('H:mm');
             ride.toTimeApproximate = true;
@@ -52,8 +49,8 @@ export default class RidesList extends React.Component {
                 <div style={{display: 'flex', flexDirection: 'column', color: config.colors.textColor}}>
                   <div style={{marginBottom: 7, fontSize: 13}}>{ride.fromAddress} {ride.fromTimeApproximate ? '~' + ride.fromTime : ride.fromTime}</div>
                   <div style={{marginBottom: 10, fontSize: 13}}>{ride.toAddress} {ride.toTimeApproximate ? '~' + ride.toTime : ride.toTime}</div>
-                  <div>{ride.isReccuring ? (
-                    <ReccuringDays daysActive={ride.reccuringDays}
+                  <div>{ride.repeat ? (
+                    <ReccuringDays daysActive={ride.repeat}
                     />
                   ) : (
                     <span style={{fontSize: 12}}>{moment(ride.time).format("lll")}</span>

@@ -2,10 +2,12 @@
 
 export const name = 'carpool-view-flow';
 
-import React from 'react';
 import {mount} from 'react-mounter';
 
 import {da} from 'meteor/spastai:logw'
+
+import { Tracker } from 'meteor/tracker'
+import { Session } from 'meteor/session'
 
 import { MainLayout, SecureLayout } from './layout'
 import {FlowHelpers} from './flowHelpers'
@@ -18,6 +20,7 @@ import TopSearch from './react/layout/TopSearch'
 import RidesList from './react/components/RidesList'
 
 import LoginScreen from './react/auth/Login'
+import RegisterScreen from './react/auth/Register'
 import LoginUsernameScreen from './react/auth/LoginUsername'
 import RideOffersScreen from './react/ride-list/RideOffersScreen'
 import TripFormScreen from './react/trip-form/TripForm'
@@ -38,6 +41,14 @@ d = console.log.bind(console)
 /* TODO Get rid of those variables
 instead of caching these router scope variables stores some variables
 */
+if(Meteor.settings.public.googleApi) {
+  this.carpoolService = new CarpoolService({key: Meteor.settings.public.googleApi.key})
+} else {
+  this.carpoolService = new CarpoolService({});
+  console.warn("Setup Google API key as described in https://github.com/vilnius/vilnius-carpool/wiki/Configuration-setup");
+}
+
+
 let aLoc, bLoc; // these variables travel through query parameters also
 let addresses = {};
 
@@ -93,14 +104,6 @@ FlowRouter.route('/login', {
     }
 });
 
-FlowRouter.route('/logout', {
-    name: "Logout",
-    action: function(params, queryParams) {
-      Meteor.logout(()=> FlowRouter.go("Login"));
-
-    }
-});
-
 FlowRouter.route('/loginUsername', {
     name: "LoginUsername",
     action: function(params, queryParams) {
@@ -108,6 +111,24 @@ FlowRouter.route('/loginUsername', {
       mount(MainLayout, {
         content: <LoginUsernameScreen />,
       });
+    }
+});
+
+FlowRouter.route('/register', {
+    name: "Register",
+    action: function(params, queryParams) {
+      //console.log("Routing to - new trip form", TripFormScreen);
+      mount(MainLayout, {
+        content: <RegisterScreen />,
+      });
+    }
+});
+
+FlowRouter.route('/logout', {
+    name: "Logout",
+    action: function(params, queryParams) {
+      Meteor.logout(()=> FlowRouter.go("Login"));
+
     }
 });
 
@@ -262,24 +283,52 @@ FlowRouter.route('/m/all/requests', {
   }
 });
 
+// Tracker.autorun(function () {
+//   d("Check aLoc", aLoc, Session.get("geoIpLoc"));
+//   if(undefined === aLoc && Session.get("geoIpLoc")) {
+//     aLoc = Session.get("geoIpLoc");
+//     if (FlowRouter.current().route) {
+//       let {route: {name : currentPath}} = FlowRouter.current()
+//       d("Use current user location to append "+currentPath, aLoc);
+//       carpoolService.encodePoints([aLoc], (location)=> {
+//         d("Updating url with goeIpLoc", location);
+//         FlowHelpers.goExtendedQuery(undefined, {}, {aLoc: location});
+//       });
+//     }
+//   }
+// });
+
 // This should be the last route as it takes optional parameter which could match all other routes
 FlowRouter.route('/m/all/offers', {
     name: "RideOffers",
     action: function(params, queryParams) {
-      if(queryParams.aLoc) {
+      //d("RideOffers aLoc="+queryParams.aLoc+";")
+      if(undefined == queryParams.aLoc) {
+        carpoolService.currentLocation((err, aLoc)=> {
+          if(err) return console.warn("Error getting current location:", err);
+          let {route: {name : currentPath}, queryParams} = FlowRouter.current();
+          if(!queryParams.aLoc) {
+            //d("Use current user location to append ", aLoc);
+            carpoolService.encodePoints([aLoc], (location)=> {
+              //d("Updating url with goeIpLoc", location);
+              FlowHelpers.goExtendedQuery(undefined, {}, {aLoc: location});
+            });
+          }
+        });
+      } else {
         aLoc = googleServices.decodePoints(queryParams.aLoc)[0];
       }
       if(queryParams.bLoc) {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
-      bTime = queryParams.bTime ? moment(queryParams.bTime, "YYYYMMDDTHHmm", true) : moment();
+      let bTime = queryParams.bTime ? moment(queryParams.bTime, "YYYYMMDDTHHmm", true) : undefined;
       //console.log("Offers route", params, queryParams, "and aLoc:", aLoc);
       // by coincidence aLoc, bLoc and addresses are stored as global variables...
       mount(SecureLayout, {
         topMenu: <TopMenu title="Ride offers" hasTopTabs background="blue" />,
         topSearch: <TopSearch from={aLoc} to={bLoc} fromAddress={addresses.aLoc} toAddress={addresses.bLoc}
                       bTime={bTime} />,
-        content: <RideOffersScreen aLoc={aLoc} bLoc={bLoc} />,
+        content: <RideOffersScreen aLoc={aLoc} bLoc={bLoc} bTime={bTime} />,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
         renderNewTripButton: true,
         renderFeedbackButton: true,

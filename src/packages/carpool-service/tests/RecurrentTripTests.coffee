@@ -28,7 +28,7 @@ if Meteor.isServer
   trip.bTime = moment("2016-06-20T13:00:00").toDate() # Monday
   Trips.insert(trip);
   trip = JSON.parse(Assets.getText("tests/trip.json"));
-  trip.bTime = moment("2016-06-29T13:00:00").toDate() # Wednesday
+  trip.bTime = moment("2016-06-30T13:00:00").toDate() # Wednesday
   Trips.insert(trip);
 
 if Meteor.isServer
@@ -37,21 +37,26 @@ if Meteor.isServer
     next = nextDate {repeat: [1,3,4], bTime: moment("2012-06-26T16:30:00")}, thatMonday
     #d "Next:", next
 
+  Tinytest.add "Recurrent - Next Sunday", (test) ->
+    thatMonday = moment("2016-06-27T13:00:00") # Monday
+    next = nextDate {repeat: [6], bTime: moment("2012-06-26T16:30:00")}, thatMonday
+    #d "Next:", next
+
   Tinytest.add "Recurrent - Next week", (test) ->
     thatFriday = moment("2016-07-01T13:00:00") # Friday
-    next = nextDate {repeat: [1,3,4], bTime: moment("2012-06-26T16:30:00")}, thatFriday
+    next = nextDate {repeat: [0,3], bTime: moment("2012-06-26T16:30:00")}, thatFriday
     d "Next:", next
     test.isTrue moment(next).isSame("2016-07-04T16:30:00"), "But was #{next}"
 
   Tinytest.addAsync "Recurrent - Notification for next date trip", (test, done) ->
     # Take the same trip
-    trip = JSON.parse(Assets.getText("tests/recurrent-trip.json"));
+    #trip = JSON.parse(Assets.getText("tests/recurrent-trip.json"));
     # and modify it time not to match
     trip =
       _id: "xxx"
       role: "rider"
-      bTime: moment("2016-06-29T13:00:00").toDate() # Monday
-    test.length(matcher.findMatchingTrips(trip), 2, "Should match one trip");
+      bTime: moment("2016-06-30T13:00:00").toDate() # Monday
+    test.length(matcher.findMatchingTrips(trip), 2, "Should match two trips");
     done();
 
   Tinytest.addAsync "Recurrent - No notification for different dates", (test, done) ->
@@ -60,34 +65,23 @@ if Meteor.isServer
     # and modify it time not to match
     trip =
       role: "rider"
-      bTime: moment("2016-06-27T13:00:00").toDate() # Monday
+      bTime: moment("2016-06-28T13:00:00").toDate() # Monday
     test.length(matcher.findMatchingTrips(trip), 0, "Should match zero trip");
     done();
 
 
 if Meteor.isClient
 
-  Tinytest.addAsync "Recurrent - Find should return next date", (test, done) ->
-    #d "Read active trips"
-    subscription = Meteor.subscribe 'activeTrips', {bTime: moment("2016-06-29T13:00:00").toDate()},
-      onReady: ()->
-        trips = Trips.find().fetch();
-        test.length(trips, 2, "Should match all trips");
-        test.isTrue(moment(trip.bTime).isSame("2016-06-29T13:00:00"), "And actual time is #{trip.bTime}") for trip in trips
-        #d "Expect actual trip to have next monday: #{monday.format('ll')}", actualTrip
-        subscription.stop();
-        done();
-
-  Tinytest.addAsync "Recurrent - Filter by date", (test, done) ->
+  Tinytest.addAsync "Recurrent - Filter by date should return next date", (test, done) ->
     #d "Read active trips"
     subscription = Meteor.subscribe 'activeTrips', {
-      role: "driver"
-      bTime: moment("2016-06-29T13:00:00").toDate() # Monday
+        role: "driver"
+        bTime: moment("2016-06-30T13:00:00").toDate() # Monday
       },
       onReady: ()->
         trips = Trips.find().fetch();
         test.length(trips, 2, "Should match all trips");
-        test.isTrue(moment(trip.bTime).isSame("2016-06-29T13:00:00")) for trip in trips
+        test.isTrue(moment(trip.bTime).isSame("2016-06-30T13:00:00"), "But was #{trip.bTime}") for trip in trips
         #d "Expect actual trip to have next monday: #{monday.format('ll')}", actualTrip
         subscription.stop();
         done();

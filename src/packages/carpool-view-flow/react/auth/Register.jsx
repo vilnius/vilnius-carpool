@@ -1,9 +1,10 @@
 import React from 'react'
-import PageRoot from '../layout/PageRoot'
-import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
+import { Accounts } from 'meteor/accounts-base'
+import { TextField, Snackbar } from 'material-ui'
+d = console.log.bind(console)
 
-export default class RegisterBase extends React.Component {
+export default class Register extends React.Component {
 
   constructor (props) {
     super(props)
@@ -11,6 +12,8 @@ export default class RegisterBase extends React.Component {
       email: '',
       password: '',
       password2: '',
+      errorSnackbarMessage: '',
+      errorSnackbarOpen: false,
     }
   }
 
@@ -19,8 +22,24 @@ export default class RegisterBase extends React.Component {
   }
 
   register () {
-    console.log('Register with params', this.state)
+    //console.log('Register with params', this.state)
+    Accounts.createUser(this.state, (err)=>{
+      if(err) {
+        d("Got login error", err)
+        this.showErrorSnackbar(err.reason);
+      } else {
+        FlowRouter.go("RideOffers");
+      }
+    });
   }
+
+  showErrorSnackbar(message) {
+    //d("Showing error message", message)
+    this.setState({
+      errorSnackbarMessage: message,
+      errorSnackbarOpen: true
+    });
+  };
 
   render () {
     return (
@@ -39,9 +58,13 @@ export default class RegisterBase extends React.Component {
           <RaisedButton secondary label="Register" onClick={this.register.bind(this)} />
           <RaisedButton secondary label="Switch to login" onClick={() => flowControllerHelper.goToView('LoginUsername')} style={{marginLeft: 25}}/>
         </div>
+        <Snackbar
+          open={this.state.errorSnackbarOpen}
+          message={this.state.errorSnackbarMessage}
+          autoHideDuration={4000}
+          onRequestClose={() => this.closeErrorSnackbar()}
+        />
       </div>
     )
   }
 }
-
-Register = PageRoot(RegisterBase)

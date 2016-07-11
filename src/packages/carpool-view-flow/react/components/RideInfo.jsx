@@ -80,7 +80,7 @@ export default class RideInfo extends React.Component {
                   {moment(ride.aTime).format('H:mm')}
                   <div style={destinationTitleStyle}>
                     <div style={{...circleStyle, borderColor: 'grey' }}></div>
-                    <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{ride.fromAddress}</div>
+                    <div data-cucumber="ride-from" style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{ride.fromAddress}</div>
                   </div>
                 </div>
               ) : null}
@@ -88,7 +88,7 @@ export default class RideInfo extends React.Component {
                 {moment(drive.aTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
                   <div style={{...circleStyle, borderColor: 'red' }}></div>
-                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{drive.fromAddress}</div>
+                  <div data-cucumber="drive-from" style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{drive.fromAddress}</div>
                 </div>
               </div>
               {stops}

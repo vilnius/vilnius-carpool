@@ -42,7 +42,7 @@ export default class TopSearch extends React.Component {
       toAddress: '...',
       pickerOpen: false,
       isDepartureDate: false,
-      date: props.bTime || moment(),
+      date: props.bTime
     }
   }
 
@@ -66,9 +66,20 @@ export default class TopSearch extends React.Component {
     this.updatedLocations(nextProps);
   }
 
-  clearLocation (field, e) {
-    console.log(field) // 'aLoc' or 'bLoc'
-    // TODO delete the location from url, input field and return new list
+  clearLocation (field, state, e) {
+    clear = {};
+    if("aLoc" == field) {
+      // To prevent currentLocation overide
+      clear[field] = "";
+    } else {
+      clear[field] = undefined;
+    }
+    if("bTime" == field) {
+      this.state[state] = undefined;            
+    } else {
+      this.state[state] = '...';
+    }
+    FlowHelpers.goExtendedQuery(undefined, {}, clear);
     e.stopPropagation();
   }
 
@@ -99,16 +110,17 @@ export default class TopSearch extends React.Component {
         <div style={styles.searchField} onClick={() => {FlowHelpers.goExtendedQuery('LocationAutocomplete', {screen: "RideOffers", field:"aLoc"})}}>
           <div style={styles.searchHint}>from</div>
           <div style={styles.searchValue}>{this.props.fromAddress ? this.props.fromAddress : this.state.fromAddress}</div>
-          <ClearIcon color="#fafafa" style={{marginLeft: 'auto'}} onClick={this.clearLocation.bind(this, 'aLoc')} />
+          <ClearIcon color="#fafafa" style={{marginLeft: 'auto'}} onClick={this.clearLocation.bind(this, 'aLoc', 'fromAddress')} />
         </div>
         <div style={styles.searchField} onClick={() => {FlowHelpers.goExtendedQuery('LocationAutocomplete', {screen: "RideOffers", field:"bLoc"})}}>
           <div style={styles.searchHint}>to</div>
           <div style={styles.searchValue}>{this.props.toAddress ? this.props.toAddress : this.state.toAddress}</div>
-          <ClearIcon color="#fafafa" style={{marginLeft: 'auto'}} onClick={this.clearLocation.bind(this, 'bLoc')} />
+          <ClearIcon color="#fafafa" style={{marginLeft: 'auto'}} onClick={this.clearLocation.bind(this, 'bLoc', 'toAddress')} />
         </div>
         <div style={styles.searchField} onClick={() => {this.refs.picker.openDateTimePicker(this.state.isDepartureDate, this.state.date)}}>
           <div style={styles.searchHint}>{this.state.isDepartureDate ? 'depart at' : 'arrive by'}</div>
-          <div style={styles.searchValue}>{this.state.date ? this.state.date.format('ddd, MMM D, H:mm') : null}</div>
+          <div style={styles.searchValue}>{this.state.date ? this.state.date.format('ddd, MMM D, H:mm') : "..."}</div>
+          <ClearIcon color="#fafafa" style={{marginLeft: 'auto'}} onClick={this.clearLocation.bind(this, 'bTime', 'date')} />
         </div>
         <DateTimePicker ref="picker" onDateSelected={({date, isDepartureDate}) => {
             FlowHelpers.goExtendedQuery(null, {}, {bTime: date.format("YYYYMMDDTHHmm")});

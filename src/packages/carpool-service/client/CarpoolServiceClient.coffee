@@ -50,6 +50,16 @@ class @CarpoolService
         item.value.latlng = googleServices.toLatLng(item.value.loc);
       return item.value
 
+  currentLocation: (cb)->
+    if "geolocation" of navigator
+      #d "Geolocation is available"
+      navigator.geolocation.getCurrentPosition (location) ->
+        cb null, [location.coords.longitude, location.coords.latitude]
+      , (positionError)->
+        cb positionError
+    else
+      cb "No geolocation found in browser navigator"
+
   encodePoints: preInitQueue.wrap (loc, cb) ->
     cb(googleServices.encodePoints(loc));
 
@@ -149,7 +159,7 @@ class @CarpoolService
     fromTime = new Date(now.getTime() - (1000 * 60 * 60 * 24 * 60))
     filter =
       owner: $ne: Meteor.userId()
-      time: $gte: fromTime
+      bTime: $gte: fromTime
     Trips.find filter, sort: time: -1
 
   ###
@@ -169,11 +179,11 @@ class @CarpoolService
     fromTime = new Date(now.getTime() - (tripsHistoryPeriod))
     query = _(filter).chain().omit("fromLoc", "toLoc").extend(
       owner: $ne: Meteor.userId()
-      time: $gte: fromTime
+      bTime: $gte: fromTime
     ).value();
     trips = Trips.find(query, sort: time: -1).fetch()
-    #console.log "Active trips", query, trips
-    #trips
+    #console.log "Active trips filter in client", query, trips
+    trips
 
   ###
   New version of getOwnTrips - reactive method to subscribe and find own Trips

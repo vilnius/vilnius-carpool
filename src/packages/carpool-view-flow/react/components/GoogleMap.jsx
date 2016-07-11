@@ -15,9 +15,10 @@ export default class ReactMap extends React.Component {
       googleReady: false,
     }
     //d("Map Trip", props.trip);
-    const driveStops = props.trip.stops;
-    const ride = props.ride
+    const ride = props.ride;
+    const drive = props.trip;
 
+    const driveStops = drive && drive.stops || [];
 
     ride && this.state.markers.push({
       position: {
@@ -38,7 +39,7 @@ export default class ReactMap extends React.Component {
       icon: '/img/white-stop.png'
     });
 
-    this.state.markers.push({
+    drive && this.state.markers.push({
       position: {
         lat: props.trip.fromLoc[1],
         lng: props.trip.fromLoc[0]
@@ -66,15 +67,15 @@ export default class ReactMap extends React.Component {
       });
     })
 
-    this.state.markers.push({
-     position: {
+    drive && this.state.markers.push({
+      position: {
        lat: props.trip.toLoc[1],
        lng: props.trip.toLoc[0]
-     },
-     key: `To`,
-     defaultAnimation: 2,
-     icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-   });
+      },
+      key: `To`,
+      defaultAnimation: 2,
+      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+    });
 
     this.handleWindowResize = _.throttle(this.handleWindowResize, 500);
   }
@@ -94,6 +95,7 @@ export default class ReactMap extends React.Component {
 
   render () {
     const googleReady = this.state.googleReady
+    const {trip: drive} = this.state
     if (false == googleReady) {
       return (
         <section style={{height: "100%", marginTop: 25}}>
@@ -102,7 +104,7 @@ export default class ReactMap extends React.Component {
       );
     } else
       {stops = this.props}
-      trip = {
+      trip = drive && {
         path: google.maps.geometry.encoding.decodePath(this.state.trip.path),
         strokeOpacity: 0.5,
         strokeColor: "#FF0000",
@@ -129,11 +131,11 @@ export default class ReactMap extends React.Component {
                   );
                 })}
                 <Polyline {...trip}
-                    options={{
-                      strokeColor: "#0080BD",
-                      strokeOpacity: 1,
-                      strokeWeight: 3
-                      }}
+                  options={{
+                    strokeColor: "#0080BD",
+                    strokeOpacity: 1,
+                    strokeWeight: 3
+                  }}
                 />
               </GoogleMap>
             }
