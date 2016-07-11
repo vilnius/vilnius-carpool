@@ -7,7 +7,8 @@ import FloatingNewRideButton from './react/layout/NewRideButton'
 import FloatingFeedbackButton from './react/layout/FloatingFeedbackButton.jsx'
 import { Paper } from 'material-ui'
 import DesktopNavigationBar from './react/layout/DesktopNavigationBar.jsx';
-import { GoogleMap, GoogleMapLoader } from "react-google-maps";
+//import { GoogleMap, GoogleMapLoader } from "react-google-maps";
+import GoogleMap from './react/components/GoogleMap'
 
 export class MainLayout extends React.Component {
   constructor (props) {
@@ -150,22 +151,7 @@ export class MainLayout extends React.Component {
             width: this.state.ww - this.state.appWidth,
             height: this.state.appHeight,
           }}>
-            <GoogleMapLoader
-              containerElement={
-                <div
-                  style={{
-                    height: '100%',
-                    width: '100%'
-                  }}
-                />
-              }
-              googleMapElement={
-                <GoogleMap
-                  defaultZoom={12}
-                  defaultCenter={{lat: 54.67704, lng: 25.25405}}>
-                </GoogleMap>
-              }
-            />
+            <GoogleMap />
           </div>
         </div>
       </div>

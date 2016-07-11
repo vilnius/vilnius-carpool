@@ -21,19 +21,23 @@ module.exports = ()->
     client.click button
     client.waitForExist "[data-cucumber='screen-your-ride']"
 
-  @Then /^User "([^"]*)" gets notification and sends request on MUI$/, (username)->
+  @Then /^User "([^"]*)" gets notification, reviews ride and requests$/, (username)->
     #client.saveScreenshot('../build/screenshots/uc9-driverTrip.png')
     @TestHelper.urlLogin("/loginUsername", username);
     client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
     #client.saveScreenshot('../build/screenshots/uc9-notifications.png')
     client.waitForExist "[data-cucumber='notification']"
+    @TestHelper.screenShot("MatchNotification.png");
+    client.click "[data-cucumber='review-request']"
+    client.waitForExist "[data-cucumber='screen-your-ride']"
     client.click "[data-cucumber='request']"
-    client.waitForExist "[data-cucumber='withdraw-request']"
+    @TestHelper.screenShot("RideRequest.png");
 
-  @Then /^user "([^"]*)" gets notification and confirms request on MUI$/, (username)->
+  @Then /^user "([^"]*)" gets notification and confirms request$/, (username)->
     @TestHelper.urlLogin("/loginUsername", username);
     client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
     client.waitForExist "[data-cucumber='notification']"
+    @TestHelper.screenShot("ConfirmNotification.png");
     client.click "[data-cucumber='confirm']"
 
   @Then /^user "([^"]*)" gets confirmation and sends message "([^"]*)"$/, (username, text)->
@@ -41,9 +45,11 @@ module.exports = ()->
     client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
     client.waitForExist "[data-cucumber='review-confirmed']"
     client.click "[data-cucumber='review-confirmed']"
+    @TestHelper.screenShot("ReviewConfirmed.png");
     client.waitForExist "[data-cucumber='chat']"
     client.click "[data-cucumber='chat']"
     client.waitForExist("[data-cucumber='chat-input']")
+    @TestHelper.screenShot("Chat.png");
     #d "Enter text #{message} for #{cdUser}"
     client.setValue("input[id='chatInput']", text)
     client.keys("Enter");
@@ -51,14 +57,6 @@ module.exports = ()->
   ###
   Variations
   ###
-  @Then /^User "([^"]*)" gets notification and reviews ride$/, (username)->
-    #client.saveScreenshot('../build/screenshots/uc9-driverTrip.png')
-    @TestHelper.urlLogin("/loginUsername", username);
-    client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
-    #client.saveScreenshot('../build/screenshots/uc9-notifications.png')
-    client.waitForExist "[data-cucumber='notification']"
-    client.click "[data-cucumber='review-request']"
-
   @Then /^User "([^"]*)" gets notification and reviews drive$/, (username)->
     #client.saveScreenshot('../build/screenshots/uc9-driverTrip.png')
     @TestHelper.urlLogin("/loginUsername", username);

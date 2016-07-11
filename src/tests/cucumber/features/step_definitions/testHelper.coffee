@@ -4,6 +4,9 @@
 d = console.log.bind @, "---"
 url = require('url');
 
+#screenshots = "../docs/wireframe/0.1.14/";
+screenshots = undefined;
+
 module.exports = ()->
   @Before ->
     client.log "browser", (err, res)->
@@ -12,6 +15,10 @@ module.exports = ()->
       if err then console.log ">E>", err
 
     @TestHelper =
+      screenShot: (name)->
+        d "Make screenshot #{screenshots+name}"
+        client.saveScreenshot(screenshots+name) if screenshots?
+
 
       logout: ()->
         client.url(url.resolve(process.env.ROOT_URL, "/logout"));
@@ -44,6 +51,7 @@ module.exports = ()->
           client.click '.join_Login'
 
         #console.log("Login with #{username} / #{password}")
+        screenshot("uc2-login.png");
         client.waitForExist 'input[id="inputUsername"]'
         client.setValue('input[id="inputUsername"]', username);
         client.setValue('input[id="inputPassword"]', "aaa");
@@ -59,4 +67,4 @@ module.exports = ()->
         client.setValue('input[id="inputUsername"]', username);
         client.setValue('input[id="inputPassword"]', "aaa");
         client.click '.login'
-        client.waitForExist "[data-cucumber='screen-name']"
+        client.waitForExist "[data-cucumber='trips-list']"

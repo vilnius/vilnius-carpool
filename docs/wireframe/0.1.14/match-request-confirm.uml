@@ -1,0 +1,37 @@
+@startuml
+
+skinparam state {
+  FontSize 28
+  AttributeFontSize 28
+  ArrowFontSize 24
+}
+
+state "YourDrive\n<img:YourDrive.png>" as YourDrive
+YourDrive: <b>View 1</b>
+
+state "TripForm\n<img:TripForm.png>" as TripForm
+TripForm: <b>View 1</b>
+
+state "RideOffers\n<img:RideOffers.png>" as RideOffers
+RideOffers: <b>View 1</b>
+
+state "RideRequest\n<img:RideRequest.png>" as RideRequest
+RideRequest: <b>View 1</b>
+
+state "MatchNotification\n<img:MatchNotification.png>" as MatchNotification
+MatchNotification: <b>View 1</b>
+
+state "ConfirmNotification\n<img:ConfirmNotification.png>" as ConfirmNotification
+ConfirmNotification: <b>View 1</b>
+
+[*] -[#green]> RideOffers
+[*] -[#blue]-> TripForm
+TripForm -[#blue]-> YourDrive
+
+RideOffers -[#green]-> MatchNotification
+YourDrive -[#black]> MatchNotification
+MatchNotification -[#green]-> RideRequest
+
+RideRequest -left[#black]-> ConfirmNotification
+
+@enduml
