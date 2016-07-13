@@ -7,6 +7,18 @@ class @TripsMatcher
     Trips.before.insert @notifyMatchingTrips.bind(@)
     da [ 'trips-matcher' ], 'started - TripsMatcher'
 
+  pointsNearFields: (query, fields, points, distance)->
+    indexes = {};
+    for point in points
+      for field in fields
+        geoQuery = {}
+        geoQuery[field] =
+          $near: point
+          $maxDistance: distance
+        filtered = Trips.find(_(geoQuery).extend(query), sort: time: -1).fetch()
+        _(indexes).extend(_(filtered).indexBy('_id'))
+    return indexes  
+
   ###
     Select existing trips matching new trip by locations and time
   ###
@@ -34,12 +46,12 @@ class @TripsMatcher
         $maxDistance: locRadiusFilter }, query)
       tripsByStops = Trips.find(stopsQuery, sort: time: -1).fetch()
       # Merge those trips removing duplicates as there is no way for OR
-      da ['trips-matcher'], 'Merge trips near stops into starting point ' + tripsByStops.length, trip
+      da ['trips-matcher'], "Merge trips tripsByStart=#{tripsByStart.length} tripsByStops=#{tripsByStops.length}"
       mergedTrips = _(_(tripsByStart).indexBy('_id')).extend(_(tripsByStops).indexBy('_id'))
       trips = _(mergedTrips).values()
     else
       trips = Trips.find(query, sort: time: -1).fetch()
-    da ['trips-matcher'], 'Trips start near the stop count:', trips.length
+    da ['trips-matcher'], "Trips start near the stop count: #{trips.length}"
     if trip.toLoc?
       ids = _(trips).pluck('_id')
       refinedQuery =

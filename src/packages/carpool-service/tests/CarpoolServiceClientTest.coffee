@@ -17,17 +17,29 @@ loadGoogle = (cb)->
       console.warn 'Error', e
     async: true
 
-loadGoogle();
+if Meteor.isServer
+  aspect.push "trips-matcher"
+  matcher = new TripsMatcher();
 
-Tinytest.addAsync "CarpooService - getTripPath ", (test, done) ->
-  # url = window.location.origin+"/download/product-images.html"
-  googleServices.afterInit ()->
-    # googleServices.init({key: "AIzaSyC4jEbNbglLxwxH7_gcmDMxWxwYOAPVVJM"});
-    trip =
-      toLoc : [25.26246500000002, 54.6779097]
-      fromLoc : [25.305228100000022,54.6877209]
-      bTime: new Date()
-    d "Calling get trip path"
-    carpoolService.getTripPath trip, (err, route)->
-      console.log "Got result:", route
-      done();
+  Tinytest.add "Match - By one stop and B point", (test) ->
+    #Trips.remove({});
+    ride = JSON.parse(Assets.getText("tests/CarpoolServiceClientTest-ride.json"))
+    drive = JSON.parse(Assets.getText("tests/CarpoolServiceClientTest-drive.json"))
+    test.length(matcher.findMatchingTrips(drive), 1, "Should match one trip");
+
+
+if Meteor.isClient
+  loadGoogle();
+
+  Tinytest.addAsync "CarpooService - getTripPath ", (test, done) ->
+    # url = window.location.origin+"/download/product-images.html"
+    googleServices.afterInit ()->
+      # googleServices.init({key: "AIzaSyC4jEbNbglLxwxH7_gcmDMxWxwYOAPVVJM"});
+      trip =
+        toLoc : [25.26246500000002, 54.6779097]
+        fromLoc : [25.305228100000022,54.6877209]
+        bTime: new Date()
+      d "Calling get trip path"
+      carpoolService.getTripPath trip, (err, route)->
+        console.log "Got result:", route
+        done();
