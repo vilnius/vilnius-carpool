@@ -120,9 +120,9 @@ class NotificationCard extends React.Component {
                             snack("Request confirmed");
                           }} />
                       ) }
-                        <FlatButton data-cucumber="review" label="Review" secondary
+                        <FlatButton data-cucumber="review-confirm" label="Review" secondary
                           onClick={() => {
-                            flowControllerHelper.goToView('YourDrive', {id: notification.trip})
+                            flowControllerHelper.goToView('RideConfirm', {id: notification.trip}, {invitation: notification.context})
                             notificationClient.dismissAlert(notification._id)
                           }} />
                       </div>

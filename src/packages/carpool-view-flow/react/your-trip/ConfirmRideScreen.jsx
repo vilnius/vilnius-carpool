@@ -1,20 +1,50 @@
+
+/*global carpoolService*/
+
 import React from 'react'
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { _ } from 'meteor/underscore';
+import {d, da} from 'meteor/spastai:logw'
 
 import GoogleMap from '../components/GoogleMap'
 import { config, muiTheme } from '../config'
 import RaisedButton from 'material-ui/lib/raised-button';
+import Snackbar from 'material-ui/lib/snackbar';
 import RideInfo from '../components/RideInfo'
+import { getUserPicture } from '../api/UserPicture.coffee'
 import Loader from '../components/Loader'
+
 
 class ConfirmRide extends React.Component {
 
+  constructor(props) {
+      super(props);
+      this.state = {
+        snackbarOpen: false,
+        snackbarText: ''
+      };
+  }
+
+  handleRequestClose() {
+    //d("Close snackbar")
+    this.setState({
+      snackbarOpen: false
+    });
+  }
+
+  showSnackbar(message) {
+    //d("Showing snack message", message)
+    this.setState({
+      snackbarText: message,
+      snackbarOpen: true
+    });
+  };
+
   render () {
-    const topBarHeight = 45
-    const mapHeight = 375
-    const {progress, trip } = this.props;
+    const rideInfoHeight = 215
+    const mapHeight = this.props.height - rideInfoHeight
+    const {progress, drive, ride, stops, invitationId} = this.props;
 
     if (100 != progress.getProgress()) {
       return (
@@ -23,30 +53,47 @@ class ConfirmRide extends React.Component {
         </section>
       );
     } else {
-      //console.log("Trip", trip);
-      trip.driverName = 'Vytautė';
-      trip.driverAge = 26;
-      trip.driverPicture = 'http://lorempixel.com/200/200/people/9';
-      isRequested = _(trip.requests).findWhere({userId: Meteor.userId()});
-      console.log("Requested trip", isRequested);
+      da(["request-ride"],"Trip", trip);
+      user = Meteor.users.findOne({_id: drive.owner});
+      drive.driverName = getUserName(user);
+      drive.driverAge = 26;
+      drive.driverPicture = getUserPicture(user);
+
+      isRequested = _(drive.requests).findWhere({userId: Meteor.userId()});
+      //console.log("Requested drive", isRequested);
       return (
-        <div style={{color: config.colors.textColor}}>
+        <div data-cucumber="screen-user-ride" style={{color: config.colors.textColor}}>
           <div style={{
-            width: window.innerWidth,
+            width: this.props.width,
             height: mapHeight,
-            marginTop: topBarHeight
           }}>
-            <GoogleMap trip={trip} />
+            <GoogleMap trip={drive} stops={stops} ride={ride} />
           </div>
           <div style={{display: 'flex', flexDirection: 'column'}}>
-            <RideInfo ride={trip} width={this.props.width} />
+            <RideInfo drive={drive} ride={ride} width={this.props.width} />
             <div style={{
               marginTop: 18,
               textAlign: 'center',
             }}>
-              <RaisedButton primary style={{width: window.innerWidth * 0.9, borderRadius: 5}}
-                label={isRequested ? "Withdraw confirmation" : "Confirm ride"}
-                onClick={() => {alert('Modal with timechoice coming')}}
+              { !!isRequested ? (
+                <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
+                  data-cucumber="withdraw-confirmation" label='Withdraw'
+                  secondary onClick={() => {
+                    this.showSnackbar("Trip confirmation withdrawn");
+                  }} />
+              ) : (
+                <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
+                  data-cucumber="confirm-ride" label='Confirm'
+                  secondary onClick={() => {
+                    carpoolService.acceptRequest(invitationId, "accept", ()=>d("Acception result", arguments));
+                    this.showSnackbar("The drive was confirmed");
+                  }} />
+              ) }
+              <Snackbar
+                open={this.state.snackbarOpen}
+                message={this.state.snackbarText}
+                autoHideDuration={4000}
+                onRequestClose={() => this.handleRequestClose()}
               />
             </div>
           </div>
@@ -61,11 +108,16 @@ ConfirmRide.propTypes = {
   trip: React.PropTypes.object
 };
 
-export default ConfirmRideContainer = createContainer(({tripId}) => {
+export default createContainer(({tripId, rideId, invitationId}) => {
   const progress = new Progress();
-  const trip = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
+  const drive = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
+  const ride = rideId ? carpoolService.pullOneTrip({_id: rideId}, progress.setProgress.bind(progress, 'ride')) : null;
+  const stops = carpoolService.pullStops(progress.setProgress.bind(progress, 'stops'));
   return {
     progress,
-    trip,
+    drive,
+    ride,
+    stops,
+    invitationId
   };
 }, ConfirmRide);

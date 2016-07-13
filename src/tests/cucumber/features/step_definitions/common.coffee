@@ -1,5 +1,9 @@
 d = console.log.bind @, "---"
 
+waitAndClick = (selector)->
+  client.waitForVisible(selector);
+  client.click(selector);
+
 module.exports = ()->
   url = require('url');
   _ = require('underscore');
@@ -46,8 +50,9 @@ module.exports = ()->
     #d "Do login #{username}"
     @TestHelper.urlLogin(path, username);
 
-  @When /^I add trip:$/, (table)->
+  @When /^I add trip as "([^"]*)":$/, (username, table)->
     row = table.hashes()[0]
+    @TestHelper.urlLogin("/loginUsername", username);
     # Navigate to
     link = process.env.ROOT_URL + "/m/all/offers";
     client.url(link);
@@ -59,13 +64,20 @@ module.exports = ()->
     #d "Enter", fields
     fields = _(row).pick("trip-fromAddress", "trip-toAddress")
     for key, value of fields
-      d "Fill #{key}=#{value}"
-      client.setValue("input[id=\"#{key}\"]", value);
+      #d "Fill #{key}=#{value}"
+      #waitAndClick("input[id=\"#{key}\"]");
+      #client.setValue("#address", value);
+      #waitAndClick("#suggestion-0");
+      client.setValue("input[id='#{key}']", value);
       client.keys("Enter");
-    # Check trip is created
+    role = row.type
+    client.click "[value='#{role}r']"
+    #waitAndClick "[value='#{role}r']"
     client.click ".saveTrip"
+    # Check trip is created
     client.waitForExist "[data-cucumber='screen-your-#{row.type}']"
-    @TestHelper.screenShot("YourDrive.png");
+    client.waitForExist "[title='To']"
+    @TestHelper.screenShot("Your#{role.charAt(0).toUpperCase() + role.slice(1)}.png");
     # client.waitForExist ".myTripFrom"
     # expect(client.getText(".myTripFrom")).toEqual(row.from)
     # expect(client.getText(".myTripTo")).toEqual(row.to)
