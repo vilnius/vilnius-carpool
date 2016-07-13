@@ -5,6 +5,7 @@
  Driver - green
 '/
 
+
 skinparam state {
   FontSize 28
   AttributeFontSize 28
@@ -35,13 +36,11 @@ MatchNotification: <b>View 1</b>
 state "ConfirmNotification\n<img:ConfirmNotification.png>" as ConfirmNotification
 ConfirmNotification: <b>View 1</b>
 
-state "DriveConfirm\n<img:YourDrive.png>" as DriveConfirm
+state "DriveConfirm\n<img:DriveConfirm.png>" as DriveConfirm
 DriveConfirm: <b>View 1</b> your/drive
-
 
 state "Chat\n<img:Chat.png>" as Chat
 Chat: <b>View 1</b>
-
 
 [*] -[#blue]-> TripFormRide
 TripFormRide -[#blue]> YourRide
@@ -54,7 +53,7 @@ YourDrive -[#black]-> MatchNotification: Notification
 MatchNotification -[#blue]> RideRequest
 
 RideRequest -up[#black]-> ConfirmNotification
-ConfirmNotification -> ReviewConfirm
-ReviewConfirm -> Chat
+ConfirmNotification -> DriveConfirm
+DriveConfirm -> Chat
 
 @enduml

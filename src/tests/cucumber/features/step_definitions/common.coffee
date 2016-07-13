@@ -76,6 +76,7 @@ module.exports = ()->
     client.click ".saveTrip"
     # Check trip is created
     client.waitForExist "[data-cucumber='screen-your-#{row.type}']"
+    client.waitForExist "[title='To']"
     @TestHelper.screenShot("Your#{role.charAt(0).toUpperCase() + role.slice(1)}.png");
     # client.waitForExist ".myTripFrom"
     # expect(client.getText(".myTripFrom")).toEqual(row.from)

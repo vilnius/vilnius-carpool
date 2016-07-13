@@ -1,4 +1,6 @@
 const version = "0.1.14"
+const tag = "160713.1"
+
 Accounts.config({
     loginExpirationInDays: 90
 });
@@ -205,4 +207,4 @@ Meteor.onConnection(function(connection){
 });
 */
 
-d("Tmh Server started. Version "+version+".SNAPSHOT-160712.1 on "+Meteor.settings.public.environment);
+d("Tmh Server started. Version "+version+".SNAPSHOT-"+tag+" on "+Meteor.settings.public.environment);

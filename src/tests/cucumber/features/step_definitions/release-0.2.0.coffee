@@ -31,6 +31,7 @@ module.exports = ()->
     client.click "[data-cucumber='review-request']"
     client.waitForExist "[data-cucumber='screen-your-ride']"
     client.click "[data-cucumber='request']"
+    client.waitForExist "[title='To']"
     @TestHelper.screenShot("RideRequest.png");
 
   @Then /^user "([^"]*)" gets notification and confirms request$/, (username)->
@@ -40,7 +41,8 @@ module.exports = ()->
     @TestHelper.screenShot("ConfirmNotification.png");
     client.click "[data-cucumber='review-confirm']"
     client.waitForExist "[data-cucumber='screen-user-ride']"
-    @TestHelper.screenShot("ConfirmRide.png");
+    client.waitForExist "[title='To']"
+    @TestHelper.screenShot("DriveConfirm.png");
     client.click "[data-cucumber='confirm-ride']"
 
 
