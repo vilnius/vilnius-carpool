@@ -2,6 +2,7 @@ import React from 'react';
 import GoogleMap from './GoogleMap.jsx';
 import RideInfo from './RideInfo.jsx';
 
+// TODO Make this work and use this
 export default class RideInfoWithMap extends React.Component {
   render () {
     return (
@@ -10,6 +11,7 @@ export default class RideInfoWithMap extends React.Component {
         height: this.props.height,
       }}>
         <RideInfo />
+        <GoogleMap />
       </div>
     );
   }

@@ -1,9 +1,9 @@
+import React from 'react';
 import { GoogleMapLoader, GoogleMap, Marker, Polyline} from "react-google-maps";
-import { createContainer } from 'meteor/react-meteor-data';
-import { ReactiveVar } from 'meteor/reactive-var';
 import { default as _ } from "lodash";
 import Loader from './Loader'
-import {d, da} from 'meteor/spastai:logw'
+/*global googleServices*/
+/*global google*/
 
 
 export default class ReactMap extends React.Component {
@@ -52,7 +52,7 @@ export default class ReactMap extends React.Component {
 
     const {stops = []} = props
     //d("Stops", driveStops);
-    stops.map((stop) => {
+    stops.forEach((stop) => {
       //d("Check stop", stop);
       let icon = _.find(driveStops, {_id: stop._id}) ?
         'http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_yellow.png'
@@ -92,72 +92,64 @@ export default class ReactMap extends React.Component {
   }
 
   handleWindowResize() {
-    console.log('handleWindowResize', this._googleMapComponent);
-    triggerEvent(this._googleMapComponent, `resize`);
+    window.triggerEvent(this._googleMapComponent, `resize`);
   }
 
   render () {
     const googleReady = this.state.googleReady
     const {trip: drive} = this.state
-    if (false == googleReady) {
+    let trip;
+    if (false === googleReady) {
       return (
         <section style={{height: "100%", marginTop: 25}}>
           <Loader />
         </section>
       );
-    } else
-      {stops = this.props}
+    } else {
       trip = drive && {
         path: google.maps.geometry.encoding.decodePath(this.state.trip.path),
         strokeOpacity: 0.5,
         strokeColor: "#FF0000",
       }
+    }
 
-      return (
-        <section style={{height: "100%"}}>
-          <GoogleMapLoader
-            containerElement={
-              <div
-                {...this.props}
-                style={{
-                  height: "100%",
+    return (
+      <section style={{height: "100%"}}>
+        <GoogleMapLoader
+          containerElement={
+            <div
+              {...this.props}
+              style={{
+                height: "100%",
+              }}
+            />
+          }
+          googleMapElement={
+            <GoogleMap
+              defaultZoom={12}
+              defaultCenter={{lat: 54.67704, lng: 25.25405}}
+            >
+              {this.state.markers.map((marker) => {
+                return (
+                  <Marker {...marker} />
+                );
+              })}
+              <Polyline {...trip}
+                options={{
+                  strokeColor: "#0080BD",
+                  strokeOpacity: 1,
+                  strokeWeight: 3
                 }}
               />
-            }
-            googleMapElement={
-              <GoogleMap
-                defaultZoom={12}
-                defaultCenter={{lat: 54.67704, lng: 25.25405}}>
-                {this.state.markers.map((marker, index) => {
-                  return (
-                    <Marker {...marker} />
-                  );
-                })}
-                <Polyline {...trip}
-                  options={{
-                    strokeColor: "#0080BD",
-                    strokeOpacity: 1,
-                    strokeWeight: 3
-                  }}
-                />
-              </GoogleMap>
-            }
-          />
-        </section>
-      );
+            </GoogleMap>
+          }
+        />
+      </section>
+    );
   }
 }
 
-// googleReady = new ReactiveVar(false);
-// googleServices.afterInit(function (){
-//   googleReady.set(true);
-// })
-//
-// ReactMapView = createContainer(() => {
-//   return {
-//     googleReady: googleReady.get()
-//   }
-// }, ReactMap);
-ReactMapView = ReactMap
-
-export default ReactMapView
+ReactMap.propTypes = {
+  ride: React.PropTypes.object,
+  trip: React.PropTypes.object
+}

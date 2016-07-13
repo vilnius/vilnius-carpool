@@ -1,6 +1,8 @@
 import React from 'react'
 import { config } from '../config'
 import moment from 'moment'
+import { Avatar } from 'material-ui'
+import ChatIcon from 'material-ui/lib/svg-icons/communication/chat'
 /*global FlowRouter*/
 
 const destinationTitleStyle = {
@@ -72,30 +74,12 @@ export default class RideInfo extends React.Component {
               borderLeft: '1px dotted #929292',
             }}>
             </div>
-              {ride ? (
-                <div key={ride._id+"-ra"} style={rideInfoLineWrap}  >
-                  {moment(ride.aTime).format('H:mm')}
-                  <div style={destinationTitleStyle}>
-                    <div style={{...circleStyle, borderColor: 'grey' }}></div>
-                    <div data-cucumber="ride-from"
-                      style={{
-                        height: 20,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        width: window.innerWidth - 185
-                      }}
-                    >
-                      {ride.fromAddress}
-                    </div>
-                  </div>
-                </div>
-              ) : null}
-              <div key={drive._id+"-a"} style={rideInfoLineWrap}  >
-                {moment(drive.aTime).format('H:mm')}
+            {ride ? (
+              <div key={ride._id+"-ra"} style={rideInfoLineWrap}  >
+                {moment(ride.aTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
-                  <div style={{...circleStyle, borderColor: 'red' }}></div>
-                  <div data-cucumber="drive-from"
+                  <div style={{...circleStyle, borderColor: 'grey' }}></div>
+                  <div data-cucumber="ride-from"
                     style={{
                       height: 20,
                       overflow: 'hidden',
@@ -104,33 +88,67 @@ export default class RideInfo extends React.Component {
                       width: window.innerWidth - 185
                     }}
                   >
-                    {drive.fromAddress}
+                    {ride.fromAddress}
                   </div>
                 </div>
               </div>
-              {stops}
-              <div key={drive._id+"-b"} style={rideInfoLineWrap}  >
-                {moment(drive.bTime).format('H:mm')}
+            ) : null}
+            <div key={drive._id+"-a"} style={rideInfoLineWrap}  >
+              {moment(drive.aTime).format('H:mm')}
+              <div style={destinationTitleStyle}>
+                <div style={{...circleStyle, borderColor: 'red' }}></div>
+                <div data-cucumber="drive-from"
+                  style={{
+                    height: 20,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    width: window.innerWidth - 185
+                  }}
+                >
+                  {drive.fromAddress}
+                </div>
+              </div>
+            </div>
+            {stops}
+            <div key={drive._id+"-b"} style={rideInfoLineWrap}  >
+              {moment(drive.bTime).format('H:mm')}
+              <div style={destinationTitleStyle}>
+                <div style={{...circleStyle, borderColor: 'green' }}></div>
+                <div
+                  style={{
+                    height: 20,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    width: window.innerWidth - 185
+                  }}
+                >
+                  {drive.toAddress}
+                </div>
+              </div>
+            </div>
+            {ride ? (
+              <div key={ride._id+"-rb"} style={rideInfoLineWrap}  >
+                {moment(ride.bTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
-                  <div style={{...circleStyle, borderColor: 'green' }}></div>
-                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{drive.toAddress}</div>
-                </div>
-              </div>
-              {ride ? (
-                <div key={ride._id+"-rb"} style={rideInfoLineWrap}  >
-                  {moment(ride.bTime).format('H:mm')}
-                  <div style={destinationTitleStyle}>
-                    <div style={{...circleStyle, borderColor: 'grey' }}></div>
-                    <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{ride.toAddress}</div>
+                  <div style={{...circleStyle, borderColor: 'grey' }}></div>
+                  <div style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>
+                    {ride.toAddress}
                   </div>
                 </div>
-              ) : null}
+              </div>
+            ) : null}
           </div>
         </div>
         <div style={{display: 'flex', flexDirection: 'column', width: 100, alignItems: 'center'}}>
           <Avatar src={this.props.drive.driverPicture} size={75} style={{marginTop: 16}} />
-          <div style={{marginTop: 6, textAlign: 'center'}}>{this.props.drive.driverName.split(' ')[0] + ', ' + this.props.drive.driverAge}</div>
-          <div style={{marginTop: 12}}><ChatIcon data-cucumber="chat" color={config.colors.main} onClick={this.gotoChat}/></div>
+          <div style={{marginTop: 6, textAlign: 'center'}}>
+            {this.props.drive.driverName.split(' ')[0] + ', ' + this.props.drive.driverAge}
+          </div>
+          <div style={{marginTop: 12}}>
+            <ChatIcon data-cucumber="chat" color={config.colors.main} onClick={this.gotoChat} />
+          </div>
         </div>
       </div>
     )
