@@ -4,8 +4,8 @@
 d = console.log.bind @, "---"
 url = require('url');
 
-#screenshots = "../docs/wireframe/0.1.14/";
-screenshots = undefined;
+screenshots = "../docs/wireframe/0.1.14/";
+#screenshots = undefined;
 
 module.exports = ()->
   @Before ->

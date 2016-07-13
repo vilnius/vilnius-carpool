@@ -1,3 +1,4 @@
+const version = "0.1.14"
 Accounts.config({
     loginExpirationInDays: 90
 });
@@ -204,4 +205,4 @@ Meteor.onConnection(function(connection){
 });
 */
 
-d("Tmh Server started. Version 0.1.13.SNAPSHOT-160616.1 on "+Meteor.settings.public.environment);
+d("Tmh Server started. Version "+version+".SNAPSHOT-160712.1 on "+Meteor.settings.public.environment);

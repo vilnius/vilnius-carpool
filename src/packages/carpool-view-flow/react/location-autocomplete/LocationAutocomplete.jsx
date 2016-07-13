@@ -112,7 +112,7 @@ export default class LocationAutocomplete extends React.Component {
           <div style={{marginLeft: 10}}>
             <BackButton />
           </div>
-          <TextField hintText="Search for places, addresses, stops, etc." autoFocus={true}
+          <TextField id="address" hintText="Search for places, addresses, stops, etc." autoFocus={true}
             hintStyle={{color: '#eee', fontSize: 12}} style={{marginLeft: 20, width: this.props.width - 75}}
             onChange={this.inputChanged.bind(this)} inputStyle={{color: 'white'}}
           />
@@ -121,6 +121,7 @@ export default class LocationAutocomplete extends React.Component {
           {this.state.suggestions.map((suggestion, i) => (
             [
               <ListItem
+                id={"suggestion-"+i}
                 leftIcon={<PlaceIcon />}
                 primaryText={suggestion.description}
                 onClick={this.suggestionSelected.bind(this, suggestion)}

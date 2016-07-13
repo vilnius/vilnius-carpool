@@ -2,7 +2,7 @@ import React from 'react'
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { _ } from 'meteor/underscore';
-import {d, da} from 'meteor/spastai:logw'
+import {da} from 'meteor/spastai:logw'
 
 import GoogleMap from '../components/GoogleMap'
 import { config, muiTheme } from '../config'
@@ -26,7 +26,7 @@ export default class RequestRide extends React.Component {
   handleRequestClose() {
     //d("Close snackbar")
     this.setState({
-      snackbarOpen: false,
+      snackbarOpen: false
     });
   }
 
@@ -50,7 +50,7 @@ export default class RequestRide extends React.Component {
         </section>
       );
     } else {
-      //console.log("Trip", trip);
+      da(["request-ride"],"Trip", trip);
       user = Meteor.users.findOne({_id: drive.owner});
       drive.driverName = getUserName(user);
       drive.driverAge = 26;
@@ -105,7 +105,7 @@ RequestRide.propTypes = {
   trip: React.PropTypes.object
 };
 
-export default RequestRideContainer = createContainer(({tripId, rideId}) => {
+export default createContainer(({tripId, rideId}) => {
   const progress = new Progress();
   const drive = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
   const ride = rideId ? carpoolService.pullOneTrip({_id: rideId}, progress.setProgress.bind(progress, 'ride')) : null;
