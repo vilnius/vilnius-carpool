@@ -74,10 +74,6 @@ module.exports = {
         "id-match": "error",
         "indent": "off",
         "init-declarations": "off",
-        "jsx-quotes": [
-            "error",
-            "prefer-double"
-        ],
         "key-spacing": "off",
         "keyword-spacing": "off",
         "linebreak-style": [
@@ -254,6 +250,48 @@ module.exports = {
         "yoda": [
             "error",
             "never"
-        ]
+        ],
+
+        // React rules
+        "react/prop-types": 2,
+        "react/prefer-es6-class": 2,
+        "react/jsx-pascal-case": 2,
+        "react/jsx-closing-bracket-location": 2,
+        "jsx-quotes": [2, "prefer-double"],
+        "react/jsx-curly-spacing": [2, "never"],
+        "react/jsx-boolean-value": [2, "never"],
+        "react/no-string-refs": 2,
+        "react/wrap-multilines": 2,
+        "react/self-closing-comp": 2,
+        "react/jsx-no-bind": 2,
+        "react/require-render-return": 2,
+        "react/sort-comp": [2, {
+          order: [
+            'displayName',
+            'propTypes',
+            'contextTypes',
+            'static-methods',
+            'childContextTypes',
+            'mixins',
+            'statics',
+            'defaultProps',
+            'getDefaultProps',
+            'getInitialState',
+            'constructor',
+            'getChildContext',
+            'componentWillMount',
+            'componentDidMount',
+            'componentWillReceiveProps',
+            'shouldComponentUpdate',
+            'componentWillUpdate',
+            'componentDidUpdate',
+            'componentWillUnmount',
+            'state',
+            'everything-else',
+            'render'
+          ]
+        }],
+        "react/no-is-mounted": 2,
+        "react/no-multi-comp": 2
     }
 };

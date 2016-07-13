@@ -1,9 +1,7 @@
 import React from 'react'
-import RecurringDays from './ReccuringDays'
-import Avatar from 'material-ui/lib/avatar';
-import ChatIcon from 'material-ui/lib/svg-icons/communication/chat'
 import { config } from '../config'
-import {d, da} from 'meteor/spastai:logw'
+import moment from 'moment'
+/*global FlowRouter*/
 
 const destinationTitleStyle = {
   // borderLeft: '1px dotted black',
@@ -32,7 +30,6 @@ const circleStyle = {
 }
 
 export default class RideInfo extends React.Component {
-
   constructor(props) {
     super(props)
     this.gotoChat = this.gotoChat.bind(this);
@@ -47,9 +44,9 @@ export default class RideInfo extends React.Component {
     //d("Showing stops", this.props.ride.stops)
     const {ride, drive} = this.props;
     //d("RideInfo props", this.props)
-    stops = [];
+    const stops = [];
     for(var i=1; i < drive.stops.length; i++) {
-      routePoint = drive.stops[i];
+      const routePoint = drive.stops[i];
       stops.push(
         <div key={routePoint._id} style={rideInfoLineWrap} data-cucumber="stops-on-route" >
           <div>{routePoint.time}</div>
@@ -80,7 +77,17 @@ export default class RideInfo extends React.Component {
                   {moment(ride.aTime).format('H:mm')}
                   <div style={destinationTitleStyle}>
                     <div style={{...circleStyle, borderColor: 'grey' }}></div>
-                    <div data-cucumber="ride-from" style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{ride.fromAddress}</div>
+                    <div data-cucumber="ride-from"
+                      style={{
+                        height: 20,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        width: window.innerWidth - 185
+                      }}
+                    >
+                      {ride.fromAddress}
+                    </div>
                   </div>
                 </div>
               ) : null}
@@ -88,7 +95,17 @@ export default class RideInfo extends React.Component {
                 {moment(drive.aTime).format('H:mm')}
                 <div style={destinationTitleStyle}>
                   <div style={{...circleStyle, borderColor: 'red' }}></div>
-                  <div data-cucumber="drive-from" style={{height: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: window.innerWidth - 185}}>{drive.fromAddress}</div>
+                  <div data-cucumber="drive-from"
+                    style={{
+                      height: 20,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      width: window.innerWidth - 185
+                    }}
+                  >
+                    {drive.fromAddress}
+                  </div>
                 </div>
               </div>
               {stops}
@@ -108,10 +125,6 @@ export default class RideInfo extends React.Component {
                   </div>
                 </div>
               ) : null}
-
-            <div style={{display: 'flex', flexDirection: 'row', marginTop: 8}}>
-              {moment(trip.bTime).format("lll")}
-            </div>
           </div>
         </div>
         <div style={{display: 'flex', flexDirection: 'column', width: 100, alignItems: 'center'}}>
@@ -122,4 +135,10 @@ export default class RideInfo extends React.Component {
       </div>
     )
   }
+}
+
+RideInfo.propTypes = {
+  drive: React.PropTypes.object,
+  ride: React.PropTypes.object,
+  width: React.PropTypes.number.isRequired,
 }
