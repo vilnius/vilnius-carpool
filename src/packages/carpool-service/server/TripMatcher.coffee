@@ -7,17 +7,22 @@ class @TripsMatcher
     Trips.before.insert @notifyMatchingTrips.bind(@)
     da [ 'trips-matcher' ], 'started - TripsMatcher'
 
+
   pointsNearFields: (query, fields, points, distance)->
     indexes = {};
     for point in points
+      #da ['trips-matcher'], "Trip point", point
       for field in fields
         geoQuery = {}
         geoQuery[field] =
           $near: point
           $maxDistance: distance
-        filtered = Trips.find(_(geoQuery).extend(query), sort: time: -1).fetch()
+        _(geoQuery).extend(query);
+        #da ['trips-matcher'], "Geo query", geoQuery
+        filtered = Trips.find(geoQuery, sort: time: -1).fetch()
         _(indexes).extend(_(filtered).indexBy('_id'))
-    return indexes  
+        #da ['trips-matcher'], "Indexes", indexes
+    return indexes
 
   ###
     Select existing trips matching new trip by locations and time
@@ -35,20 +40,12 @@ class @TripsMatcher
         ]
     #d "Trip notification matching query", query['$or']
     if trip.fromLoc?
-      # Find the trips with matching A points
-      startsQuery = _.extend({ fromLoc:
-        $near: trip.fromLoc
-        $maxDistance: locRadiusFilter }, query)
-      tripsByStart = Trips.find(startsQuery, sort: time: -1).fetch()
-      # Find the trips with stops close to A
-      stopsQuery = _.extend({ 'stops.loc':
-        $near: trip.fromLoc
-        $maxDistance: locRadiusFilter }, query)
-      tripsByStops = Trips.find(stopsQuery, sort: time: -1).fetch()
-      # Merge those trips removing duplicates as there is no way for OR
-      da ['trips-matcher'], "Merge trips tripsByStart=#{tripsByStart.length} tripsByStops=#{tripsByStops.length}"
-      mergedTrips = _(_(tripsByStart).indexBy('_id')).extend(_(tripsByStops).indexBy('_id'))
+      points = _(trip.stops).pluck("loc");
+      points.push(trip.fromLoc);
+      #da ['trips-matcher'], "Drive points", points
+      mergedTrips = @pointsNearFields query, ["fromLoc", "stops.loc"], points, locRadiusFilter
       trips = _(mergedTrips).values()
+      da ['trips-matcher'], "Merge trips count #{trips.length}"
     else
       trips = Trips.find(query, sort: time: -1).fetch()
     da ['trips-matcher'], "Trips start near the stop count: #{trips.length}"

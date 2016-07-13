@@ -1,13 +1,6 @@
 {
-  "_id": "bWMSQ263C2pELckHk",
   "fromAddress": "Muitinės g. 30, Vilnius",
   "toAddress": "3 Konstitucijos, Vilnius",
-  "time": {
-    "$date": 1468401131829
-  },
-  "bTime": {
-    "$date": 1468401131829
-  },
   "role": "rider",
   "fromLoc": [25.26162490000002, 54.6778667],
   "toLoc": [25.27901799999995, 54.6958064],
@@ -22,9 +15,6 @@
     "loc": [25.2655, 54.6818]
   }],
   "duration": 1311,
-  "aTime": {
-    "$date": 1468399820829
-  },
   "owner": "AYX4ZrLhnfyJ5A9E8",
   "requests": [],
   "status": "scheduled"
