@@ -69,7 +69,7 @@ export default class RideInfo extends React.Component {
             <div style={{
               position: 'absolute',
               width: 0,
-              height: 30,
+              height: 25 + (25 * stops.length),
               left: 47,
               top: 10,
               borderLeft: '1px dotted #929292',

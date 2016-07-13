@@ -43,7 +43,7 @@ export default class RequestRide extends React.Component {
     const mapHeight = this.props.height - rideInfoHeight
     const {progress, drive, ride, stops} = this.props;
 
-    if (100 != progress.getProgress()) {
+    if (progress.getProgress() != 100) {
       return (
         <section style={{height: "100%", marginTop: 25}}>
           <Loader />
@@ -76,6 +76,7 @@ export default class RequestRide extends React.Component {
                 <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
                   data-cucumber="withdraw-request" label='Withdraw'
                   secondary onClick={() => {
+                    // TODO doesn't actually do anything?
                     this.showSnackbar("Trip request withdrawn");
                   }} />
               ) : (
