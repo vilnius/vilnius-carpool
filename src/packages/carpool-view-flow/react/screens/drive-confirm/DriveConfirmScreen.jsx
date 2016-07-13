@@ -1,21 +1,25 @@
+
+/*global carpoolService*/
+/*global Progress*/
+/*global Meteor*/
+/*global getUserName*/
+
 import React from 'react'
 import { createContainer } from 'meteor/react-meteor-data';
+
 import { _ } from 'meteor/underscore';
-import GoogleMap from '../components/map/GoogleMap'
-import { config } from '../config'
+import {d} from 'meteor/spastai:logw'
+
+import GoogleMap from '../../components/map/GoogleMap'
+import { config } from '../../config'
 import RaisedButton from 'material-ui/lib/raised-button';
 import Snackbar from 'material-ui/lib/snackbar';
-import RideInfo from '../components/ride-info/RideInfo'
-import { getUserPicture } from '../api/UserPicture.coffee'
-import Loader from '../components/common/Loader'
+import RideInfo from '../../components/ride-info/RideInfo'
+import { getUserPicture } from '../../api/UserPicture.coffee'
+import Loader from '../../components/common/Loader'
 
-/*global Progress*/
-/*global carpoolService*/
-/*global getUserName*/
-/*global Meteor*/
-/*global _*/
 
-export default class RequestRide extends React.Component {
+class DriveConfirm extends React.Component {
 
   constructor(props) {
       super(props);
@@ -28,7 +32,7 @@ export default class RequestRide extends React.Component {
   handleRequestClose() {
     //d("Close snackbar")
     this.setState({
-      snackbarOpen: false,
+      snackbarOpen: false
     });
   }
 
@@ -43,16 +47,16 @@ export default class RequestRide extends React.Component {
   render () {
     const rideInfoHeight = 215
     const mapHeight = this.props.height - rideInfoHeight
-    const {progress, drive, ride, stops} = this.props;
+    const {progress, drive, ride, stops, invitationId} = this.props;
 
-    if (progress.getProgress() != 100) {
+    if (100 != progress.getProgress()) {
       return (
         <section style={{height: "100%", marginTop: 25}}>
           <Loader />
         </section>
       );
     } else {
-      //console.log("Trip", trip);
+      // da(["request-ride"],"Trip", trip);
       const user = Meteor.users.findOne({_id: drive.owner});
       drive.driverName = getUserName(user);
       drive.driverAge = 26;
@@ -61,7 +65,7 @@ export default class RequestRide extends React.Component {
       const isRequested = _(drive.requests).findWhere({userId: Meteor.userId()});
       //console.log("Requested drive", isRequested);
       return (
-        <div data-cucumber="screen-your-ride" style={{color: config.colors.textColor}}>
+        <div data-cucumber="screen-user-ride" style={{color: config.colors.textColor}}>
           <div style={{
             width: this.props.width,
             height: mapHeight,
@@ -76,18 +80,17 @@ export default class RequestRide extends React.Component {
             }}>
               {isRequested ? (
                 <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
-                  data-cucumber="withdraw-request" label="Withdraw"
+                  data-cucumber="withdraw-confirmation" label="Withdraw"
                   secondary onClick={() => {
-                    // TODO doesn't actually do anything?
-                    this.showSnackbar("Trip request withdrawn");
+                    this.showSnackbar("Trip confirmation withdrawn");
                   }}
                 />
               ) : (
                 <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
-                  data-cucumber="request" label="Request"
+                  data-cucumber="confirm-ride" label="Confirm"
                   secondary onClick={() => {
-                    carpoolService.requestRide(drive._id);
-                    this.showSnackbar("The drive was requested");
+                    carpoolService.acceptRequest(invitationId, "accept", ()=>d("Acception result", arguments));
+                    this.showSnackbar("The drive was confirmed");
                   }}
                 />
               )}
@@ -105,17 +108,17 @@ export default class RequestRide extends React.Component {
   }
 }
 
-RequestRide.propTypes = {
+DriveConfirm.propTypes = {
   width: React.PropTypes.number.isRequired,
   height: React.PropTypes.number.isRequired,
+  progress: React.PropTypes.object,
   drive: React.PropTypes.object,
   ride: React.PropTypes.object,
-  stops: React.PropTypes.array,
-  progress: React.PropTypes.object,
-  trip: React.PropTypes.object
+  stops: React.PropTypes.object,
+  invitationId: React.PropTypes.number,
 };
 
-export default createContainer(({tripId, rideId}) => {
+export default createContainer(({tripId, rideId, invitationId}) => {
   const progress = new Progress();
   const drive = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
   const ride = rideId ? carpoolService.pullOneTrip({_id: rideId}, progress.setProgress.bind(progress, 'ride')) : null;
@@ -125,5 +128,6 @@ export default createContainer(({tripId, rideId}) => {
     drive,
     ride,
     stops,
+    invitationId
   };
-}, RequestRide);
+}, DriveConfirm);

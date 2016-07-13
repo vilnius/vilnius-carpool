@@ -91,7 +91,6 @@ module.exports = {
         "new-parens": "error",
         "newline-after-var": "off",
         "newline-before-return": "off",
-        "newline-per-chained-call": "error",
         "no-alert": "error",
         "no-array-constructor": "error",
         "no-bitwise": "off",
@@ -247,10 +246,8 @@ module.exports = {
         "vars-on-top": "off",
         "wrap-regex": "error",
         "yield-star-spacing": "error",
-        "yoda": [
-            "error",
-            "always"
-        ],
+
+        "no-console": 1,
 
         // React rules
         'jsx-quotes': [2, 'prefer-double'],

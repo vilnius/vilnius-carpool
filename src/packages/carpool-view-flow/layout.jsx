@@ -2,13 +2,13 @@ import React from 'react'
 import { muiTheme } from './react/config'
 import ThemeManager from 'material-ui/lib/styles/theme-manager'
 import { createContainer } from 'meteor/react-meteor-data'
-import Loader from './react/components/Loader'
-import FloatingNewRideButton from './react/layout/NewRideButton'
-import FloatingFeedbackButton from './react/layout/FloatingFeedbackButton.jsx'
+import Loader from './react/components/common/Loader'
+import FloatingNewRideButton from './react/components/layout/FloatingNewTripButton.jsx'
+import FloatingFeedbackButton from './react/components/layout/FloatingFeedbackButton.jsx'
 import { Paper } from 'material-ui'
-import DesktopNavigationBar from './react/layout/DesktopNavigationBar.jsx';
+import DesktopNavigationBar from './react/components/layout/DesktopNavigationBar.jsx';
 //import { GoogleMap, GoogleMapLoader } from "react-google-maps";
-import GoogleMap from './react/components/GoogleMap'
+import GoogleMap from './react/components/map/GoogleMap'
 
 export class MainLayout extends React.Component {
   constructor (props) {

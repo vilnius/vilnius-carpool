@@ -1,3 +1,5 @@
+/*global Package*/
+
 Package.describe({
   name: 'carpool-view-flow',
   version: '0.0.1',
@@ -35,7 +37,6 @@ Package.onUse(function(api) {
   ], ["client", "server"]);
 
   api.addFiles('controller.coffee', 'client');
-  api.addFiles('components.js', 'client');
   api.addFiles('layout.jsx', 'client');
   api.mainModule('router.js', 'client');
   api.addFiles('styles.css', 'client');
