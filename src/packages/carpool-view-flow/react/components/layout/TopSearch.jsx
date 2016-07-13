@@ -132,8 +132,8 @@ export default class TopSearch extends React.Component {
 }
 
 TopSearch.propTypes = {
-  width: React.PropTypes.number.isRequired,
-  height: React.PropTypes.number.isRequired,
+  width: React.PropTypes.number,
+  height: React.PropTypes.number,
   background: React.PropTypes.string,
   noShadow: React.PropTypes.bool,
   bTime: React.PropTypes.string,

@@ -18,9 +18,9 @@ const TopTabs = ({ width, height, selectedTabIndex }) => (
 )
 
 TopTabs.propTypes = {
-  width: React.PropTypes.number.isRequired,
-  height: React.PropTypes.number.isRequired,
-  selectedTabIndex: React.PropTypes.number.isrequired,
+  width: React.PropTypes.number,
+  height: React.PropTypes.number,
+  selectedTabIndex: React.PropTypes.number.isRequired,
 }
 
 export default TopTabs

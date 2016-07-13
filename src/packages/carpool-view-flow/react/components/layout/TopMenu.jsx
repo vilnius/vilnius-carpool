@@ -91,7 +91,7 @@ TopMenu.propTypes = {
   height: React.PropTypes.number,
   title: React.PropTypes.string.isRequired,
   innerScreen: React.PropTypes.bool,
-  returnScreen: React.PropTypes.bool,
+  returnScreen: React.PropTypes.string,
   noShadow: React.PropTypes.bool,
   background: React.PropTypes.string, // Sets background color of top menu
 }
