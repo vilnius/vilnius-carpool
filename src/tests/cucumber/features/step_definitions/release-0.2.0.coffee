@@ -31,6 +31,7 @@ module.exports = ()->
     client.click "[data-cucumber='review-request']"
     client.waitForExist "[data-cucumber='screen-your-ride']"
     client.click "[data-cucumber='request']"
+    client.waitForExist "[title='To']"
     @TestHelper.screenShot("RideRequest.png");
 
   @Then /^user "([^"]*)" gets notification and confirms request$/, (username)->
@@ -38,7 +39,12 @@ module.exports = ()->
     client.url(url.resolve(process.env.ROOT_URL, "/notifications"));
     client.waitForExist "[data-cucumber='notification']"
     @TestHelper.screenShot("ConfirmNotification.png");
-    client.click "[data-cucumber='confirm']"
+    client.click "[data-cucumber='review-confirm']"
+    client.waitForExist "[data-cucumber='screen-user-ride']"
+    client.waitForExist "[title='To']"
+    @TestHelper.screenShot("DriveConfirm.png");
+    client.click "[data-cucumber='confirm-ride']"
+
 
   @Then /^user "([^"]*)" gets confirmation and sends message "([^"]*)"$/, (username, text)->
     @TestHelper.urlLogin("/loginUsername", username);

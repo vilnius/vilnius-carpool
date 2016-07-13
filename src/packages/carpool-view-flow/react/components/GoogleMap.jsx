@@ -1,4 +1,4 @@
-import {GoogleMapLoader, GoogleMap, Marker, Polyline} from "react-google-maps";
+import { GoogleMapLoader, GoogleMap, Marker, Polyline} from "react-google-maps";
 import { createContainer } from 'meteor/react-meteor-data';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { default as _ } from "lodash";
@@ -12,7 +12,7 @@ export default class ReactMap extends React.Component {
     this.state = {
       markers: [],
       trip: props.trip,
-      googleReady: false,
+      googleReady: false
     }
     //d("Map Trip", props.trip);
     const ride = props.ride;
@@ -26,7 +26,7 @@ export default class ReactMap extends React.Component {
         lng: ride.fromLoc[0]
       },
       key: `RideFrom`,
-      defaultAnimation: 2,
+      //defaultAnimation: 2,
       icon: '/img/white-stop.png'
     });
     ride && this.state.markers.push({
@@ -35,7 +35,7 @@ export default class ReactMap extends React.Component {
         lng: ride.toLoc[0]
       },
       key: `RideTo`,
-      defaultAnimation: 2,
+      //defaultAnimation: 2,
       icon: '/img/white-stop.png'
     });
 
@@ -44,16 +44,17 @@ export default class ReactMap extends React.Component {
         lat: props.trip.fromLoc[1],
         lng: props.trip.fromLoc[0]
       },
-      key: `From`,
-      defaultAnimation: 2,
+      key: 'From',
+      title: 'From',
+      //defaultAnimation: 2,
       icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
     });
 
     const {stops = []} = props
     //d("Stops", driveStops);
-    stops.map((stop, index) => {
+    stops.map((stop) => {
       //d("Check stop", stop);
-      icon = _.find(driveStops, {_id: stop._id}) ?
+      let icon = _.find(driveStops, {_id: stop._id}) ?
         'http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_yellow.png'
         : 'http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_white.png';
       this.state.markers.push({
@@ -72,8 +73,10 @@ export default class ReactMap extends React.Component {
        lat: props.trip.toLoc[1],
        lng: props.trip.toLoc[0]
       },
-      key: `To`,
-      defaultAnimation: 2,
+      title: 'To',
+      key: 'To',
+      draggable: true,
+      //defaultAnimation: 2,
       icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
     });
 

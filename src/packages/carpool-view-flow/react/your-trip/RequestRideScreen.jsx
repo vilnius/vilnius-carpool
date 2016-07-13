@@ -1,11 +1,8 @@
 import React from 'react'
 import { createContainer } from 'meteor/react-meteor-data';
-
 import { _ } from 'meteor/underscore';
-import {d, da} from 'meteor/spastai:logw'
-
 import GoogleMap from '../components/GoogleMap'
-import { config, muiTheme } from '../config'
+import { config } from '../config'
 import RaisedButton from 'material-ui/lib/raised-button';
 import Snackbar from 'material-ui/lib/snackbar';
 import RideInfo from '../components/RideInfo'

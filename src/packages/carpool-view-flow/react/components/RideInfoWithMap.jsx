@@ -9,7 +9,7 @@ export default class RideInfoWithMap extends React.Component {
         width: this.props.width,
         height: this.props.height,
       }}>
-
+        <RideInfo />
       </div>
     );
   }

@@ -249,7 +249,7 @@ module.exports = {
         "yield-star-spacing": "error",
         "yoda": [
             "error",
-            "never"
+            "always"
         ],
 
         // React rules
@@ -292,6 +292,7 @@ module.exports = {
           ]
         }],
         "react/no-is-mounted": 2,
-        "react/no-multi-comp": 2
+        "react/no-multi-comp": 2,
+        "react/jsx-uses-vars": 1
     }
 };

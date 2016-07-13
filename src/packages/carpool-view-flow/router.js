@@ -201,12 +201,12 @@ securedRoutes.route('/newRide', {
 });
 
 // Deprecated - move to YourDrive
-FlowRouter.route('/rideConfirm/:id', {
+FlowRouter.route('/user/ride/:id', {
   name: "RideConfirm",
   action: function(params, queryParams) {
     mount(SecureLayout, {
       topMenu: <TopMenu title="Ride confirmation" innerScreen />,
-      content: <ConfirmRideScreen tripId={params.id}/>,
+      content: <ConfirmRideScreen tripId={params.id} rideId={queryParams.ride} invitationId={queryParams.invitation} />
     });
   }
 });
