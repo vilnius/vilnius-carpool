@@ -53,7 +53,7 @@ YourDrive -[#black]-> MatchNotification: Notification
 MatchNotification -[#blue]> RideRequest
 
 RideRequest -up[#black]-> ConfirmNotification
-ConfirmNotification -> DriveConfirm
-DriveConfirm -> Chat
+ConfirmNotification -[#green]> DriveConfirm
+DriveConfirm -[#green]> Chat
 
 @enduml
