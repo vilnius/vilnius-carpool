@@ -1,10 +1,9 @@
 @startuml
 
-/'
+/' 6
  Rider - blue
  Driver - green
 '/
-
 
 skinparam state {
   FontSize 28
