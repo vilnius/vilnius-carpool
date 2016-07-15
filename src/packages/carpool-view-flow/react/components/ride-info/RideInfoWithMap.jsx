@@ -17,14 +17,15 @@ export default class RideInfoWithMap extends React.Component {
       address: drive.fromAddress,
       time: drive.aTime
     });
-    drive.stops.forEach((stop)=>{
+    for(let i=1; i<drive.stops.length; i++) {
+      let stop = drive.stops[i];
       itenary.push({
         _id: stop._id,
         name: "st",
         address: stop.title,
         time: undefined
       });
-    });
+    }
     itenary.push({
       _id: drive._id,
       name: "dB",

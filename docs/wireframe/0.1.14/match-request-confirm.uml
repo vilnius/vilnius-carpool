@@ -11,6 +11,7 @@ skinparam state {
   ArrowFontSize 24
 }
 
+
 state "YourRide\n<img:YourRide.png>" as YourRide
 YourRide: <b>View 1</b> your/ride
 
