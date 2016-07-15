@@ -154,6 +154,7 @@ FlowRouter.route('/notifications', {
       });
     }
 });
+
 /*
 This coponent takes <field> as url parameter. This paramter is used onSelect -
 queryParams are appened with this field name with coordination value got from suggestions.
