@@ -2,6 +2,8 @@ import React from 'react';
 import { GoogleMapLoader, GoogleMap, Marker, Polyline} from "react-google-maps";
 import { default as _ } from "lodash";
 import Loader from '../common/Loader'
+import { config } from '../../config'
+
 /*global googleServices*/
 /*global google*/
 
@@ -9,14 +11,14 @@ import Loader from '../common/Loader'
 export default class ReactMap extends React.Component {
   constructor(props) {
     super(props);
+    const {ride, trip: drive} = props;
     this.state = {
       markers: [],
-      trip: props.trip,
+      drive: drive,
+      ride: ride,
       googleReady: false
     }
     //d("Map Trip", props.trip);
-    const ride = props.ride;
-    const drive = props.trip;
 
     const driveStops = drive && drive.stops || [];
 
@@ -97,7 +99,7 @@ export default class ReactMap extends React.Component {
 
   render () {
     const googleReady = this.state.googleReady
-    const {trip: drive} = this.state
+    const {drive, ride} = this.state
     if (false == googleReady) {
      return (
        <section style={{height: "100%", marginTop: 25}}>
@@ -105,10 +107,11 @@ export default class ReactMap extends React.Component {
        </section>
      );
    } else {
-     const trip = drive && {
-       path: google.maps.geometry.encoding.decodePath(this.state.trip.path),
+     const routeColor = (undefined === ride) ? config.colors.lightBlue : config.colors.green;
+     const tripPolylineOptions = drive && {
+       path: google.maps.geometry.encoding.decodePath(drive.path),
        strokeOpacity: 0.5,
-       strokeColor: "#FF0000 ",
+       strokeColor: routeColor,
      }
 
      return (
@@ -132,9 +135,9 @@ export default class ReactMap extends React.Component {
                    <Marker {...marker} />
                  );
                })}
-               <Polyline {...trip}
+               <Polyline {...tripPolylineOptions}
                  options={{
-                   strokeColor: "#0080BD ",
+                   strokeColor: routeColor,
                    strokeOpacity: 1,
                    strokeWeight: 3
                  }}
