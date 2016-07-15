@@ -49,9 +49,11 @@ Package.onTest(function(api) {
 
   api.use('spastai:carpool-service');
 
-  api.addAssets('tests/recurrent-trip.json', "server");
-  api.addAssets('tests/trip.json', "server");
   api.addFiles('tests/fixture-loadClient.coffee', "client");
-  api.addFiles('tests/CarpoolServiceClientTest.coffee', "client");
+  api.addAssets('tests/RecurrentTripTests-recurrent-trip.json', "server");
+  api.addAssets('tests/RecurrentTripTests-trip.json', "server");
   api.addFiles('tests/RecurrentTripTests.coffee');
+  api.addAssets('tests/CarpoolServiceClientTest-ride.json', "server");
+  api.addAssets('tests/CarpoolServiceClientTest-drive.json', "server");
+  api.addFiles('tests/CarpoolServiceClientTest.coffee');
 });

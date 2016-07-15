@@ -24,10 +24,10 @@ if Meteor.isServer
   removed = Trips.remove({});
   d "Removed", removed
   #console.log "Fixture json": trip
-  trip = JSON.parse(Assets.getText("tests/recurrent-trip.json"))
+  trip = JSON.parse(Assets.getText("tests/RecurrentTripTests-recurrent-trip.json"))
   trip.bTime = moment("2016-06-20T13:00:00").toDate() # Monday
   Trips.insert(trip);
-  trip = JSON.parse(Assets.getText("tests/trip.json"));
+  trip = JSON.parse(Assets.getText("tests/RecurrentTripTests-trip.json"));
   trip.bTime = moment("2016-06-30T13:00:00").toDate() # Wednesday
   Trips.insert(trip);
 
@@ -61,7 +61,7 @@ if Meteor.isServer
 
   Tinytest.addAsync "Recurrent - No notification for different dates", (test, done) ->
     # Take the same trip
-    trip = JSON.parse(Assets.getText("tests/recurrent-trip.json"));
+    trip = JSON.parse(Assets.getText("tests/RecurrentTripTests-recurrent-trip.json"));
     # and modify it time not to match
     trip =
       role: "rider"

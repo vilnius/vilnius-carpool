@@ -8,7 +8,6 @@ module.exports = ()->
   url = require('url');
   _ = require('underscore');
 
-#_ = require('underscore');
   ###
   For test preparation sophisticated function created which takes addresses
   turns then into location and saves the trip using carpoolService
@@ -32,6 +31,12 @@ module.exports = ()->
         , trip
     @TestHelper.screenShot("uc3-assureTrips.png");
     #d "Result:",result
+
+  @Given /^Assure stops:$/, (table)->
+    for stop in table.hashes()
+      loc = (parseFloat(deg) for deg in stop.Location.split(","));
+      d "Location: #{loc}"
+      server.call "assureStop", stop.Name, loc
 
 
   @Given /^I am logged off$/, ()->

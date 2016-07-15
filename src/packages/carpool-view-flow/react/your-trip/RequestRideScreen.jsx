@@ -14,7 +14,6 @@ import RideInfoWithMap from '../components/ride-info/RideInfoWithMap.jsx';
 /*global carpoolService*/
 /*global getUserName*/
 /*global Meteor*/
-/*global _*/
 
 export default class RequestRide extends React.Component {
 
@@ -42,7 +41,7 @@ export default class RequestRide extends React.Component {
   }
 
   render () {
-    const {progress, drive, ride} = this.props;
+    const {progress, drive, ride, user } = this.props;
 
     if (progress.getProgress() != 100) {
       return (
@@ -51,12 +50,6 @@ export default class RequestRide extends React.Component {
         </section>
       );
     } else {
-      //console.log("Trip", trip);
-      const user = Meteor.users.findOne({_id: drive.owner});
-      drive.driverName = getUserName(user);
-      drive.driverAge = 26;
-      drive.driverPicture = getUserPicture(user);
-
       const isRequested = _(drive.requests).findWhere({userId: Meteor.userId()});
       //console.log("Requested drive", isRequested);
 
@@ -64,7 +57,9 @@ export default class RequestRide extends React.Component {
 
       return (
         <div data-cucumber="screen-your-ride">
-          <RideInfoWithMap width={this.props.width} height={this.props.height - bottomPartHeight} ride={ride} drive={drive} />
+          <RideInfoWithMap width={this.props.width} height={this.props.height - bottomPartHeight}
+            ride={ride} drive={drive} user={user}
+          />
           <div style={{
             marginTop: 18,
             textAlign: 'center',
@@ -106,7 +101,8 @@ RequestRide.propTypes = {
   ride: React.PropTypes.object,
   stops: React.PropTypes.array,
   progress: React.PropTypes.object,
-  trip: React.PropTypes.object
+  trip: React.PropTypes.object,
+  user: React.PropTypes.object
 };
 
 export default createContainer(({tripId, rideId}) => {
@@ -114,10 +110,12 @@ export default createContainer(({tripId, rideId}) => {
   const drive = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
   const ride = rideId ? carpoolService.pullOneTrip({_id: rideId}, progress.setProgress.bind(progress, 'ride')) : null;
   const stops = carpoolService.pullStops(progress.setProgress.bind(progress, 'stops'));
+  const user = drive && Meteor.users.findOne({_id: drive.owner});
   return {
     progress,
     drive,
     ride,
     stops,
+    user
   };
 }, RequestRide);

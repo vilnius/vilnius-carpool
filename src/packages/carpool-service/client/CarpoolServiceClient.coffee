@@ -238,8 +238,6 @@ class @CarpoolService
     trip = undefined
     trip = @pullOneTrip(query, mapView.setActionProgress.bind(this, 'oneTrip'))
 
-
-
   ###
   From TripBusinessLogic.getActiveTrips
   ###
@@ -277,10 +275,11 @@ class @CarpoolService
         loc: trip.fromLoc
         title: trip.fromAddress
       } ]
-      for stop in stops
-        stopLatLng = googleServices.toLatLng(stop.loc)
-        if google.maps.geometry.poly.isLocationOnEdge(stopLatLng, polyline, stopDistanceFromRoute)
-          stopOnRoute.push stop
+      if("driver" == trip.role)
+        for stop in stops
+          stopLatLng = googleServices.toLatLng(stop.loc)
+          if google.maps.geometry.poly.isLocationOnEdge(stopLatLng, polyline, stopDistanceFromRoute)
+            stopOnRoute.push stop
       #d "Found stops on route", stopOnRoute
       @routeTrip trip, (err, stopsRoute) ->
         cb null,
