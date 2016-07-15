@@ -48,7 +48,7 @@ export default class RideInfoWithMap extends React.Component {
 
   render () {
     const {ride, drive, user} = this.props;
-    const rideInfoHeight = 215
+    const rideInfoHeight = 200
     const mapHeight = this.props.height - rideInfoHeight
 
     return (
@@ -75,5 +75,5 @@ RideInfoWithMap.propTypes = {
   height: React.PropTypes.number.isRequired,
   ride: React.PropTypes.object,
   drive: React.PropTypes.object,
-  user: React.PropTypes.object
+  user: React.PropTypes.object.isRequired,
 }

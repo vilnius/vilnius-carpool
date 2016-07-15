@@ -7,6 +7,7 @@ import GoogleMap from '../../components/map/GoogleMap'
 import { config } from '../../config'
 import RaisedButton from 'material-ui/lib/raised-button';
 import RideInfo from '../../components/ride-info/RideInfo'
+import RideInfoWithMap from '../../components/ride-info/RideInfoWithMap.jsx'
 import Loader from '../../components/common/Loader'
 import { getUserPicture } from '../../api/UserPicture.coffee'
 /*global Meteor*/
@@ -37,6 +38,28 @@ class YourDrive extends React.Component {
 
       const isRequested = _(drive.requests).findWhere({userId: Meteor.userId()});
       //console.log("Requested drive", isRequested);
+
+      const bottomPartHeight = 75
+
+      return (
+        <div data-cucumber="screen-your-drive" style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}>
+          <RideInfoWithMap
+            width={this.props.width}
+            height={this.props.height - bottomPartHeight}
+            drive={drive}
+            user={user}
+          />
+          <RaisedButton primary style={{width: window.innerWidth * 0.9, borderRadius: 5}}
+            label={isRequested ? "Withdraw confirmation" : "Offer ride"}
+            onClick={() => { alert('Modal with timechoice coming') }}
+          />
+        </div>
+      )
+
       return (
         <div data-cucumber="screen-your-drive" style={{color: config.colors.textColor}}>
           <div style={{
@@ -70,6 +93,7 @@ YourDrive.propTypes = {
   drive: React.PropTypes.object,
   stops: React.PropTypes.array,
   width: React.PropTypes.number.isRequired,
+  height: React.PropTypes.number.isRequired,
 };
 
 export default createContainer(({tripId}) => {
