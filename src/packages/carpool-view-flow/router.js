@@ -260,6 +260,37 @@ securedRoutes.route('/ride/:id', {
  }
 });
 
+securedRoutes.route('/ride/:id', {
+ name: "YourRide",
+ action: function(params, queryParams) {
+   mount(SecureLayout, {
+     navBar: {
+       title: 'Your ride',
+       innerScreen: true,
+       returnScreen: 'YourDrives',
+     },
+     topMenu: <TopMenu title="Your ride" innerScreen returnScreen="YourDrives" />,
+     content: <RequestRideScreen tripId={params.id} rideId={queryParams.ride} />,
+   });
+ }
+});
+
+securedRoutes.route('/ride/:id', {
+ name: "RideRequest",
+ action: function(params, queryParams) {
+   mount(SecureLayout, {
+     navBar: {
+       title: 'Ride request',
+       innerScreen: true,
+       returnScreen: 'YourDrives',
+     },
+     topMenu: <TopMenu title="Ride request" innerScreen returnScreen="YourDrives" />,
+     content: <RequestRideScreen tripId={params.id} rideId={queryParams.ride} />,
+   });
+ }
+});
+
+
 securedRoutes.route('/feedback', {
    name: "Feedback",
    action: function() {

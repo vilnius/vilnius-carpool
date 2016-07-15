@@ -1,16 +1,16 @@
 @startuml
 
-/'
+/' 6
  Rider - blue
  Driver - green
 '/
-
 
 skinparam state {
   FontSize 28
   AttributeFontSize 28
   ArrowFontSize 24
 }
+
 
 state "YourRide\n<img:YourRide.png>" as YourRide
 YourRide: <b>View 1</b> your/ride

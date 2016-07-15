@@ -11,6 +11,9 @@ export const config = {
     lightBlue: '#33A4D9',
     success: '#40AC31',
     textColor: '#666',
+    yellow: "yellow",
+    red: "red",
+    green: "green"
   },
   font: 'Roboto, sans-serif',
 }
