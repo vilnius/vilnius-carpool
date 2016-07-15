@@ -1,10 +1,52 @@
 import React from 'react';
 import GoogleMap from '../map/GoogleMap.jsx';
-import RideInfo from './RideInfo.jsx';
+import { getUserPicture } from '../../api/UserPicture.coffee'
+import TripInfo from './TripInfo.jsx';
+const d = console.log.bind(console);
+
+/*global getUserName*/
 
 // TODO Make this work and use this
 export default class RideInfoWithMap extends React.Component {
+
+  createItenary(ride, drive) {
+    let itenary = [];
+    itenary.push({
+      _id: drive._id,
+      name: "dA",
+      address: drive.fromAddress,
+      time: drive.aTime
+    });
+    drive.stops.forEach((stop)=>{
+      itenary.push({
+        _id: stop._id,
+        name: "st",
+        address: stop.title,
+        time: undefined
+      });
+    });
+    itenary.push({
+      _id: drive._id,
+      name: "dB",
+      address: drive.toAddress,
+      time: drive.bTime
+    });
+    return itenary;
+  }
+
+  formDriveOwner(user) {
+    if(null == user) {
+      return {}
+    }
+    return {
+      driverName: getUserName(user),
+      driverAge: 26,
+      driverPicture: getUserPicture(user)
+    }
+  }
+
   render () {
+    const {ride, drive, user} = this.props;
     const rideInfoHeight = 215
     const mapHeight = this.props.height - rideInfoHeight
 
@@ -16,9 +58,12 @@ export default class RideInfoWithMap extends React.Component {
         height: this.props.height,
       }}>
         <div style={{ height: mapHeight, width: this.props.width }}>
-          <GoogleMap ride={this.props.ride} trip={this.props.drive} />
+          <GoogleMap ride={ride} trip={drive} />
         </div>
-        <RideInfo ride={this.props.ride} drive={this.props.drive} width={this.props.width} height={rideInfoHeight} />
+        <TripInfo itenary={this.createItenary(ride, drive)}
+          tripOwner={this.formDriveOwner(user)}
+          width={this.props.width} height={rideInfoHeight}
+        />
       </div>
     );
   }
@@ -29,4 +74,5 @@ RideInfoWithMap.propTypes = {
   height: React.PropTypes.number.isRequired,
   ride: React.PropTypes.object,
   drive: React.PropTypes.object,
+  user: React.PropTypes.object
 }

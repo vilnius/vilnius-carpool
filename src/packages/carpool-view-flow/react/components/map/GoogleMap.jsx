@@ -107,7 +107,7 @@ export default class ReactMap extends React.Component {
        </section>
      );
    } else {
-     const routeColor = (undefined === ride) ? config.colors.lightBlue : config.colors.green;
+     const routeColor = (null === ride) ? config.colors.lightBlue : config.colors.green;
      const tripPolylineOptions = drive && {
        path: google.maps.geometry.encoding.decodePath(drive.path),
        strokeOpacity: 0.5,
