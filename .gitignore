@@ -7,3 +7,4 @@ src/packages/google-client
 src/config.push.json
 src/settings.json
 src/npm-debug.log
+src/.meteor

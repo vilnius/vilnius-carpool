@@ -1,11 +1,8 @@
 import React from 'react'
 import { createContainer } from 'meteor/react-meteor-data';
 import { _ } from 'meteor/underscore';
-import GoogleMap from '../components/map/GoogleMap'
-import { config } from '../config'
 import RaisedButton from 'material-ui/lib/raised-button';
 import Snackbar from 'material-ui/lib/snackbar';
-import RideInfo from '../components/ride-info/RideInfo'
 import { getUserPicture } from '../api/UserPicture.coffee'
 import Loader from '../components/common/Loader'
 import RideInfoWithMap from '../components/ride-info/RideInfoWithMap.jsx';
@@ -53,35 +50,36 @@ export default class RequestRide extends React.Component {
       const isRequested = _(drive.requests).findWhere({userId: Meteor.userId()});
       //console.log("Requested drive", isRequested);
 
-      const bottomPartHeight = 75
+      const bottomPartHeight = 65
 
       return (
-        <div data-cucumber="screen-your-ride">
+        <div data-cucumber="screen-your-ride"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
           <RideInfoWithMap width={this.props.width} height={this.props.height - bottomPartHeight}
             ride={ride} drive={drive} user={user}
           />
-          <div style={{
-            marginTop: 18,
-            textAlign: 'center',
-          }}>
-            {isRequested ? (
-              <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
-                data-cucumber="withdraw-request" label="Withdraw"
-                secondary onClick={() => {
-                  // TODO doesn't actually do anything?
-                  this.showSnackbar("Trip request withdrawn");
-                }}
-              />
-            ) : (
-              <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
-                data-cucumber="request" label="Request"
-                secondary onClick={() => {
-                  carpoolService.requestRide(drive._id);
-                  this.showSnackbar("The drive was requested");
-                }}
-              />
-            )}
-          </div>
+          {isRequested ? (
+            <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
+              data-cucumber="withdraw-request" label="Withdraw"
+              secondary onClick={() => {
+                // TODO doesn't actually do anything?
+                this.showSnackbar("Trip request withdrawn");
+              }}
+            />
+          ) : (
+            <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
+              data-cucumber="request" label="Request"
+              secondary onClick={() => {
+                carpoolService.requestRide(drive._id);
+                this.showSnackbar("The drive was requested");
+              }}
+            />
+          )}
           <Snackbar
             open={this.state.snackbarOpen}
             message={this.state.snackbarText}

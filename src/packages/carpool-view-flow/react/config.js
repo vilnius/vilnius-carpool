@@ -11,7 +11,7 @@ export const config = {
     lightBlue: '#33A4D9',
     success: '#40AC31',
     textColor: '#666',
-    yellow: "yellow",
+    yellow: "#FDD835",
     red: "red",
     green: "green"
   },

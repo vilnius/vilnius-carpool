@@ -43,6 +43,9 @@ const circleStyle = {
 export default class TripInfo extends React.Component {
   constructor(props) {
     super(props)
+
+    this.renderItenaryLine = this.renderItenaryLine.bind(this)
+
     this.gotoChat = this.gotoChat.bind(this);
   }
 
@@ -55,7 +58,9 @@ export default class TripInfo extends React.Component {
     circleStyle.borderColor = color;
     return (
       <div key={routePoint._id+"-"+routePoint.name} style={rideInfoLineWrap} data-cucumber="stops-on-route" >
-        {routePoint.time ? moment(routePoint.time).format('H:mm') : "--:--"}
+        <div style={{width: 33, textAlign: 'center'}}>
+          {routePoint.time ? moment(routePoint.time).format('H:mm') : "--:--"}
+        </div>
         <div style={destinationTitleStyle} data-cucumber="stop">
           <div style={{...circleStyle}} />
           <div data-cucumber={"route-"+routePoint.name}
@@ -64,7 +69,8 @@ export default class TripInfo extends React.Component {
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
-              width: window.innerWidth - 185
+              paddingLeft: 3,
+              width: this.props.width - 200,
             }}
           >
             {routePoint.address}

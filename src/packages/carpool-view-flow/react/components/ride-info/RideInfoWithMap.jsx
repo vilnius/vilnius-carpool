@@ -2,6 +2,7 @@ import React from 'react';
 import GoogleMap from '../map/GoogleMap.jsx';
 import { getUserPicture } from '../../api/UserPicture.coffee'
 import TripInfo from './TripInfo.jsx';
+import TripMap from '../map/TripMap.jsx'
 const d = console.log.bind(console);
 
 /*global getUserName*/
@@ -10,12 +11,15 @@ const d = console.log.bind(console);
 export default class RideInfoWithMap extends React.Component {
 
   createItenary(ride, drive) {
+    console.log(ride, drive)
     let itenary = [];
     itenary.push({
       _id: drive._id,
       name: "dA",
       address: drive.fromAddress,
-      time: drive.aTime
+      time: drive.aTime,
+      loc: drive.fromLoc,
+      title: 'From',
     });
     for(let i=1; i<drive.stops.length; i++) {
       let stop = drive.stops[i];
@@ -23,14 +27,18 @@ export default class RideInfoWithMap extends React.Component {
         _id: stop._id,
         name: "st",
         address: stop.title,
-        time: undefined
+        loc: stop.loc,
+        time: undefined,
+        title: stop.title,
       });
     }
     itenary.push({
       _id: drive._id,
       name: "dB",
       address: drive.toAddress,
-      time: drive.bTime
+      time: drive.bTime,
+      loc: drive.toLoc,
+      title: 'To',
     });
     return itenary;
   }
@@ -48,8 +56,12 @@ export default class RideInfoWithMap extends React.Component {
 
   render () {
     const {ride, drive, user} = this.props;
-    const rideInfoHeight = 215
+    const rideInfoHeight = 185
     const mapHeight = this.props.height - rideInfoHeight
+
+    const itenary = this.createItenary(ride, drive)
+
+    const path = drive.path
 
     return (
       <div style={{
@@ -59,9 +71,13 @@ export default class RideInfoWithMap extends React.Component {
         height: this.props.height,
       }}>
         <div style={{ height: mapHeight, width: this.props.width }}>
-          <GoogleMap ride={ride} trip={drive} />
+          <TripMap itenary={itenary}
+            width={this.props.width} height={mapHeight}
+            path={path}
+          />
+          {/*<GoogleMap ride={ride} trip={drive} />*/}
         </div>
-        <TripInfo itenary={this.createItenary(ride, drive)}
+        <TripInfo itenary={itenary}
           tripOwner={this.formDriveOwner(user)}
           width={this.props.width} height={rideInfoHeight}
         />
@@ -75,5 +91,5 @@ RideInfoWithMap.propTypes = {
   height: React.PropTypes.number.isRequired,
   ride: React.PropTypes.object,
   drive: React.PropTypes.object,
-  user: React.PropTypes.object
+  user: React.PropTypes.object.isRequired,
 }
