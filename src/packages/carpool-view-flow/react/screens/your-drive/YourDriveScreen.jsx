@@ -39,7 +39,7 @@ class YourDrive extends React.Component {
       const isRequested = _(drive.requests).findWhere({userId: Meteor.userId()});
       //console.log("Requested drive", isRequested);
 
-      const bottomPartHeight = 75
+      const bottomPartHeight = 65
 
       return (
         <div data-cucumber="screen-your-drive" style={{

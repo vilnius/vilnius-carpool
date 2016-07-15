@@ -70,6 +70,7 @@ export default class TripInfo extends React.Component {
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
               paddingLeft: 3,
+              width: this.props.width - 200,
             }}
           >
             {routePoint.address}
