@@ -46,8 +46,38 @@ export default class RidesList extends React.Component {
                   }
                 >
                   <div style={{display: 'flex', flexDirection: 'column', color: config.colors.textColor}}>
-                    <div style={{marginBottom: 7, fontSize: 13}}>{ride.fromAddress} {ride.fromTimeApproximate ? '~' + ride.fromTime : ride.fromTime}</div>
-                    <div style={{marginBottom: 10, fontSize: 13}}>{ride.toAddress} {ride.toTimeApproximate ? '~' + ride.toTime : ride.toTime}</div>
+                    <div style={{marginBottom: 7, fontSize: 13, display: 'flex', flexDirection: 'row'}}>
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          width: '70%',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
+                        {ride.fromAddress}
+                      </span>
+                      <span style={{marginLeft: 10}}>
+                        {ride.fromTimeApproximate ? '~' + ride.fromTime : ride.fromTime}
+                      </span>
+                    </div>
+                    <div style={{marginBottom: 10, fontSize: 13, display: 'flex', flexDirection: 'row'}}>
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          width: '70%',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
+                        {ride.toAddress}
+                      </span>
+                      <span style={{marginLeft: 10}}>
+                        {ride.toTimeApproximate ? '~' + ride.toTime : ride.toTime}
+                      </span>
+                    </div>
                     <div>{ride.repeat ? (
                       <RepeatingDays daysActive={ride.repeat} />
                     ) : (
