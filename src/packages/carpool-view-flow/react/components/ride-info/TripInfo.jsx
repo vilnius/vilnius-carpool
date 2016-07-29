@@ -11,6 +11,8 @@ import moment from 'moment'
 import { Avatar } from 'material-ui'
 import ChatIcon from 'material-ui/lib/svg-icons/communication/chat'
 import {L_mapAndWrap} from './lambda'
+
+import RepeatingDays from '../common/RepeatingDaysDisplay.jsx';
 /*global FlowRouter*/
 
 const d = console.log.bind(console);
@@ -86,28 +88,36 @@ export default class TripInfo extends React.Component {
     const itenaryStops = L_mapAndWrap(itenary, this.renderItenaryLine, colors.red, colors.yellow, colors.green);
 
     return (
-      <div style={{display: 'flex', flexDirection: 'row', fontSize: 13}}>
-        <div style={{width: this.props.width - 100}}>
-          <div style={{display: 'flex', flexDirection: 'column', margin: 20, position: 'relative'}}>
-            <div style={{
-              position: 'absolute',
-              width: 0,
-              height: (25 * (itenaryStops.length-1)),
-              left: 47,
-              top: 10,
-              borderLeft: '1px dotted #929292',
-            }}>
+      <div>
+        <div style={{display: 'flex', flexDirection: 'row', fontSize: 13}}>
+          <div style={{width: this.props.width - 100}}>
+            <div style={{display: 'flex', flexDirection: 'column', margin: 20, position: 'relative'}}>
+              <div style={{
+                position: 'absolute',
+                width: 0,
+                height: (25 * (itenaryStops.length-1)),
+                left: 47,
+                top: 10,
+                borderLeft: '1px dotted #929292',
+              }}>
+              </div>
+              {itenaryStops}
             </div>
-            {itenaryStops}
+            <div style={{ marginLeft: 20, fontSize: 14 }}>
+              {this.props.repeat
+                ? <RepeatingDays daysActive={this.props.repeat} />
+                : `Trip starts ${this.props.tripTime.fromNow()} (${this.props.tripTime.format('MM-DD HH:mm')})`
+              }
+            </div>
           </div>
-        </div>
-        <div style={{display: 'flex', flexDirection: 'column', width: 100, alignItems: 'center'}}>
-          <Avatar src={tripOwner.driverPicture} size={75} style={{marginTop: 16}} />
-          <div style={{marginTop: 6, textAlign: 'center'}}>
-            {tripOwner.driverName.split(' ')[0] + ', ' + tripOwner.driverAge}
-          </div>
-          <div style={{marginTop: 12}}>
-            <ChatIcon data-cucumber="chat" color={config.colors.main} onClick={this.gotoChat} />
+          <div style={{display: 'flex', flexDirection: 'column', width: 100, alignItems: 'center'}}>
+            <Avatar src={tripOwner.driverPicture} size={75} style={{marginTop: 16}} />
+            <div style={{marginTop: 6, textAlign: 'center'}}>
+              {tripOwner.driverName.split(' ')[0] + ', ' + tripOwner.driverAge}
+            </div>
+            <div style={{marginTop: 12}}>
+              <ChatIcon data-cucumber="chat" color={config.colors.main} onClick={this.gotoChat} />
+            </div>
           </div>
         </div>
       </div>
@@ -119,5 +129,7 @@ TripInfo.propTypes = {
   // [A, sA, ... ,sB, B] - each point:
   itenary: React.PropTypes.array,
   tripOwner: React.PropTypes.object,
+  tripTime: React.PropTypes.object,
+  repeat: React.PropTypes.array,
   width: React.PropTypes.number.isRequired,
 }

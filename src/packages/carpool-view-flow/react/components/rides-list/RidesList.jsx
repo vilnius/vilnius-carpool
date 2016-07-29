@@ -4,7 +4,7 @@ import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider'
 import Avatar from 'material-ui/lib/avatar';
 import { config } from '../../config'
-import ReccuringDays from '../common/RepeatingDays.jsx';
+import RepeatingDays from '../common/RepeatingDaysDisplay.jsx';
 import moment from 'moment';
 
 import { getUserName } from 'meteor/carpool-view'
@@ -49,7 +49,7 @@ export default class RidesList extends React.Component {
                     <div style={{marginBottom: 7, fontSize: 13}}>{ride.fromAddress} {ride.fromTimeApproximate ? '~' + ride.fromTime : ride.fromTime}</div>
                     <div style={{marginBottom: 10, fontSize: 13}}>{ride.toAddress} {ride.toTimeApproximate ? '~' + ride.toTime : ride.toTime}</div>
                     <div>{ride.repeat ? (
-                      <ReccuringDays daysActive={ride.repeat} />
+                      <RepeatingDays daysActive={ride.repeat} />
                     ) : (
                       <span style={{fontSize: 12}}>{moment(ride.time).format("lll")}</span>
                     )}</div>

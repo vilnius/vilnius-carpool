@@ -113,7 +113,7 @@ export default class ReactMap extends React.Component {
        strokeOpacity: 0.5,
        strokeColor: routeColor,
      }
-     console.log(this.state.markers)
+     
      return (
        <section style={{height: "100%"}}>
          <GoogleMapLoader
