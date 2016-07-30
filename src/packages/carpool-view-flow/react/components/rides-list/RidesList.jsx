@@ -9,6 +9,18 @@ import Loader from '../common/Loader'
 import RidesListItem from './RidesListItem.jsx';
 /*global Meteor*/
 
+function addUserDataToRide (ride) {
+  const user = Meteor.users.findOne({_id: ride.owner});
+  return {
+    ...ride,
+    ownerName: getUserName(user),
+    ownerAvatar: getUserPicture(user),
+    fromTime: moment(ride.aTime).format('H:mm'),
+    toTime: moment(ride.bTime).format('H:mm'),
+    toTimeApproximate: true,
+  }
+}
+
 export default class RidesList extends React.Component {
   render () {
     const { progress, trips } = this.props;
@@ -22,20 +34,10 @@ export default class RidesList extends React.Component {
       return (
         <List data-cucumber="trips-list">
           {trips.map((ride) => {
-            const user = Meteor.users.findOne({_id: ride.owner});
-            ride.ownerName = getUserName(user);
-            ride.ownerAvatar = getUserPicture(user);
-            //d("Repeat ", ride.repeat);
-            ride.fromTime = moment(ride.aTime).format('H:mm');
-            ride.toTime = moment(ride.bTime).format('H:mm');
-            ride.toTimeApproximate = true;
-            // << Mocking
-            return (
-              [
-                <RidesListItem key={1} ride={ride} />,
-                <Divider key={2} />
-              ]
-            )
+            return ([
+              <RidesListItem key={1} ride={addUserDataToRide(ride)} />,
+              <Divider key={2} />
+            ])
           })}
         </List>
       )

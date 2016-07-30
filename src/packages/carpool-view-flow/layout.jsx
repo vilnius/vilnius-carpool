@@ -82,7 +82,11 @@ export class MainLayout extends React.Component {
             </Paper>
           </header>
         ) : null}
-        <main>
+        <main style={{
+          overflowX: 'scroll',
+          width: this.state.appWidth,
+          height: contentHeight,
+        }}>
           {this.renderElement(this.props.content, { height: contentHeight })}
         </main>
         {this.props.bottomMenu ? (
