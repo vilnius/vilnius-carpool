@@ -71,7 +71,6 @@ export class MainLayout extends React.Component {
     const leftIconSideOffset = 0;
     const rightIconSideOffset = this.state.isMobile ? 0 : this.state.ww - this.state.appWidth;
     const bottomOffset = 8;
-
     return (
       <div>
         {this.props.topMenu || this.props.topFilter || this.props.topSearch ? (

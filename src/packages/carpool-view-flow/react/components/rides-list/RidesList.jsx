@@ -10,6 +10,7 @@ import moment from 'moment';
 import { getUserName } from 'meteor/carpool-view'
 import { getUserPicture } from '../../api/UserPicture.coffee'
 import Loader from '../common/Loader'
+import Time from '../common/Time.jsx';
 /*global flowControllerHelper*/
 /*global Meteor*/
 
@@ -50,7 +51,7 @@ export default class RidesList extends React.Component {
                       <span
                         style={{
                           display: 'inline-block',
-                          width: '70%',
+                          maxWidth: '70%',
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
@@ -59,14 +60,17 @@ export default class RidesList extends React.Component {
                         {ride.fromAddress}
                       </span>
                       <span style={{marginLeft: 10}}>
-                        {ride.fromTimeApproximate ? '~' + ride.fromTime : ride.fromTime}
+                        <Time
+                          time={ride.fromTime}
+                          approximate={ride.fromTimeApproximate}
+                        />
                       </span>
                     </div>
                     <div style={{marginBottom: 10, fontSize: 13, display: 'flex', flexDirection: 'row'}}>
                       <span
                         style={{
                           display: 'inline-block',
-                          width: '70%',
+                          maxWidth: '70%',
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
@@ -75,7 +79,10 @@ export default class RidesList extends React.Component {
                         {ride.toAddress}
                       </span>
                       <span style={{marginLeft: 10}}>
-                        {ride.toTimeApproximate ? '~' + ride.toTime : ride.toTime}
+                        <Time
+                          time={ride.toTime}
+                          approximate={ride.toTimeApproximate}
+                        />
                       </span>
                     </div>
                     <div>{ride.repeat ? (

@@ -55,6 +55,7 @@ export default class TripMap extends React.Component {
         key={stop.title}
         icon={icon}
         position={position}
+        draggable
       />
     )
   }
