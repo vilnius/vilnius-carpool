@@ -11,6 +11,7 @@ import { getUserName } from 'meteor/carpool-view'
 import { getUserPicture } from '../../api/UserPicture.coffee'
 import Loader from '../common/Loader'
 import Time from '../common/Time.jsx';
+import CalendarIcon from 'material-ui/lib/svg-icons/editor/insert-invitation';
 /*global flowControllerHelper*/
 /*global Meteor*/
 
@@ -88,7 +89,10 @@ export default class RidesList extends React.Component {
                     <div>{ride.repeat ? (
                       <RepeatingDays daysActive={ride.repeat} />
                     ) : (
-                      <span style={{fontSize: 12}}>{moment(ride.time).format("lll")}</span>
+                      <span style={{fontSize: 12, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                        <CalendarIcon style={{ width: 16, height: 16, marginRight: 4, marginTop: -1.5 }} color={config.colors.main} />
+                        {moment(ride.time).format("MMM DD, YYYY")}
+                      </span>
                     )}</div>
                   </div>
                 </ListItem>,

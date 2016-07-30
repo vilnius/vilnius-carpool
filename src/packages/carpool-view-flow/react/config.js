@@ -7,13 +7,13 @@ export const config = {
   colors: {
     main: '#008DD0',
     highlight: '#F15A29',
-    green: '#40AC31',
+    mainGreen: '#40AC31',
     lightBlue: '#33A4D9',
     success: '#40AC31',
     textColor: '#666',
     yellow: "#FDD835",
     red: "red",
-    green: "green"
+    green: "green",
   },
   font: 'Roboto, sans-serif',
 }
