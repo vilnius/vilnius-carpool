@@ -8,12 +8,34 @@ import CalendarIcon from 'material-ui/lib/svg-icons/editor/insert-invitation';
 import moment from 'moment';
 
 /*global flowControllerHelper*/
+/*global Meteor*/
 
 export default class RidesListItem extends React.Component {
+
+  constructor (props) {
+    super(props);
+
+    this.goToRideDetailView = this.goToRideDetailView.bind(this);
+  }
+
+  goToRideDetailView () {
+    const myUserId = Meteor.user()._id;
+    const isMyRide = myUserId === this.props.ride.owner;
+
+
+    if (isMyRide && this.props.ride.role === 'rider') {
+      flowControllerHelper.goToView('YourRide', {id: this.props.ride._id})
+    } else if (isMyRide && this.props.ride.role === 'driver') {
+      flowControllerHelper.goToView('YourDrive', {id: this.props.ride._id})
+    } else {
+      flowControllerHelper.goToView('RideRequest', {id: this.props.ride._id})
+    }
+  }
+
   render () {
     return (
       <ListItem key={1}
-        onClick={() => flowControllerHelper.goToView('YourRide', {id: this.props.ride._id})}
+        onClick={this.goToRideDetailView}
         rightAvatar={
           <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', top: 4, height: '100%'}}>
             <Avatar src={this.props.ride.ownerAvatar} size={50} />
