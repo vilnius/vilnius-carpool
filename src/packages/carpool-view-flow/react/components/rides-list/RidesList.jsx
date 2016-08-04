@@ -1,17 +1,25 @@
 import React from 'react'
 import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider'
-import Avatar from 'material-ui/lib/avatar';
-import { config } from '../../config'
-import ReccuringDays from '../common/RepeatingDays.jsx';
 import moment from 'moment';
 
 import { getUserName } from 'meteor/carpool-view'
 import { getUserPicture } from '../../api/UserPicture.coffee'
 import Loader from '../common/Loader'
-/*global flowControllerHelper*/
+import RidesListItem from './RidesListItem.jsx';
 /*global Meteor*/
+
+function addUserDataToRide (ride) {
+  const user = Meteor.users.findOne({_id: ride.owner});
+  return {
+    ...ride,
+    ownerName: getUserName(user),
+    ownerAvatar: getUserPicture(user),
+    fromTime: moment(ride.aTime).format('H:mm'),
+    toTime: moment(ride.bTime).format('H:mm'),
+    toTimeApproximate: true,
+  }
+}
 
 export default class RidesList extends React.Component {
   render () {
@@ -26,38 +34,10 @@ export default class RidesList extends React.Component {
       return (
         <List data-cucumber="trips-list">
           {trips.map((ride) => {
-            const user = Meteor.users.findOne({_id: ride.owner});
-            ride.ownerName = getUserName(user);
-            ride.ownerAvatar = getUserPicture(user);
-            //d("Repeat ", ride.repeat);
-            ride.fromTime = moment(ride.aTime).format('H:mm');
-            ride.toTime = moment(ride.bTime).format('H:mm');
-            ride.toTimeApproximate = true;
-            // << Mocking
-            return (
-              [
-                <ListItem key={1}
-                  onClick={() => flowControllerHelper.goToView('YourRide', {id: ride._id})}
-                  rightAvatar={
-                    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', top: 4, height: '100%'}}>
-                      <Avatar src={ride.ownerAvatar} size={50} />
-                      <span style={{fontSize: 11, marginTop: 5, color: config.colors.textColor, fontWeight: 500}}>{ride.ownerName.split(' ')[0]}</span>
-                    </div>
-                  }
-                >
-                  <div style={{display: 'flex', flexDirection: 'column', color: config.colors.textColor}}>
-                    <div style={{marginBottom: 7, fontSize: 13}}>{ride.fromAddress} {ride.fromTimeApproximate ? '~' + ride.fromTime : ride.fromTime}</div>
-                    <div style={{marginBottom: 10, fontSize: 13}}>{ride.toAddress} {ride.toTimeApproximate ? '~' + ride.toTime : ride.toTime}</div>
-                    <div>{ride.repeat ? (
-                      <ReccuringDays daysActive={ride.repeat} />
-                    ) : (
-                      <span style={{fontSize: 12}}>{moment(ride.time).format("lll")}</span>
-                    )}</div>
-                  </div>
-                </ListItem>,
-                <Divider key={2} />
-              ]
-            )
+            return ([
+              <RidesListItem key={1} ride={addUserDataToRide(ride)} />,
+              <Divider key={2} />
+            ])
           })}
         </List>
       )

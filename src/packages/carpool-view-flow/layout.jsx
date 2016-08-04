@@ -71,7 +71,6 @@ export class MainLayout extends React.Component {
     const leftIconSideOffset = 0;
     const rightIconSideOffset = this.state.isMobile ? 0 : this.state.ww - this.state.appWidth;
     const bottomOffset = 8;
-
     return (
       <div>
         {this.props.topMenu || this.props.topFilter || this.props.topSearch ? (
@@ -83,7 +82,11 @@ export class MainLayout extends React.Component {
             </Paper>
           </header>
         ) : null}
-        <main>
+        <main style={{
+          overflowX: 'scroll',
+          width: this.state.appWidth,
+          height: contentHeight,
+        }}>
           {this.renderElement(this.props.content, { height: contentHeight })}
         </main>
         {this.props.bottomMenu ? (

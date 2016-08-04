@@ -67,6 +67,6 @@ export default class NotLoggedInLanding extends React.Component {
 }
 
 NotLoggedInLanding.propTypes = {
-  width: React.PropTypes.number.isRequired,
-  height: React.PropTypes.number.isRequired,
+  width: React.PropTypes.number,
+  height: React.PropTypes.number,
 }

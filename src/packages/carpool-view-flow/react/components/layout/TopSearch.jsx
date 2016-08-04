@@ -5,7 +5,6 @@ import DateTimePicker from '../common/DateTimePicker'
 import ClearIcon from 'material-ui/lib/svg-icons/content/clear'
 
 /*global carpoolService*/
-/*global FlowHelpers*/
 
 const getStyles = (width) => ({
   searchField: {
@@ -46,7 +45,8 @@ export default class TopSearch extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentWillMount () {
+    this.mounted = true;
     //console.log("Will Mount TopSearch with", this.props);
     this.updatedLocations(this.props);
   }
@@ -56,13 +56,21 @@ export default class TopSearch extends React.Component {
     this.updatedLocations(nextProps);
   }
 
+  componentWillUnmount () {
+    this.mounted = false;
+  }
+
   updatedLocations(props) {
     carpoolService.resolveLocation(props.from, props.fromAddress, (location) => {
       //console.log(props.from, props.fromAddress, "resolved -", location)
-      this.setState({fromAddress: location});
+      if (this.mounted) {
+        this.setState({fromAddress: location});
+      }
     })
     carpoolService.resolveLocation(props.to, props.toAddress, (location) => {
-      this.setState({toAddress: location});
+      if (this.mounted) {
+        this.setState({toAddress: location});
+      }
     })
   }
 
