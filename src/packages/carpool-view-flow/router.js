@@ -14,9 +14,10 @@ import RegisterScreen from './react/auth/Register'
 import LoginUsernameScreen from './react/auth/LoginUsername'
 import RideOffersScreen from './react/screens/ride-offers/RideOffersScreen'
 import TripFormScreen from './react/screens/trip-form/TripFormScreen.jsx'
-import RequestRideScreen from './react/your-trip/RequestRideScreen'
 import DriveConfirmScreen from './react/screens/drive-confirm/DriveConfirmScreen.jsx';
 import YourDriveScreen from './react/screens/your-drive/YourDriveScreen.jsx'
+import YourRideScreen from './react/screens/your-ride/YourRideScreen.jsx';
+import RequestRideScreen from './react/screens/request-ride/RequestRideScreen.jsx'
 import NotificationsScreen from './react/screens/notifications/NotificationsScreen'
 import LocationAutocomplete from './react/screens/location-autocomplete/LocationAutocomplete.jsx'
 import FeedbackScreen from './react/screens/feedback/FeedbackScreen'
@@ -239,7 +240,7 @@ securedRoutes.route('/drive/:id', {
         innerScreen: true,
         returnScreen: 'YourDrives',
       },
-      topMenu: <TopMenu title="Your drive" innerScreen returnScreen="YourDrives" />,
+      topMenu: <TopMenu title="Your drive" innerScreen />,
       content: <YourDriveScreen tripId={params.id} />,
     });
   }
@@ -254,28 +255,13 @@ securedRoutes.route('/ride/:id', {
        innerScreen: true,
        returnScreen: 'YourDrives',
      },
-     topMenu: <TopMenu title="Your ride" innerScreen returnScreen="YourDrives" />,
-     content: <RequestRideScreen tripId={params.id} rideId={queryParams.ride} />,
+     topMenu: <TopMenu title="Your ride" innerScreen />,
+     content: <YourRideScreen tripId={params.id} rideId={queryParams.ride} />,
    });
  }
 });
 
-securedRoutes.route('/ride/:id', {
- name: "YourRide",
- action: function(params, queryParams) {
-   mount(SecureLayout, {
-     navBar: {
-       title: 'Your ride',
-       innerScreen: true,
-       returnScreen: 'YourDrives',
-     },
-     topMenu: <TopMenu title="Your ride" innerScreen returnScreen="YourDrives" />,
-     content: <RequestRideScreen tripId={params.id} rideId={queryParams.ride} />,
-   });
- }
-});
-
-securedRoutes.route('/ride/:id', {
+securedRoutes.route('/trip/:id', {
  name: "RideRequest",
  action: function(params, queryParams) {
    mount(SecureLayout, {
@@ -284,7 +270,7 @@ securedRoutes.route('/ride/:id', {
        innerScreen: true,
        returnScreen: 'YourDrives',
      },
-     topMenu: <TopMenu title="Ride request" innerScreen returnScreen="YourDrives" />,
+     topMenu: <TopMenu title="Ride request" innerScreen />,
      content: <RequestRideScreen tripId={params.id} rideId={queryParams.ride} />,
    });
  }

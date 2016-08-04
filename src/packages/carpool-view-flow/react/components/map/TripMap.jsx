@@ -1,7 +1,6 @@
 import React from 'react'
 import { GoogleMapLoader, GoogleMap, Marker, Polyline} from "react-google-maps"
 import Loader from '../common/Loader'
-import { config } from '../../config'
 
 /*global googleServices*/
 /*global google*/
@@ -55,6 +54,7 @@ export default class TripMap extends React.Component {
         key={stop.title}
         icon={icon}
         position={position}
+        draggable
       />
     )
   }

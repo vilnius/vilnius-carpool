@@ -3,16 +3,14 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { _ } from 'meteor/underscore';
 import RaisedButton from 'material-ui/lib/raised-button';
 import Snackbar from 'material-ui/lib/snackbar';
-import { getUserPicture } from '../api/UserPicture.coffee'
-import Loader from '../components/common/Loader'
-import RideInfoWithMap from '../components/ride-info/RideInfoWithMap.jsx';
+import Loader from '../../components/common/Loader'
+import RideInfoWithMap from '../../components/ride-info/RideInfoWithMap.jsx';
 
 /*global Progress*/
 /*global carpoolService*/
-/*global getUserName*/
 /*global Meteor*/
 
-export default class RequestRide extends React.Component {
+export default class YourRide extends React.Component {
 
   constructor(props) {
       super(props);
@@ -92,7 +90,7 @@ export default class RequestRide extends React.Component {
   }
 }
 
-RequestRide.propTypes = {
+YourRide.propTypes = {
   width: React.PropTypes.number.isRequired,
   height: React.PropTypes.number.isRequired,
   drive: React.PropTypes.object,
@@ -116,4 +114,4 @@ export default createContainer(({tripId, rideId}) => {
     stops,
     user
   };
-}, RequestRide);
+}, YourRide);

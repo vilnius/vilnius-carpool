@@ -298,6 +298,7 @@ module.exports = {
           return: true
         }],
         'react/jsx-equals-spacing': [2, 'never'],
-        'react/jsx-indent': [2, 2]
+        'react/jsx-indent': [2, 2],
+        'react/no-is-mounted': 0
     }
 };

@@ -3,6 +3,7 @@ import GoogleMap from '../map/GoogleMap.jsx';
 import { getUserPicture } from '../../api/UserPicture.coffee'
 import TripInfo from './TripInfo.jsx';
 import TripMap from '../map/TripMap.jsx'
+import moment from 'moment';
 const d = console.log.bind(console);
 
 /*global getUserName*/
@@ -11,7 +12,6 @@ const d = console.log.bind(console);
 export default class RideInfoWithMap extends React.Component {
 
   createItenary(ride, drive) {
-    console.log(ride, drive)
     let itenary = [];
     itenary.push({
       _id: drive._id,
@@ -80,6 +80,8 @@ export default class RideInfoWithMap extends React.Component {
         <TripInfo itenary={itenary}
           tripOwner={this.formDriveOwner(user)}
           width={this.props.width} height={rideInfoHeight}
+          tripTime={moment(drive.time)}
+          repeat={drive.repeat}
         />
       </div>
     );
