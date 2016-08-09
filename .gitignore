@@ -8,3 +8,5 @@ src/config.push.json
 src/settings.json
 src/npm-debug.log
 src/.meteor
+npm-debug.log
+plans.txt
