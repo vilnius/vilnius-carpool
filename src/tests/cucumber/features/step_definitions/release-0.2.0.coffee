@@ -29,10 +29,10 @@ module.exports = ()->
     client.waitForExist "[data-cucumber='notification']"
     @TestHelper.screenShot("MatchNotification.png");
     client.click "[data-cucumber='review-request']"
-    client.waitForExist "[data-cucumber='screen-your-ride']"
+    client.waitForExist "[data-cucumber='screen-your-ride-routed']"
+    @TestHelper.screenShot("RideRequest.png");
     client.click "[data-cucumber='request']"
     client.waitForExist "[title='To']"
-    @TestHelper.screenShot("RideRequest.png");
 
   @Then /^user "([^"]*)" gets notification and confirms request$/, (username)->
     @TestHelper.urlLogin("/loginUsername", username);

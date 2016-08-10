@@ -6,8 +6,7 @@ import { _ } from 'meteor/underscore';
 import GoogleMap from '../../components/map/GoogleMap'
 import { config } from '../../config'
 import RaisedButton from 'material-ui/lib/raised-button';
-import RideInfo from '../../components/ride-info/RideInfo'
-import RideInfoWithMap from '../../components/ride-info/RideInfoWithMap.jsx'
+import TripInfoWithMap from '../../components/ride-info/TripInfoWithMap.jsx'
 import Loader from '../../components/common/Loader'
 import { getUserPicture } from '../../api/UserPicture.coffee'
 /*global Meteor*/
@@ -21,7 +20,7 @@ class YourDrive extends React.Component {
   render () {
     const topBarHeight = 45
     const mapHeight = 375
-    const {progress, drive, stops} = this.props;
+    const {progress, stops, itinerary, user, isRequested} = this.props;
 
     if (100 != progress.getProgress()) {
       return (
@@ -30,15 +29,6 @@ class YourDrive extends React.Component {
         </section>
       );
     } else {
-      //console.log("drive", drive);
-      const user = Meteor.users.findOne({_id: drive.owner});
-      drive.driverName = getUserName(user);
-      drive.driverAge = 26;
-      drive.driverPicture = getUserPicture(user);
-
-      const isRequested = _(drive.requests).findWhere({userId: Meteor.userId()});
-      //console.log("Requested drive", isRequested);
-
       const bottomPartHeight = 65
 
       return (
@@ -47,10 +37,10 @@ class YourDrive extends React.Component {
           flexDirection: 'column',
           alignItems: 'center',
         }}>
-          <RideInfoWithMap
+          <TripInfoWithMap
             width={this.props.width}
             height={this.props.height - bottomPartHeight}
-            drive={drive}
+            itinerary={itinerary}
             user={user}
           />
           <RaisedButton primary style={{width: window.innerWidth * 0.9, borderRadius: 5}}
@@ -59,51 +49,34 @@ class YourDrive extends React.Component {
           />
         </div>
       )
-
-      return (
-        <div data-cucumber="screen-your-drive" style={{color: config.colors.textColor}}>
-          <div style={{
-            width: window.innerWidth,
-            height: mapHeight,
-            marginTop: topBarHeight
-          }}>
-            <GoogleMap trip={drive} stops={stops} />
-          </div>
-          <div style={{display: 'flex', flexDirection: 'column'}}>
-            <RideInfo drive={drive} width={this.props.width} />
-            <div style={{
-              marginTop: 18,
-              textAlign: 'center',
-            }}>
-              <RaisedButton primary style={{width: window.innerWidth * 0.9, borderRadius: 5}}
-                label={isRequested ? "Withdraw confirmation" : "Offer ride"}
-                onClick={() => { alert('Modal with timechoice coming') }}
-              />
-            </div>
-          </div>
-        </div>
-      )
     }
   }
 }
 
 YourDrive.propTypes = {
   progress: React.PropTypes.object,
-  trip: React.PropTypes.object,
-  drive: React.PropTypes.object,
   stops: React.PropTypes.array,
   width: React.PropTypes.number.isRequired,
   height: React.PropTypes.number.isRequired,
+  user: React.PropTypes.object,
+  isRequested: React.PropTypes.object,
+  itinerary: React.PropTypes.array,
 };
 
 export default createContainer(({tripId}) => {
   const progress = new Progress();
   const drive = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
   const stops = carpoolService.pullStops(progress.setProgress.bind(progress, 'stops'));
+  const user = drive && Meteor.users.findOne({_id: drive.owner});
+
+  const itinerary = carpoolService.pullDriverItinerary(drive);
+  const isRequested = drive && _(drive.requests).findWhere({userId: Meteor.userId()});
 
   return {
     progress,
-    drive,
-    stops
+    stops,
+    user,
+    itinerary,
+    isRequested
   };
 }, YourDrive);

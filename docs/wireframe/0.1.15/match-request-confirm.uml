@@ -15,6 +15,7 @@ state "TripForm\n<img:TripForm.png>" as TripForm
 TripForm: <b>View 2</b>
 TripForm: Landing page
 TripForm: Submit, cancel buttons removed
+TripForm: Driver/Passenger checkbox removed
 TripForm: New buttons: "Drive", "Ride search"
 
 state "RideOffers\n<img:RideOffers.png>" as RideOffers
@@ -41,6 +42,7 @@ YourDrive: Doesn't show stops
 YourDrive: Picture - driver
 YourDrive: Button - [Cancel drive]
 YourDrive: Bottom tabs
+YourDrive: Snackbar after saving
 
 state "RideRequest\n<img:RideRequest.png>" as RideRequest
 RideRequest: <b>View 7</b>
@@ -51,15 +53,17 @@ RideRequest: Bottom tabs
 
 state "MatchNotification\n<img:MatchNotification.png>" as MatchNotification
 MatchNotification: <b>View 8</b>
+MatchNotification: Replace "Review" to "View"
 
 state "ConfirmNotification\n<img:ConfirmNotification.png>" as ConfirmNotification
 ConfirmNotification: <b>View 9</b>
-ConfirmNotification: Picture - rider
+ConfirmNotification: Notification picture - rider
+ConfirmNotification: Replace "Review" to "View"
 
 state "YourDrive\n<img:DriveConfirm.png>" as DriveConfirm
 DriveConfirm: <b>View 10</b>
-DriveConfirm: Shows list of requests
-DriveConfirm: Requests have [confirm/withdraw]
+DriveConfirm: Show list of requests
+DriveConfirm: Requests have [confirm/confirm]
 DriveConfirm: Map show requests stops
 DriveConfirm: Itenary shows A,stops,B points
 DriveConfirm: Bottom tabs
@@ -72,8 +76,8 @@ TripForm -[#blue]-> RideOffers: [Search] is pressed
 RideOffers -[#blue]> YourRide
 YourRide -[#blue]> MatchNotification: After some time
 
-TripForm -[#green]> MyTrips
-MyTrips -[#green]up-> YourDrive
+TripForm -[#green]> YourDrive: [Drive] pressed
+YourDrive -[#green]> MyTrips
 MyTrips -[#black]-> MatchNotification: Notification
 MyTrips -[#green]> ConfirmNotification: After some time
 

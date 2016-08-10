@@ -249,6 +249,7 @@ securedRoutes.route('/drive/:id', {
 securedRoutes.route('/ride/:id', {
  name: "YourRide",
  action: function(params, queryParams) {
+   //console.log("Your ride screen");
    mount(SecureLayout, {
      navBar: {
        title: 'Your ride',
@@ -256,7 +257,7 @@ securedRoutes.route('/ride/:id', {
        returnScreen: 'YourDrives',
      },
      topMenu: <TopMenu title="Your ride" innerScreen />,
-     content: <YourRideScreen tripId={params.id} rideId={queryParams.ride} />,
+     content: <YourRideScreen rideId={params.id} />,
    });
  }
 });
