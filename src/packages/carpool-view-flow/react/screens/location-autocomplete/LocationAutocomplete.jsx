@@ -11,9 +11,13 @@ import BackButton from '../../components/layout/BackButton'
 import Paper from 'material-ui/lib/paper'
 import { config } from '../../config.js';
 
+import { connect } from 'react-redux';
 import { googleServices } from 'meteor/spastai:google-client';
 
+import { updateFromLocation, updateToLocation } from '../../redux/modules/general/actions.js'
+
 /*global google*/
+/*global carpoolService*/
 
 var autocompleteService = null;
 googleServices.afterInit(function (){
@@ -95,6 +99,11 @@ export default class LocationAutocomplete extends React.Component {
       carpoolService.saveSelection(this.props.field, suggestion)
       this.props.onSelect(suggestion);
     }
+    if (this.props.field === 'aLoc') {
+      this.props.dispatch(updateFromLocation(suggestion.description));
+    } else if (this.props.field === 'bLoc') {
+      this.props.dispatch(updateToLocation(suggestion.description));
+    }
   }
 
   inputChanged (e) {
@@ -136,8 +145,13 @@ export default class LocationAutocomplete extends React.Component {
 
 
 LocationAutocomplete.propTypes = {
-  suggestions: React.PropTypes.array
+  suggestions: React.PropTypes.array,
+  field: React.PropTypes.string.isRequired,
+  onSelect: React.PropTypes.func.isRequired,
+  dispatch: React.PropTypes.func.isRequired,
 };
+
+const connectedLocationAutocomplete = connect()(LocationAutocomplete);
 
 /*
  This component is loading data and is called from the other container (compoment which loads data)
@@ -155,4 +169,4 @@ export default LocationAutocompleteContainer = createContainer(({field, screen})
     suggestions: suggestions,
     screen: screen
   }
-}, LocationAutocomplete);
+}, connectedLocationAutocomplete);

@@ -10,6 +10,9 @@ import DesktopNavigationBar from './react/components/layout/DesktopNavigationBar
 import GoogleMap from './react/components/map/GoogleMap'
 /*global userSubs*/
 
+import { Provider } from 'react-redux';
+import store from './react/redux/store';
+
 export class MainLayout extends React.Component {
   constructor (props) {
     super(props)
@@ -72,39 +75,41 @@ export class MainLayout extends React.Component {
     const rightIconSideOffset = this.state.isMobile ? 0 : this.state.ww - this.state.appWidth;
     const bottomOffset = 8;
     return (
-      <div>
-        {this.props.topMenu || this.props.topFilter || this.props.topSearch ? (
-          <header>
-            <Paper>
-              {this.renderElement(this.props.topMenu, { height: topMenuHeight })}
-              {this.renderElement(this.props.topFilter, { height: topFilterHeight })}
-              {this.renderElement(this.props.topSearch, { height: topSearchHeight })}
-            </Paper>
-          </header>
-        ) : null}
-        <main style={{
-          overflowX: 'scroll',
-          width: this.state.appWidth,
-          height: contentHeight,
-        }}>
-          {this.renderElement(this.props.content, { height: contentHeight })}
-        </main>
-        {this.props.bottomMenu ? (
-          <bottom>
-            {this.renderElement(this.props.bottomMenu, { height: bottomMenuHeight, bottomOffset: bottomOffset })}
-          </bottom>
-        ) : null}
-        {this.props.renderNewTripButton ?
-          <FloatingNewRideButton isMobile={this.state.isMobile}
-            sideOffset={rightIconSideOffset} bottomOffset={bottomOffset}
-          /> : null
-        }
-        {this.props.renderFeedbackButton ?
-          <FloatingFeedbackButton isMobile={this.state.isMobile}
-            sideOffset={leftIconSideOffset} bottomOffset={bottomOffset}
-          /> : null
-        }
-      </div>
+      <Provider store={store}>
+        <div>
+          {this.props.topMenu || this.props.topFilter || this.props.topSearch ? (
+            <header>
+              <Paper>
+                {this.renderElement(this.props.topMenu, { height: topMenuHeight })}
+                {this.renderElement(this.props.topFilter, { height: topFilterHeight })}
+                {this.renderElement(this.props.topSearch, { height: topSearchHeight })}
+              </Paper>
+            </header>
+          ) : null}
+          <main style={{
+            overflowX: 'scroll',
+            width: this.state.appWidth,
+            height: contentHeight,
+          }}>
+            {this.renderElement(this.props.content, { height: contentHeight })}
+          </main>
+          {this.props.bottomMenu ? (
+            <bottom>
+              {this.renderElement(this.props.bottomMenu, { height: bottomMenuHeight, bottomOffset: bottomOffset })}
+            </bottom>
+          ) : null}
+          {this.props.renderNewTripButton ?
+            <FloatingNewRideButton isMobile={this.state.isMobile}
+              sideOffset={rightIconSideOffset} bottomOffset={bottomOffset}
+            /> : null
+          }
+          {this.props.renderFeedbackButton ?
+            <FloatingFeedbackButton isMobile={this.state.isMobile}
+              sideOffset={leftIconSideOffset} bottomOffset={bottomOffset}
+            /> : null
+          }
+        </div>
+      </Provider>
     )
   }
 
@@ -125,43 +130,45 @@ export class MainLayout extends React.Component {
     const bottomOffset = 8;
 
     return (
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-      }}>
-        {title ? <DesktopNavigationBar width={this.state.ww} height={50} title={title} /> : null}
+      <Provider store={store}>
         <div style={{
           display: 'flex',
-          flexDirection: 'row',
+          flexDirection: 'column',
         }}>
-          <div
-            style={{
-              width:this.state.appWidth,
-              height: this.state.appHeight,
-            }}
-          >
-            {this.props.topMenu || this.props.topFilter || this.props.topSearch ? (
-              <header>
-                {this.renderElement(this.props.topFilter, { height: topFilterHeight })}
-                {this.renderElement(this.props.topSearch, { height: topSearchHeight })}
-              </header>
-            ) : null}
-            <main>
-              {this.renderElement(this.props.content, { height: contentHeight })}
-            </main>
-            {this.props.renderNewTripButton ?
-              <FloatingNewRideButton isMobile={this.state.isMobile}
-                sideOffset={rightIconSideOffset} bottomOffset={bottomOffset}
-              /> : null}
-          </div>
+          {title ? <DesktopNavigationBar width={this.state.ww} height={50} title={title} /> : null}
           <div style={{
-            width: this.state.ww - this.state.appWidth,
-            height: this.state.appHeight,
+            display: 'flex',
+            flexDirection: 'row',
           }}>
-            <GoogleMap />
+            <div
+              style={{
+                width:this.state.appWidth,
+                height: this.state.appHeight,
+              }}
+            >
+              {this.props.topMenu || this.props.topFilter || this.props.topSearch ? (
+                <header>
+                  {this.renderElement(this.props.topFilter, { height: topFilterHeight })}
+                  {this.renderElement(this.props.topSearch, { height: topSearchHeight })}
+                </header>
+              ) : null}
+              <main>
+                {this.renderElement(this.props.content, { height: contentHeight })}
+              </main>
+              {this.props.renderNewTripButton ?
+                <FloatingNewRideButton isMobile={this.state.isMobile}
+                  sideOffset={rightIconSideOffset} bottomOffset={bottomOffset}
+                /> : null}
+            </div>
+            <div style={{
+              width: this.state.ww - this.state.appWidth,
+              height: this.state.appHeight,
+            }}>
+              <GoogleMap />
+            </div>
           </div>
         </div>
-      </div>
+      </Provider>
     )
     // Needs to render <= 1024, >1024, >1280
   }

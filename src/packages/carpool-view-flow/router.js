@@ -13,6 +13,7 @@ import LoginScreen from './react/auth/Login'
 import RegisterScreen from './react/auth/Register'
 import LoginUsernameScreen from './react/auth/LoginUsername'
 import RideOffersScreen from './react/screens/ride-offers/RideOffersScreen'
+import RidesListWithDataScreen from './react/screens/rides-list-with-data/RidesListWithDataScreen.jsx';
 import TripFormScreen from './react/screens/trip-form/TripFormScreen.jsx'
 import DriveConfirmScreen from './react/screens/drive-confirm/DriveConfirmScreen.jsx';
 import YourDriveScreen from './react/screens/your-drive/YourDriveScreen.jsx'
@@ -53,7 +54,7 @@ FlowRouter.route('/', {
     if(undefined == Meteor.user()) {
       redirect("/login")
     } else {
-      redirect('/m/all/offers');
+      redirect('/newRide');
     }
   }],
   action: function() {
@@ -301,7 +302,7 @@ securedRoutes.route('/drives', {
      },
      topMenu: <TopMenu title="My Trips" noShadow background="blue" />,
      topFilter: <TopTabs selectedTabIndex={1} />,
-     content: <RideOffersScreen filterOwn="your" role="driver" />,
+     content: <RidesListWithDataScreen filterOwn="your" role="driver" />,
      bottomMenu: <BottomTabs selectedTabIndex={2} />,
      renderNewTripButton: true,
      renderFeedbackButton: true,
@@ -318,7 +319,7 @@ securedRoutes.route('/rides', {
      },
      topMenu: <TopMenu title="My Trips" noShadow background="blue" />,
      topFilter: <TopTabs selectedTabIndex={0} />,
-     content: <RideOffersScreen filterOwn="your" role="rider" />,
+     content: <RidesListWithDataScreen filterOwn="your" role="rider" />,
      bottomMenu: <BottomTabs selectedTabIndex={2} />,
      renderNewTripButton: true,
      renderFeedbackButton: true,
@@ -336,7 +337,7 @@ FlowRouter.route('/m/all/requests', {
         background: 'green',
       },
       topMenu: <TopMenu title="Ride requests" background="green" />,
-      content: <RideOffersScreen role="rider" />,
+      content: <RidesListWithDataScreen role="rider" />,
       bottomMenu: <BottomTabs selectedTabIndex={0} />,
       renderNewTripButton: true,
       renderFeedbackButton: true,
@@ -390,7 +391,7 @@ FlowRouter.route('/m/all/offers', {
           title: 'Ride Offers',
         },
         topMenu: <TopMenu title="Ride offers" hasTopTabs background="blue" />,
-        topSearch: <TopSearch from={aLoc} to={bLoc} fromAddress={addresses.aLoc} toAddress={addresses.bLoc} bTime={bTime} />,
+        // topSearch: <TopSearch from={aLoc} to={bLoc} fromAddress={addresses.aLoc} toAddress={addresses.bLoc} bTime={bTime} />,
         content: <RideOffersScreen aLoc={aLoc} bLoc={bLoc} bTime={bTime} />,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
         renderNewTripButton: true,

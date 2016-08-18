@@ -10,7 +10,7 @@ export default class NotLoggedInLanding extends React.Component {
     const width = this.props.width
     const height = this.props.height
     if(Meteor.user()) {
-      FlowRouter.go("/m/all/offers");
+      FlowRouter.go("/newRide");
       return null;
     } else return (
       <div data-cucumber="login-screen" style={{
@@ -31,7 +31,7 @@ export default class NotLoggedInLanding extends React.Component {
                 console.log('Log in with Facebook error: ', error.reason || 'Unknown error');
               else {
                 console.log("Logged in Facebook user:", Meteor.user());
-                FlowRouter.go("RideOffers");
+                FlowRouter.go("NewRide");
               }
             })
           }}
@@ -47,7 +47,7 @@ export default class NotLoggedInLanding extends React.Component {
                 console.log('Log in with google error: ', error.reason || 'Unknown error');
               else {
                 console.log("Logged in google user:", Meteor.user());
-                FlowRouter.go("RideOffers");
+                FlowRouter.go("NewRide");
               }
             })
           }}

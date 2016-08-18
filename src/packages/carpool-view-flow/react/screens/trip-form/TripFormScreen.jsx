@@ -8,7 +8,13 @@ import DateTimePicker from '../../components/common/DateTimePicker'
 import RepeatingDaysSelector from '../../components/common/RepeatingDaysSelector.jsx'
 import Loader from '../../components/common/Loader'
 import { FlowHelpers } from '../../../flowHelpers'
-import { d, da } from 'meteor/spastai:logw'
+import { connect } from 'react-redux';
+
+import locationFromSelector from '../../redux/selectors/locationFrom.js';
+import locationToSelector from '../../redux/selectors/locationTo.js';
+import tripDateTimeSelector from '../../redux/selectors/tripDateTime.js';
+import { updateTripDateTime } from '../../redux/modules/general/actions.js';
+
 
 import { TextField, RaisedButton, FlatButton, Snackbar } from 'material-ui'
 import moment from 'moment'
@@ -16,7 +22,6 @@ import moment from 'moment'
 /*global Progress*/
 /*global carpoolService*/
 /*global FlowRouter*/
-/*global flowControllerHelper*/
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
@@ -24,8 +29,9 @@ class TripForm extends React.Component {
   constructor(props) {
     super(props)
 
-    this.submitForm = this.submitForm.bind(this);
     this.openDateTimePicker = this.openDateTimePicker.bind(this);
+    this.createDrive = this.createDrive.bind(this);
+    this.searchDrive = this.searchDrive.bind(this);
 
     this.state = {
       from: '',
@@ -51,7 +57,6 @@ class TripForm extends React.Component {
   componentWillMount() {
     // resolve address string from loc
     carpoolService.resolveLocation(this.props.from, this.props.fromAddress, (address) => {
-      d(this.props.from, this.props.fromAddress, "resolved", address)
       if("" === this.state.from) this.setState({from: address});
     })
     carpoolService.resolveLocation(this.props.to, this.props.toAddress, (address) => {
@@ -68,53 +73,72 @@ class TripForm extends React.Component {
   }
 
   openDateTimePicker () {
-    this.picker.openDateTimePicker(this.state.isDepartureDate, this.state.date)
+    this.picker.openDateTimePicker(this.state.isDepartureDate, this.props.tripDateTime)
   }
 
-  submitForm () {
-    let trip = {
-      fromAddress: this.state.from,
-      toAddress: this.state.to,
-      time: this.state.date.toDate(),  // TODO move to bTime
-      bTime: this.state.date.toDate(),
-      role: this.state.role,
-      fromLoc: this.state.fromLoc,
-      toLoc: this.state.toLoc
-    }
-    if(false == this.state.dontRepeat) {
-      trip.repeat = this.state.repeatingDays;
-    }
+  // submitForm () {
+  //   TODO move everything to createDrive
+  //   let trip = {
+  //     fromAddress: this.state.from,
+  //     toAddress: this.state.to,
+  //     time: this.state.date.toDate(),  // TODO move to bTime
+  //     bTime: this.state.date.toDate(),
+  //     role: this.state.role,
+  //     fromLoc: this.state.fromLoc,
+  //     toLoc: this.state.toLoc
+  //   }
+  //   if(false == this.state.dontRepeat) {
+  //     trip.repeat = this.state.repeatingDays;
+  //   }
+  //
+  //   da(["trip-crud"], "Submitting trip:", trip)
+  //   this.setState({
+  //     snackbarOpen: true,
+  //   })
+  //   carpoolService.saveTrip(trip, (error, routedTrip) => {
+  //     if (error) {
+  //       da(["trip-crud"], "Submission error:", error)
+  //       this.showErrorSnackbar("Can't save trip. Please refine from/to addresses");
+  //     } else {
+  //       da(["trip-crud"], "Submited trip", routedTrip)
+  //       //flowControllerHelper.goToView('YourTrips', {tripType: "driver" === trip.role ? "drives" : "rides"});
+  //       if("driver" === trip.role) {
+  //         //d("Routing to trip", routedTrip)
+  //         flowControllerHelper.goToView('YourDrive', {id: routedTrip._id});
+  //       } else {
+  //         flowControllerHelper.goToView('YourRide', {id: routedTrip._id});
+  //       }
+  //     }
+  //   });
+  //   da(["trip-crud"], "Submitting - change button state", trip)
+  // }
 
-    da(["trip-crud"], "Submitting trip:", trip)
-    this.setState({
-      snackbarOpen: true,
-    })
-    carpoolService.saveTrip(trip, (error, routedTrip) => {
-      if (error) {
-        da(["trip-crud"], "Submission error:", error)
-        this.showErrorSnackbar("Can't save trip. Please refine from/to addresses");
-      } else {
-        da(["trip-crud"], "Submited trip", routedTrip)
-        //flowControllerHelper.goToView('YourTrips', {tripType: "driver" === trip.role ? "drives" : "rides"});
-        if("driver" === trip.role) {
-          //d("Routing to trip", routedTrip)
-          flowControllerHelper.goToView('YourDrive', {id: routedTrip._id});
-        } else {
-          flowControllerHelper.goToView('YourRide', {id: routedTrip._id});
-        }
-      }
-    });
-    da(["trip-crud"], "Submitting - change button state", trip)
+  createDrive () {
+
+  }
+
+  searchDrive () {
+    if (this.props.locationFrom && this.props.locationTo && this.props.tripDateTime) {
+      FlowRouter.go("RideOffers");
+    } else {
+      alert('You must fill in all fields');
+    }
   }
 
   locationInputClicked (locationType) {
     if (locationType === 'from') {
       FlowRouter.withReplaceState(() => {
-        FlowHelpers.goExtendedQuery('LocationAutocomplete', {screen: "NewRide", field:"aLoc"})
+        FlowHelpers.goExtendedQuery('LocationAutocomplete', {
+          screen: "NewRide",
+          field: "aLoc",
+        })
       })
     } else {
       FlowRouter.withReplaceState(() => {
-        FlowHelpers.goExtendedQuery('LocationAutocomplete', {screen: "NewRide", field:"bLoc"})
+        FlowHelpers.goExtendedQuery('LocationAutocomplete', {
+          screen: "NewRide",
+          field: "bLoc",
+        })
       })
     }
   }
@@ -135,11 +159,11 @@ class TripForm extends React.Component {
         <div style={{color: config.colors.textColor}} data-cucumber="add-trip-form">
           <div>
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
-              <TextField id="trip-fromAddress" floatingLabelText={__('labelFrom')} value={this.state.from}
+              <TextField id="trip-fromAddress" floatingLabelText={__('labelFrom')} value={this.props.locationFrom}
                 onChange={(event)=>{ this.setState({from: event.target.value}) }}
                 onClick={(e) => this.locationInputClicked('from', e)}
               />
-              <TextField id="trip-toAddress" floatingLabelText={__('labelTo')} value={this.state.to}
+              <TextField id="trip-toAddress" floatingLabelText={__('labelTo')} value={this.props.locationTo}
                 onChange={(event)=>{ this.setState({to: event.target.value}) }}
                 onClick={(e) => this.locationInputClicked('to', e)}
               />
@@ -147,9 +171,9 @@ class TripForm extends React.Component {
                 maxWidth: this.props.width * 0.85,
               }}>
                 <b>{this.state.isDepartureDate ? 'Depart at:' : 'Arrive by:'}</b>
-                {' ' + this.state.date.format('ddd, MMM D, H:mm')}
+                {' ' + this.props.tripDateTime.format('ddd, MMM D, H:mm')}
                 <FlatButton label="Edit" secondary onClick={this.openDateTimePicker} />
-                <DateTimePicker ref={(picker) => { this.picker = picker }} onDateSelected={({date, isDepartureDate}) => this.setState({date, isDepartureDate})} />
+                <DateTimePicker ref={(picker) => { this.picker = picker }} onDateSelected={({date}) => this.props.dispatch(updateTripDateTime(date))} />
               </div>
               <div style={{
                 maxWidth: this.props.width * 0.85
@@ -177,8 +201,8 @@ class TripForm extends React.Component {
                 }} />
               </div>
               <div style={{display: 'flex', flexDirection: 'row', marginTop: 15 }}>
-                <RaisedButton label={'Submit'} className="saveTrip" primary onClick={this.submitForm} />
-                <RaisedButton style={{marginLeft: 10}} label={'Cancel'} secondary onClick={() => FlowRouter.go("RideOffers")} />
+                <RaisedButton label={'Create drive'} className="saveTrip" primary onClick={this.createDrive} />
+                <RaisedButton style={{marginLeft: 10}} label={'Search'} secondary onClick={this.searchDrive} />
               </div>
               <Snackbar
                 open={this.state.locationDetectionError}
@@ -219,7 +243,17 @@ TripForm.propTypes = {
   stops: React.PropTypes.array.isRequired,
   fromAddress: React.PropTypes.string,
   toAddress: React.PropTypes.string,
+  locationFrom: React.PropTypes.string,
+  locationTo: React.PropTypes.string,
+  tripDateTime: React.PropTypes.object.isRequired,
+  dispatch: React.PropTypes.func.isrequired,
 }
+
+const connectedTripForm = connect((state) => ({
+  locationFrom: locationFromSelector(state),
+  locationTo: locationToSelector(state),
+  tripDateTime: tripDateTimeSelector(state),
+}))(TripForm);
 
 export default createContainer(() => {
   const progress = new Progress();
@@ -228,4 +262,4 @@ export default createContainer(() => {
     progress,
     stops
   }
-}, TripForm);
+}, connectedTripForm);

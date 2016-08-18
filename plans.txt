@@ -1,0 +1,20 @@
+2016-08-01
+
+Depart At nebelieka
+Landing page suveda kur nori vaziuoti ir arba paspaudzia sukurti arba searchina
+Offers rodo trumpa description kur ieskai ir edit knopke
+Patvarkyti TripForma
+TripFormoj virsuj yra tarpas nereikalingas
+Ka su repeat darom?
+TripFormoj mygtukai "Create Drive" "Search"
+Pamazinti NavigationBar ir BottomTabs
+Pliuso nebelieka
+Klaustuka laikinai isimam?
+RideRequest visada turim duomenis, nes visada searchinam
+YourRide rodo tavo paveiksliuka
+YourRide rodom pradzios ir pabaigos taska be stopu
+YourRide apacioj viena DeleteRide knopke
+BottomMenu always visible
+
+YourDrive rodyti Confirmed requestus, unconfirmed requestus ir stoteles kuriose juos reik paimti
+Nereikia DriveConfirm
