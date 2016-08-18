@@ -4,11 +4,13 @@ import { _ } from 'meteor/underscore';
 import RaisedButton from 'material-ui/lib/raised-button';
 import Snackbar from 'material-ui/lib/snackbar';
 import Loader from '../../components/common/Loader'
-import RideInfoWithMap from '../../components/ride-info/RideInfoWithMap.jsx';
+import TripInfoWithMap from '../../components/ride-info/TripInfoWithMap.jsx';
 
 /*global Progress*/
 /*global carpoolService*/
 /*global Meteor*/
+
+const d = console.log.bind(console);
 
 export default class YourRide extends React.Component {
 
@@ -36,8 +38,7 @@ export default class YourRide extends React.Component {
   }
 
   render () {
-    const {progress, drive, ride, user } = this.props;
-
+    const {progress, user, itinerary} = this.props;
     if (progress.getProgress() != 100) {
       return (
         <section style={{height: "100%", marginTop: 25}}>
@@ -45,7 +46,10 @@ export default class YourRide extends React.Component {
         </section>
       );
     } else {
-      const isRequested = _(drive.requests).findWhere({userId: Meteor.userId()});
+      //d("Your ride itinerary", itinerary);
+
+      const isRequested = false;
+      //const isRequested = _(drive.requests).findWhere({userId: Meteor.userId()});
       //console.log("Requested drive", isRequested);
 
       const bottomPartHeight = 65
@@ -58,8 +62,9 @@ export default class YourRide extends React.Component {
             alignItems: 'center',
           }}
         >
-          <RideInfoWithMap width={this.props.width} height={this.props.height - bottomPartHeight}
-            ride={ride} drive={drive} user={user}
+          <TripInfoWithMap width={this.props.width} height={this.props.height - bottomPartHeight}
+            itinerary={itinerary}
+            user={user}
           />
           {isRequested ? (
             <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
@@ -93,25 +98,23 @@ export default class YourRide extends React.Component {
 YourRide.propTypes = {
   width: React.PropTypes.number.isRequired,
   height: React.PropTypes.number.isRequired,
-  drive: React.PropTypes.object,
-  ride: React.PropTypes.object,
   stops: React.PropTypes.array,
   progress: React.PropTypes.object,
-  trip: React.PropTypes.object,
-  user: React.PropTypes.object
+  user: React.PropTypes.object,
+  itinenary: React.PropTypes.array,
 };
 
-export default createContainer(({tripId, rideId}) => {
+export default createContainer(({rideId}) => {
   const progress = new Progress();
-  const drive = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
   const ride = rideId ? carpoolService.pullOneTrip({_id: rideId}, progress.setProgress.bind(progress, 'ride')) : null;
   const stops = carpoolService.pullStops(progress.setProgress.bind(progress, 'stops'));
-  const user = drive && Meteor.users.findOne({_id: drive.owner});
+  const user = ride && Meteor.users.findOne({_id: ride.owner});
+  const itinerary = carpoolService.pullRiderItinerary(ride);
+  // d("Your ride", ride, drive)
   return {
     progress,
-    drive,
-    ride,
     stops,
-    user
+    user,
+    itinerary
   };
 }, YourRide);

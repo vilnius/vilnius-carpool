@@ -1,7 +1,7 @@
 /*
   Refactoring of RideInfo - RideInfo should be removed
 
-  View component to show itenary
+  View component to show itinerary
 */
 
 /*eslint no-prototype-builtins: "off"*/
@@ -46,7 +46,7 @@ export default class TripInfo extends React.Component {
   constructor(props) {
     super(props)
 
-    this.renderItenaryLine = this.renderItenaryLine.bind(this)
+    this.renderItineraryLine = this.renderItineraryLine.bind(this)
 
     this.gotoChat = this.gotoChat.bind(this);
   }
@@ -56,7 +56,7 @@ export default class TripInfo extends React.Component {
     FlowRouter.go("Chat", {cdUser: this.props.tripOwner});
   }
 
-  renderItenaryLine(routePoint, color) {
+  renderItineraryLine(routePoint, color) {
     circleStyle.borderColor = color;
     return (
       <div key={routePoint._id+"-"+routePoint.name} style={rideInfoLineWrap} data-cucumber="stops-on-route" >
@@ -75,7 +75,7 @@ export default class TripInfo extends React.Component {
               width: this.props.width - 200,
             }}
           >
-            {routePoint.address}
+            {routePoint.address || routePoint.title}
           </div>
         </div>
       </div>
@@ -83,9 +83,9 @@ export default class TripInfo extends React.Component {
   }
 
   render () {
-    const {itenary, tripOwner} = this.props;
+    const {itinerary, tripOwner} = this.props;
     const {colors} = config;
-    const itenaryStops = L_mapAndWrap(itenary, this.renderItenaryLine, colors.red, colors.yellow, colors.green);
+    const itineraryStops = L_mapAndWrap(itinerary, this.renderItineraryLine, colors.red, colors.yellow, colors.green);
 
     return (
       <div>
@@ -95,13 +95,13 @@ export default class TripInfo extends React.Component {
               <div style={{
                 position: 'absolute',
                 width: 0,
-                height: (25 * (itenaryStops.length-1)),
+                height: (25 * (itineraryStops.length-1)),
                 left: 47,
                 top: 10,
                 borderLeft: '1px dotted #929292',
               }}>
               </div>
-              {itenaryStops}
+              {itineraryStops}
             </div>
             <div style={{ marginLeft: 20, fontSize: 14 }}>
               {this.props.repeat
@@ -113,7 +113,7 @@ export default class TripInfo extends React.Component {
           <div style={{display: 'flex', flexDirection: 'column', width: 100, alignItems: 'center'}}>
             <Avatar src={tripOwner.driverPicture} size={75} style={{marginTop: 16}} />
             <div style={{marginTop: 6, textAlign: 'center'}}>
-              {tripOwner.driverName.split(' ')[0] + ', ' + tripOwner.driverAge}
+              {tripOwner.driverName + ', ' + tripOwner.driverAge}
             </div>
             <div style={{marginTop: 12}}>
               <ChatIcon data-cucumber="chat" color={config.colors.main} onClick={this.gotoChat} />
@@ -127,7 +127,7 @@ export default class TripInfo extends React.Component {
 
 TripInfo.propTypes = {
   // [A, sA, ... ,sB, B] - each point:
-  itenary: React.PropTypes.array,
+  itinerary: React.PropTypes.array,
   tripOwner: React.PropTypes.object,
   tripTime: React.PropTypes.object,
   repeat: React.PropTypes.array,

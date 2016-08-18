@@ -234,6 +234,40 @@ class @CarpoolService
   getStops: ->
     Stops.find().fetch()
 
+
+  pullRiderItinerary: (ride, drive)->
+    itineraryId = if drive then drive._id else "single"
+    # d "Check for itinerary in ride", ride, drive
+    if ride?.itineraries?[itineraryId]
+      # d "Itinerary was in ride", ride
+      itinerary = ride?.itineraries[itineraryId]
+    else
+      itinerary = ItenaryFactory.createRiderItenary(ride, drive);
+      # d "Created itinerary without paths", itinerary
+      #d("This this add paths to each stops and update ride object triggering screen redraw");
+      carpoolService.routeItenary(itinerary).then ()->
+        # d "Got itinerary paths", itinerary
+        itineraryObj = {};
+        itineraryObj[itineraryId] = itinerary;
+        ride and Trips.update({_id: ride._id}, {$set: {itineraries: itineraryObj}});
+    return itinerary
+
+  pullDriverItinerary: (drive)->
+    return unless drive
+    # d "Check for itinerary in ride", ride
+    if drive.itinerary
+      # d "Itinerary was in ride", ride
+      itinerary = drive.itinerary
+    else
+      itinerary = ItenaryFactory.createDriverItenary(drive);
+      # d "Created itinerary without paths", itinerary
+      # For driver route only a,b points // TODO stops should be ordered by visiting sequence
+      [dA, ..., dB] = itinerary
+      carpoolService.routeItenary([dA,dB]).then ()->
+        # d "Got itinerary paths", itinerary
+        Trips.update({_id: drive._id}, {$set: {itinerary: itinerary}});
+    return itinerary
+
   pullTripForRiderPickup: (query, progress) ->
     trip = undefined
     trip = @pullOneTrip(query, mapView.setActionProgress.bind(this, 'oneTrip'))
@@ -311,5 +345,33 @@ class @CarpoolService
         return cb?(error)
       encodedPoints = result.routes[0].overview_polyline
       cb & cb(null, result.routes[0])
+
+  routeItenary: (itenary)->
+    # d "Routing itenary", itenary
+    promises = [];
+    createPromise = (stop, mode)->
+      new Promise (resolve, reject)->
+        googleServices.getDirections().route request, (error, result)->
+          if error
+            console.warn "Got routing error", error
+            reject error
+          else
+            # d "Route itenary result", result
+            encodedPoints = result.routes[0].overview_polyline
+            stop.path = encodedPoints
+            stop.mode = mode
+            resolve encodedPoints
+
+    for stop, i in itenary[...-1]
+      nextStop = itenary[i+1];
+      mode =  if stop.name.startsWith("r") or nextStop.name.startsWith("r") then "WALKING" else "DRIVING";
+      request =
+        travelMode: google.maps.TravelMode[mode]
+        origin: googleServices.toLatLng(stop.loc)
+        destination: googleServices.toLatLng(nextStop.loc)
+      promises.push createPromise(stop, mode)
+    return Promise.all(promises)
+
+
 
 #@carpoolService = new CarpoolService

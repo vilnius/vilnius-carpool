@@ -26,6 +26,7 @@ Package.onUse(function(api) {
   api.use('carpool-notifications')
 
   api.addFiles('lib/model.coffee');
+  api.addFiles('lib/helpers.coffee');
 
   api.addFiles('server/RecurrentTrips.coffee', "server");
   api.addFiles('server/TripMatcher.coffee', "server");
@@ -34,6 +35,7 @@ Package.onUse(function(api) {
 
   api.addFiles('client/Progress.coffee');
   api.addFiles('client/CarpoolServiceClient.coffee', 'client');
+  api.addFiles('client/ItenaryFactory.coffee');
 });
 
 
@@ -56,4 +58,5 @@ Package.onTest(function(api) {
   api.addAssets('tests/CarpoolServiceClientTest-ride.json', "server");
   api.addAssets('tests/CarpoolServiceClientTest-drive.json', "server");
   api.addFiles('tests/CarpoolServiceClientTest.coffee');
+  api.addFiles('tests/ItenaryFactoryTest.coffee');
 });

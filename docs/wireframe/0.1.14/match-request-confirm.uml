@@ -49,6 +49,9 @@ TripFormDrive -[#green]> YourDrive
 RideOffers -[#blue]> MatchNotification
 RideOffers -up[#black]-> TripFormDrive: After some time
 
+RideOffers -[#blue]> RideRequest: Found trip in list
+
+
 YourDrive -[#black]-> MatchNotification: Notification
 MatchNotification -[#blue]> RideRequest
 

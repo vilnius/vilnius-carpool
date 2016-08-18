@@ -4,7 +4,7 @@
 d = console.log.bind @, "---"
 url = require('url');
 
-#screenshots = "../docs/wireframe/0.1.14/";
+#screenshots = "../docs/wireframe/0.1.15/";
 screenshots = undefined;
 
 module.exports = ()->

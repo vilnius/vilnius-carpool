@@ -1,0 +1,93 @@
+@startuml
+
+/'
+ Rider - blue
+ Driver - green
+'/
+
+skinparam state {
+  FontSize 28
+  AttributeFontSize 28
+  ArrowFontSize 24
+}
+
+state "TripForm\n<img:TripForm.png>" as TripForm
+TripForm: <b>View 2</b>
+TripForm: Landing page
+TripForm: Submit, cancel buttons removed
+TripForm: Driver/Passenger checkbox removed
+TripForm: New buttons: "Drive", "Ride search"
+
+state "RideOffers\n<img:RideOffers.png>" as RideOffers
+RideOffers: <b>View 3</b>
+RideOffers: Blue top filter removed
+RideOffers: Shows brief filtering criteria
+RideOffers: Trips filtered below
+RideOffers: Button to save Ride
+
+state "YourRide\n<img:YourRide.png>" as YourRide
+YourRide: <b>View 4</b>
+YourRide: Doesn't show stops
+YourRide: Picture - rider
+YourRide: Button - [Cancel ride]
+YourRide: Bottom tabs
+
+state "MyTrips\n<img:Blank.png>" as MyTrips
+MyTrips: <b>View 5</b>
+MyTrips: Shows list of your rides/drives
+
+state "YourDrive\n<img:YourDrive.png>" as YourDrive
+YourDrive: <b>View 6</b>
+YourDrive: Doesn't show stops
+YourDrive: Picture - driver
+YourDrive: Button - [Cancel drive]
+YourDrive: Bottom tabs
+YourDrive: Snackbar after saving
+
+state "RideRequest\n<img:RideRequest.png>" as RideRequest
+RideRequest: <b>View 7</b>
+RideRequest: Picture - driver
+RideRequest: Button - request
+RideRequest: Itenary rider {A, stops, B}
+RideRequest: Bottom tabs
+
+state "MatchNotification\n<img:MatchNotification.png>" as MatchNotification
+MatchNotification: <b>View 8</b>
+MatchNotification: Replace "Review" to "View"
+
+state "ConfirmNotification\n<img:ConfirmNotification.png>" as ConfirmNotification
+ConfirmNotification: <b>View 9</b>
+ConfirmNotification: Notification picture - rider
+ConfirmNotification: Replace "Review" to "View"
+
+state "YourDrive\n<img:DriveConfirm.png>" as DriveConfirm
+DriveConfirm: <b>View 10</b>
+DriveConfirm: Show list of requests
+DriveConfirm: Requests have [confirm/confirm]
+DriveConfirm: Map show requests stops
+DriveConfirm: Itenary shows A,stops,B points
+DriveConfirm: Bottom tabs
+
+state "Chat\n<img:Chat.png>" as Chat
+Chat: <b>View 11</b>
+
+[*] --> TripForm
+TripForm -[#blue]-> RideOffers: [Search] is pressed
+RideOffers -[#blue]> YourRide
+YourRide -[#blue]> MatchNotification: After some time
+
+TripForm -[#green]> YourDrive: [Drive] pressed
+YourDrive -[#green]> MyTrips
+MyTrips -[#black]-> MatchNotification: Notification
+MyTrips -[#green]> ConfirmNotification: After some time
+
+RideOffers -[#blue]> RideRequest: Found trip in list
+MatchNotification -[#blue]> RideRequest: Drive fits needs\n [Review] pressed
+MatchNotification -[#black]up-> ConfirmNotification: Notification\n [Request] pressed
+
+RideRequest -up[#black]-> ConfirmNotification: Notification
+ConfirmNotification -[#green]> DriveConfirm
+DriveConfirm -[#green]> Chat
+
+
+@enduml
