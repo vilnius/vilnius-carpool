@@ -2,8 +2,12 @@ import * as constants from './constants';
 import moment from 'moment';
 
 const initialState = {
+  fullLocationFrom: null,
+  fullLocationTo: null,
   locationFrom: null,
   locationTo: null,
+  locationFromCoords: null,
+  locationToCoords: null,
   tripDateTime: moment().add(15, 'minutes'),
 };
 
@@ -21,12 +25,16 @@ export default function generalReducer (state = initialState, action) {
   if (action.type === constants.LOCATION_FROM_UPDATED) {
     return {
       ...state,
-      locationFrom: extractLocation(action.payload),
+      fullLocationFrom: action.payload.locString,
+      locationFrom: extractLocation(action.payload.locString),
+      locationFromCoords: action.payload.locCoords,
     }
   } else if (action.type === constants.LOCATION_TO_UPDATED) {
     return {
       ...state,
-      locationTo: extractLocation(action.payload),
+      fullLocationTo: action.payload.locString,
+      locationTo: extractLocation(action.payload.locString),
+      locationToCoords: action.payload.locCoords,
     }
   } else if (action.type === constants.DATETIME_UPDATED) {
     return {

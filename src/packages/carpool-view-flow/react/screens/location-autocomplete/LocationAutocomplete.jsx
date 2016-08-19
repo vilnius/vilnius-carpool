@@ -91,18 +91,18 @@ export default class LocationAutocomplete extends React.Component {
         if (!error && result.length > 0) {
             suggestion.latlng = result[0].geometry.location;
         }
-        carpoolService.saveSelection(this.props.field, suggestion)
+        console.log(suggestion);
         this.props.onSelect(suggestion);
       });
     } else {
       //d("Selected geolocated text", suggestion)
-      carpoolService.saveSelection(this.props.field, suggestion)
+      console.log(suggestion);
       this.props.onSelect(suggestion);
     }
     if (this.props.field === 'aLoc') {
-      this.props.dispatch(updateFromLocation(suggestion.description));
+      this.props.dispatch(updateFromLocation(suggestion.description, suggestion.loc));
     } else if (this.props.field === 'bLoc') {
-      this.props.dispatch(updateToLocation(suggestion.description));
+      this.props.dispatch(updateToLocation(suggestion.description, suggestion.loc));
     }
   }
 

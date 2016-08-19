@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import locationFromSelector from '../../redux/selectors/locationFrom.js';
 import locationToSelector from '../../redux/selectors/locationTo.js';
 import tripDateTimeSelector from '../../redux/selectors/tripDateTime.js';
-import { updateTripDateTime } from '../../redux/modules/general/actions.js';
+import { updateTripDateTime, createDrive } from '../../redux/modules/general/actions.js';
 
 
 import { TextField, RaisedButton, FlatButton, Snackbar } from 'material-ui'
@@ -115,6 +115,27 @@ class TripForm extends React.Component {
 
   createDrive () {
 
+    let trip = {
+      fromAddress: this.state.from,
+      toAddress: this.state.to,
+      time: this.state.date.toDate(),  // TODO move to bTime
+      bTime: this.state.date.toDate(),
+      role: this.state.role,
+      fromLoc: this.state.fromLoc,
+      toLoc: this.state.toLoc
+    }
+
+    console.log(trip);
+
+    this.props.dispatch(createDrive((err, routedTrip) => {
+      if (err) {
+        this.showErrorSnackbar("Can't save trip. Please refine from/to addresses");
+      }
+    }));
+
+    this.setState({
+      snackbarOpen: true,
+    })
   }
 
   searchDrive () {
@@ -175,31 +196,34 @@ class TripForm extends React.Component {
                 <FlatButton label="Edit" secondary onClick={this.openDateTimePicker} />
                 <DateTimePicker ref={(picker) => { this.picker = picker }} onDateSelected={({date}) => this.props.dispatch(updateTripDateTime(date))} />
               </div>
-              <div style={{
-                maxWidth: this.props.width * 0.85
-              }}>
-                <b>Repat on: </b>
-                {this.state.dontRepeat ? 'Don\'t repeat' :
-                  (6 < this.state.repeatingDays.length ? 'Everyday' :
-                    this.state.repeatingDays.reduce((string, day, i) => {
-                      if (0 === i) {
-                        return days[day]
-                      } else {
-                        return string + ', ' + days[day]
-                      }
-                    }, '')
-                  )
-                }
-                <FlatButton label="Edit" data-cucumber="recurrent-date" secondary
-                  onClick={() => this.repeatingSelector.openRepeatingDaysSelector(this.state.repeatingDays, this.state.dontRepeat)}
-                />
-                <RepeatingDaysSelector ref={(repeatingSelector) => { this.repeatingSelector = repeatingSelector }} onDaysSelected={(repeatingDays, dontRepeat) => {
-                  this.setState({
-                    repeatingDays,
-                    dontRepeat
-                  })
-                }} />
-              </div>
+              {/*
+                // Repeating days removed for now
+                <div style={{
+                  maxWidth: this.props.width * 0.85
+                }}>
+                  <b>Repat on: </b>
+                  {this.state.dontRepeat ? 'Don\'t repeat' :
+                    (6 < this.state.repeatingDays.length ? 'Everyday' :
+                      this.state.repeatingDays.reduce((string, day, i) => {
+                        if (0 === i) {
+                          return days[day]
+                        } else {
+                          return string + ', ' + days[day]
+                        }
+                      }, '')
+                    )
+                  }
+                  <FlatButton label="Edit" data-cucumber="recurrent-date" secondary
+                    onClick={() => this.repeatingSelector.openRepeatingDaysSelector(this.state.repeatingDays, this.state.dontRepeat)}
+                  />
+                  <RepeatingDaysSelector ref={(repeatingSelector) => { this.repeatingSelector = repeatingSelector }} onDaysSelected={(repeatingDays, dontRepeat) => {
+                    this.setState({
+                      repeatingDays,
+                      dontRepeat
+                    })
+                  }} />
+                </div>
+                */}
               <div style={{display: 'flex', flexDirection: 'row', marginTop: 15 }}>
                 <RaisedButton label={'Create drive'} className="saveTrip" primary onClick={this.createDrive} />
                 <RaisedButton style={{marginLeft: 10}} label={'Search'} secondary onClick={this.searchDrive} />

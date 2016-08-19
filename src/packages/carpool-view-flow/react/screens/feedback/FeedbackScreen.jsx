@@ -26,7 +26,7 @@ export default class FeedbackScreen extends React.Component {
   render () {
     return (
       <div style={{
-        marginTop: 60,
+        marginTop: 20,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -41,7 +41,7 @@ export default class FeedbackScreen extends React.Component {
         />
         <RaisedButton primary label="Submit feedback"
           onClick={this.submitFeeback}
-          style={{width: this.props.width * 0.85, marginTop: 5}}
+          style={{width: this.props.width * 0.85, marginTop: 10}}
         />
       </div>
     )

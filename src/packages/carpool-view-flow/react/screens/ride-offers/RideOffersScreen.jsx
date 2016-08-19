@@ -6,13 +6,46 @@ import Loader from '../../components/common/Loader.jsx';
 import locationFromSelector from '../../redux/selectors/locationFrom.js';
 import locationToSelector from '../../redux/selectors/locationTo.js';
 import tripDateTimeSelector from '../../redux/selectors/tripDateTime.js';
-import { FlatButton } from 'material-ui';
+import { FlatButton, Snackbar } from 'material-ui';
+
+import { createDrive, createRide } from '../../redux/modules/general/actions.js';
 
 /*global Progress*/
 /*global carpoolService*/
 /*global FlowRouter*/
 
 class RideOffersScreen extends React.Component {
+  constructor (props) {
+    super(props);
+
+    this.createDrive = this.createDrive.bind(this);
+    this.createRide = this.createRide.bind(this);
+
+    this.state = {
+      errorSnackbarOpen: false,
+      errorSnackbarMessage: '',
+    }
+  }
+
+  showError (errorMessage) {
+    this.setState({
+      errorSnackbarOpen: true,
+      errorSnackbarMessage: errorMessage,
+    })
+  }
+
+  createDrive () {
+    this.props.dispatch(createDrive((err) => {
+      this.showError(err);
+    }));
+  }
+
+  createRide () {
+    this.props.dispatch(createRide((err) => {
+      this.showError(err);
+    }));
+  }
+
   render () {
     if (100 != this.props.progress.getProgress()) {
       return (
@@ -49,7 +82,17 @@ class RideOffersScreen extends React.Component {
             </div>
             <FlatButton label="Edit" style={{minWidth: 55, height: 40}} secondary onClick={() => FlowRouter.go('NewRide')} />
           </div>
+          <div>
+            <FlatButton secondary label="Create Drive" onClick={this.createDrive} />
+            <FlatButton secondary label="Create Ride" onClick={this.createRide} />
+          </div>
           <RidesList trips={this.props.trips} progress={this.props.progress} />
+          <Snackbar
+            open={this.state.errorSnackbarOpen}
+            message={this.state.errorSnackbarMessage}
+            autoHideDuration={4000}
+            onRequestClose={() => this.setState({ errorSnackbarOpen: false })}
+          />
         </div>
       )
     }
