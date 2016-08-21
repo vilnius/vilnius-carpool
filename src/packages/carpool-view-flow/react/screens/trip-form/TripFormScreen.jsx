@@ -181,11 +181,15 @@ class TripForm extends React.Component {
           <div>
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
               <TextField id="trip-fromAddress" floatingLabelText={__('labelFrom')} value={this.props.locationFrom}
-                onChange={(event)=>{ this.setState({from: event.target.value}) }}
+                data-cucumber="trip-fromAddress"
+                disabled
+                inputStyle={{ color: 'black' }}
                 onClick={(e) => this.locationInputClicked('from', e)}
               />
               <TextField id="trip-toAddress" floatingLabelText={__('labelTo')} value={this.props.locationTo}
-                onChange={(event)=>{ this.setState({to: event.target.value}) }}
+                data-cucumber="trip-toAddress"
+                disabled
+                inputStyle={{ color: 'black' }}
                 onClick={(e) => this.locationInputClicked('to', e)}
               />
               <div style={{
@@ -225,8 +229,8 @@ class TripForm extends React.Component {
                 </div>
                 */}
               <div style={{display: 'flex', flexDirection: 'row', marginTop: 15 }}>
-                <RaisedButton label={'Create drive'} className="saveTrip" primary onClick={this.createDrive} />
-                <RaisedButton style={{marginLeft: 10}} label={'Search'} secondary onClick={this.searchDrive} />
+                <RaisedButton label={'Create drive'} data-cucumber="create-drive" primary onClick={this.createDrive} />
+                <RaisedButton style={{marginLeft: 10}} data-cucumber="search" label={'Search'} secondary onClick={this.searchDrive} />
               </div>
               <Snackbar
                 open={this.state.locationDetectionError}

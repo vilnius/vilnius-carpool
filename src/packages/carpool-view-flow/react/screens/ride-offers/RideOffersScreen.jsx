@@ -90,8 +90,8 @@ class RideOffersScreen extends React.Component {
               justifyContent: 'space-around',
             }}
           >
-            <FlatButton secondary label="Create Drive" onClick={this.createDrive} />
-            <FlatButton secondary label="Create Ride" onClick={this.createRide} />
+            <FlatButton data-cucumber="create-drive-button" secondary label="Create Drive" onClick={this.createDrive} />
+            <FlatButton data-cucumber="create-ride-button" secondary label="Create Ride" onClick={this.createRide} />
           </div>
           <Divider />
           <RidesList trips={this.props.trips} progress={this.props.progress} />

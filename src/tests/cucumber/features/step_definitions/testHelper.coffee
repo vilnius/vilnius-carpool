@@ -67,4 +67,4 @@ module.exports = ()->
         client.setValue('input[id="inputUsername"]', username);
         client.setValue('input[id="inputPassword"]', "aaa");
         client.click '.login'
-        client.waitForExist "[data-cucumber='trips-list']"
+        client.waitForExist "[data-cucumber='add-trip-form']"

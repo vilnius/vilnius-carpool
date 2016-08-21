@@ -79,7 +79,9 @@ export default class LocationAutocomplete extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      suggestions: this.props.suggestions || []
+      suggestions: this.props.suggestions || [],
+      defaultSuggestions: true,
+      completedTypingTimeout: null,
     }
     //d("Favorites:", this.props.suggestions);
   }
@@ -107,20 +109,37 @@ export default class LocationAutocomplete extends React.Component {
   }
 
   inputChanged (e) {
-    getLocationSuggestions(e.target.value, (suggestions) => this.setState({suggestions}))
+    const addressToSearch = e.target.value;
+    const completedTypingTimeout = setTimeout(() => {
+      console.log('Executing search')
+      getLocationSuggestions(addressToSearch, (suggestions) =>
+        this.setState({
+          suggestions,
+          defaultSuggestions: false,
+        }))
+    }, 100)
+    clearTimeout(this.state.completedTypingTimeout)
+    this.setState({
+      completedTypingTimeout
+    })
   }
 
   render () {
     return (
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+        data-cucumber="location-autocomplete-form"
+        data-cucumber-default-suggestions={this.state.defaultSuggestions}
+      >
         <Paper style={{background: config.colors.main, width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
           <div style={{marginLeft: 10}}>
             <BackButton />
           </div>
           <TextField id="address" hintText="Search for places, addresses, stops, etc." autoFocus={true}
+            data-cucumber="address-input"
             hintStyle={{color: '#eee', fontSize: 12}} style={{marginLeft: 20, width: this.props.width - 75}}
             onChange={this.inputChanged.bind(this)} inputStyle={{color: 'white'}}
           />
@@ -129,7 +148,7 @@ export default class LocationAutocomplete extends React.Component {
           {this.state.suggestions.map((suggestion, i) => (
             [
               <ListItem
-                id={"suggestion-"+i}
+                data-cucumber={"suggestion-"+i}
                 leftIcon={<PlaceIcon />}
                 primaryText={suggestion.description}
                 onClick={this.suggestionSelected.bind(this, suggestion)}
