@@ -103,11 +103,12 @@ export class MainLayout extends React.Component {
               sideOffset={rightIconSideOffset} bottomOffset={bottomOffset}
             /> : null
           }
-          {this.props.renderFeedbackButton ?
+          {/*
+            this.props.renderFeedbackButton ?
             <FloatingFeedbackButton isMobile={this.state.isMobile}
               sideOffset={leftIconSideOffset} bottomOffset={bottomOffset}
             /> : null
-          }
+          */}
         </div>
       </Provider>
     )

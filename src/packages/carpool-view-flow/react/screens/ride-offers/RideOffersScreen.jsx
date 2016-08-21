@@ -6,7 +6,7 @@ import Loader from '../../components/common/Loader.jsx';
 import locationFromSelector from '../../redux/selectors/locationFrom.js';
 import locationToSelector from '../../redux/selectors/locationTo.js';
 import tripDateTimeSelector from '../../redux/selectors/tripDateTime.js';
-import { FlatButton, Snackbar } from 'material-ui';
+import { FlatButton, Snackbar, Divider } from 'material-ui';
 
 import { createDrive, createRide } from '../../redux/modules/general/actions.js';
 
@@ -82,10 +82,18 @@ class RideOffersScreen extends React.Component {
             </div>
             <FlatButton label="Edit" style={{minWidth: 55, height: 40}} secondary onClick={() => FlowRouter.go('NewRide')} />
           </div>
-          <div>
+          <Divider />
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+            }}
+          >
             <FlatButton secondary label="Create Drive" onClick={this.createDrive} />
             <FlatButton secondary label="Create Ride" onClick={this.createRide} />
           </div>
+          <Divider />
           <RidesList trips={this.props.trips} progress={this.props.progress} />
           <Snackbar
             open={this.state.errorSnackbarOpen}
