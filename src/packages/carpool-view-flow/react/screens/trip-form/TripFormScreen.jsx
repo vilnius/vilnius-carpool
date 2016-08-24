@@ -274,7 +274,7 @@ TripForm.propTypes = {
   locationFrom: React.PropTypes.string,
   locationTo: React.PropTypes.string,
   tripDateTime: React.PropTypes.object.isRequired,
-  dispatch: React.PropTypes.func.isrequired,
+  dispatch: React.PropTypes.func.isRequired,
 }
 
 const connectedTripForm = connect((state) => ({
