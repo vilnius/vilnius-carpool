@@ -17,6 +17,15 @@ import Snackbar from 'material-ui/lib/snackbar';
 import TripInfoWithMap from '../../components/ride-info/TripInfoWithMap.jsx'
 import Loader from '../../components/common/Loader'
 
+import { StyleSheet, css } from 'aphrodite'
+
+const styles = StyleSheet.create({
+  screenWrap: {
+    display: 'flex',
+    flexDirection: 'center',
+    alignItems: 'center',
+  },
+})
 
 class DriveConfirm extends React.Component {
 
@@ -58,11 +67,7 @@ class DriveConfirm extends React.Component {
       const bottomPartHeight = 65
       // da(["request-ride"],"Trip", trip);
       return (
-        <div data-cucumber="screen-user-ride" style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}>
+        <div data-cucumber="screen-user-ride" className={css(styles.screenWrap)}>
           <TripInfoWithMap
             width={this.props.width}
             height={this.props.height - bottomPartHeight}

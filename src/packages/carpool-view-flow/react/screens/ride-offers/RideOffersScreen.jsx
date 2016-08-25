@@ -7,12 +7,31 @@ import locationFromSelector from '../../redux/selectors/locationFrom.js';
 import locationToSelector from '../../redux/selectors/locationTo.js';
 import tripDateTimeSelector from '../../redux/selectors/tripDateTime.js';
 import { FlatButton, Snackbar, Divider } from 'material-ui';
+import { StyleSheet, css } from 'aphrodite';
 
 import { createDrive, createRide } from '../../redux/modules/general/actions.js';
 
 /*global Progress*/
 /*global carpoolService*/
 /*global FlowRouter*/
+
+const styles = StyleSheet.create({
+  screenWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  headerWrap: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+  },
+  createTripButtonsWrap: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+})
 
 class RideOffersScreen extends React.Component {
   constructor (props) {
@@ -58,20 +77,8 @@ class RideOffersScreen extends React.Component {
         FlowRouter.go('NewRide');
       }
       return (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              padding: 10,
-            }}
-          >
+        <div className={css(styles.screenWrap)}>
+          <div className={css(styles.headerWrap)}>
             <div style={{fontSize: 12}}>
               {'Searching for a trip from '}
               <b>{this.props.locationFrom}</b>
@@ -83,13 +90,7 @@ class RideOffersScreen extends React.Component {
             <FlatButton label="Edit" style={{minWidth: 55, height: 40}} secondary onClick={() => FlowRouter.go('NewRide')} />
           </div>
           <Divider />
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-            }}
-          >
+          <div className={css(styles.createTripButtonsWrap)}>
             <FlatButton data-cucumber="create-drive-button" secondary label="Create Drive" onClick={this.createDrive} />
             <FlatButton data-cucumber="create-ride-button" secondary label="Create Ride" onClick={this.createRide} />
           </div>

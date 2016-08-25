@@ -9,11 +9,19 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import TripInfoWithMap from '../../components/ride-info/TripInfoWithMap.jsx'
 import Loader from '../../components/common/Loader'
 import { getUserPicture } from '../../api/UserPicture.coffee'
+import { StyleSheet, css } from 'aphrodite'
 /*global Meteor*/
 /*global getUserName*/
 /*global carpoolService*/
 /*global Progress*/
 
+const styles = StyleSheet.create({
+  screenWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+})
 
 class YourDrive extends React.Component {
 
@@ -32,11 +40,7 @@ class YourDrive extends React.Component {
       const bottomPartHeight = 65
 
       return (
-        <div data-cucumber="screen-your-drive" style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}>
+        <div data-cucumber="screen-your-drive" className={css(styles.screenWrap)}>
           <TripInfoWithMap
             width={this.props.width}
             height={this.props.height - bottomPartHeight}

@@ -4,11 +4,19 @@ import { getUserPicture } from '../../api/UserPicture.coffee'
 import TripInfo from './TripInfo.jsx';
 import TripMap from '../map/TripMap.jsx'
 import moment from 'moment';
+import { StyleSheet, css } from 'aphrodite'
 
 const d = console.log.bind(console);
 
 
 /*global getUserName*/
+
+const styles = StyleSheet.create({
+  tripInfoWithMapWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+})
 
 // TODO Make this work and use this
 export default class TripInfoWithMap extends React.Component {
@@ -37,9 +45,7 @@ export default class TripInfoWithMap extends React.Component {
     const repeat = []; // TODO carpoolService should provide repeat
 
     return (
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
+      <div className={css(styles.tripInfoWithMapWrap)} style={{
         width: this.props.width,
         height: this.props.height,
       }}>

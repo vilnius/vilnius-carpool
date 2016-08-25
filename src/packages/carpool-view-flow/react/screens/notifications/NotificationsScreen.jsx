@@ -4,6 +4,8 @@ import NotificationCard from './NotificationCard'
 import Loader from '../../components/common/Loader'
 import Snackbar from 'material-ui/lib/snackbar';
 
+import { StyleSheet, css } from 'aphrodite'
+
 /*global Progress*/
 /*global Meteor*/
 /*global NotificationHistory*/
@@ -16,6 +18,16 @@ import Snackbar from 'material-ui/lib/snackbar';
 //   notificationType: 'ride offer',
 //   image: 'http://lorempixel.com/200/200/people/' + Math.round(Math.random() * 9),
 // }]
+
+const styles = StyleSheet.create({
+  screenWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingTop: 8, // Like material-ui List
+    paddingBottom: 8,
+  },
+})
 
 export default class Notifications extends React.Component {
 
@@ -59,13 +71,7 @@ export default class Notifications extends React.Component {
     } else {
       //console.log("Show notifications");
       return (
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          paddingTop: 8, // Like material-ui List
-          paddingBottom: 8,
-        }}>
+        <div className={css(styles.screenWrap)}>
           {notifications.map((notification, i) => (
             <NotificationCard key={i} notification={notification} width={this.props.width}
               snack={this.showSnackbar}

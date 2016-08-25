@@ -14,6 +14,7 @@ import locationFromSelector from '../../redux/selectors/locationFrom.js';
 import locationToSelector from '../../redux/selectors/locationTo.js';
 import tripDateTimeSelector from '../../redux/selectors/tripDateTime.js';
 import { updateTripDateTime, createDrive } from '../../redux/modules/general/actions.js';
+import { StyleSheet, css } from 'aphrodite'
 
 
 import { TextField, RaisedButton, FlatButton, Snackbar } from 'material-ui'
@@ -23,7 +24,19 @@ import moment from 'moment'
 /*global carpoolService*/
 /*global FlowRouter*/
 
-const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+const styles = StyleSheet.create({
+  screenWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 5,
+  },
+  actionButtonsWrap: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 15,
+  },
+})
 
 class TripForm extends React.Component {
   constructor(props) {
@@ -179,17 +192,19 @@ class TripForm extends React.Component {
       return (
         <div style={{color: config.colors.textColor}} data-cucumber="add-trip-form">
           <div>
-            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: this.props.width, padding: 5}}>
+            <div className={css(styles.screenWrap)} style={{ width: this.props.width }}>
               <TextField id="trip-fromAddress" floatingLabelText={__('labelFrom')} value={this.props.locationFrom}
+                style={{ cursor: 'pointer' }}
                 data-cucumber="trip-fromAddress"
                 disabled
-                inputStyle={{ color: 'black' }}
+                inputStyle={{ color: 'black', cursor: 'pointer' }}
                 onClick={(e) => this.locationInputClicked('from', e)}
               />
               <TextField id="trip-toAddress" floatingLabelText={__('labelTo')} value={this.props.locationTo}
+                style={{ cursor: 'pointer' }}
                 data-cucumber="trip-toAddress"
                 disabled
-                inputStyle={{ color: 'black' }}
+                inputStyle={{ color: 'black', cursor: 'pointer' }}
                 onClick={(e) => this.locationInputClicked('to', e)}
               />
               <div style={{
@@ -228,7 +243,7 @@ class TripForm extends React.Component {
                   }} />
                 </div>
                 */}
-              <div style={{display: 'flex', flexDirection: 'row', marginTop: 15 }}>
+              <div className={css(styles.actionButtonsWrap)}>
                 <RaisedButton label={'Create drive'} data-cucumber="create-drive" primary onClick={this.createDrive} />
                 <RaisedButton style={{marginLeft: 10}} data-cucumber="search" label={'Search'} secondary onClick={this.searchDrive} />
               </div>
