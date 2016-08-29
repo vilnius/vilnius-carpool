@@ -193,20 +193,22 @@ class TripForm extends React.Component {
         <div style={{color: config.colors.textColor}} data-cucumber="add-trip-form">
           <div>
             <div className={css(styles.screenWrap)} style={{ width: this.props.width }}>
-              <TextField id="trip-fromAddress" floatingLabelText={__('labelFrom')} value={this.props.locationFrom}
-                style={{ cursor: 'pointer' }}
-                data-cucumber="trip-fromAddress"
-                disabled
-                inputStyle={{ color: 'black', cursor: 'pointer' }}
-                onClick={(e) => this.locationInputClicked('from', e)}
-              />
-              <TextField id="trip-toAddress" floatingLabelText={__('labelTo')} value={this.props.locationTo}
-                style={{ cursor: 'pointer' }}
-                data-cucumber="trip-toAddress"
-                disabled
-                inputStyle={{ color: 'black', cursor: 'pointer' }}
-                onClick={(e) => this.locationInputClicked('to', e)}
-              />
+              <div style={{ cursor: 'pointer' }} >
+                <TextField id="trip-fromAddress" floatingLabelText={__('labelFrom')} value={this.props.locationFrom}
+                  data-cucumber="trip-fromAddress"
+                  disabled
+                  inputStyle={{ color: 'black' }}
+                  onClick={(e) => this.locationInputClicked('from', e)}
+                />
+              </div>
+              <div style={{ cursor: 'pointer' }} >
+                <TextField id="trip-toAddress" floatingLabelText={__('labelTo')} value={this.props.locationTo}
+                  data-cucumber="trip-toAddress"
+                  disabled
+                  inputStyle={{ color: 'black' }}
+                  onClick={(e) => this.locationInputClicked('to', e)}
+                />
+              </div>
               <div style={{
                 maxWidth: this.props.width * 0.85,
               }}>

@@ -2,9 +2,18 @@ import React from 'react'
 
 import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
+import { StyleSheet, css } from 'aphrodite'
 /*global Meteor*/
 /*global FlowRouter*/
 /*global flowControllerHelper*/
+
+const styles = StyleSheet.create({
+  screenWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+})
 
 export default class Login extends React.Component {
 
@@ -48,7 +57,7 @@ export default class Login extends React.Component {
 
   render () {
     return (
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <div className={css(styles.screenWrap)}>
         <h2>Login</h2>
         <TextField id="inputUsername" className="mui-input" floatingLabelText="Email" value={this.state.email} onChange={(e) => this.setState({ email: e.target.value })} errorText={this.state.emailError} />
         <TextField id="inputPassword" type="password" className="mui-input" floatingLabelText="Password" value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} errorText={this.state.passwordError} />

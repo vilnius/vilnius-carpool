@@ -12,7 +12,7 @@ const d = console.log.bind(console);
 /*global getUserName*/
 
 const styles = StyleSheet.create({
-  tripInfoWithMapWrap: {
+  componentWrap: {
     display: 'flex',
     flexDirection: 'column',
   },
@@ -39,13 +39,13 @@ export default class TripInfoWithMap extends React.Component {
 
   render () {
     const {itinerary, user} = this.props;
-    const rideInfoHeight = 185
+    const rideInfoHeight = 175
     const mapHeight = this.props.height - rideInfoHeight
     const tripTime = undefined; // TODO carpoolService should decide what is trip time
     const repeat = []; // TODO carpoolService should provide repeat
 
     return (
-      <div className={css(styles.tripInfoWithMapWrap)} style={{
+      <div className={css(styles.componentWrap)} style={{
         width: this.props.width,
         height: this.props.height,
       }}>

@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 8, // Like material-ui List
     paddingBottom: 8,
+    overflow: 'scroll',
   },
 })
 
@@ -71,7 +72,7 @@ export default class Notifications extends React.Component {
     } else {
       //console.log("Show notifications");
       return (
-        <div className={css(styles.screenWrap)}>
+        <div className={css(styles.screenWrap)} style={{ height: this.props.height }}>
           {notifications.map((notification, i) => (
             <NotificationCard key={i} notification={notification} width={this.props.width}
               snack={this.showSnackbar}
