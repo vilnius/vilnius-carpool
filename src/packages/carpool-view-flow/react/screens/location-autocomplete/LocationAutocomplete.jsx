@@ -11,9 +11,13 @@ import BackButton from '../../components/layout/BackButton'
 import Paper from 'material-ui/lib/paper'
 import { config } from '../../config.js';
 
+import { connect } from 'react-redux';
 import { googleServices } from 'meteor/spastai:google-client';
 
+import { updateFromLocation, updateToLocation } from '../../redux/modules/general/actions.js'
+
 /*global google*/
+/*global carpoolService*/
 
 var autocompleteService = null;
 googleServices.afterInit(function (){
@@ -75,7 +79,9 @@ export default class LocationAutocomplete extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      suggestions: this.props.suggestions || []
+      suggestions: this.props.suggestions || [],
+      defaultSuggestions: true,
+      completedTypingTimeout: null,
     }
     //d("Favorites:", this.props.suggestions);
   }
@@ -87,31 +93,53 @@ export default class LocationAutocomplete extends React.Component {
         if (!error && result.length > 0) {
             suggestion.latlng = result[0].geometry.location;
         }
-        carpoolService.saveSelection(this.props.field, suggestion)
+        console.log(suggestion);
         this.props.onSelect(suggestion);
       });
     } else {
       //d("Selected geolocated text", suggestion)
-      carpoolService.saveSelection(this.props.field, suggestion)
+      console.log(suggestion);
       this.props.onSelect(suggestion);
+    }
+    if (this.props.field === 'aLoc') {
+      this.props.dispatch(updateFromLocation(suggestion.description, suggestion.loc));
+    } else if (this.props.field === 'bLoc') {
+      this.props.dispatch(updateToLocation(suggestion.description, suggestion.loc));
     }
   }
 
   inputChanged (e) {
-    getLocationSuggestions(e.target.value, (suggestions) => this.setState({suggestions}))
+    const addressToSearch = e.target.value;
+    const completedTypingTimeout = setTimeout(() => {
+      console.log('Executing search')
+      getLocationSuggestions(addressToSearch, (suggestions) =>
+        this.setState({
+          suggestions,
+          defaultSuggestions: false,
+        }))
+    }, 100)
+    clearTimeout(this.state.completedTypingTimeout)
+    this.setState({
+      completedTypingTimeout
+    })
   }
 
   render () {
     return (
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+        data-cucumber="location-autocomplete-form"
+        data-cucumber-default-suggestions={this.state.defaultSuggestions}
+      >
         <Paper style={{background: config.colors.main, width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
           <div style={{marginLeft: 10}}>
             <BackButton />
           </div>
           <TextField id="address" hintText="Search for places, addresses, stops, etc." autoFocus={true}
+            data-cucumber="address-input"
             hintStyle={{color: '#eee', fontSize: 12}} style={{marginLeft: 20, width: this.props.width - 75}}
             onChange={this.inputChanged.bind(this)} inputStyle={{color: 'white'}}
           />
@@ -120,7 +148,7 @@ export default class LocationAutocomplete extends React.Component {
           {this.state.suggestions.map((suggestion, i) => (
             [
               <ListItem
-                id={"suggestion-"+i}
+                data-cucumber={"suggestion-"+i}
                 leftIcon={<PlaceIcon />}
                 primaryText={suggestion.description}
                 onClick={this.suggestionSelected.bind(this, suggestion)}
@@ -136,8 +164,13 @@ export default class LocationAutocomplete extends React.Component {
 
 
 LocationAutocomplete.propTypes = {
-  suggestions: React.PropTypes.array
+  suggestions: React.PropTypes.array,
+  field: React.PropTypes.string.isRequired,
+  onSelect: React.PropTypes.func.isRequired,
+  dispatch: React.PropTypes.func.isRequired,
 };
+
+const connectedLocationAutocomplete = connect()(LocationAutocomplete);
 
 /*
  This component is loading data and is called from the other container (compoment which loads data)
@@ -155,4 +188,4 @@ export default LocationAutocompleteContainer = createContainer(({field, screen})
     suggestions: suggestions,
     screen: screen
   }
-}, LocationAutocomplete);
+}, connectedLocationAutocomplete);

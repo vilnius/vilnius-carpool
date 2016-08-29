@@ -26,7 +26,7 @@ export default class DateTimePicker extends React.Component {
     this.setState({
       open: true,
       isDepartureDate,
-      date: date || moment()
+      date: date ? date.clone() : moment()
     })
   }
 
@@ -90,7 +90,9 @@ export default class DateTimePicker extends React.Component {
           >
             ARRIVE BY
           </div>
-          <div style={{
+          {/*
+            TODO Depart at temporarily disabled, uncomment when it is implemented in back end
+            <div style={{
               width: 100,
               textAlign: 'center',
               borderBottom: `3px solid ${this.state.isDepartureDate ? config.colors.main : 'rgba(0, 0, 0, 0.25)'}`,
@@ -100,7 +102,7 @@ export default class DateTimePicker extends React.Component {
             onClick={() => { this.setState({ isDepartureDate : true }) }}
           >
             DEPART AT
-          </div>
+          </div> */}
         </div>
         <div style={{
           paddingTop: 10,

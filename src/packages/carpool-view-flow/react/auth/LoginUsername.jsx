@@ -40,7 +40,7 @@ export default class Login extends React.Component {
           alert('Error ' + error.reason)
         }
       } else {
-        FlowRouter.go("RideOffers");
+        FlowRouter.go("NewRide");
       }
 
     });
