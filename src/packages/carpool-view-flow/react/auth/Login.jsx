@@ -1,13 +1,16 @@
 import React from 'react'
 import { config } from '../config'
 import Paper from 'material-ui/lib/paper';
+/*global Meteor*/
+/*global FlowRouter*/
+/*global flowControllerHelper*/
 
 export default class NotLoggedInLanding extends React.Component {
   render () {
     const width = this.props.width
     const height = this.props.height
     if(Meteor.user()) {
-      FlowRouter.go("/m/all/offers");
+      FlowRouter.go("/newRide");
       return null;
     } else return (
       <div data-cucumber="login-screen" style={{
@@ -19,7 +22,7 @@ export default class NotLoggedInLanding extends React.Component {
         color: 'white',
       }}>
         <div style={{marginTop: height / 6, textAlign:'center'}}><img src="/img/app_icon.png" width="100px"></img></div>
-        <div style={{marginTop: 35, textAlign: 'center'}}>Welcome to<br/>Vilnius Carpooling Serice</div>
+        <div style={{marginTop: 35, textAlign: 'center'}}>Welcome to<br />Vilnius Carpooling Serice</div>
         <Paper style={{marginTop: 60, width: width * 0.7, height: 45, display: 'flex', flexDirection: 'row', alignItems: 'center', background: '#3B5A9A', color: 'white'}}
           onClick={() => {
             //console.log("G+ login")
@@ -28,25 +31,27 @@ export default class NotLoggedInLanding extends React.Component {
                 console.log('Log in with Facebook error: ', error.reason || 'Unknown error');
               else {
                 console.log("Logged in Facebook user:", Meteor.user());
-                FlowRouter.go("RideOffers");
+                FlowRouter.go("NewRide");
               }
             })
-          }}>
+          }}
+        >
           <div style={{marginLeft: 20}}>f</div>
           <div style={{marginLeft: 'auto', marginRight: 'auto'}}>Sign in with Facebook</div>
         </Paper>
         <Paper style={{marginTop: 25, width: width * 0.7, height: 45, display: 'flex', flexDirection: 'row', alignItems: 'center', background: '#DC4E41', color: 'white'}}
-            onClick={() => {
-              //console.log("G+ login")
-              Meteor.loginWithGoogle({requestPermissions:["https://www.googleapis.com/auth/userinfo.email"]}, (error) => {
-                if(error)
-                  console.log('Log in with google error: ', error.reason || 'Unknown error');
-                else {
-                  console.log("Logged in google user:", Meteor.user());
-                  FlowRouter.go("RideOffers");
-                }
-              })
-            }}>
+          onClick={() => {
+            //console.log("G+ login")
+            Meteor.loginWithGoogle({requestPermissions:["https://www.googleapis.com/auth/userinfo.email"]}, (error) => {
+              if(error)
+                console.log('Log in with google error: ', error.reason || 'Unknown error');
+              else {
+                console.log("Logged in google user:", Meteor.user());
+                FlowRouter.go("NewRide");
+              }
+            })
+          }}
+        >
           <div style={{marginLeft: 20}}>G+</div>
           <div style={{marginLeft: 'auto', marginRight: 'auto'}}>Sign in with Google</div>
         </Paper>
@@ -61,4 +66,7 @@ export default class NotLoggedInLanding extends React.Component {
   }
 }
 
-NotLoggedInLandingScreen = NotLoggedInLanding
+NotLoggedInLanding.propTypes = {
+  width: React.PropTypes.number,
+  height: React.PropTypes.number,
+}

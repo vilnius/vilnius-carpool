@@ -1,8 +1,13 @@
 d = console.log.bind @, "---"
 
+waitAndClick = (selector)->
+  client.waitForVisible(selector);
+  client.click(selector);
+
 module.exports = ()->
   url = require('url');
-#_ = require('underscore');
+  _ = require('underscore');
+
   ###
   For test preparation sophisticated function created which takes addresses
   turns then into location and saves the trip using carpoolService
@@ -24,8 +29,14 @@ module.exports = ()->
               carpoolService.saveTrip trip, (err)->
                 if err then done err else done trip
         , trip
-    #client.saveScreenshot('../build/screenshots/uc3-assureTrips.png')
+    @TestHelper.screenShot("uc3-assureTrips.png");
     #d "Result:",result
+
+  @Given /^Assure stops:$/, (table)->
+    for stop in table.hashes()
+      loc = (parseFloat(deg) for deg in stop.Location.split(","));
+      d "Location: #{loc}"
+      server.call "assureStop", stop.Name, loc
 
 
   @Given /^I am logged off$/, ()->
@@ -42,8 +53,36 @@ module.exports = ()->
 
   @When /^Login through "([^"]*)" with "([^"]*)"$/, (path, username)->
     #d "Do login #{username}"
-    @TestHelper.urlLogin(path, username)
+    @TestHelper.urlLogin(path, username);
 
+  @When /^I add trip as "([^"]*)":$/, (username, table)->
+    row = table.hashes()[0]
+    # Login
+    @TestHelper.urlLogin("/loginUsername", username);
+    client.waitForVisible "[data-cucumber='add-trip-form']", 3000;
+    @TestHelper.screenShot("TripForm.png");
+
+    # "Enter fields"
+    fields = _(row).pick("trip-fromAddress", "trip-toAddress")
+    for key, value of fields
+      waitAndClick "[data-cucumber='#{key}']"
+      client.waitForVisible "[data-cucumber='location-autocomplete-form']", 3000
+      client.waitForVisible "[data-cucumber='address-input']"
+      client.setValue "[data-cucumber='address-input']", value
+      client.waitForVisible "[data-cucumber-default-suggestions='false']"
+      waitAndClick "[data-cucumber='suggestion-0']"
+
+    role = row.type
+    if role == 'drive'
+      waitAndClick "[data-cucumber='create-drive']"
+    else
+      waitAndClick "[data-cucumber='search']"
+      waitAndClick "[data-cucumber='create-ride-button']"
+
+    # Check trip is created
+    client.waitForExist "[data-cucumber='screen-your-#{row.type}']"
+    client.waitForExist "[title='To']"
+    @TestHelper.screenShot("Your#{role.charAt(0).toUpperCase() + role.slice(1)}.png");
 
   @Then /^I see "([^"]*)" text "([^"]*)"$/, (element, text)->
     client.waitForExist(element);
@@ -51,8 +90,8 @@ module.exports = ()->
 
   @Then /^I see "([^"]*)"$/, (element)->
     d "Wait for exist #{element}"
-    client.waitForExist element, 10000;
-    d "Found #{element}"
+    client.waitForVisible element, 10000;
+    d "Visible #{element}"
 
   @Then /^I see "([^"]*)" in "([^"]*)"$/, (element, path)->
     link = process.env.ROOT_URL + path;
@@ -60,6 +99,14 @@ module.exports = ()->
     client.waitForExist(element);
 
   @When /^I enter:$/, (messages)->
+    #d "Enter", messages
+    for key, value of messages.hashes()[0]
+      d "Fill #{key}=#{value}"
+      client.setValue("input[id=\"#{key}\"]", value);
+      client.keys("Enter");
+
+  @When /^I enter into "([^]*)":$/, (element, messages)->
+    client.waitForVisible element, 10000;
     #d "Enter", messages
     for key, value of messages.hashes()[0]
       d "Fill #{key}=#{value}"
@@ -77,3 +124,18 @@ module.exports = ()->
 
   @When /^Type "([^]*)$"/, (text)->
     client.keys(text);
+
+
+  @Then /^I see the stops on the route:$/, (table)->
+    element = "[data-cucumber='stops-on-route']"
+    client.waitForExist(element);
+    stopsShown = client.getText("[data-cucumber='stops-on-route'] [data-cucumber='stop']");
+    for stop in table.hashes()
+      d "Check the stop #{stop.name}",
+      expect(stopsShown).toContain(stop.name);
+      #expect(_(stopsShown).contains(stop.name)).toBe(true);
+      #expect().toEqual(stopTitle)
+
+  @Given /^Notifications for "([^"]*)" removed$/, (user)->
+    #d "Remove old trips"
+    server.call "removeNotifications", user

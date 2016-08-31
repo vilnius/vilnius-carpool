@@ -1,0 +1,18 @@
+{
+  "fromAddress": "35 Filaretų g.",
+  "toAddress": "19 Šv. Stepono g.",
+  "role": "driver",
+  "repeat": [0,3],
+  "fromLoc": [25.40284789999998, 54.6406806],
+  "toLoc": [25.27986379999993, 54.6726401],
+  "path": "_`olIsn`zC@dAGhAGp@vAdAnDzBbCbBtHjFfAr@~EdCt@Vt@Lt@JdAB|D@n@?~Go@`BGrDIf@@x@Lh@Nl@P`Ab@xAt@hAr@PLhA~@V~@B^CtA?^?~@Ff@HTpEjHN~AA|@Yl@{DnJwEzKwMzZMZoI|RqGnR}FfT{@nDI\\[nA{ClOiA|FiArHkB~L_AtGy@lFkBlMyAbKgBvKqEx[gBxLuIlk@_A`GuDzUeCdP{K~q@iL`s@{Gjb@qBtLi@nCw@|CwBpGyC`JiAxFWfBi@zEC\\E?eBIsBI}BOiEs@eAOiAGwFIiD?u@Da@Fo@Rq@`@{@x@oAbB]^s@bAq@nAaB~Ds@vAg@|@WZ_@VUJ}CfAqAXyB`@mAVaBb@q@^aAz@{DpDmBxBc@f@u@nAkDpG{AdDwAtCyAfCsApB_BvDeAtAJr@J~@rAlMJ`BYfFM~Cc@jJEbA?`ByApN]S",
+  "stops": [{
+    "_id": "stop-a",
+    "loc": [25.40284789999998, 54.6406806],
+    "title": "35 Filaretų g."
+  }],
+  "duration": 926,
+  "owner": "BZK7DnCmNWmFsnhQq",
+  "requests": [],
+  "status": "scheduled"
+}

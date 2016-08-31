@@ -1,0 +1,62 @@
+@startuml
+
+/' 6
+ Rider - blue
+ Driver - green
+'/
+
+skinparam state {
+  FontSize 28
+  AttributeFontSize 28
+  ArrowFontSize 24
+}
+
+
+state "YourRide\n<img:YourRide.png>" as YourRide
+YourRide: <b>View 1</b> your/ride
+
+state "YourDrive\n<img:YourDrive.png>" as YourDrive
+YourDrive: <b>View 1</b> your/drive
+
+state "TripForm\n<img:TripForm.png>" as TripFormDrive
+TripFormDrive: <b>View 1</b>
+
+state "TripForm\n<img:TripForm.png>" as TripFormRide
+TripFormRide: <b>View 1</b>
+
+state "RideOffers\n<img:RideOffers.png>" as RideOffers
+RideOffers: <b>View 1</b>
+
+state "RideRequest\n<img:RideRequest.png>" as RideRequest
+RideRequest: <b>View 1</b> user/drive
+
+state "MatchNotification\n<img:MatchNotification.png>" as MatchNotification
+MatchNotification: <b>View 1</b>
+
+state "ConfirmNotification\n<img:ConfirmNotification.png>" as ConfirmNotification
+ConfirmNotification: <b>View 1</b>
+
+state "DriveConfirm\n<img:DriveConfirm.png>" as DriveConfirm
+DriveConfirm: <b>View 1</b> your/drive
+
+state "Chat\n<img:Chat.png>" as Chat
+Chat: <b>View 1</b>
+
+[*] -[#blue]-> TripFormRide
+TripFormRide -[#blue]> YourRide
+YourRide -[#blue]> RideOffers
+TripFormDrive -[#green]> YourDrive
+RideOffers -[#blue]> MatchNotification
+RideOffers -up[#black]-> TripFormDrive: After some time
+
+RideOffers -[#blue]> RideRequest: Found trip in list
+
+
+YourDrive -[#black]-> MatchNotification: Notification
+MatchNotification -[#blue]> RideRequest
+
+RideRequest -up[#black]-> ConfirmNotification
+ConfirmNotification -[#green]> DriveConfirm
+DriveConfirm -[#green]> Chat
+
+@enduml

@@ -5,11 +5,9 @@
 * Version 0.0.1
 */
 
-
 Meteor.startup(function () {
 	//console.log("Creating MapBridge");
 	//mapController = new MapBridge();
-  googleServices.init({key: ""});
 });
 
 

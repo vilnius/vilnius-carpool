@@ -14,7 +14,6 @@ class FlowControllerHelper
       notificationClient.dismissAlert(notification._id)
       FlowRouter.go("Chat", {cdUser: notification.context.from});
 
-
   goToView: (view, params, query)->
     FlowRouter.go(view, params, query);
 

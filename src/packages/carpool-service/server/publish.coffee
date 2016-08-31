@@ -1,4 +1,6 @@
 locRadiusFilter = 1000 * 180 / (3.14 * 6371 * 1000)
+timeInterval = 15
+
 
 Meteor.publish 'favorites', ->
   Selections.find()
@@ -10,28 +12,57 @@ Meteor.publish 'oneTrip', (filter) ->
   da ['one-trip-publish'], "Publishing one trip", filter
   Trips.find filter
 
-Meteor.publish 'activeTrips', (filter) ->
-  query = _(filter).omit("fromLoc", "toLoc");
+###
+  This version turns recurrent trips into normal with next upcoming time.
+  TODO Warning: if anything except B location change - this will not be noticed for client
+  TODO Implement test case: trip is created and shown by query, then change it
+  TODO fix this with https://www.npmjs.com/package/geolib
+###
+Meteor.publish 'activeTrips', (filter = {}) ->
+  query = _(filter).omit("fromLoc", "toLoc", "bTime");
+  #da ['trip-publish' ], "Filter by date", filter.bTime
+  if filter.bTime?
+    bTime = moment(filter.bTime)
+    query['$or'] = [
+      {repeat: bTime.isoWeekday()-1},
+      bTime:
+        $gte: bTime.subtract(timeInterval, "m").toDate()
+        $lt: bTime.clone().add(2*timeInterval, "m").toDate()
+    ]
+    da ['trip-publish' ], "activeTrips filter query", filter['$or']
   if filter.fromLoc?
     query['stops.loc'] =
       $near: filter.fromLoc
       $maxDistance: locRadiusFilter
   da [ 'trip-publish' ], 'Publish activeTrips by stops.loc:', query
-  trips = Trips.find(query, fields: requests: 0)
+  cursor = Trips.find(query, fields: requests: 0)
 
   if filter.toLoc?
-    ids = _(trips.fetch()).pluck('_id')
+    ids = _(cursor.fetch()).pluck('_id')
     refinedQuery =
       _id: $in: ids
       toLoc:
         $near: filter.toLoc
         $maxDistance: locRadiusFilter
-    da [ 'trip-publish' ], 'Publish refined activeTrips:', refinedQuery
+    da ['trip-publish'], 'Publish refined activeTrips:', refinedQuery
     cursor = Trips.find(refinedQuery)
-  else
-    da [ 'trip-publish' ], 'Publish activeTrips:', query
-    #d 'Publish activeTrips count:', trips.count();
-    trips
+
+  handle = cursor.observe
+    added: (document)=>
+      nextDate(document, moment(filter.bTime))
+      da ['trip-publish'], "Added to subscribtion trip #{document._id}", document.bTime
+      @added "trips", document._id, document
+    changed: (newDocument, oldDocument)=>
+      nextDate(document, moment(filter.bTime))
+      @changed "trips", oldDocument._id, newDocument
+    removed: (oldDocument)=>
+      @removed "trips", oldDocument._id
+
+  @onStop ()->
+    handle.stop();
+    #d "Stoped activeTrips handle"
+
+  @ready();
 
 Meteor.publish 'userContacts', ->
   da [ 'data-publish' ], 'Publish user contacts'

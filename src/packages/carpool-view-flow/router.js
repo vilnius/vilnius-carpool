@@ -1,38 +1,51 @@
 // TODO deprecated - should move to your-tips/YourDriveScreen
-
+import React from 'react';
 export const name = 'carpool-view-flow';
 
-import React from 'react';
 import {mount} from 'react-mounter';
-
-import {d, da} from 'meteor/spastai:logw'
-
 import { MainLayout, SecureLayout } from './layout'
 import {FlowHelpers} from './flowHelpers'
-import BottomTabs from "./react/layout/BottomTabs"
-import NewRideButton from './react/layout/NewRideButton'
-import TopMenu from './react/layout/TopMenu'
-import TopTabs from './react/layout/TopTabs'
-import TopSearch from './react/layout/TopSearch'
-
-import RidesList from './react/components/RidesList'
-
+import BottomTabs from "./react/components/layout/BottomTabs"
+import TopMenu from './react/components/layout/TopMenu'
+import TopTabs from './react/components/layout/TopTabs'
+import TopSearch from './react/components/layout/TopSearch'
 import LoginScreen from './react/auth/Login'
+import RegisterScreen from './react/auth/Register'
 import LoginUsernameScreen from './react/auth/LoginUsername'
-import RideOffersScreen from './react/ride-list/RideOffersScreen'
-import TripFormScreen from './react/trip-form/TripForm'
-import RequestRideScreen from './react/request-ride/RequestRideScreen'
-import ConfirmRideScreen from './react/confirm-ride/ConfirmRideScreen'
-import YourDriveScreen from './react/your-trip/YourDriveScreen'
-import NotificationsScreen from './react/notifications/NotificationsScreen'
-import LocationAutocomplete from './react/location-autocomplete/LocationAutocomplete'
-import FeedbackScreen from './react/feedback/FeedbackScreen'
+import RideOffersScreen from './react/screens/ride-offers/RideOffersScreen'
+import RidesListWithDataScreen from './react/screens/rides-list-with-data/RidesListWithDataScreen.jsx';
+import TripFormScreen from './react/screens/trip-form/TripFormScreen.jsx'
+import DriveConfirmScreen from './react/screens/drive-confirm/DriveConfirmScreen.jsx';
+import YourDriveScreen from './react/screens/your-drive/YourDriveScreen.jsx'
+import YourRideScreen from './react/screens/your-ride/YourRideScreen.jsx';
+import RequestRideScreen from './react/screens/request-ride/RequestRideScreen.jsx'
+import NotificationsScreen from './react/screens/notifications/NotificationsScreen'
+import LocationAutocomplete from './react/screens/location-autocomplete/LocationAutocomplete.jsx'
+import FeedbackScreen from './react/screens/feedback/FeedbackScreen'
+import About from './react/screens/about/AboutScreen.jsx'
+import Profile from './react/screens/profile/ProfileScreen.jsx'
+import NotificationSettings from './react/screens/notification-settings/NotificationSettingsScreen.jsx'
+import moment from 'moment';
 
 import Chat from 'meteor/carpool-chat'
+/*global Meteor*/
+/*global FlowRouter*/
+/*global CarpoolService*/
+/*global googleServices*/
+/*global carpoolService*/
+
 
 /* TODO Get rid of those variables
 instead of caching these router scope variables stores some variables
 */
+if(Meteor.settings.public.googleApi) {
+  this.carpoolService = new CarpoolService({key: Meteor.settings.public.googleApi.key})
+} else {
+  this.carpoolService = new CarpoolService({});
+  console.warn("Setup Google API key as described in https://github.com/vilnius/vilnius-carpool/wiki/Configuration-setup");
+}
+
+
 let aLoc, bLoc; // these variables travel through query parameters also
 let addresses = {};
 
@@ -41,38 +54,58 @@ FlowRouter.route('/', {
     if(undefined == Meteor.user()) {
       redirect("/login")
     } else {
-      redirect('/m/all/offers');
+      redirect('/newRide');
     }
   }],
-  action: function(params, queryParams) {
+  action: function() {
   }
 });
 
-// Isn't this deprecated as RideConfirm?
-FlowRouter.route('/rideRequest/:id', {
-  name: "RideRequest",
-  action: function(params, queryParams) {
+FlowRouter.route('/about', {
+  name: 'About',
+  action: function() {
     mount(MainLayout, {
-      topMenu: <TopMenu title="Ride requests" innerScreen />,
-      content: <RequestRideScreen tripId={params.id} rideId={queryParams.ride} />,
-    });
+      navBar: {
+        title: 'About',
+        innerScreen: true,
+      },
+      topMenu: <TopMenu title="About" innerScreen />,
+      content: <About />,
+    })
   }
 });
 
-// Deprecated - move to YourDrive
-FlowRouter.route('/rideConfirm/:id', {
-  name: "RideConfirm",
-  action: function(params, queryParams) {
+FlowRouter.route('/profile', {
+  name: 'Profile',
+  action: function() {
     mount(MainLayout, {
-      topMenu: <TopMenu title="Ride confirmation" innerScreen />,
-      content: <ConfirmRideScreen tripId={params.id}/>,
-    });
+      navBar: {
+        title: 'Profile',
+        innerScreen: true,
+      },
+      topMenu: <TopMenu title="Profile" innerScreen />,
+      content: <Profile />,
+    })
+  }
+});
+
+FlowRouter.route('/notificationSettings', {
+  name: 'NotificationSettings',
+  action: function() {
+    mount(MainLayout, {
+      navBar: {
+        title: 'Notification settings',
+        innerScreen: true,
+      },
+      topMenu: <TopMenu title="Notification settings" innerScreen />,
+      content: <NotificationSettings />,
+    })
   }
 });
 
 FlowRouter.route('/login', {
     name: "Login",
-    action: function(params, queryParams) {
+    action: function() {
       //console.log("Routing to - new trip form", TripFormScreen);
       mount(MainLayout, {
         content: <LoginScreen />,
@@ -80,17 +113,9 @@ FlowRouter.route('/login', {
     }
 });
 
-FlowRouter.route('/logout', {
-    name: "Logout",
-    action: function(params, queryParams) {
-      Meteor.logout(()=> FlowRouter.go("Login"));
-
-    }
-});
-
 FlowRouter.route('/loginUsername', {
     name: "LoginUsername",
-    action: function(params, queryParams) {
+    action: function() {
       //console.log("Routing to - new trip form", TripFormScreen);
       mount(MainLayout, {
         content: <LoginUsernameScreen />,
@@ -98,11 +123,32 @@ FlowRouter.route('/loginUsername', {
     }
 });
 
-FlowRouter.route('/notifications', {
-    name: "Notifications",
-    action: function(params, queryParams) {
+FlowRouter.route('/register', {
+    name: "Register",
+    action: function() {
       //console.log("Routing to - new trip form", TripFormScreen);
       mount(MainLayout, {
+        content: <RegisterScreen />,
+      });
+    }
+});
+
+FlowRouter.route('/logout', {
+    name: "Logout",
+    action: function() {
+      Meteor.logout(()=> FlowRouter.go("Login"));
+
+    }
+});
+
+FlowRouter.route('/notifications', {
+    name: "Notifications",
+    action: function() {
+      //console.log("Routing to - new trip form", TripFormScreen);
+      mount(SecureLayout, {
+        navBar: {
+          title: 'Notifications',
+        },
         topMenu: <TopMenu title="Notifications" />,
         content: <NotificationsScreen />,
         bottomMenu: <BottomTabs selectedTabIndex={3} />,
@@ -110,6 +156,7 @@ FlowRouter.route('/notifications', {
       });
     }
 });
+
 /*
 This coponent takes <field> as url parameter. This paramter is used onSelect -
 queryParams are appened with this field name with coordination value got from suggestions.
@@ -119,18 +166,18 @@ Important to note that other query params are preserved
 FlowRouter.route('/locationAutocomplete/:screen/:field', {
   name: 'LocationAutocomplete',
   action: function(params, queryParams) {
-    mount(MainLayout, {
+    mount(SecureLayout, {
       content: <LocationAutocomplete field={params.field} onSelect={(sugestion) => {
         location = googleServices.toLocation(sugestion.latlng);
         locStr = googleServices.encodePoints([location]);
         queryParams[params.field] = locStr;
-
+        //d("Autocomplete was selected and query is", queryParams, sugestion, 'location', location)
         addresses[params.field] = sugestion.description;
         //console.log("Extending query", queryParams);
         FlowRouter.withReplaceState(() => {
           FlowRouter.go(params.screen, {}, queryParams)
         })
-      }}/>,
+      }} />,
     });
   }
 })
@@ -138,7 +185,7 @@ FlowRouter.route('/locationAutocomplete/:screen/:field', {
 var securedRoutes = FlowRouter.group({
   prefix: '/m/your',
   name: 'your',
-  triggersEnter: [function(context, redirect) {
+  triggersEnter: [function() {
     // console.log('Security check', userSubs.ready());
     // if(undefined == Meteor.user()) {
     //   redirect("/login")
@@ -157,7 +204,12 @@ securedRoutes.route('/newRide', {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
       bTime = queryParams.bTime ? moment(queryParams.bTime, "YYYYMMDDTHHmm", true) : moment();
+      //d("Router fetched values of Loc", aLoc, bLoc)
       mount(SecureLayout, {
+        navBar: {
+          title: 'New Trip',
+          innerScreen: true,
+        },
         topMenu: <TopMenu title="New Trip" innerScreen />,
         content: <TripFormScreen from={aLoc} to={bLoc}
           fromAddress={addresses.aLoc} toAddress={addresses.bLoc} bTime={bTime}/>,
@@ -165,12 +217,32 @@ securedRoutes.route('/newRide', {
     }
 });
 
-securedRoutes.route('/drive/:id', {
-  name: "YourDrive",
+// Deprecated - move to YourDrive
+FlowRouter.route('/user/ride/:id', {
+  name: "RideConfirm",
   action: function(params, queryParams) {
     mount(SecureLayout, {
-      topMenu: <TopMenu title="Your drive" innerScreen returnScreen="YourDrives" />,
-      content: <YourDriveScreen tripId={params.id}/>,
+      navBar: {
+        title: 'Ride confirmation',
+        innerScreen: true,
+      },
+      topMenu: <TopMenu title="Ride confirmation" innerScreen />,
+      content: <DriveConfirmScreen tripId={params.id} rideId={queryParams.ride} invitationId={queryParams.invitation} />
+    });
+  }
+});
+
+securedRoutes.route('/drive/:id', {
+  name: "YourDrive",
+  action: function(params) {
+    mount(SecureLayout, {
+      navBar: {
+        title: 'Your drive',
+        innerScreen: true,
+        returnScreen: 'YourDrives',
+      },
+      topMenu: <TopMenu title="Your drive" innerScreen />,
+      content: <YourDriveScreen tripId={params.id} />,
     });
   }
 });
@@ -178,17 +250,43 @@ securedRoutes.route('/drive/:id', {
 securedRoutes.route('/ride/:id', {
  name: "YourRide",
  action: function(params, queryParams) {
+   //console.log("Your ride screen");
    mount(SecureLayout, {
-     topMenu: <TopMenu title="Your ride" innerScreen returnScreen="YourDrives" />,
-     content: <YourDriveScreen tripId={params.id}/>,
+     navBar: {
+       title: 'Your ride',
+       innerScreen: true,
+       returnScreen: 'YourDrives',
+     },
+     topMenu: <TopMenu title="Your ride" innerScreen />,
+     content: <YourRideScreen rideId={params.id} />,
    });
  }
 });
 
+securedRoutes.route('/trip/:id', {
+ name: "RideRequest",
+ action: function(params, queryParams) {
+   mount(SecureLayout, {
+     navBar: {
+       title: 'Ride request',
+       innerScreen: true,
+       returnScreen: 'YourDrives',
+     },
+     topMenu: <TopMenu title="Ride request" innerScreen />,
+     content: <RequestRideScreen tripId={params.id} rideId={queryParams.ride} />,
+   });
+ }
+});
+
+
 securedRoutes.route('/feedback', {
    name: "Feedback",
-   action: function(params, queryParams) {
+   action: function() {
      mount(SecureLayout, {
+       navBar: {
+         title: 'Feedback',
+         innerScreen: true,
+       },
        topMenu: <TopMenu title="Feedback" innerScreen />,
        content: <FeedbackScreen />,
      });
@@ -197,11 +295,14 @@ securedRoutes.route('/feedback', {
 
 securedRoutes.route('/drives', {
  name: "YourDrives",
- action: function(params, queryParams) {
+ action: function() {
    mount(SecureLayout, {
+     navBar: {
+       title: 'My Trips',
+     },
      topMenu: <TopMenu title="My Trips" noShadow background="blue" />,
      topFilter: <TopTabs selectedTabIndex={1} />,
-     content: <RideOffersScreen filterOwn="your" role="driver" />,
+     content: <RidesListWithDataScreen filterOwn="your" role="driver" />,
      bottomMenu: <BottomTabs selectedTabIndex={2} />,
      renderNewTripButton: true,
      renderFeedbackButton: true,
@@ -211,11 +312,14 @@ securedRoutes.route('/drives', {
 
 securedRoutes.route('/rides', {
  name: "YourRides",
- action: function(params, queryParams) {
+ action: function() {
    mount(SecureLayout, {
+     navBar: {
+       title: 'My Trips',
+     },
      topMenu: <TopMenu title="My Trips" noShadow background="blue" />,
      topFilter: <TopTabs selectedTabIndex={0} />,
-     content: <RideOffersScreen filterOwn="your" role="rider" />,
+     content: <RidesListWithDataScreen filterOwn="your" role="rider" />,
      bottomMenu: <BottomTabs selectedTabIndex={2} />,
      renderNewTripButton: true,
      renderFeedbackButton: true,
@@ -226,10 +330,14 @@ securedRoutes.route('/rides', {
 
 FlowRouter.route('/m/all/requests', {
   name: "RideRequests",
-  action: function(params, queryParams) {
-    mount(MainLayout, {
+  action: function() {
+    mount(SecureLayout, {
+      navBar: {
+        title: 'Ride requests',
+        background: 'green',
+      },
       topMenu: <TopMenu title="Ride requests" background="green" />,
-      content: <RideOffersScreen role="rider"/>,
+      content: <RidesListWithDataScreen role="rider" />,
       bottomMenu: <BottomTabs selectedTabIndex={0} />,
       renderNewTripButton: true,
       renderFeedbackButton: true,
@@ -237,24 +345,54 @@ FlowRouter.route('/m/all/requests', {
   }
 });
 
+// Tracker.autorun(function () {
+//   d("Check aLoc", aLoc, Session.get("geoIpLoc"));
+//   if(undefined === aLoc && Session.get("geoIpLoc")) {
+//     aLoc = Session.get("geoIpLoc");
+//     if (FlowRouter.current().route) {
+//       let {route: {name : currentPath}} = FlowRouter.current()
+//       d("Use current user location to append "+currentPath, aLoc);
+//       carpoolService.encodePoints([aLoc], (location)=> {
+//         d("Updating url with goeIpLoc", location);
+//         FlowHelpers.goExtendedQuery(undefined, {}, {aLoc: location});
+//       });
+//     }
+//   }
+// });
+
 // This should be the last route as it takes optional parameter which could match all other routes
 FlowRouter.route('/m/all/offers', {
     name: "RideOffers",
     action: function(params, queryParams) {
-      if(queryParams.aLoc) {
+      //d("RideOffers aLoc="+queryParams.aLoc+";")
+      if(undefined == queryParams.aLoc) {
+        carpoolService.currentLocation((err, aLoc)=> {
+          if(err) return console.warn("Error getting current location:", err);
+          // let {route: {name : currentPath}, queryParams} = FlowRouter.current();
+          if(!queryParams.aLoc) {
+            //d("Use current user location to append ", aLoc);
+            carpoolService.encodePoints([aLoc], (location)=> {
+              //d("Updating url with goeIpLoc", location);
+              FlowHelpers.goExtendedQuery(undefined, {}, {aLoc: location});
+            });
+          }
+        });
+      } else {
         aLoc = googleServices.decodePoints(queryParams.aLoc)[0];
       }
       if(queryParams.bLoc) {
         bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
       }
-      bTime = queryParams.bTime ? moment(queryParams.bTime, "YYYYMMDDTHHmm", true) : moment();
+      let bTime = queryParams.bTime ? moment(queryParams.bTime, "YYYYMMDDTHHmm", true) : undefined;
       //console.log("Offers route", params, queryParams, "and aLoc:", aLoc);
       // by coincidence aLoc, bLoc and addresses are stored as global variables...
-      mount(MainLayout, {
+      mount(SecureLayout, {
+        navBar: {
+          title: 'Ride Offers',
+        },
         topMenu: <TopMenu title="Ride offers" hasTopTabs background="blue" />,
-        topSearch: <TopSearch from={aLoc} to={bLoc} fromAddress={addresses.aLoc} toAddress={addresses.bLoc}
-                      bTime={bTime} />,
-        content: <RideOffersScreen aLoc={aLoc} bLoc={bLoc} />,
+        // topSearch: <TopSearch from={aLoc} to={bLoc} fromAddress={addresses.aLoc} toAddress={addresses.bLoc} bTime={bTime} />,
+        content: <RideOffersScreen aLoc={aLoc} bLoc={bLoc} bTime={bTime} />,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
         renderNewTripButton: true,
         renderFeedbackButton: true,
@@ -264,11 +402,15 @@ FlowRouter.route('/m/all/offers', {
 
 securedRoutes.route('/chat/:cdUser', {
     name: "Chat",
-    action: function(params, queryParams) {
+    action: function(params) {
       //console.log("Routing to - new trip form", TripFormScreen);
       mount(SecureLayout, {
+        navBar: {
+          title: 'Chat',
+          innerScreen: true,
+        },
         topMenu: <TopMenu title="Chat" innerScreen />,
-        content: <Chat cdUserId={params.cdUser}/>,
+        content: <Chat cdUserId={params.cdUser} />,
       });
     }
 });

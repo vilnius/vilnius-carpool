@@ -1,6 +1,9 @@
 {
   "public": {
     "environment": "dev",
+    "googleApi" : {
+       "key": "AIzaSyC4jEbNbglLxwxH7_gcmDMxWxwYOAPVVJM"
+    },
     "push": {
       "android": {
         "senderID": 665087134347
@@ -9,7 +12,8 @@
       "sound": true,
       "alert": true,
       "vibrate": true
-    }
+    },
+    "tripsHistoryPeriod":1800000
   },
 
   "admin": {
