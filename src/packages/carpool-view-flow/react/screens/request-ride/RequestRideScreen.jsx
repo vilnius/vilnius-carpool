@@ -7,6 +7,8 @@ import Loader from '../../components/common/Loader'
 import TripInfoWithMap from '../../components/ride-info/TripInfoWithMap.jsx';
 import { ReactiveVar } from 'meteor/reactive-var'
 
+import { StyleSheet, css } from 'aphrodite'
+
 /*global Progress*/
 /*global carpoolService*/
 /*global itineraryFactory*/
@@ -15,6 +17,14 @@ import { ReactiveVar } from 'meteor/reactive-var'
 /*global Trips*/
 
 const d = console.log.bind(console);
+
+const styles = StyleSheet.create({
+  screenWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+})
 
 export default class RequestRide extends React.Component {
 
@@ -57,11 +67,7 @@ export default class RequestRide extends React.Component {
       const bottomPartHeight = 65
       return (
         <div data-cucumber={path ? "screen-your-ride-routed" : "screen-your-ride"}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
+          className={css(styles.screenWrap)}
         >
           <TripInfoWithMap
             itinerary={itinerary}

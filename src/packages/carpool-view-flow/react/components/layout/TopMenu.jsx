@@ -5,10 +5,19 @@ import BackIcon from 'material-ui/lib/svg-icons/navigation/arrow-back'
 import { IconButton } from 'material-ui';
 import LeftNavWrap from './LeftNav.jsx';
 import { config } from '../../config'
+import { StyleSheet, css } from 'aphrodite'
 
 /*global Meteor*/
 /*global FlowRouter*/
 
+const styles = StyleSheet.create({
+  menuWrap: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: '100%',
+  },
+})
 
 export default class TopMenu extends React.Component {
 
@@ -29,7 +38,6 @@ export default class TopMenu extends React.Component {
       <div>
         <div
           style={{
-            // position: 'fixed',
             top: 0,
             height: this.props.height,
             width: this.props.width,
@@ -38,16 +46,10 @@ export default class TopMenu extends React.Component {
               (this.props.background ? this.props.background : config.colors.main)),
             color: 'white',
             borderRadius: 0,
-            // zIndex: 2,
           }}
           zDepth={this.props.noShadow ? 0 : 1}
         >
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            height: '100%',
-          }}>
+          <div className={css(styles.menuWrap)}>
             <div style={{
               marginLeft: 12,
             }}>

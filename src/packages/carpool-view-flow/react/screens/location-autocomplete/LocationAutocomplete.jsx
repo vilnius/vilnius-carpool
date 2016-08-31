@@ -16,6 +16,8 @@ import { googleServices } from 'meteor/spastai:google-client';
 
 import { updateFromLocation, updateToLocation } from '../../redux/modules/general/actions.js'
 
+import { StyleSheet, css } from 'aphrodite'
+
 /*global google*/
 /*global carpoolService*/
 
@@ -74,6 +76,19 @@ const getLocationSuggestions = (inputVal, callback) => {
   }
 }
 
+const styles = StyleSheet.create({
+  screenWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  headerWrap: {
+    background: config.colors.main,
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+});
 
 export default class LocationAutocomplete extends React.Component {
   constructor (props) {
@@ -127,21 +142,19 @@ export default class LocationAutocomplete extends React.Component {
   render () {
     return (
       <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-        }}
+        className={css(styles.screenWrap)}
         data-cucumber="location-autocomplete-form"
         data-cucumber-default-suggestions={this.state.defaultSuggestions}
       >
-        <Paper style={{background: config.colors.main, width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+        <Paper className={css(styles.headerWrap)}>
           <div style={{marginLeft: 10}}>
             <BackButton />
           </div>
-          <TextField id="address" hintText="Search for places, addresses, stops, etc." autoFocus={true}
+          <TextField id="address" hintText="Search for places, addresses, stops, etc." autoFocus
             data-cucumber="address-input"
             hintStyle={{color: '#eee', fontSize: 12}} style={{marginLeft: 20, width: this.props.width - 75}}
-            onChange={this.inputChanged.bind(this)} inputStyle={{color: 'white'}}
+            onChange={this.inputChanged.bind(this)}
+            inputStyle={{color: 'white'}}
           />
         </Paper>
         <List>

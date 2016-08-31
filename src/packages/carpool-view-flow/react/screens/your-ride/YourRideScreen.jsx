@@ -5,12 +5,21 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import Snackbar from 'material-ui/lib/snackbar';
 import Loader from '../../components/common/Loader'
 import TripInfoWithMap from '../../components/ride-info/TripInfoWithMap.jsx';
+import { StyleSheet, css } from 'aphrodite'
 
 /*global Progress*/
 /*global carpoolService*/
 /*global Meteor*/
 
 const d = console.log.bind(console);
+
+const styles = StyleSheet.create({
+  screenWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+})
 
 export default class YourRide extends React.Component {
 
@@ -55,13 +64,7 @@ export default class YourRide extends React.Component {
       const bottomPartHeight = 65
 
       return (
-        <div data-cucumber="screen-your-ride"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
+        <div data-cucumber="screen-your-ride" className={css(styles.screenWrap)}>
           <TripInfoWithMap width={this.props.width} height={this.props.height - bottomPartHeight}
             itinerary={itinerary}
             user={user}

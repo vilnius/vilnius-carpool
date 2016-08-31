@@ -1,9 +1,20 @@
 import React from 'react'
 import { config } from '../config'
 import Paper from 'material-ui/lib/paper';
+import { css, StyleSheet } from 'aphrodite';
 /*global Meteor*/
 /*global FlowRouter*/
 /*global flowControllerHelper*/
+
+const styles = StyleSheet.create({
+  screenWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    background: config.colors.main,
+    color: 'white',
+  }
+})
 
 export default class NotLoggedInLanding extends React.Component {
   render () {
@@ -13,17 +24,10 @@ export default class NotLoggedInLanding extends React.Component {
       FlowRouter.go("/newRide");
       return null;
     } else return (
-      <div data-cucumber="login-screen" style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        height: height,
-        background: config.colors.main,
-        color: 'white',
-      }}>
+      <div data-cucumber="login-screen" style={{ height: height }} className={css(styles.screenWrap)}>
         <div style={{marginTop: height / 6, textAlign:'center'}}><img src="/img/app_icon.png" width="100px"></img></div>
-        <div style={{marginTop: 35, textAlign: 'center'}}>Welcome to<br />Vilnius Carpooling Serice</div>
-        <Paper style={{marginTop: 60, width: width * 0.7, height: 45, display: 'flex', flexDirection: 'row', alignItems: 'center', background: '#3B5A9A', color: 'white'}}
+        <div style={{marginTop: 30, textAlign: 'center'}}>Welcome to<br />Vilnius Carpooling Serice</div>
+        <Paper style={{marginTop: 50, width: width * 0.7, height: 45, display: 'flex', flexDirection: 'row', alignItems: 'center', background: '#3B5A9A', color: 'white'}}
           onClick={() => {
             //console.log("G+ login")
             Meteor.loginWithFacebook({requestPermissions:["public_profile", "email"]}, (error) => {
