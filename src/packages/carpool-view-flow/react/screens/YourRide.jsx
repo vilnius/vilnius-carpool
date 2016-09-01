@@ -1,22 +1,11 @@
 import React from 'react'
-import { createContainer } from 'meteor/react-meteor-data';
-import { _ } from 'meteor/underscore';
 import RaisedButton from 'material-ui/lib/raised-button';
 import Snackbar from 'material-ui/lib/snackbar';
-import Loader from '../../components/common/Loader'
-import TripInfoWithMap from '../../components/ride-info/TripInfoWithMap.jsx';
-import { ReactiveVar } from 'meteor/reactive-var'
-
+import Loader from '../components/common/Loader'
+import TripInfoWithMap from '../components/ride-info/TripInfoWithMap.jsx';
 import { StyleSheet, css } from 'aphrodite'
 
-/*global Progress*/
 /*global carpoolService*/
-/*global itineraryFactory*/
-/*global Meteor*/
-
-/*global Trips*/
-
-const d = console.log.bind(console);
 
 const styles = StyleSheet.create({
   screenWrap: {
@@ -26,7 +15,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export default class RequestRide extends React.Component {
+export default class YourRide extends React.Component {
 
   constructor(props) {
       super(props);
@@ -37,13 +26,12 @@ export default class RequestRide extends React.Component {
   }
 
   handleRequestClose() {
-    //d("Close snackbar")
     this.setState({
       snackbarOpen: false,
     });
   }
+
   showSnackbar(message) {
-    //d("Showing snack message", message)
     this.setState({
       snackbarText: message,
       snackbarOpen: true
@@ -51,8 +39,7 @@ export default class RequestRide extends React.Component {
   }
 
   render () {
-    const {progress, itinerary, user, isRequested, driveId} = this.props;
-
+    const {progress, user, itinerary} = this.props;
     if (progress.getProgress() != 100) {
       return (
         <section style={{height: "100%", marginTop: 25}}>
@@ -60,18 +47,15 @@ export default class RequestRide extends React.Component {
         </section>
       );
     } else {
-      // d("Request ride itinerary", itinerary);
-      let [{path}] = itinerary
-      //d("Just for cucumber check", path);
+      const isRequested = false;
+      //const isRequested = _(drive.requests).findWhere({userId: Meteor.userId()});
 
       const bottomPartHeight = 65
+
       return (
-        <div data-cucumber={path ? "screen-your-ride-routed" : "screen-your-ride"}
-          className={css(styles.screenWrap)}
-        >
-          <TripInfoWithMap
+        <div data-cucumber="screen-your-ride" className={css(styles.screenWrap)}>
+          <TripInfoWithMap width={this.props.width} height={this.props.height - bottomPartHeight}
             itinerary={itinerary}
-            width={this.props.width} height={this.props.height - bottomPartHeight}
             user={user}
           />
           {isRequested ? (
@@ -86,7 +70,7 @@ export default class RequestRide extends React.Component {
             <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
               data-cucumber="request" label="Request"
               secondary onClick={() => {
-                carpoolService.requestRide(driveId);
+                carpoolService.requestRide(this.props.itinerary._id);
                 this.showSnackbar("The drive was requested");
               }}
             />
@@ -103,35 +87,11 @@ export default class RequestRide extends React.Component {
   }
 }
 
-RequestRide.propTypes = {
+YourRide.propTypes = {
   width: React.PropTypes.number.isRequired,
   height: React.PropTypes.number.isRequired,
   stops: React.PropTypes.array,
   progress: React.PropTypes.object,
   user: React.PropTypes.object,
   itinerary: React.PropTypes.array,
-  isRequested: React.PropTypes.object,
-  driveId: React.PropTypes.string,
 };
-
-export default createContainer(({tripId, rideId}) => {
-  const progress = new Progress();
-  const drive = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
-  const ride = rideId ? carpoolService.pullOneTrip({_id: rideId}, progress.setProgress.bind(progress, 'ride')) : null;
-  const stops = carpoolService.pullStops(progress.setProgress.bind(progress, 'stops'));
-  const user = drive && Meteor.users.findOne({_id: drive.owner});
-  const isRequested = drive &&_(drive.requests).findWhere({userId: Meteor.userId()});
-  const driveId = drive._id;
-
-  d("Ride request", ride, drive)
-  const itinerary = carpoolService.pullRiderItinerary(ride, drive);
-
-  return {
-    progress,
-    stops,
-    user,
-    itinerary,
-    isRequested,
-    driveId,
-  };
-}, RequestRide);
