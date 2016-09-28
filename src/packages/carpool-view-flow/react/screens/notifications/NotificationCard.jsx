@@ -10,6 +10,8 @@ import {d} from 'meteor/spastai:logw'
 import { getUserPicture } from '../../api/UserPicture.coffee'
 import moment from 'moment';
 
+import { StyleSheet, css } from 'aphrodite'
+
 //import {NotificationClient} from "meteor/carpool-notifications"
 /*global NotificationHistory*/
 /*global _*/
@@ -18,6 +20,25 @@ import moment from 'moment';
 /*global FlowRouter*/
 /*global carpoolService*/
 /*global Progress*/
+
+const styles = StyleSheet.create({
+  cardWrap: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  contentWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+    paddingLeft: 22,
+    paddingTop: 10
+  },
+  buttonsWrap: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 5,
+    marginLeft: -12
+  },
+})
 
 class NotificationClient {
   dismissAlert(id) {
@@ -69,22 +90,19 @@ class NotificationCard extends React.Component {
           width: this.props.width - 20,
           margin: 5,
         }}>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}>
+          <div className={css(styles.cardWrap)}>
             <div style={{marginTop: 20, marginLeft: 12}}>
               <Avatar src={avatar} size={70} />
             </div>
               {(() => {
                 switch (this.props.notification.reason) {
                   case "matched":   return (
-                    <div style={{display: 'flex', flexDirection: 'column', width: this.props.width - 100, paddingLeft: 22, paddingTop: 10 }}>
+                    <div className={css(styles.contentWrap)} style={{ width: this.props.width - 100 }}>
                       <div style={{fontWeight: notificationClient.isNew(notification) ? "bold":"normal"}}>Trip matched</div>
                       <div style={{fontSize: 10, marginTop: 5}}>{`From ${trip.fromAddress} to ${trip.toAddress}`}</div>
                       <div style={{fontSize: 10}}>{moment(trip.bTime).format("lll")}</div>
 
-                      <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
+                      <div className={css(styles.buttonsWrap)}>
                         {isRequested ? (
                           <FlatButton data-cucumber="withdraw-request" label="Withdraw"
                             secondary onClick={() => {
@@ -113,12 +131,12 @@ class NotificationCard extends React.Component {
                     </div>
                   )
                   case "request": return (
-                    <div style={{display: 'flex', flexDirection: 'column', width: this.props.width - 100, paddingLeft: 22, paddingTop: 10 }}>
+                    <div className={css(styles.contentWrap)} style={{ width: this.props.width - 100 }}>
                       <div style={{fontWeight: notificationClient.isNew(notification) ? "bold":"normal"}}>Ride request</div>
                       <div style={{fontSize: 10, marginTop: 5}}>{`From ${trip.fromAddress} to ${trip.toAddress}`}</div>
                       <div style={{fontSize: 10}}>{moment(trip.time).format("lll")}</div>
 
-                      <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
+                      <div className={css(styles.buttonsWrap)}>
                       {isConfirmed ? (
                         <FlatButton data-cucumber="withdraw-confirm" label="Withdraw"
                           secondary onClick={() => {
@@ -153,12 +171,12 @@ class NotificationCard extends React.Component {
                     </div>
                   )
                   case "confirmation": return (
-                    <div style={{display: 'flex', flexDirection: 'column', width: this.props.width - 100, paddingLeft: 22, paddingTop: 10 }}>
+                    <div className={css(styles.contentWrap)} style={{ width: this.props.width - 100 }}>
                       <div style={{fontWeight: notificationClient.isNew(notification) ? "bold":"normal"}}>Ride confirmation</div>
                       <div style={{fontSize: 10, marginTop: 5}}>{`From ${trip.fromAddress} to ${trip.toAddress}`}</div>
                       <div style={{fontSize: 10}}>{moment(trip.time).format("lll")}</div>
 
-                      <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
+                      <div className={css(styles.buttonsWrap)}>
                         <FlatButton data-cucumber="withdraw-confirmed" label="Withdraw"
                           secondary onClick={() => {
                             console.log("Withdraw confirmed request", notification)
@@ -183,11 +201,11 @@ class NotificationCard extends React.Component {
                     </div>
                   )
                   case "message": return (
-                    <div style={{display: 'flex', flexDirection: 'column', width: this.props.width - 100, paddingLeft: 22, paddingTop: 10 }}>
+                    <div className={css(styles.contentWrap)} style={{ width: this.props.width - 100 }}>
                       <div style={{fontWeight: notificationClient.isNew(notification) ? "bold":"normal"}}>New message</div>
                       <div style={{fontSize: 10, marginTop: 5}}>{notification.context.text}</div>
 
-                      <div style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginLeft: -12}}>
+                      <div className={css(styles.buttonsWrap)}>
                         <FlatButton data-cucumber="view-message" label="View" secondary
                           onClick={() => {
                             flowControllerHelper.goToView('Chat', {cdUser: notification.context.from})

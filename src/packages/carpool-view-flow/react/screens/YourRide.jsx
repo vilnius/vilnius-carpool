@@ -1,16 +1,19 @@
 import React from 'react'
-import { createContainer } from 'meteor/react-meteor-data';
-import { _ } from 'meteor/underscore';
 import RaisedButton from 'material-ui/lib/raised-button';
 import Snackbar from 'material-ui/lib/snackbar';
-import Loader from '../../components/common/Loader'
-import TripInfoWithMap from '../../components/ride-info/TripInfoWithMap.jsx';
+import Loader from '../components/common/Loader'
+import TripInfoWithMap from '../components/ride-info/TripInfoWithMap.jsx';
+import { StyleSheet, css } from 'aphrodite'
 
-/*global Progress*/
 /*global carpoolService*/
-/*global Meteor*/
 
-const d = console.log.bind(console);
+const styles = StyleSheet.create({
+  screenWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+})
 
 export default class YourRide extends React.Component {
 
@@ -23,14 +26,12 @@ export default class YourRide extends React.Component {
   }
 
   handleRequestClose() {
-    //d("Close snackbar")
     this.setState({
       snackbarOpen: false,
     });
   }
 
   showSnackbar(message) {
-    //d("Showing snack message", message)
     this.setState({
       snackbarText: message,
       snackbarOpen: true
@@ -46,22 +47,13 @@ export default class YourRide extends React.Component {
         </section>
       );
     } else {
-      //d("Your ride itinerary", itinerary);
-
       const isRequested = false;
       //const isRequested = _(drive.requests).findWhere({userId: Meteor.userId()});
-      //console.log("Requested drive", isRequested);
 
       const bottomPartHeight = 65
 
       return (
-        <div data-cucumber="screen-your-ride"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
+        <div data-cucumber="screen-your-ride" className={css(styles.screenWrap)}>
           <TripInfoWithMap width={this.props.width} height={this.props.height - bottomPartHeight}
             itinerary={itinerary}
             user={user}
@@ -78,7 +70,7 @@ export default class YourRide extends React.Component {
             <RaisedButton primary style={{width: this.props.width * 0.9, borderRadius: 5}}
               data-cucumber="request" label="Request"
               secondary onClick={() => {
-                carpoolService.requestRide(drive._id);
+                carpoolService.requestRide(this.props.itinerary._id);
                 this.showSnackbar("The drive was requested");
               }}
             />
@@ -101,20 +93,5 @@ YourRide.propTypes = {
   stops: React.PropTypes.array,
   progress: React.PropTypes.object,
   user: React.PropTypes.object,
-  itinenary: React.PropTypes.array,
+  itinerary: React.PropTypes.array,
 };
-
-export default createContainer(({rideId}) => {
-  const progress = new Progress();
-  const ride = rideId ? carpoolService.pullOneTrip({_id: rideId}, progress.setProgress.bind(progress, 'ride')) : null;
-  const stops = carpoolService.pullStops(progress.setProgress.bind(progress, 'stops'));
-  const user = ride && Meteor.users.findOne({_id: ride.owner});
-  const itinerary = carpoolService.pullRiderItinerary(ride);
-  // d("Your ride", ride, drive)
-  return {
-    progress,
-    stops,
-    user,
-    itinerary
-  };
-}, YourRide);

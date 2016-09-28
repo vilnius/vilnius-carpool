@@ -6,7 +6,36 @@ import Divider from 'material-ui/lib/divider';
 import ChevronLeft from 'material-ui/lib/svg-icons/navigation/chevron-left'
 import ChevronRight from 'material-ui/lib/svg-icons/navigation/chevron-right'
 import moment from 'moment'
+import { StyleSheet, css } from 'aphrodite'
+
 import { config } from '../../config'
+
+const styles = StyleSheet.create({
+  headerWrap: {
+    display: 'flex',
+    flexDirection: 'row',
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 15,
+  },
+  contentWrap: {
+    paddingTop: 10,
+    margin: '0px auto',
+    fontSize: 20,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  dateDisplayWrap: {
+    margin: '0px auto',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+})
 
 export default class DateTimePicker extends React.Component {
   constructor (props) {
@@ -70,15 +99,7 @@ export default class DateTimePicker extends React.Component {
           transform: 'none',
         }}
       >
-        <div style={{
-          width: contentWidth,
-          display: 'flex',
-          flexDirection: 'row',
-          height: 30,
-          alignItems: 'center',
-          justifyContent: 'center',
-          paddingTop: 15,
-        }}>
+        <div style={{ width: contentWidth }} className={css(styles.headerWrap)}>
           <div style={{
               width: 100,
               textAlign: 'center',
@@ -104,22 +125,8 @@ export default class DateTimePicker extends React.Component {
             DEPART AT
           </div> */}
         </div>
-        <div style={{
-          paddingTop: 10,
-          margin: '0px auto',
-          fontSize: 20,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-        }}>
-          <div style={{
-            margin: '0px auto',
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottm: 5,
-          }}>
+        <div className={css(styles.contentWidth)}>
+          <div className={css(styles.dateDisplayWrap)}>
             <ChevronLeft style={{width: 30, height: 30, marginTop: -1}} onClick={() => this.addDays(-1)} />
               {this.state.date.format('ddd, DD MMMM YYYY')}
             <ChevronRight style={{width: 30, height: 30, marginTop: -1}} onClick={() => this.addDays(1)} />

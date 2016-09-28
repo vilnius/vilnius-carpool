@@ -4,11 +4,19 @@ import { getUserPicture } from '../../api/UserPicture.coffee'
 import TripInfo from './TripInfo.jsx';
 import TripMap from '../map/TripMap.jsx'
 import moment from 'moment';
+import { StyleSheet, css } from 'aphrodite'
 
 const d = console.log.bind(console);
 
 
 /*global getUserName*/
+
+const styles = StyleSheet.create({
+  componentWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+})
 
 // TODO Make this work and use this
 export default class TripInfoWithMap extends React.Component {
@@ -31,15 +39,13 @@ export default class TripInfoWithMap extends React.Component {
 
   render () {
     const {itinerary, user} = this.props;
-    const rideInfoHeight = 185
+    const rideInfoHeight = 175
     const mapHeight = this.props.height - rideInfoHeight
     const tripTime = undefined; // TODO carpoolService should decide what is trip time
     const repeat = []; // TODO carpoolService should provide repeat
 
     return (
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
+      <div className={css(styles.componentWrap)} style={{
         width: this.props.width,
         height: this.props.height,
       }}>
