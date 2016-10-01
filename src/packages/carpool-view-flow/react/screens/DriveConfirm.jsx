@@ -1,21 +1,13 @@
 
 /*global carpoolService*/
-/*global Progress*/
-/*global Meteor*/
-/*global getUserName*/
-
 import React from 'react'
-import { createContainer } from 'meteor/react-meteor-data';
 
-import { _ } from 'meteor/underscore';
 import {d} from 'meteor/spastai:logw'
 
-import { config } from '../../config'
-import { getUserPicture } from '../../api/UserPicture.coffee'
 import RaisedButton from 'material-ui/lib/raised-button';
 import Snackbar from 'material-ui/lib/snackbar';
-import TripInfoWithMap from '../../components/ride-info/TripInfoWithMap.jsx'
-import Loader from '../../components/common/Loader'
+import TripInfoWithMap from '../components/ride-info/TripInfoWithMap.jsx'
+import Loader from '../components/common/Loader'
 
 import { StyleSheet, css } from 'aphrodite'
 
@@ -27,7 +19,7 @@ const styles = StyleSheet.create({
   },
 })
 
-class DriveConfirm extends React.Component {
+export default class DriveConfirm extends React.Component {
 
   constructor(props) {
       super(props);
@@ -53,8 +45,6 @@ class DriveConfirm extends React.Component {
   }
 
   render () {
-    const topBarHeight = 45
-    const mapHeight = 375
     const {progress, user, stops, invitationId, itinerary, isRequested} = this.props;
 
     if (100 != progress.getProgress()) {
@@ -111,22 +101,3 @@ DriveConfirm.propTypes = {
   itinerary: React.PropTypes.array,
   isRequested: React.PropTypes.object,
 };
-
-export default createContainer(({tripId, rideId, invitationId}) => {
-  const progress = new Progress();
-  const drive = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
-  // const ride = rideId ? carpoolService.pullOneTrip({_id: rideId}, progress.setProgress.bind(progress, 'ride')) : null;
-  const stops = carpoolService.pullStops(progress.setProgress.bind(progress, 'stops'));
-  const itinerary = carpoolService.pullDriverItinerary(drive);
-  const user = drive && Meteor.users.findOne({_id: drive.owner});
-  const isRequested = drive && _(drive.requests).findWhere({userId: Meteor.userId()});
-
-  return {
-    progress,
-    stops,
-    user,
-    invitationId,
-    itinerary,
-    isRequested,
-  };
-}, DriveConfirm);
