@@ -5,6 +5,17 @@ import { TextField, RaisedButton } from 'material-ui'
 /*global carpoolService*/
 /*global FlowRouter*/
 
+import { StyleSheet, css } from 'aphrodite'
+
+const styles = StyleSheet.create({
+  screenWrap: {
+    marginTop: 20,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+})
+
 export default class FeedbackScreen extends React.Component {
 
   constructor (props) {
@@ -25,12 +36,7 @@ export default class FeedbackScreen extends React.Component {
 
   render () {
     return (
-      <div style={{
-        marginTop: 20,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}>
+      <div className={css(styles.screenWrap)}>
         <TextField value={this.state.feedbackText}
           onChange={(e) => this.setState({ feedbackText: e.target.value })}
           hintText="Enter your feedback here"

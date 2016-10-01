@@ -5,8 +5,10 @@ import CarIcon from 'material-ui/lib/svg-icons/maps/directions-car'
 import RequestsIcon from 'material-ui/lib/svg-icons/action/feedback'
 import PersonIcon from 'material-ui/lib/svg-icons/social/person'
 import FeedbackIcon from 'material-ui/lib/svg-icons/action/help-outline'
-import { config } from '../../config.js';
 import MenuIcon from 'material-ui/lib/svg-icons/navigation/menu'
+import { StyleSheet, css } from 'aphrodite'
+
+import { config } from '../../config.js';
 import LeftNavWrap from './LeftNav.jsx';
 
 /*global FlowRouter*/
@@ -24,6 +26,28 @@ const navTheme = {
 
 const WhiteFlatButton = ThemeDecorator(ThemeManager.getMuiTheme(navTheme))(FlatButton);
 // MUI theme end
+
+const styles = StyleSheet.create({
+  navBarWrap: {
+    backgroundColor: config.colors.main,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    color: 'white',
+  },
+  menuTitleWrap: {
+    width: 275,
+    marginLeft: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    fontSize: 20,
+  },
+  menuButton: {
+    marginRight: 7,
+  }
+})
+
 export default class DesktopNavigationBar extends React.Component {
 
   constructor (props) {
@@ -36,16 +60,11 @@ export default class DesktopNavigationBar extends React.Component {
 
   render () {
     return (
-      <div style={{
+      <div className={css(styles.navBarWrap)} style={{
         width: this.props.width,
         height: this.props.height,
-        backgroundColor: config.colors.main,
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        color: 'white',
       }}>
-        <div style={{width: 275, marginLeft: 10, display: 'flex', flexDirection: 'row', alignItems: 'center', fontSize: 20 }}>
+        <div className={css(styles.menuTitleWrap)}>
           <IconButton rippleColor="white" onClick={() => this.setState({ menuOpen: true })}>
             <MenuIcon color="white" />
           </IconButton>
@@ -55,23 +74,23 @@ export default class DesktopNavigationBar extends React.Component {
           display: 'flex',
           flexDirection: 'row',
         }}>
-          <WhiteFlatButton style={{ marginRight: 7 }} label="Requests" icon={<RequestsIcon />} rippleColor="white"
+          <WhiteFlatButton className={css(styles.menuButton)} label="Requests" icon={<RequestsIcon />} rippleColor="white"
             hoverColor="rgba(255, 255, 255, 0.18)"
             onClick={() => FlowRouter.go('RideRequests')}
           />
-          <WhiteFlatButton style={{ marginRight: 7 }} label="Offers" icon={<CarIcon />} rippleColor="white"
+          <WhiteFlatButton className={css(styles.menuButton)} label="Offers" icon={<CarIcon />} rippleColor="white"
             hoverColor="rgba(255, 255, 255, 0.18)"
             onClick={() => FlowRouter.go('RideOffers')}
           />
-          <WhiteFlatButton style={{ marginRight: 7 }} label="My Trips" icon={<PersonIcon />} rippleColor="white"
+          <WhiteFlatButton className={css(styles.menuButton)} label="My Trips" icon={<PersonIcon />} rippleColor="white"
             hoverColor="rgba(255, 255, 255, 0.18)"
             onClick={() => FlowRouter.go('YourRides')}
           />
-          <WhiteFlatButton style={{ marginRight: 7 }} label="Notifications" icon={<NotificationsIcon />} rippleColor="white"
+          <WhiteFlatButton className={css(styles.menuButton)} label="Notifications" icon={<NotificationsIcon />} rippleColor="white"
             hoverColor="rgba(255, 255, 255, 0.18)"
             onClick={() => FlowRouter.go('Notifications')}
           />
-          <WhiteFlatButton style={{ marginRight: 7 }} label="Feedback" icon={<FeedbackIcon />} rippleColor="white"
+          <WhiteFlatButton className={css(styles.menuButton)} label="Feedback" icon={<FeedbackIcon />} rippleColor="white"
             hoverColor="rgba(255, 255, 255, 0.18)"
             onClick={() => FlowRouter.go('Feedback')}
           />

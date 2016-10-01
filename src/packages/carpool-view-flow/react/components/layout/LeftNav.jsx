@@ -6,11 +6,29 @@ import PersonOutlineIcon from 'material-ui/lib/svg-icons/social/person-outline'
 import PersonIcon from 'material-ui/lib/svg-icons/social/person'
 import AboutIcon from 'material-ui/lib/svg-icons/action/info-outline'
 import FeedbackIcon from 'material-ui/lib/svg-icons/action/help-outline'
+import { StyleSheet, css } from 'aphrodite'
 import { getUserName } from 'meteor/carpool-view'
 
 /*global Meteor*/
 /*global FlowRouter*/
 /*global flowControllerHelper*/
+
+const styles = StyleSheet.create({
+  leftNavWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  profileInfoWrap: {
+    width: '100%',
+    background: 'lightblue',
+    paddingTop: 20,
+    paddingBottom: 10,
+  },
+  button: {
+    width: '100%',
+    textAlign: 'left',
+  },
+});
 
 export default class LeftNavWrap extends React.Component {
 
@@ -40,23 +58,15 @@ export default class LeftNavWrap extends React.Component {
         onRequestChange={this.props.onRequestChange}
         docked={false}
       >
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-        }}>
-          <div style={{
-            width: '100%',
-            background: 'lightblue',
-            paddingTop: 20,
-            paddingBottom: 10
-          }}>
+        <div className={css(styles.leftNavWrap)}>
+          <div className={css(styles.profileInfoWrap)}>
             <Avatar src={this.props.avatar} size={60} style={{marginLeft: 10}} />
             <div style={{width: 74, marginTop: 3, textAlign: 'center'}}>
               {getUserName(Meteor.user()).split(' ')[0]}
             </div>
           </div>
           <div style={{marginTop: 2, width: '100%'}}>
-            <FlatButton style={{width: '100%', textAlign: 'left'}} label="Profile" icon={<PersonIcon />}
+            <FlatButton className={css(styles.button)} label="Profile" icon={<PersonIcon />}
               onClick={() => {
                 this.closeMenu()
                 FlowRouter.go('Profile')
@@ -64,7 +74,7 @@ export default class LeftNavWrap extends React.Component {
             />
           </div>
           <div style={{width: '100%'}}>
-            <FlatButton style={{width: '100%', textAlign: 'left'}} label="Notifications" icon={<NotificationsIcon />}
+            <FlatButton className={css(styles.button)} label="Notifications" icon={<NotificationsIcon />}
               onClick={() => {
                 this.closeMenu();
                 FlowRouter.go('NotificationSettings');
@@ -73,19 +83,19 @@ export default class LeftNavWrap extends React.Component {
           </div>
           {this.state.loggedIn ? (
             <div style={{marginTop: 2, width: '100%'}}>
-              <FlatButton style={{width: '100%', textAlign: 'left'}} label={`Logout ${getUserName(Meteor.user()).split(' ')[0]}`} icon={<PersonOutlineIcon />}
+              <FlatButton className={css(styles.button)} label={`Logout ${getUserName(Meteor.user()).split(' ')[0]}`} icon={<PersonOutlineIcon />}
                 onClick={this.doLogout}
               />
             </div>
           ) : (
             <div style={{marginTop: 2, width: '100%'}}>
-              <FlatButton style={{width: '100%', textAlign: 'left'}} label="Login" icon={<PersonOutlineIcon />}
+              <FlatButton className={css(styles.button)} label="Login" icon={<PersonOutlineIcon />}
                 onClick={() => flowControllerHelper.goToView('Login')}
               />
             </div>
           )}
           <div style={{width: '100%'}}>
-            <FlatButton style={{width: '100%', textAlign: 'left'}} label="About" icon={<AboutIcon />}
+            <FlatButton className={css(styles.button)} label="About" icon={<AboutIcon />}
               onClick={() => {
                 this.closeMenu();
                 FlowRouter.go('About');
@@ -93,7 +103,7 @@ export default class LeftNavWrap extends React.Component {
             />
           </div>
           <div style={{width: '100%'}}>
-            <FlatButton style={{width: '100%', textAlign: 'left'}} label="Leave feedback" icon={<FeedbackIcon />}
+            <FlatButton className={css(styles.button)} label="Leave feedback" icon={<FeedbackIcon />}
               onClick={() => {
                 this.closeMenu();
                 FlowRouter.go('Feedback');

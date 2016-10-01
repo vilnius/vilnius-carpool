@@ -1,20 +1,18 @@
 import React from 'react'
-import { createContainer } from 'meteor/react-meteor-data';
-import { _ } from 'meteor/underscore';
 import RaisedButton from 'material-ui/lib/raised-button';
 import Snackbar from 'material-ui/lib/snackbar';
-import Loader from '../../components/common/Loader'
-import TripInfoWithMap from '../../components/ride-info/TripInfoWithMap.jsx';
-import { ReactiveVar } from 'meteor/reactive-var'
+import Loader from '../components/common/Loader'
+import TripInfoWithMap from '../components/ride-info/TripInfoWithMap.jsx';
 
-/*global Progress*/
-/*global carpoolService*/
-/*global itineraryFactory*/
-/*global Meteor*/
+import { StyleSheet, css } from 'aphrodite'
 
-/*global Trips*/
-
-const d = console.log.bind(console);
+const styles = StyleSheet.create({
+  screenWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+})
 
 export default class RequestRide extends React.Component {
 
@@ -57,11 +55,7 @@ export default class RequestRide extends React.Component {
       const bottomPartHeight = 65
       return (
         <div data-cucumber={path ? "screen-your-ride-routed" : "screen-your-ride"}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
+          className={css(styles.screenWrap)}
         >
           <TripInfoWithMap
             itinerary={itinerary}
@@ -107,25 +101,3 @@ RequestRide.propTypes = {
   isRequested: React.PropTypes.object,
   driveId: React.PropTypes.string,
 };
-
-export default createContainer(({tripId, rideId}) => {
-  const progress = new Progress();
-  const drive = carpoolService.pullOneTrip({_id: tripId}, progress.setProgress.bind(progress, 'oneTrip'));
-  const ride = rideId ? carpoolService.pullOneTrip({_id: rideId}, progress.setProgress.bind(progress, 'ride')) : null;
-  const stops = carpoolService.pullStops(progress.setProgress.bind(progress, 'stops'));
-  const user = drive && Meteor.users.findOne({_id: drive.owner});
-  const isRequested = drive &&_(drive.requests).findWhere({userId: Meteor.userId()});
-  const driveId = drive._id;
-
-  d("Ride request", ride, drive)
-  const itinerary = carpoolService.pullRiderItinerary(ride, drive);
-
-  return {
-    progress,
-    stops,
-    user,
-    itinerary,
-    isRequested,
-    driveId,
-  };
-}, RequestRide);
