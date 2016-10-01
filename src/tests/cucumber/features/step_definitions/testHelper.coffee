@@ -4,7 +4,7 @@
 d = console.log.bind @, "---"
 url = require('url');
 
-#screenshots = "../docs/wireframe/0.1.15/";
+# screenshots = "../docs/wireframe/0.1.15/";
 screenshots = undefined;
 
 module.exports = ()->
@@ -16,9 +16,9 @@ module.exports = ()->
 
     @TestHelper =
       screenShot: (name)->
-        d "Make screenshot #{screenshots+name}"
-        client.saveScreenshot(screenshots+name) if screenshots?
-
+        if screenshots?
+          d "Make screenshot #{screenshots+name}"
+          client.saveScreenshot(screenshots+name)
 
       logout: ()->
         client.url(url.resolve(process.env.ROOT_URL, "/logout"));
