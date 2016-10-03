@@ -2,8 +2,17 @@ import React from 'react'
 import RaisedButton from 'material-ui/lib/raised-button';
 import { Accounts } from 'meteor/accounts-base'
 import { TextField, Snackbar } from 'material-ui'
+import { StyleSheet, css } from 'aphrodite'
 /*global FlowRouter*/
 /*global flowControllerHelper*/
+
+const styles = StyleSheet.create({
+  screenWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+})
 
 export default class Register extends React.Component {
 
@@ -46,7 +55,7 @@ export default class Register extends React.Component {
 
   render () {
     return (
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <div className={css(styles.screenWrap)}>
         <h2>Register</h2>
         <TextField className="mui-input" floatingLabelText="Email" value={this.state.email} onChange={(e) => this.setState({ email: e.target.value })} />
         <TextField type="password" className="mui-input" floatingLabelText="Password" value={this.state.password}

@@ -8,22 +8,22 @@ import {FlowHelpers} from './flowHelpers'
 import BottomTabs from "./react/components/layout/BottomTabs"
 import TopMenu from './react/components/layout/TopMenu'
 import TopTabs from './react/components/layout/TopTabs'
-import TopSearch from './react/components/layout/TopSearch'
 import LoginScreen from './react/auth/Login'
 import RegisterScreen from './react/auth/Register'
 import LoginUsernameScreen from './react/auth/LoginUsername'
-import RideOffersScreen from './react/screens/ride-offers/RideOffersScreen'
-import TripFormScreen from './react/screens/trip-form/TripFormScreen.jsx'
-import DriveConfirmScreen from './react/screens/drive-confirm/DriveConfirmScreen.jsx';
-import YourDriveScreen from './react/screens/your-drive/YourDriveScreen.jsx'
-import YourRideScreen from './react/screens/your-ride/YourRideScreen.jsx';
-import RequestRideScreen from './react/screens/request-ride/RequestRideScreen.jsx'
-import NotificationsScreen from './react/screens/notifications/NotificationsScreen'
-import LocationAutocomplete from './react/screens/location-autocomplete/LocationAutocomplete.jsx'
-import FeedbackScreen from './react/screens/feedback/FeedbackScreen'
-import About from './react/screens/about/AboutScreen.jsx'
-import Profile from './react/screens/profile/ProfileScreen.jsx'
-import NotificationSettings from './react/screens/notification-settings/NotificationSettingsScreen.jsx'
+import RideOffersScreen from './react/containers/RideOffers'
+import RidesListWithDataScreen from './react/containers/RidesListWithData.jsx';
+import TripFormScreen from './react/containers/TripForm.jsx'
+import DriveConfirmScreen from './react/containers/DriveConfirm.jsx';
+import YourDriveScreen from './react/containers/YourDrive.jsx'
+import YourRideScreen from './react/containers/YourRide.jsx';
+import RequestRideScreen from './react/containers/RequestRide.jsx'
+import NotificationsScreen from './react/screens/notifications/NotificationsScreen.jsx'
+import LocationAutocomplete from './react/containers/LocationAutocomplete.jsx'
+import FeedbackScreen from './react/screens/Feedback'
+import About from './react/screens/About.jsx'
+import Profile from './react/screens/Profile.jsx'
+import NotificationSettings from './react/screens/NotificationSettings.jsx'
 import moment from 'moment';
 
 import Chat from 'meteor/carpool-chat'
@@ -53,7 +53,7 @@ FlowRouter.route('/', {
     if(undefined == Meteor.user()) {
       redirect("/login")
     } else {
-      redirect('/m/all/offers');
+      redirect('/newRide');
     }
   }],
   action: function() {
@@ -105,7 +105,6 @@ FlowRouter.route('/notificationSettings', {
 FlowRouter.route('/login', {
     name: "Login",
     action: function() {
-      //console.log("Routing to - new trip form", TripFormScreen);
       mount(MainLayout, {
         content: <LoginScreen />,
       });
@@ -115,7 +114,6 @@ FlowRouter.route('/login', {
 FlowRouter.route('/loginUsername', {
     name: "LoginUsername",
     action: function() {
-      //console.log("Routing to - new trip form", TripFormScreen);
       mount(MainLayout, {
         content: <LoginUsernameScreen />,
       });
@@ -125,7 +123,6 @@ FlowRouter.route('/loginUsername', {
 FlowRouter.route('/register', {
     name: "Register",
     action: function() {
-      //console.log("Routing to - new trip form", TripFormScreen);
       mount(MainLayout, {
         content: <RegisterScreen />,
       });
@@ -143,7 +140,6 @@ FlowRouter.route('/logout', {
 FlowRouter.route('/notifications', {
     name: "Notifications",
     action: function() {
-      //console.log("Routing to - new trip form", TripFormScreen);
       mount(SecureLayout, {
         navBar: {
           title: 'Notifications',
@@ -194,24 +190,15 @@ var securedRoutes = FlowRouter.group({
 
 securedRoutes.route('/newRide', {
     name: "NewRide",
-    action: function(params, queryParams) {
-      //console.log("Fetching from/to from query", queryParams, "and variables", addresses);
-      if(queryParams.aLoc) {
-        aLoc = googleServices.decodePoints(queryParams.aLoc)[0];
-      }
-      if(queryParams.bLoc) {
-        bLoc = googleServices.decodePoints(queryParams.bLoc)[0];
-      }
-      bTime = queryParams.bTime ? moment(queryParams.bTime, "YYYYMMDDTHHmm", true) : moment();
-      //d("Router fetched values of Loc", aLoc, bLoc)
+    action: function() {
       mount(SecureLayout, {
         navBar: {
           title: 'New Trip',
           innerScreen: true,
         },
         topMenu: <TopMenu title="New Trip" innerScreen />,
-        content: <TripFormScreen from={aLoc} to={bLoc}
-          fromAddress={addresses.aLoc} toAddress={addresses.bLoc} bTime={bTime}/>,
+        content: <TripFormScreen />,
+        bottomMenu: <BottomTabs selectedTabIndex={1} />,
       });
     }
 });
@@ -301,7 +288,7 @@ securedRoutes.route('/drives', {
      },
      topMenu: <TopMenu title="My Trips" noShadow background="blue" />,
      topFilter: <TopTabs selectedTabIndex={1} />,
-     content: <RideOffersScreen filterOwn="your" role="driver" />,
+     content: <RidesListWithDataScreen filterOwn="your" role="driver" />,
      bottomMenu: <BottomTabs selectedTabIndex={2} />,
      renderNewTripButton: true,
      renderFeedbackButton: true,
@@ -318,7 +305,7 @@ securedRoutes.route('/rides', {
      },
      topMenu: <TopMenu title="My Trips" noShadow background="blue" />,
      topFilter: <TopTabs selectedTabIndex={0} />,
-     content: <RideOffersScreen filterOwn="your" role="rider" />,
+     content: <RidesListWithDataScreen filterOwn="your" role="rider" />,
      bottomMenu: <BottomTabs selectedTabIndex={2} />,
      renderNewTripButton: true,
      renderFeedbackButton: true,
@@ -336,7 +323,7 @@ FlowRouter.route('/m/all/requests', {
         background: 'green',
       },
       topMenu: <TopMenu title="Ride requests" background="green" />,
-      content: <RideOffersScreen role="rider" />,
+      content: <RidesListWithDataScreen role="rider" />,
       bottomMenu: <BottomTabs selectedTabIndex={0} />,
       renderNewTripButton: true,
       renderFeedbackButton: true,
@@ -390,7 +377,7 @@ FlowRouter.route('/m/all/offers', {
           title: 'Ride Offers',
         },
         topMenu: <TopMenu title="Ride offers" hasTopTabs background="blue" />,
-        topSearch: <TopSearch from={aLoc} to={bLoc} fromAddress={addresses.aLoc} toAddress={addresses.bLoc} bTime={bTime} />,
+        // topSearch: <TopSearch from={aLoc} to={bLoc} fromAddress={addresses.aLoc} toAddress={addresses.bLoc} bTime={bTime} />,
         content: <RideOffersScreen aLoc={aLoc} bLoc={bLoc} bTime={bTime} />,
         bottomMenu: <BottomTabs selectedTabIndex={1} />,
         renderNewTripButton: true,
@@ -402,7 +389,6 @@ FlowRouter.route('/m/all/offers', {
 securedRoutes.route('/chat/:cdUser', {
     name: "Chat",
     action: function(params) {
-      //console.log("Routing to - new trip form", TripFormScreen);
       mount(SecureLayout, {
         navBar: {
           title: 'Chat',

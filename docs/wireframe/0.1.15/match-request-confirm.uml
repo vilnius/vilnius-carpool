@@ -62,10 +62,9 @@ ConfirmNotification: Replace "Review" to "View"
 
 state "YourDrive\n<img:DriveConfirm.png>" as DriveConfirm
 DriveConfirm: <b>View 10</b>
-DriveConfirm: Show list of requests
-DriveConfirm: Requests have [confirm/confirm]
-DriveConfirm: Map show requests stops
-DriveConfirm: Itenary shows A,stops,B points
+DriveConfirm: Map shows A and B points, confirmed and current requests' stops
+DriveConfirm: Itenary shows A and B points, confirmed and current requests' stops
+DriveConfirm: Shows picture (and relevant information) of rider that is requesting the trip
 DriveConfirm: Bottom tabs
 
 state "Chat\n<img:Chat.png>" as Chat

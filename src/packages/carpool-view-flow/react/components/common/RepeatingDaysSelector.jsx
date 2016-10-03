@@ -3,8 +3,23 @@ import Dialog from '../lib-extensions/MuiDialog.jsx'
 import FlatButton from 'material-ui/lib/flat-button'
 import Checkbox from 'material-ui/lib/checkbox';
 import Divider from 'material-ui/lib/divider';
+import { StyleSheet, css } from 'aphrodite'
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+const styles = StyleSheet.create({
+  selection: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 20,
+    paddingRight: 5,
+    cursor: 'pointer',
+    alignItems: 'center',
+  },
+})
 
 export default class RepeatingDaysSelector extends React.Component {
 
@@ -81,16 +96,8 @@ export default class RepeatingDaysSelector extends React.Component {
           {days.map((d, i) => (
             <div key={i}
               data-cucumber={'day-'+i}
+              className={css(styles.selection)}
               style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                paddingTop: 5,
-                paddingBottom: 5,
-                paddingLeft: 20,
-                paddingRight: 5,
-                cursor: 'pointer',
-                alignItems: 'center',
                 transition: 'background-color 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
                 background: this.state.repeatingDays.indexOf(i) !== -1 && !this.state.dontRepeat
                   ? 'rgba(0, 141, 208, 0.15)'
@@ -108,17 +115,7 @@ export default class RepeatingDaysSelector extends React.Component {
           ))}
           <Divider style={{marginTop: 11}} />
           <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingTop: 5,
-              paddingBottom: 5,
-              alignItems: 'center',
-              paddingLeft: 20,
-              paddingRight: 5,
-              cursor: 'pointer',
-            }}
+            className={css(styles.selection)}
             onClick={this.toggleDontRepeat}
           >
             <div>

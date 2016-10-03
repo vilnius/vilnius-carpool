@@ -57,35 +57,32 @@ module.exports = ()->
 
   @When /^I add trip as "([^"]*)":$/, (username, table)->
     row = table.hashes()[0]
+    # Login
     @TestHelper.urlLogin("/loginUsername", username);
-    # Navigate to
-    link = process.env.ROOT_URL + "/m/all/offers";
-    client.url(link);
-    client.waitForExist("[data-cucumber='addTrip']");
-    @TestHelper.screenShot("RideOffers.png");
-    client.click "[data-cucumber='addTrip']"
-    client.waitForVisible "[data-cucumber='add-trip-form']", 10000;
+    client.waitForVisible "[data-cucumber='add-trip-form']", 3000;
     @TestHelper.screenShot("TripForm.png");
-    #d "Enter", fields
+
+    # "Enter fields"
     fields = _(row).pick("trip-fromAddress", "trip-toAddress")
     for key, value of fields
-      #d "Fill #{key}=#{value}"
-      #waitAndClick("input[id=\"#{key}\"]");
-      #client.setValue("#address", value);
-      #waitAndClick("#suggestion-0");
-      client.setValue("input[id='#{key}']", value);
-      client.keys("Enter");
+      waitAndClick "[data-cucumber='#{key}']"
+      client.waitForVisible "[data-cucumber='location-autocomplete-form']", 3000
+      client.waitForVisible "[data-cucumber='address-input']"
+      client.setValue "[data-cucumber='address-input']", value
+      client.waitForVisible "[data-cucumber-default-suggestions='false']"
+      waitAndClick "[data-cucumber='suggestion-0']"
+
     role = row.type
-    client.click "[value='#{role}r']"
-    #waitAndClick "[value='#{role}r']"
-    client.click ".saveTrip"
+    if role == 'drive'
+      waitAndClick "[data-cucumber='create-drive']"
+    else
+      waitAndClick "[data-cucumber='search']"
+      waitAndClick "[data-cucumber='create-ride-button']"
+
     # Check trip is created
     client.waitForExist "[data-cucumber='screen-your-#{row.type}']"
     client.waitForExist "[title='To']"
     @TestHelper.screenShot("Your#{role.charAt(0).toUpperCase() + role.slice(1)}.png");
-    # client.waitForExist ".myTripFrom"
-    # expect(client.getText(".myTripFrom")).toEqual(row.from)
-    # expect(client.getText(".myTripTo")).toEqual(row.to)
 
   @Then /^I see "([^"]*)" text "([^"]*)"$/, (element, text)->
     client.waitForExist(element);
