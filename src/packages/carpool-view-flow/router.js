@@ -313,24 +313,6 @@ securedRoutes.route('/rides', {
  }
 });
 
-
-FlowRouter.route('/m/all/requests', {
-  name: "RideRequests",
-  action: function() {
-    mount(SecureLayout, {
-      navBar: {
-        title: 'Ride requests',
-        background: 'green',
-      },
-      topMenu: <TopMenu title="Ride requests" background="green" />,
-      content: <RidesListWithDataScreen role="rider" />,
-      bottomMenu: <BottomTabs selectedTabIndex={0} />,
-      renderNewTripButton: true,
-      renderFeedbackButton: true,
-    });
-  }
-});
-
 // Tracker.autorun(function () {
 //   d("Check aLoc", aLoc, Session.get("geoIpLoc"));
 //   if(undefined === aLoc && Session.get("geoIpLoc")) {

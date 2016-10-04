@@ -16,7 +16,9 @@ const connectedTripForm = connect((state) => ({
 
 export default createContainer(() => {
   const progress = new Progress();
+  const stops = carpoolService.pullStops(progress.setProgress.bind(progress, 'stops'));
   return {
     progress,
+    stops
   }
 }, connectedTripForm);

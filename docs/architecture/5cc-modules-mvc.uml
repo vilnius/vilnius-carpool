@@ -1,0 +1,30 @@
+@startuml
+
+node Controller {
+  component "flow-router" as router
+}
+
+note left of router
+  Binds url to specific view
+end note
+
+node Model {
+  component "carpool-service" as carpoolService
+}
+
+note bottom of carpoolService
+  Facade which hides data model
+end note
+
+node View  as view {
+  component "carpool-view-flow" as carpoolView
+}
+
+note bottom of carpoolView
+  Doesn't contain logic
+end note
+
+router - carpoolService
+router - carpoolView
+
+@enduml
