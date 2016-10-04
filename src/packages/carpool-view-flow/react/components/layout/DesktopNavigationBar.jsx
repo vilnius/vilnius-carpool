@@ -2,7 +2,6 @@ import React from 'react';
 import { FlatButton, IconButton } from 'material-ui';
 import NotificationsIcon from 'material-ui/lib/svg-icons/social/notifications'
 import CarIcon from 'material-ui/lib/svg-icons/maps/directions-car'
-import RequestsIcon from 'material-ui/lib/svg-icons/action/feedback'
 import PersonIcon from 'material-ui/lib/svg-icons/social/person'
 import FeedbackIcon from 'material-ui/lib/svg-icons/action/help-outline'
 import MenuIcon from 'material-ui/lib/svg-icons/navigation/menu'
@@ -74,10 +73,6 @@ export default class DesktopNavigationBar extends React.Component {
           display: 'flex',
           flexDirection: 'row',
         }}>
-          <WhiteFlatButton className={css(styles.menuButton)} label="Requests" icon={<RequestsIcon />} rippleColor="white"
-            hoverColor="rgba(255, 255, 255, 0.18)"
-            onClick={() => FlowRouter.go('RideRequests')}
-          />
           <WhiteFlatButton className={css(styles.menuButton)} label="Offers" icon={<CarIcon />} rippleColor="white"
             hoverColor="rgba(255, 255, 255, 0.18)"
             onClick={() => FlowRouter.go('RideOffers')}

@@ -31,13 +31,6 @@ class BottomTabs extends React.Component {
         <Tabs style={{height: 60}} inkBarStyle={{display: 'none'}} value={this.props.selectedTabIndex}>
           <Tab
             style={{fontSize: 10, background: '#212121'}}
-            icon={<RequestsIcon className="tabs-icon" />}
-            label="Requests"
-            onClick={() => flowControllerHelper.goToView('RideRequests')}
-            value={0}
-          />
-          <Tab
-            style={{fontSize: 10, background: '#212121'}}
             icon={<CarIcon className="tabs-icon" />}
             label="Offers"
             onClick={() => flowControllerHelper.goToView('RideOffers')}
