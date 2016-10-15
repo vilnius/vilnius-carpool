@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>Carpool client test</title>
+<script src="http://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
+<script src="carpool-client-dist.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+  var client = new carpoolClient(SockJS);
+  client.connect("http://stg.arciau.lt/sockjs").then(function(result) {
+    client.authenticate("ron@tiktai.lt", "qwaszx12");
+  }).then(function(){
+    console.log("Authenticated!")
+  });
+</script>
+</head>
+<body>
+</body>
+</html>
