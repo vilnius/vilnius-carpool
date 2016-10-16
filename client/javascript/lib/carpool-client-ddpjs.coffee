@@ -5,7 +5,7 @@ d = console.log.bind console
 
 module.exports = class @CarpoolClient
   constructor: (@socket)->
-    
+
   ###
   # Connect to the Meteor Server
   ###
@@ -19,11 +19,9 @@ module.exports = class @CarpoolClient
       @ddp.on "connected", ()->
         resolve();
 
-  authenticate: (username, password)->
+  call: (cmd, params...)->
     new Promise (resolve, reject) =>
-      methodId = @ddp.method "login", [
-        { user : { email : username }, password : password }
-      ]
+      methodId = @ddp.method cmd, params
       @ddp.on "result", (message)->
         if message.id is methodId && !message.error
           resolve(message)
