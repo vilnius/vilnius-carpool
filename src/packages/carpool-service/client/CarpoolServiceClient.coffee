@@ -1,14 +1,17 @@
 { ParallelQueue } = require 'meteor/spastai:flow-controll'
 moment = require 'moment'
 
-class CarpoolService
+tripsHistoryPeriod = Meteor.settings.public.tripsHistoryPeriod || 1000 * 60 * 60 * 24 * 60
+
+class @CarpoolService
   preInitQueue = new ParallelQueue(@);
 
   stopRadiusFromOrig = 1000 * 180 / (3.14 * 6371 * 1000)
-  stopDistanceFromRoute = 500 * 180 / (3.14 * 6371 * 1000)
+  stopDistanceFromRoute = 250 * 180 / (20000 * 1000) # seems it counts double distance
   locRadiusFilter = 1000 * 180 / (3.14 * 6371 * 1000)
 
   constructor: (@params) ->
+    googleServices.init {key: @params.key}
     googleServices.afterInit ()=>
       preInitQueue.start()
 
@@ -44,14 +47,24 @@ class CarpoolService
       limit: 5
     }).map (item)->
       if item.value.loc?
-        item.value.latlng = googleServices.toLatLng(item.value.latlng);
+        item.value.latlng = googleServices.toLatLng(item.value.loc);
       return item.value
+
+  currentLocation: (cb)->
+    if "geolocation" of navigator
+      #d "Geolocation is available"
+      navigator.geolocation.getCurrentPosition (location) ->
+        cb null, [location.coords.longitude, location.coords.latitude]
+      , (positionError)->
+        cb positionError
+    else
+      cb "No geolocation found in browser navigator"
 
   encodePoints: preInitQueue.wrap (loc, cb) ->
     cb(googleServices.encodePoints(loc));
 
   resolveLocation: preInitQueue.wrap (loc, address, cb) ->
-    #console.log("Resolve location", coords, address);
+    #console.log("Resolve location", loc, address);
     if undefined == loc
       return null
     latlng = googleServices.toLatLng(loc)
@@ -64,7 +77,7 @@ class CarpoolService
       address = [
         place.address_components[0]?.short_name or ""
         place.address_components[1]?.short_name or ""
-      #  place.address_components[2]?.short_name or ""
+        #place.address_components[2]?.short_name or ""
       ].join(" ")
       #da ["trips-filter"], "Formed address #{address} from:", place
       return address
@@ -146,7 +159,7 @@ class CarpoolService
     fromTime = new Date(now.getTime() - (1000 * 60 * 60 * 24 * 60))
     filter =
       owner: $ne: Meteor.userId()
-      time: $gte: fromTime
+      bTime: $gte: fromTime
     Trips.find filter, sort: time: -1
 
   ###
@@ -163,14 +176,14 @@ class CarpoolService
       return []
 
     now = new Date
-    fromTime = new Date(now.getTime() - (1000 * 60 * 60 * 24 * 60))
+    fromTime = new Date(now.getTime() - (tripsHistoryPeriod))
     query = _(filter).chain().omit("fromLoc", "toLoc").extend(
       owner: $ne: Meteor.userId()
-      time: $gte: fromTime
+      bTime: $gte: fromTime
     ).value();
-    #d "Active trips", query
-    trips = Trips.find(query, sort: time: -1)
-    trips.fetch()
+    trips = Trips.find(query, sort: time: -1).fetch()
+    #console.log "Active trips filter in client", query, trips
+    trips
 
   ###
   New version of getOwnTrips - reactive method to subscribe and find own Trips
@@ -221,11 +234,43 @@ class CarpoolService
   getStops: ->
     Stops.find().fetch()
 
+
+  pullRiderItinerary: (ride, drive)->
+    itineraryId = if drive then drive._id else "single"
+    # d "Check for itinerary in ride", ride, drive
+    if ride?.itineraries?[itineraryId]
+      # d "Itinerary was in ride", ride
+      itinerary = ride?.itineraries[itineraryId]
+    else
+      itinerary = ItenaryFactory.createRiderItenary(ride, drive);
+      # d "Created itinerary without paths", itinerary
+      #d("This this add paths to each stops and update ride object triggering screen redraw");
+      carpoolService.routeItenary(itinerary).then ()->
+        # d "Got itinerary paths", itinerary
+        itineraryObj = {};
+        itineraryObj[itineraryId] = itinerary;
+        ride and Trips.update({_id: ride._id}, {$set: {itineraries: itineraryObj}});
+    return itinerary
+
+  pullDriverItinerary: (drive)->
+    return unless drive
+    # d "Check for itinerary in ride", ride
+    if drive.itinerary
+      # d "Itinerary was in ride", ride
+      itinerary = drive.itinerary
+    else
+      itinerary = ItenaryFactory.createDriverItenary(drive);
+      # d "Created itinerary without paths", itinerary
+      # For driver route only a,b points // TODO stops should be ordered by visiting sequence
+      [dA, ..., dB] = itinerary
+      carpoolService.routeItenary([dA,dB]).then ()->
+        # d "Got itinerary paths", itinerary
+        Trips.update({_id: drive._id}, {$set: {itinerary: itinerary}});
+    return itinerary
+
   pullTripForRiderPickup: (query, progress) ->
     trip = undefined
     trip = @pullOneTrip(query, mapView.setActionProgress.bind(this, 'oneTrip'))
-
-
 
   ###
   From TripBusinessLogic.getActiveTrips
@@ -264,10 +309,11 @@ class CarpoolService
         loc: trip.fromLoc
         title: trip.fromAddress
       } ]
-      for stop in stops
-        stopLatLng = googleServices.toLatLng(stop.loc)
-        if google.maps.geometry.poly.isLocationOnEdge(stopLatLng, polyline, stopDistanceFromRoute)
-          stopOnRoute.push stop
+      if("driver" == trip.role)
+        for stop in stops
+          stopLatLng = googleServices.toLatLng(stop.loc)
+          if google.maps.geometry.poly.isLocationOnEdge(stopLatLng, polyline, stopDistanceFromRoute)
+            stopOnRoute.push stop
       #d "Found stops on route", stopOnRoute
       @routeTrip trip, (err, stopsRoute) ->
         cb null,
@@ -300,4 +346,32 @@ class CarpoolService
       encodedPoints = result.routes[0].overview_polyline
       cb & cb(null, result.routes[0])
 
-@carpoolService = new CarpoolService
+  routeItenary: (itenary)->
+    # d "Routing itenary", itenary
+    promises = [];
+    createPromise = (stop, mode)->
+      new Promise (resolve, reject)->
+        googleServices.getDirections().route request, (error, result)->
+          if error
+            console.warn "Got routing error", error
+            reject error
+          else
+            # d "Route itenary result", result
+            encodedPoints = result.routes[0].overview_polyline
+            stop.path = encodedPoints
+            stop.mode = mode
+            resolve encodedPoints
+
+    for stop, i in itenary[...-1]
+      nextStop = itenary[i+1];
+      mode =  if stop.name.startsWith("r") or nextStop.name.startsWith("r") then "WALKING" else "DRIVING";
+      request =
+        travelMode: google.maps.TravelMode[mode]
+        origin: googleServices.toLatLng(stop.loc)
+        destination: googleServices.toLatLng(nextStop.loc)
+      promises.push createPromise(stop, mode)
+    return Promise.all(promises)
+
+
+
+#@carpoolService = new CarpoolService

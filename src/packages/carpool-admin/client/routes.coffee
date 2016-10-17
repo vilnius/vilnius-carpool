@@ -43,3 +43,9 @@ adminRoutes.route '/users',
 adminRoutes.route '/trips',
   name: 'TripsAdmin'
   action: (params, queryParams) ->
+
+adminRoutes.route '/feedback',
+  name: 'FeedbackAdmin'
+  action: (params, queryParams) ->
+    #d "Rendering FeedbackAdmin"
+    BlazeLayout.render("adminLayout", {content: "FeedbackAdmin"});

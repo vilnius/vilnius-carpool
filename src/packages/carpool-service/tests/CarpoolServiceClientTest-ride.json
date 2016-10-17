@@ -1,0 +1,21 @@
+{
+  "fromAddress": "Muitinės g. 30, Vilnius",
+  "toAddress": "3 Konstitucijos, Vilnius",
+  "role": "rider",
+  "fromLoc": [25.26162490000002, 54.6778667],
+  "toLoc": [25.27901799999995, 54.6958064],
+  "path": "civlIs{dyCIyAeAZw@oJg@sG]yESiCnBg@CYo@b@{CxAwHzEmA`@iABgAx@qJ\\wByBwHeKa@c@iEoAyAS{@WcCoBiAo@k@o@g@IcGoDQe@}A}BOe@iBsBdCiIhAyHn@wH^_DBuANcAfAoC\\iAHc@Be@C[KYGKiBOaA@cCWu@Q_A_AgAo@mEqB}BaBm@W_@PO`@MxBi@hISrBa@fDo@hBPLDQr@mFZwCUIiA]WG",
+  "stops": [{
+    "_id": "stop-a",
+    "loc": [25.26162490000002, 54.6778667],
+    "title": "Muitinės g. 30, Vilnius"
+  }, {
+    "_id": "LHQK9tSeXe5nJasAT",
+    "title": "Ciurlionio",
+    "loc": [25.2655, 54.6818]
+  }],
+  "duration": 1311,
+  "owner": "AYX4ZrLhnfyJ5A9E8",
+  "requests": [],
+  "status": "scheduled"
+}

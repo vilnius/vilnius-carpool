@@ -1,0 +1,24 @@
+{
+  "name": "carpool-js-client",
+  "version": "0.0.1",
+  "description": "Carpool client for DDP api",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "test-web": "node_modules/http-server/bin/http-server test",
+    "compile": "browserify -s carpool-client -c 'coffee -sc' lib/carpool-client-ddpjs.coffee > build/carpool-client-dist.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ddp": "^0.12.1",
+    "ddp-random": "^0.8.1-1",
+    "ddp.js": "^2.2.0"
+  },
+  "devDependencies": {
+    "http-server": "^0.9.0",
+    "mocha": "^3.1.2",
+    "sockjs-client": "^1.1.1",
+    "underscore": "^1.8.3"
+  }
+}

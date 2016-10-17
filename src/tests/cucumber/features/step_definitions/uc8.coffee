@@ -12,6 +12,7 @@ module.exports = ()->
     server.call "assureStop", "Kauno", [25.268912762403488,54.671944985679346]
     server.call "assureStop", "Audejo", [25.3087453, 54.6785911]
 
+
   @Then /^I see my trip$/, (table)->
     element = ".myTripFrom"
     client.waitForExist(element, 5000);
@@ -24,8 +25,11 @@ module.exports = ()->
     expect(client.getText(element)).toEqual(table.hashes()[0].from)
     expect(client.getText(".activeTripTo")).toEqual(table.hashes()[0].to)
 
+  @Then /^Element is gone "([^"]*)"$/, (element)->
+    client.waitForVisible(element, 5000, true)
+
   @Then /^I see the stop "([^"]*)" on the route$/, (stopTitle)->
-    element = ".stopsOnRoute"
+    element = "[data-cucumber='stops-on-route']"
     client.waitForExist(element);
     expect(client.getText(element)).toEqual(stopTitle)
 

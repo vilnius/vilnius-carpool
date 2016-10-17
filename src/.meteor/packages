@@ -14,9 +14,7 @@ backbone
 standard-app-packages
 underscore
 coffeescript
-user-panels
 http
-http-logger
 spiderable
 spastai:google-client
 spastai:flow-controll

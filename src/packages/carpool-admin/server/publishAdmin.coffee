@@ -12,3 +12,6 @@ Meteor.publish 'adminStops', ->
 
 Meteor.publish 'adminTrips', ->
   Trips.find();
+
+Meteor.publish 'feedback', ->
+  Feedback.find();

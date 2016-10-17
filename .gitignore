@@ -6,3 +6,6 @@ src/tests/cucumber/node_modules
 src/packages/google-client
 src/config.push.json
 src/settings.json
+src/npm-debug.log
+src/.meteor
+npm-debug.log

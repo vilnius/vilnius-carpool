@@ -1,3 +1,5 @@
+/*global FlowRouter*/
+
 let pathFor = ( path, params ) => {
   let query = params && params.query ? FlowRouter._qs.parse( params.query ) : {};
   return FlowRouter.path( path, params, query );
@@ -20,9 +22,9 @@ let goExtendedPath = (params) => {
   return FlowRouter.go(FlowRouter.current().route.name, params);
 }
 
-let goExtendedQuery = (path, addedParams, addedQuery) => {
+let goExtendedQuery = (path, addedParams, addedQuery, action = FlowRouter.go) => {
   let {route: {name : currentPath}, params, queryParams} = FlowRouter.current()
-  //console.log("Query", currentPath, queryParams, "adding", addedQuery);
+  //console.log(path || currentPath, params, _(queryParams).extend(addedQuery));
   return FlowRouter.go(path || currentPath, _(params).extend(addedParams), _(queryParams).extend(addedQuery));
 }
 

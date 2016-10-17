@@ -1,3 +1,0 @@
-ApiController = RouteController.extend({
-	
-});

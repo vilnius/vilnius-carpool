@@ -1,0 +1,49 @@
+pp running at: http://localhost:3000/     
+I20161001-13:55:59.847(3)? started - TripsMatcher
+I20161001-13:57:00.020(3)? Find inserted newTrip matching trips: { fromAddress: 'Muitinės g., 30, Vilnius',
+I20161001-13:57:00.020(3)?   toAddress: 'Konstitucijos prospektas, 3, Vilnius',
+I20161001-13:57:00.020(3)?   time: Sat Oct 01 2016 14:11:51 GMT+0300 (EEST),
+I20161001-13:57:00.020(3)?   bTime: Sat Oct 01 2016 14:11:51 GMT+0300 (EEST),
+I20161001-13:57:00.021(3)?   role: 'rider',
+I20161001-13:57:00.021(3)?   fromLoc: [ 25.261624900000015, 54.6778667 ],
+I20161001-13:57:00.021(3)?   toLoc: [ 25.27901799999995, 54.6958064 ],
+I20161001-13:57:00.021(3)?   path: 'civlIs{dyCIyAeAZGm@_Af@}AbAw@XoCfB~A`EbAbCFKe@o@_DmIeAqI{AyNYwBIeAYaAq@qEI{A@cCfEoVfAgEZcBt@mJJy@?g@TqDBs@?SEEsGdAa@@[Jq@J_EGeEf@s@@mA?OMIUcCkD{CiAeFeAEG?c@HaBe@S_@W_PO{BOo@@cCWu@Q_A_AuGaD}BaBm@WLwBJs@UHQjASvB[hEk@pAqApCa@K',
+I20161001-13:57:00.021(3)?   stops: 
+I20161001-13:57:00.021(3)?    [ { _id: 'stop-a',
+I20161001-13:57:00.021(3)?        loc: [Object],
+I20161001-13:57:00.022(3)?        title: 'Muitinės g., 30, Vilnius' } ],
+I20161001-13:57:00.022(3)?   duration: 1335,
+I20161001-13:57:00.022(3)?   aTime: Sat Oct 01 2016 13:49:36 GMT+0300 (EEST),
+I20161001-13:57:00.022(3)?   owner: 'AYX4ZrLhnfyJ5A9E8',
+I20161001-13:57:00.022(3)?   requests: [],
+I20161001-13:57:00.022(3)?   _id: 'CGBmETcs2oRGFDwoB',
+I20161001-13:57:00.022(3)?   status: 'scheduled' }
+I20161001-13:57:00.029(3)? Merge trips count 0
+I20161001-13:57:00.030(3)? Trips start near the stop count: 0
+I20161001-13:57:00.030(3)? Notify trips filtered by: { _id: { '$ne': 'AYX4ZrLhnfyJ5A9E8' },
+I20161001-13:57:00.030(3)?   role: 'driver',
+I20161001-13:57:00.030(3)?   '$or': [ { repeat: 5 }, { bTime: [Object] } ] }
+I20161001-13:57:11.050(3)? Find inserted newTrip matching trips: { fromAddress: 'Kauno g., 11, Vilnius',
+I20161001-13:57:11.050(3)?   toAddress: 'Krokuvos gatvė, 20, Vilnius',
+I20161001-13:57:11.050(3)?   time: Sat Oct 01 2016 14:12:03 GMT+0300 (EEST),
+I20161001-13:57:11.050(3)?   bTime: Sat Oct 01 2016 14:12:03 GMT+0300 (EEST),
+I20161001-13:57:11.051(3)?   role: 'driver',
+I20161001-13:57:11.051(3)?   fromLoc: [ 25.27430490000006, 54.672818 ],
+I20161001-13:57:11.051(3)?   toLoc: [ 25.277268999999933, 54.69814 ],
+I20161001-13:57:11.051(3)?   path: 'ggulIqkgyCDf@JHR@@jANjDd@fHLlAt@pHuKdCiB`@aDx@gGdB{IxByD`AoBlAWRsCbBkCxA}@^cBZo@VyAPaADkETM?GEOMo@eAmIuLSQWOe@KaFiAsA_@]Q_Ao@u@k@{B{AcCwAmAw@qByAqAfCgCtF{ApCq@vAQrAkA~JGVObAGROXMTe@CyBCcDL_DJC?c@DEGKKc@?s@K{@MmAA]EUGQMc@g@OSKe@M}@?_ADy@f@yJUIqCeAm@Y[Q]a@Ye@`AyCx@cF|AkK`@gC\\mBrAwFy@u@ECG?EB_@n@IHG?SIgAqAr@{B|A{F',
+I20161001-13:57:11.051(3)?   stops: 
+I20161001-13:57:11.051(3)?    [ { _id: 'stop-a', loc: [Object], title: 'Kauno g., 11, Vilnius' },
+I20161001-13:57:11.052(3)?      { _id: 'LHQK9tSeXe5nJasAT', title: 'Ciurlionio', loc: [Object] },
+I20161001-13:57:11.052(3)?      { _id: 'SCXjYkHGJNCFKN8pG', title: 'Kauno', loc: [Object] } ],
+I20161001-13:57:11.052(3)?   duration: 720,
+I20161001-13:57:11.053(3)?   aTime: Sat Oct 01 2016 14:00:03 GMT+0300 (EEST),
+I20161001-13:57:11.053(3)?   owner: 'WtuQH2FLfYbfTytXx',
+I20161001-13:57:11.053(3)?   requests: [],
+I20161001-13:57:11.053(3)?   _id: 'KKXsctcrbhu8WCXqh',
+I20161001-13:57:11.053(3)?   status: 'scheduled' }
+I20161001-13:57:11.098(3)? Merge trips count 1
+I20161001-13:57:11.098(3)? Trips start near the stop count: 1
+I20161001-13:57:11.098(3)? Notify trips filtered by: { _id: { '$ne': 'WtuQH2FLfYbfTytXx' },
+I20161001-13:57:11.098(3)?   role: 'rider',
+I20161001-13:57:11.099(3)?   '$or': [ { repeat: 5 }, { bTime: [Object] } ] }
+
