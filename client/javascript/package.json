@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "test-web": "node_modules/http-server/bin/http-server test"
+    "test-web": "node_modules/http-server/bin/http-server test",
     "compile": "browserify -s carpool-client -c 'coffee -sc' lib/carpool-client-ddpjs.coffee > build/carpool-client-dist.js"
   },
   "author": "",
@@ -18,6 +18,7 @@
   "devDependencies": {
     "http-server": "^0.9.0",
     "mocha": "^3.1.2",
-    "sockjs-client": "^1.1.1"
+    "sockjs-client": "^1.1.1",
+    "underscore": "^1.8.3"
   }
 }

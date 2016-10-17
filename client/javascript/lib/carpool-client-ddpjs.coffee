@@ -27,3 +27,8 @@ module.exports = class @CarpoolClient
           resolve(message)
         else
           reject(message.error)
+
+  subscribe: (subscribtion, params..., cb)->
+    subId = @ddp.sub(subscribtion, params);
+#    ddp.on "ready", (message)->
+    @ddp.on "added", cb
